@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="./register.js" defer></script>
+</head>
+<body>
+    <form method="post" class="register-form">
+        <div class="name">
+            <label for="name">NAME</label>
+            <input type="text" placeholder="vardenis" id="name" required value="a">
+        </div>
+        <div class="surname">
+            <label for="surname">SURNAME</label>
+            <input type="text" placeholder="pavardenis" id="surname" required value="a"> 
+        </div>
+        <div class="password">
+            <label for="password">PASSWORD</label>
+            <input type="password" id="password" required value="a">
+        </div>
+        <div class="repeat-password">
+            <label for="repeat-password">REPEAT PASSWORD</label>
+            <input type="password" id="repeat-password" required value="a">
+        </div>
+        <input type="submit" value="Submit" id="register-submit">
+    </form>
+</body>
+</html>
