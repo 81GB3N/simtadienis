@@ -1,15 +1,6 @@
-const express = require('express');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
-const app = express();
 const uri = "mongodb+srv://jonbal:pBhV5h9KR5kTmuAD@cluster0.4xktczd.mongodb.net/?retryWrites=true&w=majority";
-const bodyParser = require('body-parser');
-const cors = require('cors');
-
-const port = 3000;
-
-app.use(bodyParser.json());
-app.use(cors());
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -33,7 +24,7 @@ async function run() {
 // Call the run function to connect to MongoDB
 run();
 
-async function writeDocument(registerData) {
+const writeDocument = async (registerData)=> {
   try {
     const database = client.db('my-test-db');
     const elements = database.collection('my-first-collection');
@@ -58,20 +49,4 @@ async function retrieveDocument() {
 }
 retrieveDocument();
 
-app.post('/register', (req, res) => {
-  const registerData = req.body;
-  console.log(registerData);
-  writeDocument(registerData);
-  res.json({ message: 'Registration data received successfully' });
-});
-
-app.post('/login', (req, res) => {
-  const loginData = req.body;
-  console.log('login', loginData);
-  res.json({ message: 'Login data received successfully' });
-});
-
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
-
+module.exports = writeDocument;
