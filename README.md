@@ -2,9 +2,9 @@
 1. make folders and group files
 2. security bearer
 >JS:
+admin page
+user page
 >HTML:
-1. make your profile page
-2. make admin page
 3. make main leadoerboard page
 4. use react
 >CSS:
