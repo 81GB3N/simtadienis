@@ -1,16 +1,16 @@
-import {sendUserData, checkUserStatus} from "./getUserData.js";
+import { sendUserData, checkUserStatus } from "./getUserData.js";
 
 const registerForm = document.querySelector(".register-form");
 
-function difPasswords(){
+function difPasswords() {
   console.log("passwords dont match");
 }
 
-function passwordMatch(password, repeatPassword){
+function passwordMatch(password, repeatPassword) {
   return password === repeatPassword;
 }
 
-function userExists(){
+function userExists() {
   console.log("this user already exists");
 }
 
@@ -26,14 +26,14 @@ registerForm.addEventListener("submit", async (e) => {
     name: name,
     surname: surname,
     password: password,
-    repeatPassword: repeatPassword
-};
-  
-  if(!passwordMatch(userData.password, userData.repeatPassword)){
-   difPasswords();
+    repeatPassword: repeatPassword,
+  };
+
+  if (!passwordMatch(userData.password, userData.repeatPassword)) {
+    difPasswords();
     return;
   }
-  if(await checkUserStatus(userData.name, userData.surname)){
+  if (await checkUserStatus(userData.name, userData.surname)) {
     userExists();
     return;
   }
