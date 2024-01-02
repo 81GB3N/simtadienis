@@ -1,3 +1,5 @@
+import fetchUserData from "./fetchUserData";
+
 const registerForm = document.querySelector(".register-form");
 
 function difPasswords(){
@@ -27,18 +29,18 @@ function userExists(){
   console.log("this user already exists");
 }
 
-async function fetchUserData(userData) {
-  await fetch("http://localhost:3000/register", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json", 
-    },
-    body: JSON.stringify(userData),
-  })
-    .then((response) => response.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Error:", error));
-}
+// async function fetchUserData(userData) {
+//   await fetch("http://localhost:3000/register", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json", 
+//     },
+//     body: JSON.stringify(userData),
+//   })
+//     .then((response) => response.json())
+//     .then((data) => console.log(data))
+//     .catch((error) => console.error("Error:", error));
+// }
 
 registerForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -63,5 +65,5 @@ registerForm.addEventListener("submit", async (e) => {
     userExists();
     return;
   }
-  fetchUserData(userData);
+  fetchUserData(userData, "register");
 });

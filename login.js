@@ -1,19 +1,19 @@
-// login.js
+import fetchUserData from "./fetchUserData";
 
 const loginForm = document.querySelector(".login-form");
 
-async function fetchUserData(userData) {
-  await fetch("http://localhost:3000/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(userData),
-  })
-    .then((response) => response.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Error:", error));
-}
+// async function fetchUserData(userData) {
+//   await fetch("http://localhost:3000/login", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(userData),
+//   })
+//     .then((response) => response.json())
+//     .then((data) => console.log(data))
+//     .catch((error) => console.error("Error:", error));
+// }
 
 loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -29,5 +29,5 @@ loginForm.addEventListener("submit", (e) => {
 };
 
   // Check for valid password or other validations if needed
-  fetchUserData(userData);
+  fetchUserData(userData, "login");
 });
