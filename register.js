@@ -1,12 +1,37 @@
-// register.js
-
 const registerForm = document.querySelector(".register-form");
+
+function difPasswords(){
+  console.log("passwords dont match");
+}
+
+async function getUserInfo(name, surname){
+  const response = await fetch(`http://localhost:3000/api?name=${name}&surname=${surname}`);
+  const data = await response.json();
+  // console.log(data.result, Object.keys(data.result).length);
+  return data;
+}
+
+function passwordMatch(password, repeatPassword){
+  return password === repeatPassword;
+}
+
+async function checkUserStatus(name, surname){
+  const userInfo = await getUserInfo(name, surname);
+  
+  const usersAmount = Object.keys(userInfo.result).length;
+    console.log(usersAmount);
+    return usersAmount > 0 ? true : false;
+}
+
+function userExists(){
+  console.log("this user already exists");
+}
 
 async function fetchUserData(userData) {
   await fetch("http://localhost:3000/register", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json", 
     },
     body: JSON.stringify(userData),
   })
@@ -15,7 +40,7 @@ async function fetchUserData(userData) {
     .catch((error) => console.error("Error:", error));
 }
 
-registerForm.addEventListener("submit", (e) => {
+registerForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const name = document.querySelector("#name").value;
@@ -29,7 +54,14 @@ registerForm.addEventListener("submit", (e) => {
     password: password,
     repeatPassword: repeatPassword
 };
-
-  // Check for valid password or other validations if needed
+  
+  if(!passwordMatch(userData.password, userData.repeatPassword)){
+   difPasswords();
+    return;
+  }
+  if(await checkUserStatus(userData.name, userData.surname)){
+    userExists();
+    return;
+  }
   fetchUserData(userData);
 });
