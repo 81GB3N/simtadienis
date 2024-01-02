@@ -2,6 +2,11 @@ import { sendUserData, checkUserStatus } from "./getUserData.js";
 
 const registerForm = document.querySelector(".register-form");
 
+function registering(name, surname){
+  console.log(`registering as ${name} ${surname}`);
+  // document.location.href = "http://localhost:5500/index.html";
+}
+
 function difPasswords() {
   console.log("passwords dont match");
 }
@@ -29,13 +34,17 @@ registerForm.addEventListener("submit", async (e) => {
     repeatPassword: repeatPassword,
   };
 
+  const userName = userData.name;
+  const userSurname = userData.surname;
+
   if (!passwordMatch(userData.password, userData.repeatPassword)) {
     difPasswords();
     return;
   }
-  if (await checkUserStatus(userData.name, userData.surname)) {
+  if (await checkUserStatus(userName, userSurname)) {
     userExists();
     return;
   }
+  registering(userName, userSurname)
   sendUserData(userData, "register");
 });
