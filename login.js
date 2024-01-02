@@ -1,7 +1,6 @@
-import fetchUserData from "./fetchUserData.js";
+import fetchUserData from "./getUserData.js";
 
 const loginForm = document.querySelector(".login-form");
-
 
 loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -15,7 +14,7 @@ loginForm.addEventListener("submit", (e) => {
     surname: surname,
     password: password,
 };
+//
 
-  // Check for valid password or other validations if needed
   fetchUserData(userData, "login");
 });

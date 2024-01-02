@@ -1,4 +1,4 @@
-import fetchUserData from "./fetchUserData.js";
+import fetchUserData from "./getUserData.js";
 
 const registerForm = document.querySelector(".register-form");
 
@@ -9,7 +9,6 @@ function difPasswords(){
 async function getUserInfo(name, surname){
   const response = await fetch(`http://localhost:3000/api?name=${name}&surname=${surname}`);
   const data = await response.json();
-  // console.log(data.result, Object.keys(data.result).length);
   return data;
 }
 
