@@ -1,4 +1,4 @@
-import fetchUserData from "./fetchUserData";
+import fetchUserData from "./fetchUserData.js";
 
 const registerForm = document.querySelector(".register-form");
 
@@ -28,19 +28,6 @@ async function checkUserStatus(name, surname){
 function userExists(){
   console.log("this user already exists");
 }
-
-// async function fetchUserData(userData) {
-//   await fetch("http://localhost:3000/register", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json", 
-//     },
-//     body: JSON.stringify(userData),
-//   })
-//     .then((response) => response.json())
-//     .then((data) => console.log(data))
-//     .catch((error) => console.error("Error:", error));
-// }
 
 registerForm.addEventListener("submit", async (e) => {
   e.preventDefault();
