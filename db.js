@@ -29,13 +29,13 @@ const writeDocument = async (registerData)=> {
     const database = client.db('my-test-db');
     const elements = database.collection('my-first-collection');
     const result = await elements.insertOne(registerData);
-    console.log(result);
+    // console.log(result);
   } catch (error) {
     console.error('Error writing document:', error);
   }
 }
 
-async function retrieveDocument() {
+const retrieveDocument = async ()=> {
   try {
     const database = client.db('my-test-db');
     const elements = database.collection('my-first-collection');
@@ -47,6 +47,23 @@ async function retrieveDocument() {
     console.error('Error retrieving documents:', error);
   }
 }
-retrieveDocument();
 
-module.exports = writeDocument;
+const findUser = async (name, surname)=> {
+  try {
+    const database = client.db('my-test-db');
+    const elements = database.collection('my-first-collection');
+    const query = {name: name, surname: surname};
+    const cursor = elements.find(query);
+    const documents = await cursor.toArray();
+    // console.log(documents);
+    return documents;
+  } catch (error) {
+    console.error('Error retrieving documents:', error);
+  }
+}
+// retrieveDocument();
+
+module.exports ={
+writeDocument,
+findUser
+}
