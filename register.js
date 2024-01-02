@@ -1,4 +1,4 @@
-import fetchUserData from "./getUserData.js";
+import {sendUserData, checkUserStatus} from "./getUserData.js";
 
 const registerForm = document.querySelector(".register-form");
 
@@ -6,22 +6,8 @@ function difPasswords(){
   console.log("passwords dont match");
 }
 
-async function getUserInfo(name, surname){
-  const response = await fetch(`http://localhost:3000/api?name=${name}&surname=${surname}`);
-  const data = await response.json();
-  return data;
-}
-
 function passwordMatch(password, repeatPassword){
   return password === repeatPassword;
-}
-
-async function checkUserStatus(name, surname){
-  const userInfo = await getUserInfo(name, surname);
-  
-  const usersAmount = Object.keys(userInfo.result).length;
-    console.log(usersAmount);
-    return usersAmount > 0 ? true : false;
 }
 
 function userExists(){
@@ -51,5 +37,5 @@ registerForm.addEventListener("submit", async (e) => {
     userExists();
     return;
   }
-  fetchUserData(userData, "register");
+  sendUserData(userData, "register");
 });
