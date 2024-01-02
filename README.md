@@ -1,12 +1,12 @@
 >GENERAL:
 1. make folders and group files
+2. security bearer
 >JS:
-1. make use of fetchUserData.js
-2. make register validation
-3. make login validation
+2. make login validation
 >HTML:
 1. make your profile page
 2. make admin page
 3. make main leadoerboard page
+4. use react
 >CSS:
 1. add design to everything
