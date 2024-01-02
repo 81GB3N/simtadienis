@@ -2,7 +2,6 @@
 1. make folders and group files
 2. security bearer
 >JS:
-2. make login validation
 >HTML:
 1. make your profile page
 2. make admin page
