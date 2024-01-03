@@ -15,8 +15,6 @@ function loginAdmin(){
 
 logoutButton.addEventListener('click', logout);
 
-// console.log(localStorage.getItem("user") !== null);
-
 if(localStorage.getItem("user") === null) logout()
 else if(JSON.parse(localStorage.getItem("user")).admin === true) loginAdmin();
 
