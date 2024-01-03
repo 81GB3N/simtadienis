@@ -49,19 +49,15 @@ loginForm.addEventListener("submit", async (e) => {
     surname: surname,
     password: password,
   };
-  const userName = userData.name;
-  const userSurname = userData.surname;
-
-  TODO: //change how name surname and password are aplied, move userData to be global maybe
   
-if(await checkUserStatus(userName, userSurname) === false){
+if(await checkUserStatus(name, surname) === false){
   userDoesntExist();
   return;
 }
-else if(await UserInfo(userName, userSurname, userData.password) === false){
+else if(await UserInfo(name, surname, userData.password) === false){
   badLoginInfo();
   return;
 }
-setUserLocalStorage(userName, userSurname);
+setUserLocalStorage(name, surname);
 loadProfile();
 });

@@ -36,17 +36,14 @@ registerForm.addEventListener("submit", async (e) => {
     admin: false
   };
 
-  const userName = userData.name;
-  const userSurname = userData.surname;
-
   if (!passwordMatch(userData.password, userData.repeatPassword)) {
     difPasswords();
     return;
   }
-  if (await checkUserStatus(userName, userSurname)) {
+  if (await checkUserStatus(name, surname)) {
     userExists();
     return;
   }
-  registering(userName, userSurname)
+  registering(name, surname)
   sendUserData(userData, "register");
 });
