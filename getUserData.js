@@ -13,8 +13,14 @@ export async function sendUserData(userData, page) {
 
 export async function getUserData(name, surname) {
   const response = await fetch(
-    `http://localhost:3000/api?name=${name}&surname=${surname}`
+    `http://localhost:3000/getuser?name=${name}&surname=${surname}`
   );
+  const data = await response.json();
+  return data;
+}
+
+export async function getAllUsers(){
+  const response = await fetch(`http://localhost:3000/getallusers`)
   const data = await response.json();
   return data;
 }
