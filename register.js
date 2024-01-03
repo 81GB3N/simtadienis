@@ -32,6 +32,8 @@ registerForm.addEventListener("submit", async (e) => {
     surname: surname,
     password: password,
     repeatPassword: repeatPassword,
+    money: 0,
+    admin: false
   };
 
   const userName = userData.name;
