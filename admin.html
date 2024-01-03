@@ -6,10 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin page</title>
     <link rel="stylesheet" href="style.css">
+    <script src="admin.js" defer type="module"></script>
 </head>
 
 <body>
-    <p>Logged in as:<p></p></p>
+    <p>Logged in as:<p class="username"></p></p>
     <form method="get" class="admin-form">
         <div class="name">
             <label for="name">NAME</label>
@@ -25,6 +26,8 @@
         </div>
         <input type="submit" value="Submit" id="admin-submit">
     </form>
+    <button class="logout">LOGOUT</button>
+
 </body>
 
 </html>
