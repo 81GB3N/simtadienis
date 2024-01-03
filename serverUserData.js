@@ -1,33 +1,41 @@
-const { writeDocument, findUser } = require("./db");
+const { writeDocument, findUser, updateUser, retrieveDocument } = require("./db");
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors"); // Import the cors middleware
+const cors = require("cors");
 
 const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
-app.use(cors()); // Enable CORS for all routes
+app.use(cors());
 
 const userData = {};
 
-app.get("/api", async (req, res) => {
+app.get("/getallusers", async (req, res) => {
+    const result = await retrieveDocument();
+    res.json({ result });
+  });
+
+app.get("/getuser", async (req, res) => {
   const result = await findUser(req.query.name, req.query.surname);
   res.json({ result });
 });
 
 app.post("/register", (req, res) => {
   userData.register = req.body;
-  // console.log('register', userData.register);
   writeDocument(userData.register);
-  // res.json({ message: 'Registration data received successfully' });
 });
 
-app.post("/login", (req, res) => {
-  userData.login = req.body;
-  console.log("login", userData.login);
-});
+app.post("/addmoney", (req, res) => {
+    userData.money = req.body; 
+    updateUser(userData.money);
+  });
+
+// app.post("/login", (req, res) => {
+//   userData.login = req.body;
+//   console.log("login", userData.login);
+// });
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
