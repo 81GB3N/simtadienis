@@ -12,6 +12,5 @@ user page
 >CSS:
 1. add design to everything
 
-add leaderboard
-add admin login
 add transaction data
+add security as in to not be able to access sites thu we links
