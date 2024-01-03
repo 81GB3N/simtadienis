@@ -7,7 +7,7 @@ if(localStorage.getItem("user") !== null){
 }
 
 function setUserLocalStorage(name, surname){
-  const user = {name: name, surname: surname};
+  const user = {name: name, surname: surname, admin: false};
   localStorage.setItem("user", JSON.stringify(user));
 }
 
@@ -24,10 +24,17 @@ function badLoginInfo(){
   console.log("the entered user info doesnt match the password");
 }
 
-function loadProfile(){
+async function loadProfile(){
   const user = JSON.parse(localStorage.getItem("user"));
   console.log("loading your profile", user.name, user.surname);
-  document.location.href = "http://localhost:5500/user.html";
+  const userData = await getUserData(user.name, user.surname);
+  if(userData.result[0].admin){
+    const adminUser = {name: user.name, surname: user.surname, admin: true};
+    localStorage.setItem("user", JSON.stringify(user));
+    document.location.href = "http://localhost:5500/admin.html";
+  } 
+  else
+    document.location.href = "http://localhost:5500/user.html";
 }
 
 loginForm.addEventListener("submit", async (e) => {
@@ -44,6 +51,8 @@ loginForm.addEventListener("submit", async (e) => {
   };
   const userName = userData.name;
   const userSurname = userData.surname;
+
+  TODO: //change how name surname and password are aplied, move userData to be global maybe
   
 if(await checkUserStatus(userName, userSurname) === false){
   userDoesntExist();
