@@ -44,3 +44,11 @@ form > div {
   display: flex;
   flex-direction: column;
 }
+
+.leaderboard{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: auto;
+}
