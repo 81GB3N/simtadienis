@@ -24,17 +24,25 @@ function badLoginInfo(){
   console.log("the entered user info doesnt match the password");
 }
 
+function loadUser(){
+  console.log("logging into user");
+  document.location.href = "http://localhost:5500/user.html"; 
+}
+
+function loadAdmin(name, surname){
+  const adminUser = {name: name, surname: surname, admin: true};
+    localStorage.setItem("user", JSON.stringify(adminUser));
+    console.log("logging into admin")
+    document.location.href = "http://localhost:5500/admin.html";
+}
+
 async function loadProfile(){
   const user = JSON.parse(localStorage.getItem("user"));
   console.log("loading your profile", user.name, user.surname);
   const userData = await getUserData(user.name, user.surname);
-  if(userData.result[0].admin){
-    const adminUser = {name: user.name, surname: user.surname, admin: true};
-    localStorage.setItem("user", JSON.stringify(user));
-    document.location.href = "http://localhost:5500/admin.html";
-  } 
-  else
-    document.location.href = "http://localhost:5500/user.html";
+  if(userData.result[0].admin) loadAdmin(user.name, user.surname);
+  else loadUser();
+
 }
 
 loginForm.addEventListener("submit", async (e) => {
