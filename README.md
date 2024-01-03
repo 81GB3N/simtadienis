@@ -13,4 +13,4 @@ user page
 1. add design to everything
 
 add transaction data
-add security as in to not be able to access sites thu we links
+move security to the backend
