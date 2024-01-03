@@ -30,7 +30,7 @@ run();
 const writeDocument = async (registerData) => {
   try {
     const database = client.db("my-test-db");
-    const elements = database.collection("my-first-collection");
+    const elements = database.collection("second");
     const result = await elements.insertOne(registerData);
     // console.log(result);
   } catch (error) {
@@ -38,23 +38,44 @@ const writeDocument = async (registerData) => {
   }
 };
 
+async function getCurrentMoney(name, surname){
+  const user = await findUser(name, surname);
+  return Number(user[0].money);
+}
 const retrieveDocument = async () => {
   try {
     const database = client.db("my-test-db");
-    const elements = database.collection("my-first-collection");
+    const elements = database.collection("second");
     const query = {};
     const cursor = elements.find(query);
     const documents = await cursor.toArray();
-    console.log(documents);
+    return documents;
   } catch (error) {
     console.error("Error retrieving documents:", error);
   }
 };
 
+const updateUser = async (updateMoney)=>{
+    const database = client.db("my-test-db");
+    const elements = database.collection("second");
+    const currentMoney = await getCurrentMoney(updateMoney.name, updateMoney.surname);
+    elements.updateOne(
+      { "name": updateMoney.name, "surname": updateMoney.surname }, 
+      { $set: { "money": currentMoney+Number(updateMoney.money) } }, 
+      (err, result) => {
+        if (err) {
+          console.error('Error updating document', err);
+        } else {
+          console.log('Document updated successfully', result);
+        }
+      }
+    );
+}
+
 const findUser = async (name, surname) => {
   try {
     const database = client.db("my-test-db");
-    const elements = database.collection("my-first-collection");
+    const elements = database.collection("second");
     const query = { name: name, surname: surname };
     const cursor = elements.find(query);
     const documents = await cursor.toArray();
@@ -69,4 +90,6 @@ const findUser = async (name, surname) => {
 module.exports = {
   writeDocument,
   findUser,
+  updateUser,
+  retrieveDocument,
 };
