@@ -9,11 +9,16 @@ function logout(){
     document.location.href = "http://localhost:5500/index.html";
 }
 
+function loginAdmin(){
+    document.location.href = "http://localhost:5500/admin.html";
+}
+
 logoutButton.addEventListener('click', logout);
 
 // console.log(localStorage.getItem("user") !== null);
 
 if(localStorage.getItem("user") === null) logout()
+else if(JSON.parse(localStorage.getItem("user")).admin === true) loginAdmin();
 
 const userData = JSON.parse(localStorage.getItem("user"));
 user.innerHTML = `${userData.name} ${userData.surname}`;
