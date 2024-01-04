@@ -1,7 +1,6 @@
 const { MongoClient, ServerApiVersion } = require("mongodb");
 
-const uri =
-  "mongodb+srv://jonbal:pBhV5h9KR5kTmuAD@cluster0.4xktczd.mongodb.net/?retryWrites=true&w=majority";
+const uri = "mongodb+srv://jonbal:pBhV5h9KR5kTmuAD@cluster0.4xktczd.mongodb.net/?retryWrites=true&w=majority";
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -11,7 +10,7 @@ const client = new MongoClient(uri, {
   },
 });
 
-async function run() {
+async function connect() {
   try {
     await client.connect();
     // Send a ping to confirm a successful connection
@@ -24,15 +23,13 @@ async function run() {
   }
 }
 
-// Call the run function to connect to MongoDB
-run();
+connect();
 
 const writeDocument = async (registerData) => {
   try {
     const database = client.db("my-test-db");
     const elements = database.collection("second");
     const result = await elements.insertOne(registerData);
-    // console.log(result);
   } catch (error) {
     console.error("Error writing document:", error);
   }
@@ -79,13 +76,11 @@ const findUser = async (name, surname) => {
     const query = { name: name, surname: surname };
     const cursor = elements.find(query);
     const documents = await cursor.toArray();
-    // console.log(documents);
     return documents;
   } catch (error) {
     console.error("Error retrieving documents:", error);
   }
 };
-// retrieveDocument();
 
 module.exports = {
   writeDocument,
