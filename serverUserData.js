@@ -32,11 +32,6 @@ app.post("/addmoney", (req, res) => {
     updateUser(userData.money);
   });
 
-// app.post("/login", (req, res) => {
-//   userData.login = req.body;
-//   console.log("login", userData.login);
-// });
-
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
