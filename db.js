@@ -28,8 +28,14 @@ connect();
 const writeDocument = async (registerData) => {
   try {
     const database = client.db("my-test-db");
-    const elements = database.collection("second");
-    const result = await elements.insertOne(registerData);
+    let elements;
+    if(registerData.history === undefined){
+      elements = database.collection("second");
+    }
+    else{
+      elements = database.collection("history");
+    }
+    await elements.insertOne(registerData);
   } catch (error) {
     console.error("Error writing document:", error);
   }

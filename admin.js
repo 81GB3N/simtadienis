@@ -14,8 +14,8 @@ logoutButton.addEventListener('click', logout);
 
 if(localStorage.getItem("user") === null || JSON.parse(localStorage.getItem("user")).admin === false) logout()
 
-const userData = JSON.parse(localStorage.getItem("user"));
-user.innerHTML = `${userData.name} ${userData.surname}`;
+const adminData = JSON.parse(localStorage.getItem("user"));
+user.innerHTML = `${adminData.name} ${adminData.surname}`;
 
 function userDoesntExist(){
     console.log("user doesnt exist");
@@ -39,5 +39,14 @@ adminSubmit.addEventListener('submit', async (e)=>{
         return;
     }
     sendUserData(userData, "addmoney");
+    const history = {
+        username: name,
+        usersurnmae: surname,
+        adminname: adminData.name,
+        adminsurname: adminData.surname,
+        amount: amount,
+        history: true,
+    }
+    sendUserData(history, "history");
     //find person and add money to that user as well as who added it 
 })

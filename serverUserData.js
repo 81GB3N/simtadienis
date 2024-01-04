@@ -27,6 +27,11 @@ app.post("/register", (req, res) => {
   writeDocument(userData.register);
 });
 
+app.post("/history", (req, res) => {
+  userData.history = req.body; 
+  writeDocument(userData.history);
+});
+
 app.post("/addmoney", (req, res) => {
     userData.money = req.body; 
     updateUser(userData.money);
