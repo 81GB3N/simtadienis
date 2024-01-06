@@ -1,0 +1,31 @@
+/* VARIABLES */
+:root{
+
+}
+
+/* CSS RESET */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    font: inherit;
+}
+
+body{
+    min-height: 100svh;
+}
+
+img{
+    display: block;
+    max-width: 100%;
+}
+
+p,li{
+    max-width: var(--p-max-width, 65ch);
+    text-wrap: pretty;
+}
