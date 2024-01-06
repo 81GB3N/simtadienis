@@ -1,31 +1,109 @@
 /* VARIABLES */
-:root{
-
-}
+:root {}
 
 /* CSS RESET */
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-*{
+* {
     margin: 0;
     padding: 0;
     font: inherit;
 }
 
-body{
+body {
     min-height: 100svh;
 }
 
-img{
+img {
     display: block;
     max-width: 100%;
 }
 
-p,li{
+p,
+li {
     max-width: var(--p-max-width, 65ch);
     text-wrap: pretty;
+}
+
+button{
+    all: unset;
+    cursor: pointer;
+}
+
+/* BODY */
+body {
+    background-color: #000000;
+    opacity: 1;
+    background-image:  linear-gradient(30deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(150deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(30deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(150deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(60deg, #04061a77 25%, transparent 25.5%, transparent 75%, #04061a77 75%, #04061a77), linear-gradient(60deg, #04061a77 25%, transparent 25.5%, transparent 75%, #04061a77 75%, #04061a77);
+    background-size: 8px 14px;
+    background-position: 0 0, 0 0, 4px 7px, 4px 7px, 0 0, 4px 7px;
+
+    font-family: 'Cormorant', Arial, sans-serif;
+}
+
+/* HEADER */
+/* selector */
+#header__selector{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.2rem;
+    height: 4rem;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+    position: sticky;
+    top: 0;
+    transition: transform 0.5s ease-in-out;
+}
+#header__selector.hidden{
+    transform: translateY(-100%);
+}
+#selector-img{
+    position: relative;
+    max-height: 50%;
+    max-width: 50%;
+    object-fit: contain;
+}
+.selector-btn{
+    font-size: 1.5rem;
+    color:#fff;
+    font-weight: 600;
+    transition: color 0.2s ease-in-out;
+}
+.selector-btn.active{
+    color: #2e5445;
+}
+/* title */
+#header__title{
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem
+}
+.title-text{
+    font-size: 2.75rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    word-break: normal;
+}
+.title-one, .title-four{
+    color: #d97f67;
+}
+.title-two, .title-three{
+    color: #e8c060;
+}
+.title-two{
+    align-self: center;
+}
+.title-three, .title-four{
+    align-self: flex-end;
+}
+
+/* CSS FOR VISUAL TESTS */
+.content{
+    height: 350vh;
 }

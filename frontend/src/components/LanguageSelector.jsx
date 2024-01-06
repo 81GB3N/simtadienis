@@ -1,14 +1,18 @@
 import { useLanguage } from "./Languages";
 
+import coin from "../images/coin.webp";
+
 export default function LanguageSelector() {
     const { locale, changeLocale } = useLanguage();
     const handleLanguageChange = (e) => {
         changeLocale(e.target.value);
     }
     return (
-        <select onChange={handleLanguageChange} defaultValue={locale}>
-            <option value="lt">Lithuanian</option>
-            <option value="en">English</option>
-        </select>
+        <>
+            <button className={`selector-btn ${locale==='lt'?'active':''}`} value="lt" onClick={handleLanguageChange}>LT</button>
+            <img src={coin} alt="coin" id='selector-img'></img>
+            <button className={`selector-btn ${locale==='en'?'active':''}`} value="en" onClick={handleLanguageChange}>EN</button>
+        </>
+        
     )
 }
