@@ -11,9 +11,9 @@ export default function Header() {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
             // arbitrary value for when to hide the header (unit: vh)
-            const threshold = 200;
+            const threshold = 100;
             console.log(currentScrollY)
-            setHidden(currentScrollY > threshold);
+            // setHidden(currentScrollY > threshold);
         }
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
@@ -39,6 +39,7 @@ export default function Header() {
                     <FormattedMessage id="header.title.four" />
                 </span>
             </div>
+            <div className='content'></div>
         </header>
     )
 }

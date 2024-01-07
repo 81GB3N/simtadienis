@@ -1,9 +1,9 @@
 /* VARIABLES */
 :root {
     /* colors */
-    --primary-color-red:#d97f67;
-    --primary-color-yellow:#e8c060;
-    --primary-color-green:#2e5445;
+    --primary-color-red: #d97f67;
+    --primary-color-yellow: #e8c060;
+    --primary-color-green: #2e5445;
 
     --secondary-color-red: #d97f67;
 }
@@ -41,6 +41,75 @@ button {
     cursor: pointer;
 }
 
+/* ERROR MODAL */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300);
+
+/* ERROR FRAME */
+.frame {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    background: #3F3F3F;
+    color: #415868;
+    font-family: 'Open Sans', Helvetica, sans-serif;
+    display: block;
+}
+
+.frame.hide {
+    display: none;
+}
+
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 300px;
+    background: #fff;
+    border-radius: 3px;
+    text-align: center;
+}
+
+#modal__image {
+    margin-top: 24px;
+}
+
+#modal__title {
+    display: block;
+    font-size: 26px;
+    line-height: 24px;
+    font-weight: 400;
+    margin: 16px 0;
+}
+
+#modal__mesage {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 19px;
+    padding: 0 30px;
+}
+
+#modal__button {
+    position: absolute;
+    height: 40px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #F65656;
+    color: #fff;
+    line-height: 40px;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background .3s ease-in-out;
+}
+
+#modal__button:hover {
+    background: #EC3434;
+}
+
 /* BODY */
 body {
     background-color: #000000;
@@ -48,11 +117,18 @@ body {
     background-image: linear-gradient(30deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(150deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(30deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(150deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(60deg, #04061a77 25%, transparent 25.5%, transparent 75%, #04061a77 75%, #04061a77), linear-gradient(60deg, #04061a77 25%, transparent 25.5%, transparent 75%, #04061a77 75%, #04061a77);
     background-size: 8px 14px;
     background-position: 0 0, 0 0, 4px 7px, 4px 7px, 0 0, 4px 7px;
-
     font-family: 'Cormorant', Arial, sans-serif;
+    overflow-x: hidden;
 }
 
 /* HEADER */
+#header {
+    /* margin-bottom: 10rem; */
+    position: relative;
+    height: 2000px;
+    /* overflow: auto; */
+}
+
 /* selector */
 #header__selector {
     display: flex;
@@ -60,10 +136,11 @@ body {
     align-items: center;
     gap: 0.2rem;
     height: 5rem;
-    padding-top: 1rem;
-    margin-bottom: 3rem;
+    /* padding-top: 1rem;
+    margin-bottom: 3rem; */
     position: sticky;
     top: 0;
+    z-index: 2;
     transition: transform 0.5s ease-in-out;
 }
 
@@ -144,27 +221,32 @@ body {
     margin: 6px 0;
     transition: 0.4s;
 }
+
 #hamburger>#bar {
     width: 70%;
 }
+
 /* hamburger is active */
 #hamburger.active>#bar {
     opacity: 0;
 }
+
 #hamburger.active::after {
     transform: rotate(-45deg) translate(3px, -10px);
-    background-color: var(--primary-color-red);
+    background-color: #000000;
 }
+
 #hamburger.active::before {
     transform: rotate(45deg) translate(3px, 10px);
-    background-color: var(--primary-color-red);
+    background-color: #000000;
 }
-#hamburger.active{
-    transform: translateY(2rem);
+
+#hamburger.active {
+    transform: translateY(3rem);
 }
 
 /* burger menu */
-#menu{
+#menu {
     position: absolute;
     z-index: 9;
     display: flex;
@@ -177,20 +259,41 @@ body {
     transition: transform 0.5s ease-in-out;
     background-color: var(--primary-color-yellow);
 }
-#menu.active{
+
+#menu.active {
     transform: translateX(-100%);
 }
-.menu-img{
+
+.menu-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-.menu-img.img-one{
+
+.menu-img.img-one {
     rotate: 180deg;
     transform: translateY(1rem);
 }
 
-/* CSS FOR VISUAL TESTS */
+/* TICKET */
+#ticket__upper,
+#ticket__lower {
+    /* fallback for image */
+    padding: 100px 0;
+    background-color: var(--primary-color-yellow);
+    background-repeat: no-repeat;
+}
+#ticket__upper {
+    background-image: url(./images/ticket-upper.webp);
+}
+
+#ticket__lower {
+    background-image: url(./images/ticket-lower.webp);
+
+}
+
+
+/* CSS FOR VISUAL TESTS (will be deleted in production) */
 .content {
     height: 350vh;
 }

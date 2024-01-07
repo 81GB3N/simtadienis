@@ -14,7 +14,7 @@ export const useLanguage = () => {
     return context;
 }
 
-export default function Languages({ children }) {
+export default function LanguageProvider({ children }) {
     const existingLocales = ['en', 'lt'];
     let initialLocale = navigator.language.substring(0, 2);
     if (!existingLocales.includes(initialLocale)) {

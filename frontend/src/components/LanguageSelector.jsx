@@ -1,4 +1,4 @@
-import { useLanguage } from "./Languages";
+import { useLanguage } from "./LanguageProvider";
 
 import coin from "../images/coin.webp";
 

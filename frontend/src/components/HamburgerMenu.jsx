@@ -1,24 +1,17 @@
-import { useState } from 'react';
+import { useMenu } from './MenuProvider';
 import hundredDollars from '../images/heap-hundred-dollar-.webp';
 
 export default function HamburgerMenu() {
-    const [active, setActive] = useState(false);
-    
-    const handleClick = () => {
-        setActive(!active);
-        document.getElementById('hamburger').classList.toggle('active');
-        document.getElementById('menu').classList.toggle('active');
-    }
-
+    const { menuActive, toggleMenu } = useMenu();
     return (
         <>
-            <button id="hamburger" onClick={handleClick}>
+            <button id="hamburger" className={menuActive ? 'active' : ''} onClick={toggleMenu}>
                 <div id='bar'></div>
             </button>
-            <div id="menu">
-                <img src={hundredDollars} alt="hundred dollars" class='menu-img img-one'></img>
+            <div id="menu" className={menuActive ? 'active' : ''}>
+                <img src={hundredDollars} alt="hundred dollars" className='menu-img img-one'></img>
                 <p>cia kazkada profile bus</p>
-                <img src={hundredDollars} alt="hundred dollars" class='menu-img img-two'></img>
+                <img src={hundredDollars} alt="hundred dollars" className='menu-img img-two'></img>
             </div>
         </>
     )
