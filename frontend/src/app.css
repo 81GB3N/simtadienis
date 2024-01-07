@@ -1,0 +1,360 @@
+/* VARIABLES */
+:root {
+    /* colors */
+    --primary-color-red: #d97f67;
+    --primary-color-yellow: #e8c060;
+    --primary-color-green: #2e5445;
+
+    --secondary-color-red: #d97f67;
+}
+
+/* CSS RESET */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font: inherit;
+}
+
+body {
+    min-height: 100vh;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+p,
+li {
+    max-width: var(--p-max-width, 65ch);
+    text-wrap: pretty;
+}
+
+button {
+    all: unset;
+    cursor: pointer;
+}
+
+/* ERROR MODAL */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300);
+
+/* ERROR FRAME */
+.frame {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    background: #3F3F3F;
+    color: #415868;
+    font-family: 'Open Sans', Helvetica, sans-serif;
+    display: block;
+}
+
+.frame.hide {
+    display: none;
+}
+
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 300px;
+    background: #fff;
+    border-radius: 3px;
+    text-align: center;
+}
+
+#modal__image {
+    margin-top: 24px;
+}
+
+#modal__title {
+    display: block;
+    font-size: 26px;
+    line-height: 24px;
+    font-weight: 400;
+    margin: 16px 0;
+}
+
+#modal__mesage {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 19px;
+    padding: 0 30px;
+}
+
+#modal__button {
+    position: absolute;
+    height: 40px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #F65656;
+    color: #fff;
+    line-height: 40px;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background .3s ease-in-out;
+}
+
+#modal__button:hover {
+    background: #EC3434;
+}
+
+/* BODY */
+body {
+    background-color: #000000;
+    opacity: 1;
+    background-image: linear-gradient(30deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(150deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(30deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(150deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(60deg, #04061a77 25%, transparent 25.5%, transparent 75%, #04061a77 75%, #04061a77), linear-gradient(60deg, #04061a77 25%, transparent 25.5%, transparent 75%, #04061a77 75%, #04061a77);
+    background-size: 8px 14px;
+    background-position: 0 0, 0 0, 4px 7px, 4px 7px, 0 0, 4px 7px;
+    font-family: 'Cormorant', Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+/* HEADER */
+#header {
+    margin-bottom: 10rem;
+}
+
+/* selector */
+#header__selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.2rem;
+    height: 6rem;
+    padding-top: 1rem;
+    margin-bottom: 3rem;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    transition: transform 0.5s ease-in-out;
+}
+
+#header__selector.hidden {
+    transform: translateY(-100%);
+}
+
+#selector-img {
+    position: relative;
+    max-height: 50%;
+    max-width: 50%;
+    object-fit: contain;
+}
+
+.selector-btn {
+    font-size: 1.5rem;
+    color: #fff;
+    font-weight: 600;
+    transition: color 0.2s ease-in-out;
+}
+
+.selector-btn.active {
+    color: var(--primary-color-green);
+}
+
+/* title */
+#header__title {
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem
+}
+
+.title-text {
+    font-size: 2.75rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    word-break: normal;
+}
+
+.title-one,
+.title-four {
+    color: var(--primary-color-red);
+}
+
+.title-two,
+.title-three {
+    color: var(--primary-color-yellow);
+}
+
+.title-two {
+    align-self: center;
+}
+
+.title-three,
+.title-four {
+    align-self: flex-end;
+}
+
+/* HAMBURGER */
+/* burger button */
+#hamburger {
+    position: absolute;
+    right: 1rem;
+    width: 35px;
+    z-index: 10;
+    transition: transform 0.5s ease-in-out;
+}
+
+#hamburger>#bar,
+#hamburger::after,
+#hamburger::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #fff;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+#hamburger>#bar {
+    width: 70%;
+}
+
+/* hamburger is active */
+#hamburger.active>#bar {
+    opacity: 0;
+}
+
+#hamburger.active::after {
+    transform: rotate(-45deg) translate(3px, -10px);
+    background-color: #000000;
+}
+
+#hamburger.active::before {
+    transform: rotate(45deg) translate(3px, 10px);
+    background-color: #000000;
+}
+
+#hamburger.active {
+    transform: translateY(3rem);
+}
+
+/* burger menu */
+#menu {
+    position: absolute;
+    z-index: 9;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    top: 0;
+    left: 100%;
+    width: 100%;
+    min-height: 100vh;
+    transition: transform 0.5s ease-in-out;
+    background-color: var(--primary-color-yellow);
+}
+
+#menu.active {
+    transform: translateX(-100%);
+}
+
+.menu-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.menu-img.img-one {
+    rotate: 180deg;
+    transform: translateY(1rem);
+}
+
+/* TICKET */
+#ticket {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10rem;
+}
+/* some of the zestiest shit ive ever done */
+#ticket__upper,
+#ticket__lower {
+    --width: min(100vmin, 435px);
+    width: var(--width);
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* upper ticket */
+#ticket__upper {
+    height: calc(var(--width) * (142/435));
+    background-image: url(./images/ticket-upper.webp);
+    padding: 0 1rem;
+    gap: 1rem;
+}
+
+.ticket-title {
+    color: var(--primary-color-green);
+    line-height: 5rem;
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: -3px;
+    display: block;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+}
+
+#ticket-title-two {
+    align-items: flex-end;
+}
+/* lower ticket */
+#ticket__lower {
+    height: calc(var(--width) * (158/435));
+    background-image: url(./images/ticket-lower.webp);
+}
+#ticket-button{
+    text-transform: uppercase;
+    color:#000000;
+    font-size: 2rem;
+    font-weight: 500;
+    padding: 1.5rem 2.5rem;
+    border: 3px solid var(--primary-color-green);
+    border-radius: 1px;
+}
+#ticket__lower.clicked{
+    animation: ticket-click 2.5s ease-in-out;
+}
+
+@keyframes ticket-click {
+    0% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(50);
+        rotate: 90deg;
+    }
+    50% {
+        transform: scale(100);
+    }
+    75% {
+        transform: scale(150);
+    }
+    100% {
+        transform: scale(200);
+    }
+    
+}
+
+
+/* CSS FOR VISUAL TESTS (will be deleted in production) */
+.content {
+    height: 350vh;
+}
