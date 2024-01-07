@@ -1,5 +1,12 @@
 /* VARIABLES */
-:root {}
+:root {
+    /* colors */
+    --primary-color-red:#d97f67;
+    --primary-color-yellow:#e8c060;
+    --primary-color-green:#2e5445;
+
+    --secondary-color-red: #d97f67;
+}
 
 /* CSS RESET */
 *,
@@ -15,7 +22,7 @@
 }
 
 body {
-    min-height: 100svh;
+    min-height: 100vh;
 }
 
 img {
@@ -29,7 +36,7 @@ li {
     text-wrap: pretty;
 }
 
-button{
+button {
     all: unset;
     cursor: pointer;
 }
@@ -38,7 +45,7 @@ button{
 body {
     background-color: #000000;
     opacity: 1;
-    background-image:  linear-gradient(30deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(150deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(30deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(150deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(60deg, #04061a77 25%, transparent 25.5%, transparent 75%, #04061a77 75%, #04061a77), linear-gradient(60deg, #04061a77 25%, transparent 25.5%, transparent 75%, #04061a77 75%, #04061a77);
+    background-image: linear-gradient(30deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(150deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(30deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(150deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(60deg, #04061a77 25%, transparent 25.5%, transparent 75%, #04061a77 75%, #04061a77), linear-gradient(60deg, #04061a77 25%, transparent 25.5%, transparent 75%, #04061a77 75%, #04061a77);
     background-size: 8px 14px;
     background-position: 0 0, 0 0, 4px 7px, 4px 7px, 0 0, 4px 7px;
 
@@ -47,63 +54,143 @@ body {
 
 /* HEADER */
 /* selector */
-#header__selector{
+#header__selector {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 0.2rem;
-    height: 4rem;
-    margin-top: 1rem;
+    height: 5rem;
+    padding-top: 1rem;
     margin-bottom: 3rem;
     position: sticky;
     top: 0;
     transition: transform 0.5s ease-in-out;
 }
-#header__selector.hidden{
+
+#header__selector.hidden {
     transform: translateY(-100%);
 }
-#selector-img{
+
+#selector-img {
     position: relative;
     max-height: 50%;
     max-width: 50%;
     object-fit: contain;
 }
-.selector-btn{
+
+.selector-btn {
     font-size: 1.5rem;
-    color:#fff;
+    color: #fff;
     font-weight: 600;
     transition: color 0.2s ease-in-out;
 }
-.selector-btn.active{
-    color: #2e5445;
+
+.selector-btn.active {
+    color: var(--primary-color-green);
 }
+
 /* title */
-#header__title{
+#header__title {
     display: flex;
     flex-direction: column;
     padding: 0 1rem
 }
-.title-text{
+
+.title-text {
     font-size: 2.75rem;
     font-weight: 500;
     letter-spacing: 2px;
     text-transform: uppercase;
     word-break: normal;
 }
-.title-one, .title-four{
-    color: #d97f67;
+
+.title-one,
+.title-four {
+    color: var(--primary-color-red);
 }
-.title-two, .title-three{
-    color: #e8c060;
+
+.title-two,
+.title-three {
+    color: var(--primary-color-yellow);
 }
-.title-two{
+
+.title-two {
     align-self: center;
 }
-.title-three, .title-four{
+
+.title-three,
+.title-four {
     align-self: flex-end;
 }
 
+/* HAMBURGER */
+/* burger button */
+#hamburger {
+    position: absolute;
+    right: 1rem;
+    width: 35px;
+    z-index: 10;
+    transition: transform 0.5s ease-in-out;
+}
+
+#hamburger>#bar,
+#hamburger::after,
+#hamburger::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #fff;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+#hamburger>#bar {
+    width: 70%;
+}
+/* hamburger is active */
+#hamburger.active>#bar {
+    opacity: 0;
+}
+#hamburger.active::after {
+    transform: rotate(-45deg) translate(3px, -10px);
+    background-color: var(--primary-color-red);
+}
+#hamburger.active::before {
+    transform: rotate(45deg) translate(3px, 10px);
+    background-color: var(--primary-color-red);
+}
+#hamburger.active{
+    transform: translateY(2rem);
+}
+
+/* burger menu */
+#menu{
+    position: absolute;
+    z-index: 9;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    top: 0;
+    left: 100%;
+    width: 100%;
+    min-height: 100vh;
+    transition: transform 0.5s ease-in-out;
+    background-color: var(--primary-color-yellow);
+}
+#menu.active{
+    transform: translateX(-100%);
+}
+.menu-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.menu-img.img-one{
+    rotate: 180deg;
+    transform: translateY(1rem);
+}
+
 /* CSS FOR VISUAL TESTS */
-.content{
+.content {
     height: 350vh;
 }

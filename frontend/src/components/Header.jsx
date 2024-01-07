@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import LanguageSelector from './LanguageSelector';
+import HamburgerMenu from './HamburgerMenu';
 // Internationalization
 import { FormattedMessage } from 'react-intl';
 
@@ -22,6 +23,7 @@ export default function Header() {
         <header id='header' >
             <div id='header__selector' className={hidden ? 'hidden' : ''}>
                 <LanguageSelector />
+                <HamburgerMenu />
             </div>
             <div id='header__title'>
                 <span className='title-text title-one'>
@@ -37,7 +39,6 @@ export default function Header() {
                     <FormattedMessage id="header.title.four" />
                 </span>
             </div>
-            <div className='content'></div>
         </header>
     )
 }
