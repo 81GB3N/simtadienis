@@ -1,11 +1,13 @@
 const { writeDocument, findUser, updateUser, retrieveDocument } = require("./db");
 
+const dotenv = require('dotenv');
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
+dotenv.config();
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -35,6 +37,11 @@ app.post("/history", (req, res) => {
 app.post("/addmoney", (req, res) => {
     userData.money = req.body; 
     updateUser(userData.money);
+  });
+
+  app.post("/getport", (req, res) => {
+    userData.money = req.body; 
+    res.json({port});
   });
 
 app.listen(port, () => {
