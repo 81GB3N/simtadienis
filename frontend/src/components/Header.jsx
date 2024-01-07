@@ -13,10 +13,12 @@ export default function Header() {
             // arbitrary value for when to hide the header (unit: vh)
             const threshold = 100;
             console.log(currentScrollY)
-            // setHidden(currentScrollY > threshold);
+            setHidden(currentScrollY > threshold);
         }
         window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        }
     }, []);
 
     return (
