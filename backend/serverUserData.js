@@ -14,32 +14,32 @@ app.use(cors());
 
 const userData = {};
 
-app.get("/getallusers", async (req, res) => {
+app.get("/api/getallusers", async (req, res) => {
     const result = await retrieveDocument();
     res.json({ result });
   });
 
-app.get("/getuser", async (req, res) => {
+app.get("/api/getuser", async (req, res) => {
   const result = await findUser(req.query.name, req.query.surname);
   res.json({ result });
 });
 
-app.post("/register", (req, res) => {
+app.post("/api/register", (req, res) => {
   userData.register = req.body;
   writeDocument(userData.register);
 });
 
-app.post("/history", (req, res) => {
+app.post("/api/history", (req, res) => {
   userData.history = req.body; 
   writeDocument(userData.history);
 });
 
-app.post("/addmoney", (req, res) => {
+app.post("/api/addmoney", (req, res) => {
     userData.money = req.body; 
     updateUser(userData.money);
   });
 
-  app.post("/getport", (req, res) => {
+  app.post("/api/getport", (req, res) => {
     userData.money = req.body; 
     res.json({port});
   });
