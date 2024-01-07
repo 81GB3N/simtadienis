@@ -1,26 +1,35 @@
+const port = 4000;
+
+// export async function sendPort(){ TODO: figure out how to get consistent port
+//   await fetch(`http://localhost:${port}/port`, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(port),
+//   })
+// }
+
 export async function sendUserData(userData, page) {
-  await fetch(`http://localhost:3000/${page}`, {
+  await fetch(`http://localhost:${port}/${page}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(userData),
   })
-    .then((response) => response.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Error:", error));
 }
 
 export async function getUserData(name, surname) {
   const response = await fetch(
-    `http://localhost:3000/getuser?name=${name}&surname=${surname}`
+    `http://localhost:${port}/getuser?name=${name}&surname=${surname}`
   );
   const data = await response.json();
   return data;
 }
 
 export async function getAllUsers(){
-  const response = await fetch(`http://localhost:3000/getallusers`)
+  const response = await fetch(`http://localhost:${port}/getallusers`)
   const data = await response.json();
   return data;
 }
