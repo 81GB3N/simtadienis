@@ -41,7 +41,6 @@ export default function Header() {
                     <FormattedMessage id="header.title.four" />
                 </span>
             </div>
-            <div className='content'></div>
         </header>
     )
 }
