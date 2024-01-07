@@ -4,7 +4,7 @@ const registerForm = document.querySelector(".register-form");
 
 function registering(name, surname){
   console.log(`registering as ${name} ${surname}`);
-  // document.location.href = "http://localhost:5500/index.html";
+  document.location.href = "./index.html";
 }
 
 function difPasswords() {

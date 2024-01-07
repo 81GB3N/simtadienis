@@ -6,11 +6,11 @@ const logoutButton = document.querySelector(".logout");
 
 function logout(){
     localStorage.removeItem("user")
-    document.location.href = "http://localhost:5500/index.html";
+    document.location.href = "./index.html";
 }
 
 function loginAdmin(){
-    document.location.href = "http://localhost:5500/admin.html";
+    document.location.href = "./admin.html";
 }
 
 logoutButton.addEventListener('click', logout);

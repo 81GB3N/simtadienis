@@ -26,14 +26,14 @@ function badLoginInfo(){
 
 function loadUser(){
   console.log("logging into user");
-  document.location.href = "http://localhost:5500/user.html"; 
+  document.location.href = "./user.html"; 
 }
 
 function loadAdmin(name, surname){
   const adminUser = {name: name, surname: surname, admin: true};
     localStorage.setItem("user", JSON.stringify(adminUser));
     console.log("logging into admin")
-    document.location.href = "http://localhost:5500/admin.html";
+    document.location.href = "./admin.html";
 }
 
 async function loadProfile(){
