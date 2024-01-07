@@ -3,3 +3,5 @@
 2. security bearer
 3. move security to the backend
 4. make leaderboard update on admin
+6. manage TODOs
+7. 
