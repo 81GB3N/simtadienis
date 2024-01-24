@@ -12,7 +12,7 @@ function setUserLocalStorage(name, surname){
 }
 
 async function UserInfo(name, surname, password){
-  const info = await getUserData(name, surname);
+  const info = await getUserData(name, surname, type="main");
   return password === info.result[0].password ? true : false;
 }
 
@@ -39,7 +39,7 @@ function loadAdmin(name, surname){
 async function loadProfile(){
   const user = JSON.parse(localStorage.getItem("user"));
   console.log("loading your profile", user.name, user.surname);
-  const userData = await getUserData(user.name, user.surname);
+  const userData = await getUserData(user.name, user.surname, type="main");
   if(userData.result[0].admin) loadAdmin(user.name, user.surname);
   else loadUser();
 
@@ -58,7 +58,7 @@ loginForm.addEventListener("submit", async (e) => {
     password: password,
   };
   
-if(await checkUserStatus(name, surname) === false){
+if(await checkUserStatus(name, surname, type="main") === false){
   userDoesntExist();
   return;
 }

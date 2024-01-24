@@ -40,7 +40,7 @@ registerForm.addEventListener("submit", async (e) => {
     difPasswords();
     return;
   }
-  if (await checkUserStatus(name, surname)) {
+  if (await checkUserStatus(name, surname, type="main")) {
     userExists();
     return;
   }

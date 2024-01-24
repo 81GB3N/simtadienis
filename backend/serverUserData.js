@@ -20,7 +20,7 @@ app.get("/api/getallusers", async (req, res) => {
   });
 
 app.get("/api/getuser", async (req, res) => {
-  const result = await findUser(req.query.name, req.query.surname);
+  const result = await findUser(req.query.name, req.query.surname, req.query.type);
   res.json({ result });
 });
 
@@ -29,7 +29,7 @@ app.post("/api/register", (req, res) => {
   writeDocument(userData.register);
 });
 
-app.post("/api/history", (req, res) => {
+app.post("/api/write-history", (req, res) => {
   userData.history = req.body; 
   writeDocument(userData.history);
 });
