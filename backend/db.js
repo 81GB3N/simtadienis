@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const uri = process.env.URI;
+const main = "main";
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -31,29 +32,29 @@ connect();
 const writeDocument = async (registerData) => {
   try {
     const database = client.db("my-test-db");
-    let elements;
+    let collection;
     if(registerData.history === undefined){
-      elements = database.collection("second");
+      collection = database.collection(main);
     }
     else{
-      elements = database.collection("history");
+      collection = database.collection("history");
     }
-    await elements.insertOne(registerData);
+    await collection.insertOne(registerData);
   } catch (error) {
     console.error("Error writing document:", error);
   }
 };
 
-async function getCurrentMoney(name, surname){
-  const user = await findUser(name, surname);
+async function getCurrentMoney(name, surname, type){
+  const user = await findUser(name, surname, type);
   return Number(user[0].money);
 }
 const retrieveDocument = async () => {
   try {
     const database = client.db("my-test-db");
-    const elements = database.collection("second");
+    const collection = database.collection(main);
     const query = {};
-    const cursor = elements.find(query);
+    const cursor = collection.find(query);
     const documents = await cursor.toArray();
     return documents;
   } catch (error) {
@@ -63,9 +64,9 @@ const retrieveDocument = async () => {
 
 const updateUser = async (updateMoney)=>{
     const database = client.db("my-test-db");
-    const elements = database.collection("second");
-    const currentMoney = await getCurrentMoney(updateMoney.name, updateMoney.surname);
-    elements.updateOne(
+    const collection = database.collection(main);
+    const currentMoney = await getCurrentMoney(updateMoney.name, updateMoney.surname, main);
+    collection.updateOne(
       { "name": updateMoney.name, "surname": updateMoney.surname }, 
       { $set: { "money": currentMoney+Number(updateMoney.money) } }, 
       (err, result) => {
@@ -78,12 +79,12 @@ const updateUser = async (updateMoney)=>{
     );
 }
 
-const findUser = async (name, surname) => {
+const findUser = async (name, surname, type) => {
   try {
     const database = client.db("my-test-db");
-    const elements = database.collection("second");
+    const collection = database.collection(type);
     const query = { name: name, surname: surname };
-    const cursor = elements.find(query);
+    const cursor = collection.find(query);
     const documents = await cursor.toArray();
     return documents;
   } catch (error) {
