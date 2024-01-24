@@ -34,18 +34,24 @@ adminSubmit.addEventListener('submit', async (e)=>{
         money: amount,
     }
 
-    if(await checkUserStatus(name, surname, type="main") === false){
+    const type="main"
+
+    if(await checkUserStatus(name, surname, type) === false){
         userDoesntExist();
         return;
     }
     sendUserData(userData, "addmoney");
+
+    const currentTime = new Date();
+
     const history = {
-        username: name,
-        usersurnmae: surname,
+        name: name,
+        surname: surname,
         adminname: adminData.name,
         adminsurname: adminData.surname,
         amount: amount,
-        // history: true,??
+        time: currentTime,
+        history: true
     }
     sendUserData(history, "write-history");
     //find person and add money to that user as well as who added it 
