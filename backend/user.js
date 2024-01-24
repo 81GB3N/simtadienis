@@ -22,11 +22,32 @@ const userData = JSON.parse(localStorage.getItem("user"));
 user.innerHTML = `${userData.name} ${userData.surname}`;
 
 async function getMoneyAmount(){
-const allData = await getUserData(userData.name, userData.surname);
+
+const type='main';
+
+const allData = await getUserData(userData.name, userData.surname, type);
 const data = await allData;
 return data.result[0].money;
+}
+
+const history = document.querySelector('.history');
+
+async function getUserHistory(){
+
+    const type='history';
+    history.innerHTML = '';
+    const thisUserHistory = await getUserData(userData.name, userData.surname, type);
+    const data = await thisUserHistory;
+    for(let x in data.result){
+        history.innerHTML+=`<li>${data.result[x].adminname} ${data.result[x].adminsurname} sent you ${data.result[x].amount} at ${data.result[x].time}</li>`
+    }
 }
 
 const userMoney = await getMoneyAmount();
 
 moneyAmount.innerHTML = userMoney;
+
+
+getUserHistory();
+
+// history.innerHTML = userHistory;
