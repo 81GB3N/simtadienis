@@ -39,10 +39,10 @@ app.post("/api/addmoney", (req, res) => {
     updateUser(userData.money);
   });
 
-  app.post("/api/getport", (req, res) => {
-    userData.money = req.body; 
-    res.json({port});
-  });
+  // app.post("/api/getport", (req, res) => {
+  //   userData.money = req.body; 
+  //   res.json({port});
+  // });
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
