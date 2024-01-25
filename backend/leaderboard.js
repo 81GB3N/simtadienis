@@ -7,9 +7,6 @@ async function all() {
   return allUsers.result;
 }
 
-
-//TODO: make updateLeaderboard() function work exported when admin enters new value with react
-// export default async function updateLeaderboard() {
 const allUsers = await all();
 allUsers.sort((a, b) => b.money - a.money);
 
@@ -22,6 +19,3 @@ leaderboard.innerHTML = ``;
       cnt++;
     }
   }
-// }
-
-// updateLeaderboard();

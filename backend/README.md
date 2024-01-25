@@ -1,7 +1,7 @@
 >GENERAL:
-1. make folders and group files
 2. security bearer
-3. move security to the backend
-4. make leaderboard update on admin
-6. manage TODOs
-7. 
+4. make leaderboard update on money sent in leaderboard.html and user.html
+6. optimize db.js
+7. update connecting and disconnecting to db
+8. padaryt easy user search
+9. viska pakomentuoti

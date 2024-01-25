@@ -1,7 +1,6 @@
-import { checkUserStatus, sendUserData } from "./getUserData.js";
+import { checkUserStatus, sendUserData, getAllUsers } from "./getUserData.js";
 
 const adminSubmit = document.querySelector(".admin-form");
-
 const user = document.querySelector(".username");
 const logoutButton = document.querySelector(".logout");
 
@@ -17,16 +16,75 @@ if(localStorage.getItem("user") === null || JSON.parse(localStorage.getItem("use
 const adminData = JSON.parse(localStorage.getItem("user"));
 user.innerHTML = `${adminData.name} ${adminData.surname}`;
 
+function combineAllNameSurname(users){
+    let combinedArray = [];
+    users.forEach(user => {
+        if(user.admin === false) 
+            combinedArray.push(`${user.name} ${user.surname}`);
+    });
+    return combinedArray;
+}
+
+async function allNameList() {
+    const allUsers = await getAllUsers();
+    combineAllNameSurname(allUsers.result);
+    return allUsers.result;
+  }
+  
+const allUsers = await allNameList();
+
 function userDoesntExist(){
     console.log("user doesnt exist");
 }
 
-adminSubmit.addEventListener('submit', async (e)=>{
-    e.preventDefault();
+const fullName = document.querySelector("#full-name");
 
-    const name = document.querySelector("#name").value;
-    const surname = document.querySelector("#surname").value;
+fullName.addEventListener('input', displayUsers);
+
+let fullNameValue;
+
+function findMatchingName(){
+    fullNameValue = fullName.value.toLowerCase();
+      const userNameArray = combineAllNameSurname(allUsers);
+    //   console.log(userNameArray)
+    const matchingNames = userNameArray.filter(user =>
+        user.toLowerCase().includes(fullNameValue)
+    );
+    return matchingNames;
+  }
+
+  function addListListener(){
+    const listItems = document.querySelectorAll(".user-list li");
+    listItems.forEach(item => {
+    item.addEventListener("click", selectUser);
+  });
+  }
+
+  function displayUsers(){
+    const userList = document.querySelector(".user-list");
+    userList.innerHTML = '';
+    const matchingNames = findMatchingName();
+    // console.log(matchingNames);
+    matchingNames.forEach(name => {
+        userList.innerHTML += `<li>${name}</li>`;
+    });
+    addListListener();
+  }
+  
+  function selectUser(){
+    fullName.value = this.innerHTML;
+    displayUsers();
+  }
+
+  adminSubmit.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      
+    fullNameValue = fullName.value.toLowerCase();
+      const [name, surname] = fullNameValue.split(/\s+/).map(part => part.trim());
+
     const amount = document.querySelector("#amount").value;
+
+    console.log(name, surname)
 
     const userData = {
         name: name,
@@ -34,19 +92,25 @@ adminSubmit.addEventListener('submit', async (e)=>{
         money: amount,
     }
 
-    if(await checkUserStatus(name, surname) === false){
+    const type="main"
+
+    if(await checkUserStatus(name, surname, type) === false){
         userDoesntExist();
         return;
     }
     sendUserData(userData, "addmoney");
+
+    const currentTime = new Date();
+
     const history = {
-        username: name,
-        usersurnmae: surname,
+        name: name,
+        surname: surname,
         adminname: adminData.name,
         adminsurname: adminData.surname,
         amount: amount,
-        history: true,
+        time: currentTime,
+        history: tru
     }
-    sendUserData(history, "history");
+    sendUserData(history, "write-history");
     //find person and add money to that user as well as who added it 
 })

@@ -12,13 +12,17 @@
 <body>
     <p>Logged in as:<p class="username"></p></p>
     <form method="get" class="admin-form">
-        <div class="name">
+        <!-- <div class="name">
             <label for="name">NAME</label>
             <input type="text" placeholder="vardenis" id="name" required value="a">
         </div>
         <div class="surname">
             <label for="surname">SURNAME</label>
             <input type="text" placeholder="pavardnenis" id="surname" required value="d">
+        </div> -->
+        <div class="full-name">
+            <label for="full-name">FULL NAME</label>
+            <input type="text" placeholder="vardenis pavardnenis" id="full-name" required value="a">
         </div>
         <div class="amount">
             <label for="amount">AMOUNT TO ADD</label>
@@ -26,6 +30,7 @@
         </div>
         <input type="submit" value="Submit" id="admin-submit">
     </form>
+    <div class="user-list"></div>
     <button class="logout">LOGOUT</button>
 
 </body>

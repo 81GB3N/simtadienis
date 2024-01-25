@@ -40,7 +40,10 @@ registerForm.addEventListener("submit", async (e) => {
     difPasswords();
     return;
   }
-  if (await checkUserStatus(name, surname)) {
+
+  const type="main";
+
+  if (await checkUserStatus(name, surname, type)) {
     userExists();
     return;
   }
