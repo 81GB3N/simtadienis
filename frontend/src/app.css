@@ -321,14 +321,21 @@ body {
     background-image: url(./images/ticket-lower.webp);
 }
 #ticket-button{
+    --og-color:#000000;
     text-transform: uppercase;
-    color:#000000;
+    color:var(--og-color);
     font-size: 2rem;
     font-weight: 500;
     padding: 1.5rem 2.5rem;
     border: 3px solid var(--primary-color-green);
     border-radius: 1px;
+    transition: all 0.2s ease-in-out;
 }
+/* #ticket-button:hover,
+#ticket-button:focus{
+    background-color: var(--primary-color-green);
+    color: #ffffff;
+} */
 #ticket__lower.clicked{
     animation: ticket-click 2.5s ease-in-out;
 }

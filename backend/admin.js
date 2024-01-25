@@ -19,7 +19,7 @@ user.innerHTML = `${adminData.name} ${adminData.surname}`;
 
 function userDoesntExist(){
     console.log("user doesnt exist");
-  }
+}
 
 adminSubmit.addEventListener('submit', async (e)=>{
     e.preventDefault();
