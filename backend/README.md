@@ -4,3 +4,4 @@
 6. optimize db.js
 7. update connecting and disconnecting to db
 8. padaryt easy user search
+9. viska pakomentuoti
