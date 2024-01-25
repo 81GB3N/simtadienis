@@ -7,5 +7,11 @@
     "ticket.title.left.two": "lobius",
     "ticket.title.right.one": "2024",
     "ticket.title.right.two": "auckionas",
-    "ticket.button": "PRISIJUNK!"
+    "ticket.button": "PRISIJUNK!",
+    "login": "Prisijunk",
+    "signup": "Registruokis",
+    "name": "Vardas",
+    "surname": "Pavardė",
+    "password": "Slaptažodis",
+    "repeat.password": "Pakartokite slaptažodį"
 }

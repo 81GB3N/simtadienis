@@ -11,9 +11,9 @@ export async function sendUserData(userData, page) {
   })
 }
 
-export async function getUserData(name, surname) {
+export async function getUserData(name, surname, type='main') {
   const response = await fetch(
-    `${baseUrl}/api/getuser?name=${name}&surname=${surname}`
+    `${baseUrl}/api/getuser?name=${name}&surname=${surname}&type=${type}`
   );
   const data = await response.json();
   return data;
@@ -25,8 +25,9 @@ export async function getAllUsers(){
   return data;
 }
 
-export async function userExists(name, surname) {
-  const userData = await getUserData(name, surname);
-  const usersAmount = Object.keys(userData.result).length;
+export async function userExists(name, surname, type='main') {
+  const userDagetUserData = await getUserData(name, surname, type);
+  if(typeof userDagetUserData === 'undefined') return false;
+  const usersAmount = Object.keys(userDagetUserData.result).length;
   return usersAmount > 0 ? true : false;
 }

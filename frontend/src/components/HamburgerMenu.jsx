@@ -1,13 +1,14 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useMenu } from './MenuProvider';
 import UserProfile from './UserProfile';
-import LoginSignup from './LoginSignup';
+import NoUser from './NoUser';
 import hundredDollars from '../images/heap-hundred-dollar-.webp';
 
 export default function HamburgerMenu() {
     const { menuActive, toggleMenu } = useMenu();
     const userRef = useRef(null);
     const savedUserExists = localStorage.getItem('user') ? true : false;
+    const [rerender, setRerender] = useState(false);
 
     return (
         <>
@@ -18,11 +19,12 @@ export default function HamburgerMenu() {
                 <img src={hundredDollars} alt="hundred dollars" className='menu-img img-one'></img>
                 <div id='user' ref={userRef}>
                     {
-                        savedUserExists ? <UserProfile /> : < LoginSignup />
+                        savedUserExists ? <UserProfile /> : < NoUser setRerender={setRerender}/>
                     }
                 </div>
                 <img src={hundredDollars} alt="hundred dollars" className='menu-img img-two'></img>
             </div>
+            {rerender && <HamburgerMenu />}
         </>
     )
 }

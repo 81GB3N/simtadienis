@@ -7,5 +7,11 @@
     "ticket.title.left.two": "luxury",
     "ticket.title.right.one": "2024",
     "ticket.title.right.two": "auction",
-    "ticket.button": "join"
+    "ticket.button": "join",
+    "login": "Log In",
+    "signup": "Sign Up",
+    "name": "Name",
+    "surname": "Surname",
+    "password": "Password",
+    "repeat.password": "Repeat Password"
 }

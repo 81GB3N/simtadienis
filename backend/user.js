@@ -25,7 +25,7 @@ async function getMoneyAmount(){
 
 const type='main';
 
-const allData = await getUserData(userData.name, userData.surname, type);
+const allData = await getUsernbspData(userData.name, userData.surname, type);
 const data = await allData;
 return data.result[0].money;
 }
