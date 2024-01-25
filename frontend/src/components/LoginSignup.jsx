@@ -35,20 +35,20 @@ export default function LoginSignup() {
     }
 
     return (
-        <form method="post" class="register-form" onSubmit={handleSubmit}>
-            <div class="name">
+        <form method="post" className="register-form" onSubmit={handleSubmit}>
+            <div className="name">
                 <label for="name">NAME</label>
                 <input type="text" placeholder="vardenis" id="name" required></input>
             </div>
-            <div class="surname">
+            <div className="surname">
                 <label for="surname">SURNAME</label>
                 <input type="text" placeholder="pavardenis" id="surname" required></input>
             </div>
-            <div class="password">
+            <div className="password">
                 <label for="password">PASSWORD</label>
                 <input type="text" id="password" required></input>
             </div>
-            <div class="repeat-password">
+            <div className="repeat-password">
                 <label for="repeat-password">REPEAT PASSWORD</label>
                 <input type="text" id="repeat-password" required></input>
             </div>

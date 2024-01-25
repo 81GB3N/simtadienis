@@ -19,6 +19,7 @@
     margin: 0;
     padding: 0;
     font: inherit;
+    box-sizing: border-box;
 }
 
 body {
@@ -114,18 +115,22 @@ button {
 body {
     background-color: #000000;
     opacity: 1;
-    background-image: linear-gradient(30deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(150deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(30deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(150deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(60deg, #04061a77 25%, transparent 25.5%, transparent 75%, #04061a77 75%, #04061a77), linear-gradient(60deg, #04061a77 25%, transparent 25.5%, transparent 75%, #04061a77 75%, #04061a77);
+    background-image: linear-gradient(30deg, #2f2f31 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(150deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(30deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(150deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(60deg, #04061a77 25%, transparent 25.5%, transparent 75%, #04061a77 75%, #04061a77), linear-gradient(60deg, #04061a77 25%, transparent 25.5%, transparent 75%, #04061a77 75%, #04061a77);
     background-size: 8px 14px;
     background-position: 0 0, 0 0, 4px 7px, 4px 7px, 0 0, 4px 7px;
     font-family: 'Cormorant', Arial, sans-serif;
     overflow-x: hidden;
 }
 
-/* HEADER */
-#header {
-    margin-bottom: 10rem;
+body.no-scroll {
+    overflow: hidden;
 }
 
+/* HEADER */
+#header{
+    padding-bottom: 10rem;
+    position: relative;
+}
 /* selector */
 #header__selector {
     display: flex;
@@ -163,11 +168,63 @@ body {
     color: var(--primary-color-green);
 }
 
+/* Money Images */
+.header-money{
+    position: absolute;
+    width: 25%;
+    height: 25%;
+    object-fit: contain;
+    z-index: -100;
+}
+.money-upper{
+    top: 0;
+    left: 0;
+    transform: translate(50%, 50%);
+    animation: fly-upper-money 8s infinite;
+}
+.money-lower{
+    bottom: 0;
+    right: 0;
+    animation: fly-lower-money 8s infinite;
+}
+
+@keyframes fly-upper-money {
+    0%, 100%{
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(80vw, 25%);
+    }
+    50% {
+        transform: translate(50%, 50%);
+    }
+    75% {
+        transform: translate(75%, 75%);
+    }
+}
+
+@keyframes fly-lower-money {
+    0%, 100%{
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(-80vw, 25%);
+    }
+    50% {
+        transform: translate(40vw, 50%);
+    }
+    75% {
+        transform: translate(30%, 75%);
+    }
+}
+
+
 /* title */
 #header__title {
     display: flex;
     flex-direction: column;
-    padding: 0 1rem
+    padding: 0 1rem;
+    padding-top: 1rem;
 }
 
 .title-text {
@@ -274,12 +331,15 @@ body {
 
 /* TICKET */
 #ticket {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-bottom: 10rem;
+    transform: scale(0.8);
 }
+
 /* some of the zestiest shit ive ever done */
 #ticket__upper,
 #ticket__lower {
@@ -300,6 +360,34 @@ body {
     gap: 1rem;
 }
 
+#ticket__lower.clicked {
+    animation: ticket-lower-click 1s ease-in-out;
+}
+
+#ticket__upper.clicked {
+    animation: ticket-upper-click 1s ease-in-out;
+}
+
+@keyframes ticket-lower-click {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100vh);
+    }
+}
+
+@keyframes ticket-upper-click {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-100vh);
+    }
+}
+
 .ticket-title {
     color: var(--primary-color-green);
     line-height: 5rem;
@@ -315,51 +403,31 @@ body {
 #ticket-title-two {
     align-items: flex-end;
 }
+
 /* lower ticket */
 #ticket__lower {
     height: calc(var(--width) * (158/435));
     background-image: url(./images/ticket-lower.webp);
 }
-#ticket-button{
-    --og-color:#000000;
+
+#ticket-button {
+    position: absolute;
+    width: 60%;
+    height: 60%;
+    text-align: center;
+    --og-color: #000000;
     text-transform: uppercase;
-    color:var(--og-color);
+    color: var(--og-color);
     font-size: 2rem;
     font-weight: 500;
     padding: 1.5rem 2.5rem;
     border: 3px solid var(--primary-color-green);
     border-radius: 1px;
-    transition: all 0.2s ease-in-out;
-}
-/* #ticket-button:hover,
-#ticket-button:focus{
-    background-color: var(--primary-color-green);
-    color: #ffffff;
-} */
-#ticket__lower.clicked{
-    animation: ticket-click 2.5s ease-in-out;
 }
 
-@keyframes ticket-click {
-    0% {
-        transform: scale(1);
-    }
-    25% {
-        transform: scale(50);
-        rotate: 90deg;
-    }
-    50% {
-        transform: scale(100);
-    }
-    75% {
-        transform: scale(150);
-    }
-    100% {
-        transform: scale(200);
-    }
-    
+#ticket-button.clicked {
+    opacity: 0;
 }
-
 
 /* CSS FOR VISUAL TESTS (will be deleted in production) */
 .content {

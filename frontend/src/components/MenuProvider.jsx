@@ -15,6 +15,8 @@ export default function MenuProvider({ children }) {
 
     const toggleMenu = () => {
         setMenuActive(!menuActive);
+        window.scrollTo(0, 0);
+        document.body.classList.toggle('no-scroll');
     };
 
     return (

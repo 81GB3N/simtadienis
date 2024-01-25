@@ -3,46 +3,34 @@ import { useRef } from 'react';
 import { useMenu } from './MenuProvider';
 
 export default function HeroTicket() {
-    const ticketRef = useRef(null);
+    const ticketLoweref = useRef(null);
+    const ticketUpperRef = useRef(null);
+    const buttonRef = useRef(null);
     const { toggleMenu } = useMenu();
 
     const handleClick = () => {
+        ticketLoweref.current.classList.add('clicked');
+        ticketUpperRef.current.classList.add('clicked');
+        buttonRef.current.classList.add('clicked');
+        console.log(ticketLoweref.current);
         setTimeout(() => {
             toggleMenu();
-        }, 2000);
-        const ticket = ticketRef.current;
-        if (ticket) {
-            ticket.classList.add('clicked');
-            ticket.addEventListener('animationend', () => {
-                ticket.classList.remove('clicked');
-            })
-        }
+        }, 600)
+        ticketLoweref.current.addEventListener('animationend', () => {
+            ticketLoweref.current.classList.remove('clicked');
+            ticketUpperRef.current.classList.remove('clicked');
+            buttonRef.current.classList.remove('clicked');
+        });
     }
     return (
         <div id='ticket'>
-            <div id='ticket__upper'>
-                <p className='ticket-title' id='ticket-title-one'>
-                    <p>
-                        <FormattedMessage id='ticket.title.left.one' />
-                    </p>
-                    <p>
-                        <FormattedMessage id='ticket.title.left.two' />
-                    </p>
-                </p>
-                <p className='ticket-title' id='ticket-title-two'>
-                    <p>
-                        <FormattedMessage id='ticket.title.right.one' />
-                    </p>
-                    <p>
-                        <FormattedMessage id='ticket.title.right.two' />
-                    </p>
-                </p>
+            <div id='ticket__upper' ref={ticketUpperRef}>
             </div>
-            <div id='ticket__lower' ref={ticketRef}>
-                <button id='ticket-button' onClick={handleClick}>
-                    <FormattedMessage id='ticket.button' />
-                </button>
+            <div id='ticket__lower' ref={ticketLoweref}>
             </div>
+            <button id='ticket-button' onClick={handleClick} ref={buttonRef}>
+                <FormattedMessage id='ticket.button' />
+            </button>
         </div>
     )
 }
