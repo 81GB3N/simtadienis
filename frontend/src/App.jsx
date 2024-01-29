@@ -28,7 +28,6 @@ export default function App() {
       Proceed at your discretion'
         dismissable={true} /> : null}
       <MenuProvider>
-        <Header />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/leaderboard" element={<LeaderBoard/>} />
