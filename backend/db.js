@@ -55,9 +55,11 @@ async function getCurrentMoney(name, surname, type) {
 const retrieveDocument = async () => {
   try {
     const collection = database.collection(main);
-    const query = {};
-    const cursor = collection.find(query);
+    const projection = { name: 1, surname: 1, money: 1, _id: 0};
+    
+    const cursor = collection.find({}).project(projection);
     const documents = await cursor.toArray();
+    
     return documents;
   } catch (error) {
     console.error(error);
