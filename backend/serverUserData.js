@@ -1,4 +1,5 @@
 const { writeDocument, findUser, updateUser, retrieveDocument } = require("./db");
+const { encrypt } = require("./encryptPassword")
 
 const dotenv = require('dotenv');
 const express = require("express");
@@ -24,8 +25,9 @@ app.get("/api/getuser", async (req, res) => {
   res.json({ result });
 });
 
-app.post("/api/register", (req, res) => {
+app.post("/api/register", async (req, res) => {
   userData.register = req.body;
+  userData.register.password = await encrypt(userData.register.password);
   writeDocument(userData.register);
 });
 
@@ -39,10 +41,6 @@ app.post("/api/addmoney", (req, res) => {
     updateUser(userData.money);
   });
 
-  // app.post("/api/getport", (req, res) => {
-  //   userData.money = req.body; 
-  //   res.json({port});
-  // });
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
