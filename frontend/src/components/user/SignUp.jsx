@@ -1,9 +1,9 @@
-import { sendUserData, userExists } from "../utils/api";
+import { sendUserData, userExists } from "../../utils/api";
 import { FormattedMessage } from "react-intl";
-import { useMenu } from './MenuProvider';
 
-export default function Signup({ setRerender }) {
-    const { toggleMenu } = useMenu();
+export default function Signup({ setUserExists }) {
+    console.log('rendering signup');
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -31,8 +31,9 @@ export default function Signup({ setRerender }) {
         }
 
         console.log(`singing up as ${name} ${surname}`);
-        await sendUserData(userData, "register");
-        setRerender(true);
+        sendUserData(userData, "register").then((data) => console.log(data));
+        console.log('leaving signup');
+        setUserExists(true);
     }
 
     return (

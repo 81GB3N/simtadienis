@@ -1,14 +1,36 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMenu } from './MenuProvider';
-import UserProfile from './UserProfile';
-import NoUser from './NoUser';
+import UserProfile from './user/UserProfile';
+import NoUser from './user/NoUser';
 import hundredDollars from '../images/heap-hundred-dollar-.webp';
 
 export default function HamburgerMenu() {
     const { menuActive, toggleMenu } = useMenu();
     const userRef = useRef(null);
-    const savedUserExists = localStorage.getItem('user') ? true : false;
-    const [rerender, setRerender] = useState(false);
+    const [user, setUser] = useState(null);
+    const [userExists, setUserExists] = useState(user ? true : false);
+    console.log('rendering hamburger');
+
+    function retrieveUser() {
+        // return JSON.parse(localStorage.getItem('user'));
+        return new Promise((resolve, reject) => {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) resolve(user);
+            else reject('no user');
+        });
+
+    }
+
+    useEffect(() => {
+        console.log('Hamburger effect');
+        retrieveUser().then((user) => {
+            setUser(user);
+            setUserExists(true);
+        }).catch((err) => {
+            setUserExists(false);
+        });
+    }, [userExists])
+
 
     return (
         <>
@@ -19,12 +41,16 @@ export default function HamburgerMenu() {
                 <img src={hundredDollars} alt="hundred dollars" className='menu-img img-one'></img>
                 <div id='user' ref={userRef}>
                     {
-                        savedUserExists ? <UserProfile /> : < NoUser setRerender={setRerender}/>
+                        userExists ? (
+                            <UserProfile userData={user} setUserExists={setUserExists}/>
+                        ) : (
+                            <NoUser setUserExists={setUserExists} />
+                        )
+
                     }
                 </div>
                 <img src={hundredDollars} alt="hundred dollars" className='menu-img img-two'></img>
             </div>
-            {rerender && <HamburgerMenu />}
         </>
     )
 }
