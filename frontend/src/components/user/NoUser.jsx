@@ -2,15 +2,15 @@ import { useState } from "react"
 import { FormattedMessage } from 'react-intl';
 import Login from "./Login";
 import SignUp from "./SignUp";
-export default function NoUser() {
+export default function NoUser({ setUserExists }) {
     const [login, setLogin] = useState(false);
     const [signup, setSignup] = useState(false);
-
+    console.log('rendering no user')
     if (login) {
-        return <Login />
+        return <Login setUserExists={setUserExists}/>
     }
     if (signup) {
-        return <SignUp />
+        return <SignUp setUserExists={setUserExists}/>
     }
 
     return (

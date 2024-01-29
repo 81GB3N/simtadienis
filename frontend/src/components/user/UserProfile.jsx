@@ -2,20 +2,18 @@ import { useMenu } from "../MenuProvider";
 import { getUserData } from "../../utils/api";
 import { useState, useEffect } from "react";
 
-export default function UserProfile() {
+export default function UserProfile({ userData, setUserExists }) {
+    console.log('rendering user profile');
+
     const { toggleMenu } = useMenu();
     const [moneyAmount, setMoneyAmount] = useState(0);
 
-    const logout = () => {
+    const logout = async () => {
         console.log("logging out");
-        localStorage.removeItem("user");
+        await localStorage.removeItem("user");
+        setUserExists(false);
         toggleMenu();
     }
-
-    
-    const cachedData = localStorage.getItem("user");
-    if(!cachedData) logout();
-    const userData = JSON.parse(cachedData);
 
     const fetchMoney = async () => {
         if(!userData) return null;

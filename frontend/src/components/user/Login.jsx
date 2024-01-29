@@ -1,9 +1,8 @@
 import { getUserData, userExists } from "../../utils/api.js";
 import { FormattedMessage } from "react-intl";
-import { useMenu } from '../MenuProvider';
 
-export default function Login() {
-    const { toggleMenu } = useMenu();
+export default function Login({ setUserExists }) {
+    console.log('rendering login');
 
     function setUserLocalStorage(name, surname) {
         const user = { name: name, surname: surname, admin: false };
@@ -25,7 +24,7 @@ export default function Login() {
         const userData = {
             name: name,
             surname: surname,
-            password: password,
+            admin: false
         };
 
         if (!await userExists(name, surname)) {
@@ -40,6 +39,7 @@ export default function Login() {
 
         console.log('logging in as', name, surname);
         await setUserLocalStorage(name, surname);
+        setUserExists(true);
     }
 
     return (

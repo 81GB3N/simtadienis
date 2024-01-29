@@ -2,13 +2,15 @@ const port = 4000;
 const baseUrl = window.location.hostname === 'localhost' ? `http://localhost:${port}` : '';
 
 export async function sendUserData(userData, page) {
-  await fetch(`${baseUrl}/api/${page}`, {
+  const response = await fetch(`${baseUrl}/api/${page}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(userData),
   })
+  const responseBody = await response.json();
+  return responseBody;
 }
 
 export async function getUserData(name, surname, type='main') {
