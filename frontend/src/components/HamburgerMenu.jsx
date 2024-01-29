@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useMenu } from './MenuProvider';
+import { useMenu } from '../context/MenuProvider';
 import UserProfile from './user/UserProfile';
 import NoUser from './user/NoUser';
 import hundredDollarsImg from '../images/heap-hundred-dollar-.webp';
@@ -20,8 +20,8 @@ export default function HamburgerMenu() {
     }
 
     useEffect(() => {
-        getCachedUser().then((user) => {
-            setUser(user);
+        getCachedUser().then( async (user) => {
+            await setUser(user);
             setUserExists(true);
         }).catch((err) => {
             console.log(err)

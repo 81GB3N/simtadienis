@@ -1,4 +1,4 @@
-import { useMenu } from "../MenuProvider";
+import { useMenu } from "../../context/MenuProvider";
 import { getUserData } from "../../utils/api";
 import { useState, useEffect } from "react";
 
@@ -15,6 +15,7 @@ export default function UserProfile({ userData, setUserExists }) {
     const fetchMoney = async () => {
         try{
             const data = await getUserData(userData.name, userData.surname);
+            console.log("in user: ", data);
             return data.result[0].money;
         }
         catch(err){
