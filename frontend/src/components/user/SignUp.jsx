@@ -1,7 +1,9 @@
 import { sendUserData, userExists } from "../../utils/api";
 import { FormattedMessage } from "react-intl";
+import { useMenu } from '../MenuProvider';
 
-export default function Signup({ setSavedUser }) {
+export default function Signup() {
+    const { toggleMenu } = useMenu();
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -29,44 +31,38 @@ export default function Signup({ setSavedUser }) {
         }
 
         console.log(`singing up as ${name} ${surname}`);
-        sendUserData(userData, "register")
-            .then((response) => {
-                console.log(response);
-                setSavedUser({});
-            }
-            )
-
+        await sendUserData(userData, "register");
     }
 
     return (
-        <form method="post" onSubmit={handleSubmit}>
-            <div >
-                <label for="name">
-                    <FormattedMessage id="name" />
-                </label>
-                <input type="text" placeholder="vardenis"
-                    id="name" required></input>
-            </div>
-            <div >
-                <label for="surname">
-                    <FormattedMessage id="surname" />
-                </label>
-                <input type="text" placeholder="pavardenis"
-                    id="surname" required></input>
-            </div>
-            <div >
-                <label for="password">
-                    <FormattedMessage id="password" />
-                </label>
-                <input type="password" id="password" required></input>
-            </div>
-            <div>
-                <label for="repeat-password">
-                    <FormattedMessage id="repeat.password" />
-                </label>
-                <input type="password" id="repeat-password" required></input>
-            </div>
-            <input type="submit" id="register-submit"></input>
-        </form>
+    <form method="post" onSubmit={handleSubmit}>
+        <div >
+            <label for="name">
+                <FormattedMessage id="name"/>
+            </label>
+            <input type="text" placeholder="vardenis" 
+            id="name" required></input>
+        </div>
+        <div >
+            <label for="surname">
+                <FormattedMessage id="surname"/>
+            </label>
+            <input type="text" placeholder="pavardenis" 
+            id="surname" required></input>
+        </div>
+        <div >
+            <label for="password">
+                <FormattedMessage id="password"/>
+            </label>
+            <input type="password" id="password" required></input>
+        </div>
+        <div>
+            <label for="repeat-password">
+                <FormattedMessage id="repeat.password"/>
+            </label>
+            <input type="password" id="repeat-password" required></input>
+        </div>
+        <input type="submit" id="register-submit"></input>
+    </form>
     )
 }

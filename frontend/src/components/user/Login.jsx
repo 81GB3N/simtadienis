@@ -1,8 +1,8 @@
-import { getUserData, userExists, sendUserData } from "../utils/api.js";
+import { getUserData, userExists } from "../../utils/api.js";
 import { FormattedMessage } from "react-intl";
-import { useMenu } from './MenuProvider';
+import { useMenu } from '../MenuProvider';
 
-export default function Login({ setRerender }) {
+export default function Login() {
     const { toggleMenu } = useMenu();
 
     function setUserLocalStorage(name, surname) {
@@ -40,7 +40,6 @@ export default function Login({ setRerender }) {
 
         console.log('logging in as', name, surname);
         await setUserLocalStorage(name, surname);
-        setRerender(true);
     }
 
     return (

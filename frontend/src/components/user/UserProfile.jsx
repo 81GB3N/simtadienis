@@ -1,5 +1,5 @@
-import { useMenu } from "./MenuProvider";
-import { getUserData } from "../utils/api";
+import { useMenu } from "../MenuProvider";
+import { getUserData } from "../../utils/api";
 import { useState, useEffect } from "react";
 
 export default function UserProfile() {
