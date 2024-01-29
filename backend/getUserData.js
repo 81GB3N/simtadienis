@@ -1,14 +1,5 @@
 const port = 4000;
 
-// export async function sendPort(){ TODO: figure out how to get consistent port
-//   await fetch(`http://localhost:${port}/port`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(port),
-//   })
-// }
 const baseUrl = window.location.hostname === 'localhost' ? `http://localhost:${port}` : '';
 
 export async function sendUserData(userData, page) {
@@ -29,6 +20,15 @@ export async function getUserData(name, surname, type) {
   return data;
 }
 
+//sending user data to check if the suplied password matches with the required
+export async function confirmPassword(name, surname, password, type){
+  const response = await fetch(
+    `${baseUrl}/api/check-password?name=${name}&surname=${surname}&password=${password}&type=${type}`
+  );
+  const data = await response.json();
+  return data;
+}
+
 export async function getAllUsers(){
   const response = await fetch(`${baseUrl}/api/getallusers`)
   const data = await response.json();
@@ -36,7 +36,7 @@ export async function getAllUsers(){
 }
 
 export async function checkUserStatus(name, surname, type) {
-  const userDagetUserData = await getUserData(name, surname, type);
-  const usersAmount = Object.keys(userDagetUserData.result).length;
+  const data = await getUserData(name, surname, type);
+  const usersAmount = Object.keys(data.result).length;
   return usersAmount > 0 ? true : false;
 }
