@@ -2,8 +2,9 @@ import { getUserData, userExists } from "../../utils/api.js";
 import { FormattedMessage } from "react-intl";
 
 export default function Login({ setUserExists, leave }) {
+    console.log('rendering login');
 
-    function cacheUser(name, surname) {
+    function setUserLocalStorage(name, surname) {
         const user = { name: name, surname: surname, admin: false };
         localStorage.setItem("user", JSON.stringify(user));
     }
@@ -20,6 +21,12 @@ export default function Login({ setUserExists, leave }) {
         const surname = e.target["surname"].value;
         const password = e.target["password"].value;
 
+        const userData = {
+            name: name,
+            surname: surname,
+            admin: false
+        };
+
         if (!await userExists(name, surname)) {
             console.log("user doesnt exist");
             return;
@@ -30,38 +37,37 @@ export default function Login({ setUserExists, leave }) {
             return;
         }
 
-        await cacheUser(name, surname);
+        console.log('logging in as', name, surname);
+        await setUserLocalStorage(name, surname);
         setUserExists(true);
     }
 
     return (
-        <>
-            <form method="get" onSubmit={handleSubmit}>
-                <div >
-                    <label htmlFor="name">
-                        <FormattedMessage id='name' />
-                    </label>
-                    <input type="text" placeholder="vardenis"
-                        id="name" required></input>
-                </div>
-                <div >
-                    <label htmlFor="surname">
-                        <FormattedMessage id='surname' />
-                    </label>
-                    <input type="text" placeholder="pavardnenis"
-                        id="surname" required></input>
-                </div>
-                <div >
-                    <label htmlFor="password">
-                        <FormattedMessage id='password' />
-                    </label>
-                    <input type="password" id="password" required></input>
-                </div>
-                <input type="submit" id="login-submit"></input>
-            </form>
+        <form method="get" onSubmit={handleSubmit}>
+            <div >
+                <label htmlFor="name">
+                    <FormattedMessage id='name' />
+                </label>
+                <input type="text" placeholder="vardenis"
+                    id="name" required></input>
+            </div>
+            <div >
+                <label htmlFor="surname">
+                    <FormattedMessage id='surname' />
+                </label>
+                <input type="text" placeholder="pavardnenis"
+                    id="surname" required></input>
+            </div>
+            <div >
+                <label htmlFor="password">
+                    <FormattedMessage id='password' />
+                </label>
+                <input type="password" id="password" required></input>
+            </div>
+            <input type="submit" id="login-submit"></input>
             <button onClick={leave}>
-                <FormattedMessage id='back' />
+                <FormattedMessage id="back"
+                />
             </button>
-        </>
-    )
+        </form>)
 }
