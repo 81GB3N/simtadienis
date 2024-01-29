@@ -1,5 +1,4 @@
 import { useLanguage } from "./LanguageProvider";
-
 import coin from "../images/coin.webp";
 
 export default function LanguageSelector() {

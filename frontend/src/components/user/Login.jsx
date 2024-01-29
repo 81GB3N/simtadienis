@@ -2,9 +2,8 @@ import { getUserData, userExists } from "../../utils/api.js";
 import { FormattedMessage } from "react-intl";
 
 export default function Login({ setUserExists }) {
-    console.log('rendering login');
 
-    function setUserLocalStorage(name, surname) {
+    function cacheUser(name, surname) {
         const user = { name: name, surname: surname, admin: false };
         localStorage.setItem("user", JSON.stringify(user));
     }
@@ -21,12 +20,6 @@ export default function Login({ setUserExists }) {
         const surname = e.target["surname"].value;
         const password = e.target["password"].value;
 
-        const userData = {
-            name: name,
-            surname: surname,
-            admin: false
-        };
-
         if (!await userExists(name, surname)) {
             console.log("user doesnt exist");
             return;
@@ -37,29 +30,28 @@ export default function Login({ setUserExists }) {
             return;
         }
 
-        console.log('logging in as', name, surname);
-        await setUserLocalStorage(name, surname);
+        await cacheUser(name, surname);
         setUserExists(true);
     }
 
     return (
         <form method="get" onSubmit={handleSubmit}>
             <div >
-                <label for="name">
+                <label htmlFor="name">
                     <FormattedMessage id='name' />
                 </label>
                 <input type="text" placeholder="vardenis"
                     id="name" required></input>
             </div>
             <div >
-                <label for="surname">
+                <label htmlFor="surname">
                     <FormattedMessage id='surname' />
                 </label>
                 <input type="text" placeholder="pavardnenis"
                     id="surname" required></input>
             </div>
             <div >
-                <label for="password">
+                <label htmlFor="password">
                     <FormattedMessage id='password' />
                 </label>
                 <input type="password" id="password" required></input>

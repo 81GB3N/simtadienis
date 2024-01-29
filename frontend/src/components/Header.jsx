@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import LanguageSelector from './LanguageSelector';
 import HamburgerMenu from './HamburgerMenu';
 import moneyImg from '../assets/flying-money.png';
@@ -7,7 +7,6 @@ import { FormattedMessage } from 'react-intl';
 
 export default function Header() {
     const [hidden, setHidden] = useState(false);
-    const money = useRef(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -22,12 +21,6 @@ export default function Header() {
             window.removeEventListener('scroll', handleScroll);
         }
     }, []);
-
-    if(money.current) {
-        money.current.addEventListener('animationend', () => {
-            console.log('animation ended');
-        });
-    }
     
     return (
         <header id='header' >
@@ -50,7 +43,7 @@ export default function Header() {
                     <FormattedMessage id="header.title.four" />
                 </span>
             </div>
-            <img className='header-money money-lower' ref={money} src={moneyImg} alt='flying money' />
+            <img className='header-money money-lower' src={moneyImg} alt='flying money' />
         </header>
     )
 }

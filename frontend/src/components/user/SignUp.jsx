@@ -2,8 +2,6 @@ import { sendUserData, userExists } from "../../utils/api";
 import { FormattedMessage } from "react-intl";
 
 export default function Signup({ setUserExists }) {
-    console.log('rendering signup');
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -30,36 +28,34 @@ export default function Signup({ setUserExists }) {
             return;
         }
 
-        console.log(`singing up as ${name} ${surname}`);
         sendUserData(userData, "register").then((data) => console.log(data));
-        console.log('leaving signup');
         setUserExists(true);
     }
 
     return (
     <form method="post" onSubmit={handleSubmit}>
         <div >
-            <label for="name">
+            <label htmlFor="name">
                 <FormattedMessage id="name"/>
             </label>
             <input type="text" placeholder="vardenis" 
             id="name" required></input>
         </div>
         <div >
-            <label for="surname">
+            <label htmlFor="surname">
                 <FormattedMessage id="surname"/>
             </label>
             <input type="text" placeholder="pavardenis" 
             id="surname" required></input>
         </div>
         <div >
-            <label for="password">
+            <label htmlFor="password">
                 <FormattedMessage id="password"/>
             </label>
             <input type="password" id="password" required></input>
         </div>
         <div>
-            <label for="repeat-password">
+            <label htmlFor="repeat-password">
                 <FormattedMessage id="repeat.password"/>
             </label>
             <input type="password" id="repeat-password" required></input>
