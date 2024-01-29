@@ -30,7 +30,6 @@ export default function Signup({ setUserExists, leave }) {
     const [matchFocus, setMatchFocus] = useState(false);
 
     const [errMsg, setErrMsg] = useState("");
-    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         nameRef.current.focus();
@@ -51,15 +50,10 @@ export default function Signup({ setUserExists, leave }) {
 
     useEffect(() => {
         setErrMsg("");
-    }, [name, password, matchPassword])
+    }, [name, surname, password, matchPassword])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const name = e.target["name"].value;
-        const surname = e.target["surname"].value;
-        const password = e.target["password"].value;
-        const repeatPassword = e.target["repeat-password"].value;
 
         const userData = {
             name: name,
@@ -69,10 +63,7 @@ export default function Signup({ setUserExists, leave }) {
             admin: false
         };
 
-        if (password !== repeatPassword) {
-            console.log("passwords dont match");
-            return;
-        }
+        // #TODO, check additionally if submit button was enabled via console
 
         if (await userExists(name, surname)) {
             console.log("this user already exists");
@@ -84,7 +75,9 @@ export default function Signup({ setUserExists, leave }) {
     }
 
     return (
-        <>
+        <section>
+            <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"}>{errMsg}</p>
+            <h1>Sign Up</h1>
             <form method="post" onSubmit={handleSubmit}>
                 <div >
                     <label htmlFor="name">
@@ -186,6 +179,6 @@ export default function Signup({ setUserExists, leave }) {
                     />
                 </button>
             </form >
-        </>
+        </section>
     )
 }

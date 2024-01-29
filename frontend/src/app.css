@@ -340,8 +340,7 @@ body.no-scroll {
 }
 
 .menu-img.img-one {
-    rotate: 180deg;
-    transform: translateY(1rem);
+    transform: rotate(180deg) translateY(2rem);
 }
 
 /* TICKET */

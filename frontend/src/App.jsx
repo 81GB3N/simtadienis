@@ -3,13 +3,11 @@ import './app.css';
 // React utilities
 import { Routes, Route } from 'react-router-dom';
 // Context provider
-import MenuProvider from './components/MenuProvider';
+import MenuProvider from './context/MenuProvider';
 // Pages
 import LandingPage from './pages/LandingPage';
 import LeaderBoard from './pages/LeaderBoard';
 import Admin from './pages/Admin';
-// Page components
-import Header from './components/Header';
 // Error modal
 import ErrorModal from './components/ErrorModal';
 
