@@ -27,11 +27,12 @@ function combineAllNameSurname(users){
 
 async function allNameList() {
     const allUsers = await getAllUsers();
-    combineAllNameSurname(allUsers.result);
+    // combineAllNameSurname(allUsers.result);
     return allUsers.result;
   }
   
 const allUsers = await allNameList();
+// console.log(allUsers);
 
 function userDoesntExist(){
     console.log("user doesnt exist");
@@ -41,30 +42,82 @@ const fullName = document.querySelector("#full-name");
 
 fullName.addEventListener('input', displayUsers);
 
-let fullNameValue;
+function getFullName(){
+    // const value = fullName.textContent.toLowerCase();
+    // if(value[value.length] === ' ')
+    //     return value.substring(0, value.length-1);
+    return fullName.textContent.toLowerCase();  
+}
 
 function findMatchingName(){
-    fullNameValue = fullName.value.toLowerCase();
       const userNameArray = combineAllNameSurname(allUsers);
     //   console.log(userNameArray)
+
+    const fullNameValue = getFullName().trim();
+
     const matchingNames = userNameArray.filter(user =>
         user.toLowerCase().includes(fullNameValue)
     );
+    // console.log(matchingNames)
     return matchingNames;
+  }
+
+//   function findCommonSubstring(firstUser, matching){
+//     let result = '';
+//     if(matching === undefined)
+//         matching = getFullName();
+//     console.log(firstUser, matching)
+//     for (let i = 0; i < Math.min(firstUser.length, matching.length); i++) {
+//       if (firstUser[i] === matching[i]) {
+//         result += firstUser[i];
+//       } else {
+//         break;
+//       }
+//     }
+//     return result;
+//   }
+
+function setCursorFront() {
+    const range = document.createRange();
+    const sel = window.getSelection();
+    range.setStart(fullName, fullName.childNodes.length);
+    range.collapse(true);
+    sel.removeAllRanges();
+    sel.addRange(range);
+}
+
+
+function highLightMatching(targetWord){
+    let fullNameValue = getFullName();
+    let inputLetter = 0;
+    for(let targetLetter in targetWord){
+        if(fullNameValue[inputLetter] === targetWord[targetLetter]){
+        console.log(fullNameValue[inputLetter], targetWord[targetLetter], fullNameValue[inputLetter] === targetWord[targetLetter]);
+            inputLetter++;
+        }
+        else{
+            console.log("not matching")
+        }
+    }
+
   }
 
   function addListListener(){
     const listItems = document.querySelectorAll(".user-list li");
+    if(listItems[0]){ 
+        listItems[0].classList.add("first");
+        highLightMatching(listItems[0].innerHTML);
+  }
     listItems.forEach(item => {
     item.addEventListener("click", selectUser);
   });
   }
 
   function displayUsers(){
+    // console.log("input")
     const userList = document.querySelector(".user-list");
     userList.innerHTML = '';
     const matchingNames = findMatchingName();
-    // console.log(matchingNames);
     matchingNames.forEach(name => {
         userList.innerHTML += `<li>${name}</li>`;
     });
@@ -72,14 +125,14 @@ function findMatchingName(){
   }
   
   function selectUser(){
-    fullName.value = this.innerHTML;
+    fullName.innerHTML = this.innerHTML;
     displayUsers();
   }
 
   adminSubmit.addEventListener('submit', async (e)=>{
       e.preventDefault();
       
-    fullNameValue = fullName.value.toLowerCase();
+    const fullNameValue = getFullName();
       const [name, surname] = fullNameValue.split(/\s+/).map(part => part.trim());
 
     const amount = document.querySelector("#amount").value;

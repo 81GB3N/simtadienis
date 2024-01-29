@@ -52,3 +52,20 @@ form > div {
   flex-direction: column;
   overflow: auto;
 }
+
+.first{
+  color: orange;
+}
+
+.highlighted{
+  color: black;
+}
+
+.not-highlighted{
+  color: rgb(163, 163, 163);
+}
+
+#full-name{
+  border: 1px solid black;
+  width: 150px;
+}
