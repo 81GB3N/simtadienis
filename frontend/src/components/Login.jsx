@@ -1,7 +1,10 @@
-import { getUserData, userExists } from "../../utils/api.js";
+import { getUserData, userExists, sendUserData } from "../utils/api.js";
 import { FormattedMessage } from "react-intl";
+import { useMenu } from './MenuProvider';
 
-export default function Login({ setSavedUser }) {
+export default function Login({ setRerender }) {
+    const { toggleMenu } = useMenu();
+
     function setUserLocalStorage(name, surname) {
         const user = { name: name, surname: surname, admin: false };
         localStorage.setItem("user", JSON.stringify(user));
@@ -37,7 +40,7 @@ export default function Login({ setSavedUser }) {
 
         console.log('logging in as', name, surname);
         await setUserLocalStorage(name, surname);
-        setSavedUser(localStorage.getItem('user'));
+        setRerender(true);
     }
 
     return (
