@@ -1,7 +1,7 @@
 import { sendUserData, userExists } from "../../utils/api";
 import { FormattedMessage } from "react-intl";
 
-export default function Signup({ setUserExists }) {
+export default function Signup({ setUserExists, leave }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -33,34 +33,40 @@ export default function Signup({ setUserExists }) {
     }
 
     return (
-    <form method="post" onSubmit={handleSubmit}>
-        <div >
-            <label htmlFor="name">
-                <FormattedMessage id="name"/>
-            </label>
-            <input type="text" placeholder="vardenis" 
-            id="name" required></input>
-        </div>
-        <div >
-            <label htmlFor="surname">
-                <FormattedMessage id="surname"/>
-            </label>
-            <input type="text" placeholder="pavardenis" 
-            id="surname" required></input>
-        </div>
-        <div >
-            <label htmlFor="password">
-                <FormattedMessage id="password"/>
-            </label>
-            <input type="password" id="password" required></input>
-        </div>
-        <div>
-            <label htmlFor="repeat-password">
-                <FormattedMessage id="repeat.password"/>
-            </label>
-            <input type="password" id="repeat-password" required></input>
-        </div>
-        <input type="submit" id="register-submit"></input>
-    </form>
+        <>
+            <form method="post" onSubmit={handleSubmit}>
+                <div >
+                    <label htmlFor="name">
+                        <FormattedMessage id="name" />
+                    </label>
+                    <input type="text" placeholder="vardenis"
+                        id="name" required></input>
+                </div>
+                <div >
+                    <label htmlFor="surname">
+                        <FormattedMessage id="surname" />
+                    </label>
+                    <input type="text" placeholder="pavardenis"
+                        id="surname" required></input>
+                </div>
+                <div >
+                    <label htmlFor="password">
+                        <FormattedMessage id="password" />
+                    </label>
+                    <input type="password" id="password" required></input>
+                </div>
+                <div>
+                    <label htmlFor="repeat-password">
+                        <FormattedMessage id="repeat.password" />
+                    </label>
+                    <input type="password" id="repeat-password" required></input>
+                </div>
+                <input type="submit" id="register-submit"></input>
+            </form>
+            <button onClick={leave}>
+                <FormattedMessage id="back" 
+                />
+            </button>
+        </>
     )
 }

@@ -1,7 +1,7 @@
 import { getUserData, userExists } from "../../utils/api.js";
 import { FormattedMessage } from "react-intl";
 
-export default function Login({ setUserExists }) {
+export default function Login({ setUserExists, leave }) {
 
     function cacheUser(name, surname) {
         const user = { name: name, surname: surname, admin: false };
@@ -35,27 +35,33 @@ export default function Login({ setUserExists }) {
     }
 
     return (
-        <form method="get" onSubmit={handleSubmit}>
-            <div >
-                <label htmlFor="name">
-                    <FormattedMessage id='name' />
-                </label>
-                <input type="text" placeholder="vardenis"
-                    id="name" required></input>
-            </div>
-            <div >
-                <label htmlFor="surname">
-                    <FormattedMessage id='surname' />
-                </label>
-                <input type="text" placeholder="pavardnenis"
-                    id="surname" required></input>
-            </div>
-            <div >
-                <label htmlFor="password">
-                    <FormattedMessage id='password' />
-                </label>
-                <input type="password" id="password" required></input>
-            </div>
-            <input type="submit" id="login-submit"></input>
-        </form>)
+        <>
+            <form method="get" onSubmit={handleSubmit}>
+                <div >
+                    <label htmlFor="name">
+                        <FormattedMessage id='name' />
+                    </label>
+                    <input type="text" placeholder="vardenis"
+                        id="name" required></input>
+                </div>
+                <div >
+                    <label htmlFor="surname">
+                        <FormattedMessage id='surname' />
+                    </label>
+                    <input type="text" placeholder="pavardnenis"
+                        id="surname" required></input>
+                </div>
+                <div >
+                    <label htmlFor="password">
+                        <FormattedMessage id='password' />
+                    </label>
+                    <input type="password" id="password" required></input>
+                </div>
+                <input type="submit" id="login-submit"></input>
+            </form>
+            <button onClick={leave}>
+                <FormattedMessage id='back' />
+            </button>
+        </>
+    )
 }

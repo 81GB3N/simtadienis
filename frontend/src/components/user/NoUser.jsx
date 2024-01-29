@@ -7,10 +7,16 @@ export default function NoUser({ setUserExists }) {
     const [signup, setSignup] = useState(false);
 
     if (login) {
-        return <Login setUserExists={setUserExists}/>
+        return <Login
+            setUserExists={setUserExists}
+            leave={() => setLogin(!login)}
+        />
     }
     if (signup) {
-        return <SignUp setUserExists={setUserExists}/>
+        return <SignUp
+            setUserExists={setUserExists}
+            leave={() => setSignup(!signup)}
+        />
     }
 
     return (
