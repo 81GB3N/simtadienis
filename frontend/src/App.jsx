@@ -1,3 +1,4 @@
+// Custom stylesheet
 import './app.css';
 // React utilities
 import { Routes, Route } from 'react-router-dom';
@@ -5,6 +6,8 @@ import { Routes, Route } from 'react-router-dom';
 import MenuProvider from './components/MenuProvider';
 // Pages
 import LandingPage from './pages/LandingPage';
+import LeaderBoard from './pages/LeaderBoard';
+import Admin from './pages/Admin';
 // Page components
 import Header from './components/Header';
 // Error modal
@@ -28,8 +31,13 @@ export default function App() {
         <Header />
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/leaderboard" element={<div></div>} />
-          {/* any more ideas? */}
+          <Route path="/leaderboard" element={<LeaderBoard/>} />
+          <Route path="/admin" element={<Admin/>} />
+          <Route path="*" element={<ErrorModal
+            status='404'
+            errorMessage='Page not found'
+            dismissable={true} 
+          />} />
         </Routes>
       </MenuProvider>
     </>
