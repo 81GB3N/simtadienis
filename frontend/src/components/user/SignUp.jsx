@@ -1,7 +1,7 @@
 import { sendUserData, userExists } from "../../utils/api";
 import { FormattedMessage } from "react-intl";
 
-export default function Signup({ resetMenu }) {
+export default function Signup({ setSavedUser }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -32,7 +32,7 @@ export default function Signup({ resetMenu }) {
         sendUserData(userData, "register")
             .then((response) => {
                 console.log(response);
-                resetMenu();
+                setSavedUser({});
             }
             )
 

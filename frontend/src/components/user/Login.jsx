@@ -1,7 +1,7 @@
 import { getUserData, userExists } from "../../utils/api.js";
 import { FormattedMessage } from "react-intl";
 
-export default function Login({ resetMenu }) {
+export default function Login({ setSavedUser }) {
     function setUserLocalStorage(name, surname) {
         const user = { name: name, surname: surname, admin: false };
         localStorage.setItem("user", JSON.stringify(user));
@@ -37,7 +37,7 @@ export default function Login({ resetMenu }) {
 
         console.log('logging in as', name, surname);
         await setUserLocalStorage(name, surname);
-        resetMenu();
+        setSavedUser(localStorage.getItem('user'));
     }
 
     return (

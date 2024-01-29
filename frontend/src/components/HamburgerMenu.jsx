@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useMenu } from './MenuProvider';
 import hundredDollars from '../images/heap-hundred-dollar-.webp';
 
@@ -8,7 +8,7 @@ import NoUser from './user/NoUser';
 export default function HamburgerMenu() {
     const { menuActive, toggleMenu } = useMenu();
     const userRef = useRef(null);
-    const hasUser = localStorage.getItem('user') !== null;
+    const [savedUser, setSavedUser] = useState(localStorage.getItem('user'));
 
     return (
         <>
@@ -19,10 +19,10 @@ export default function HamburgerMenu() {
                 <img src={hundredDollars} alt="hundred dollars" className='menu-img img-one'></img>
                 <div id='user' ref={userRef}>
                 {
-                    hasUser ? (
+                    savedUser ? (
                         <UserProfile />
                     ) : (
-                        <NoUser />
+                        <NoUser setSavedUser={setSavedUser}/>
                     )
                 }
                 </div>

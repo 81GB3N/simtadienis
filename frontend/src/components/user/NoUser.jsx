@@ -3,21 +3,17 @@ import { FormattedMessage } from 'react-intl';
 import Login from "./Login";
 import SignUp from "./SignUp";
 
-export default function NoUser() {
-    const [activeComponent, setActiveComponent] = useState(null);
+export default function NoUser({ setSavedUser }) {
+    const [activeComponent, setActiveComponent] = useState({});
 
     const handleClick = (component) => {
         setActiveComponent(component);
     }
 
-    const resetMenu = () => {
-        setActiveComponent(null);
-    }
-
     if (activeComponent === 'login')
-        return (<Login resetMenu={resetMenu}/>)
+        return (<Login setSavedUser={setSavedUser}/>)
     if (activeComponent === 'signup')
-        return (<SignUp resetMenu={resetMenu}/>)
+        return (<SignUp setSavedUser={setSavedUser}/>)
     return (
         <div className="user__buttons">
             <button className="user-button login-btn"
