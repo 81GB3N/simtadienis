@@ -13,5 +13,6 @@
     "name": "Name",
     "surname": "Surname",
     "password": "Password",
-    "repeat.password": "Repeat Password"
+    "repeat.password": "Repeat Password",
+    "back": "Back"
 }

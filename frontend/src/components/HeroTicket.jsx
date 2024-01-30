@@ -1,6 +1,6 @@
 import { FormattedMessage } from 'react-intl';
 import { useRef } from 'react';
-import { useMenu } from './MenuProvider';
+import { useMenu } from '../context/MenuProvider';
 
 export default function HeroTicket() {
     const ticketLoweref = useRef(null);

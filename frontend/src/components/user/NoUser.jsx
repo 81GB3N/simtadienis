@@ -5,12 +5,18 @@ import SignUp from "./SignUp";
 export default function NoUser({ setUserExists }) {
     const [login, setLogin] = useState(false);
     const [signup, setSignup] = useState(false);
-    console.log('rendering no user')
+
     if (login) {
-        return <Login setUserExists={setUserExists}/>
+        return <Login
+            setUserExists={setUserExists}
+            leave={() => setLogin(!login)}
+        />
     }
     if (signup) {
-        return <SignUp setUserExists={setUserExists}/>
+        return <SignUp
+            setUserExists={setUserExists}
+            leave={() => setSignup(!signup)}
+        />
     }
 
     return (
