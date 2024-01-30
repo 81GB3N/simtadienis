@@ -36,27 +36,18 @@ body,
 
 .drawer {
     display: flex;
-    position: relative;
     height: 100%;
     width: 100px;
-    margin: 0;
-    flex-grow: 0;
-    flex-shrink: 0;
     background: var(--drawer);
     box-shadow: 1px 0px 3px rgba(0, 0, 0, 0.16), 1px 0px 3px rgba(0, 0, 0, 0.23);
-    box-sizing: border-box;
     align-items: center;
-    z-index: 2;
 }
 
 .menu__icon {
     display: block;
-    position: relative;
     width: 100px;
     height: 100px;
     line-height: 100px;
-    margin: 0;
-    padding: 0;
     text-align: center;
     color: var(--text-primary);
     font-size: 40px;
@@ -75,7 +66,6 @@ body,
     pointer-events: none;
 }
 
-
 .content {
     display: block;
     position: relative;
@@ -87,6 +77,159 @@ body,
     z-index: 1;
 }
 
-.dialog{
+.page {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.22s ease;
+}
+
+.page>.header {
+    height: 120px;
+    padding: 0 40px;
+    box-sizing: border-box;
+    font-size: xx-large;
+    font-weight: 700;
+}
+
+/* DASHBOARD (not for production) */
+
+.grid {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 480px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0 40px;
+    /* overflow: hidden; */
+}
+
+/* TODO: FINISH CARDS */
+.grid .card {
+    display: flex;
+    position: relative;
+    height: 480px;
+    width: 350px;
+    background: var(--background-card);
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 0 20px;
+    margin: 0 20px 0 0;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card .head {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 75px;
+    overflow: hidden;
+    box-sizing: border-box;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+/* USERS */
+.user-table {
+    overflow: hidden;
+    width: 500px;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.table__head{
+    background: var(--background-card);
+}
+
+.table__body{
+    background: var(--background-secondary);
+}
+
+.head-prop,
+.body-prop {
+    padding: 10px;
+    text-align: left;
+}
+
+.body-row{
+    transition: all 0.22s ease;
+}
+
+/* .body-row:nth-child(even){
+    background: var(--background-secondary-faded);
+}
+
+.body-row:nth-child(odd){
+    background: var(--background-secondary);
+} */
+
+.body-row.active{
+    background: var(--background-card);
+    transform: translateX(-100px);
+}
+
+.edit-button{
+    height: 36px;
+    margin: 3px 5px;
+    width: 90px;
+    text-align: center;
+    background-color: var(--accent-primary);
+    position: absolute;
     display: none;
+    border-radius: 0.5rem;
+}
+.edit-button.active{
+    display: block;
+}
+
+/* MODAL */
+.dialog {
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    height: 500px;
+    transform: translate(-50%, -50%);
+    background: var(--background-card);
+    z-index: 100;
+    border: unset;
+    border-top: 1px solid var(--accent-primary);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    display: none;
+}
+.dialog.active{
+    display: flex;
+}
+.dialog-title{
+    padding: 1rem;
+    text-align: center;
+    color: var(--text-primary);
+    font-size: x-large;
+}
+.controls{
+    display: flex;
+    justify-content: flex-end;
+    gap: 2rem;
+    padding-right: 2rem;
+    padding-bottom: 3rem;
+}
+.dialog-button{
+    padding: 0.5rem 1rem;
+    font-size: large;
+}
+.dialog-button:hover{
+    background-color: var(--background-secondary);
+}
+.dialog-button.logout{
+    color:var(--text-primary);
+}
+.dialog-button.cancel{
+    color: var(--text-faded);
 }

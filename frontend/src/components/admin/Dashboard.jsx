@@ -1,16 +1,17 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faServer } from "@fortawesome/free-solid-svg-icons"
+// JSUT A TEST
 export default function Dashboard() {
     return (
-        <div className="page active" data-page="dashboard">
+        <div className="page" data-page="dashboard">
             <div className="header">
-                <div className="title">
-                    <h2>Dashboard</h2>
-                </div>
+                <h2>Dashboard</h2>
             </div>
             <div className="grid">
                 <div className="card">
                     <div className="head">
                         <span className="icon">
-                            <i className="icon ion-pound"></i>
+                            <FontAwesomeIcon icon={faServer} />
                         </span>
                         <span className="stat">
                             Server Status
@@ -35,9 +36,9 @@ export default function Dashboard() {
                     </div>
                 </div>
                 <div className="card">
-                    <div className="head">
+                    <div className="card__head">
                         <span className="icon">
-                            <i className="icon ion-code-working"></i>
+                            <FontAwesomeIcon icon={faServer} />
                         </span>
                         <span className="stat">
                             CSGO Status
@@ -56,7 +57,7 @@ export default function Dashboard() {
                             <div className="user-icon">
                             </div>
                             <span className="username">
-                                uplusion23
+                                Admin
                             </span>
                         </div>
                     </div>

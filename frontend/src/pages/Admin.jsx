@@ -1,6 +1,7 @@
 import '../css/admin.css'
 // React utilities
 import { Routes, Route, Navigate, NavLink } from 'react-router-dom';
+import { useRef } from 'react';
 // Components
 import Dashboard from '../components/admin/Dashboard';
 import Users from '../components/admin/Users';
@@ -9,6 +10,21 @@ import { faUser, faGauge, faRightFromBracket } from '@fortawesome/free-solid-svg
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Admin() {
+    const dialogRef = useRef(null);
+
+    const handleLogout = (e) => {
+        dialogRef.current.showModal();
+        dialogRef.current.classList.add('active');
+    }
+    const cancelLogout = () => {
+        console.log('cancel');
+        dialogRef.current.close();
+        dialogRef.current.classList.remove('active');
+    }
+    const confirmLogout = () => {
+
+    }
+
     return (
         <div className="container">
             <div className="drawer">
@@ -19,7 +35,7 @@ export default function Admin() {
                     <NavLink to="users" activeClassName='active' className='menu__icon'>
                         <FontAwesomeIcon icon={faUser} />
                     </NavLink>
-                    <button className='menu__icon logout'>
+                    <button className='menu__icon logout' onClick={handleLogout}>
                         <FontAwesomeIcon icon={faRightFromBracket} />
                     </button>
                 </div>
@@ -32,17 +48,14 @@ export default function Admin() {
                 </Routes>
             </div>
             <div className="sidebar">
-
             </div>
-            <div className="dialog">
-                <div className="dialog-block">
-                    <h2>Are you sure you want to logout?</h2>
+            <dialog className="dialog" ref={dialogRef}>
+                    <h2 className='dialog-title'>Are you sure you want to logout?</h2>
                     <div className="controls">
-                        <a href="#" className="button">Logout</a>
-                        <a data-dialog-action="cancel" href="#" className="button">Cancel</a>
+                        <button className="dialog-button logout" onClick={confirmLogout}>Logout</button>
+                        <button className="dialog-button cancel" onClick={cancelLogout}>Cancel</button>
                     </div>
-                </div>
-            </div>
+            </dialog>
         </div>
     )
 }
