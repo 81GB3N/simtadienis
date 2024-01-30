@@ -71,6 +71,8 @@ export default function Signup({ setUserExists, leave }) {
         }
 
         sendUserData(userData, "register").then((data) => console.log(data));
+        // userExists is changed to rerender hamburgerMenu, which is dependent on this state
+        // this causes an unecessary render of userProfile but oh well
         setUserExists(true);
     }
 

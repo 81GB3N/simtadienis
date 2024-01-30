@@ -49,9 +49,27 @@ export async function getAllUsers() {
 }
 
 export async function userExists(name, surname, type = 'main') {
-  const userData = await getUserData(name, surname, type);
-  if (typeof userData === 'undefined') return false;
-  const usersAmount = Object.keys(userData.result).length;
-  return usersAmount > 0 ? true : false;
+  try {
+    const userData = await getUserData(name, surname, type);
+    if (typeof userData === 'undefined') return false;
+    const usersAmount = Object.keys(userData.result).length;
+    return usersAmount > 0 ? true : false;
+  } catch (err) {
+    console.log("Error in userExists");
+    throw err;
+  }
+}
 
+export async function validatePassword(name, surname, password, type='main') {
+  try {
+    const response = await fetch(
+      `${baseUrl}/api/check-password?name=${name}&surname=${surname}&password=${password}&type=${type}`
+    );
+    if (!response.ok) throw new Error('Something went wrong');
+    const data = await response.json();
+    return data.result;
+  } catch (err) {
+    console.log("Error in validatePassword");
+    throw err;
+  }
 }
