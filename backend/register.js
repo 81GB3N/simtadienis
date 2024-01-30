@@ -31,12 +31,11 @@ registerForm.addEventListener("submit", async (e) => {
     name: name,
     surname: surname,
     password: password,
-    repeatPassword: repeatPassword,
     money: 0,
     admin: false
   };
 
-  if (!passwordMatch(userData.password, userData.repeatPassword)) {
+  if (!passwordMatch(userData.password, repeatPassword)) {
     difPasswords();
     return;
   }

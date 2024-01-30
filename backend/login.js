@@ -1,4 +1,4 @@
-import {getUserData, checkUserStatus} from "./getUserData.js";
+import {getUserData, checkUserStatus, confirmPassword} from "./getUserData.js";
 
 const loginForm = document.querySelector(".login-form");
 
@@ -13,8 +13,9 @@ function setUserLocalStorage(name, surname){
 
 async function UserInfo(name, surname, password){
   const type="main";
-  const info = await getUserData(name, surname, type);
-  return password === info.result[0].password ? true : false;
+  //function to see if the given password matches with the hashed in the db
+  const info = await confirmPassword(name, surname, password, type);
+  return info;
 }
 
 function userDoesntExist(){

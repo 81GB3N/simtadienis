@@ -1,5 +1,6 @@
 const { writeDocument, findUser, updateUser, retrieveDocument } = require("./db");
 const { encrypt } = require("./encryptPassword")
+const { checkPassword } = require("./checkUserPassword");
 
 const dotenv = require('dotenv');
 const express = require("express");
@@ -22,6 +23,13 @@ app.get("/api/getallusers", async (req, res) => {
 
 app.get("/api/getuser", async (req, res) => {
   const result = await findUser(req.query.name, req.query.surname, req.query.type);
+  res.json({ result });
+});
+
+//recieving user data to check for the password
+app.get("/api/check-password", async (req, res) => {
+  //accesing function in checkUserPassword.js 
+  const result = await checkPassword(req.query.name, req.query.surname, req.query.type, req.query.password);
   res.json({ result });
 });
 

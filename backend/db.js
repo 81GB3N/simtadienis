@@ -55,9 +55,11 @@ async function getCurrentMoney(name, surname, type) {
 const retrieveDocument = async () => {
   try {
     const collection = database.collection(main);
-    const query = {};
-    const cursor = collection.find(query);
+    const projection = { name: 1, surname: 1, money: 1, _id: 0};
+    
+    const cursor = collection.find({}).project(projection);
     const documents = await cursor.toArray();
+    
     return documents;
   } catch (error) {
     console.error(error);
@@ -84,11 +86,22 @@ const updateUser = async (updateMoney) => {
   }
 };
 
-const findUser = async (name, surname, type) => {
+const findUser = async (name, surname, type, getPassword) => {
   try {
+    // added getPassword variable to know when to call for password extraction and when for everything other
     const collection = database.collection(type);
     const query = { name: name, surname: surname };
-    const cursor = collection.find(query);
+    let cursor;
+    if(getPassword === undefined){
+      const projection = {name: 1, surname: 1, money: 1, _id: 0};
+      cursor = collection.find(query).project(projection);
+    }
+    else{
+      //get only the password for the requested user
+      cursor = collection.find(query);
+      const document = await cursor.toArray();
+      return document[0].password;
+    }
     const documents = await cursor.toArray();
     return documents;
   } catch (error) {
