@@ -1,10 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useUser } from '../../context/UserProvider';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 export default function UsersTable({ users }) {
     const { setUser } = useUser();
     const [focus, setFocus] = useState(null);
-    const [rowInfo, setRowInfo] = useState({});
+
+    const iterationStep = 10;
+    const [iteration, setIteration] = useState(1);
+    const [upperBound, setUpperBound] = useState(iterationStep * iteration);
+    const [lowerBound, setLowerBound] = useState(iterationStep * (iteration - 1));
 
     const handleHover = (index) => {
         console.log(index);
@@ -26,28 +33,70 @@ export default function UsersTable({ users }) {
         setFocus(null);
     }
 
+    useEffect(() => {
+        setUpperBound(iterationStep * iteration);
+        setLowerBound(iterationStep * (iteration - 1));
+    }, [iteration])
+
+    const iterateLeft = () => {
+        if (lowerBound - iterationStep >= 0) {
+            setIteration((iteration) => iteration - 1);
+            console.log(iteration);
+        }
+    }
+
+    const iterateRight = () => {
+        if (upperBound + iterationStep <= users.length) {
+            setIteration((iteration) => iteration + 1);
+            console.log(iteration);
+        }
+        else if(upperBound < users.length) {
+            console.log('last iteration');
+            setLowerBound(lowerBound + iterationStep);
+            setUpperBound(users.length);
+        }
+    }
+
     return (
-        <table className='user-table' onMouseLeave={handleLeave}>
-            <thead className='table__head'>
-                <tr>
-                    <th className='head-prop'>Name</th>
-                    <th className='head-prop'>Surname</th>
-                    <th className='head-prop'>Money</th>
-                </tr>
-            </thead>
-            <tbody className='table__body'
-            >
-                {users.map((user, index) => (
-                    <tr key={user.name}
-                        className={`body-row ${index === focus ? 'active' : ''}`}
-                        onMouseOver={() => handleHover(index)}>
-                        <td className='body-prop'>{user.name}</td>
-                        <td className='body-prop'>{user.surname}</td>
-                        <td className='body-prop'>{user.money}</td>
-                        <button className={`edit-button ${index === focus ? 'active' : ''}`} onClick={handleEdit}>Edit</button>
+        <div className='user-table-wrapper'>
+            <table className='user-table' onMouseLeave={handleLeave}>
+                <thead className='table__head'>
+                    <tr>
+                        <th className='head-prop'>Name</th>
+                        <th className='head-prop'>Surname</th>
+                        <th className='head-prop'>Money</th>
                     </tr>
-                ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody className='table__body'
+                >
+                    {!users ? (
+                        <h2> fetching user list...</h2>
+                    ) : (
+                        users.map((user, index) => {
+                            if (index < upperBound && index >= lowerBound)
+                                if(user)
+                                return (
+                                    <tr
+                                        // delete all duplicate users in db so that I can use this key
+                                        key={index}
+                                        className={`body-row ${index === focus ? 'active' : ''}`}
+                                        onMouseOver={() => handleHover(index)}>
+                                        <td className='body-prop'>{user.name}</td>
+                                        <td className='body-prop'>{user.surname}</td>
+                                        <td className='body-prop'>{user.money}</td>
+                                        <button className={`edit-button ${index === focus ? 'active' : ''}`} onClick={handleEdit}>Edit</button>
+                                    </tr>
+                                )
+                        })
+                    )
+                    }
+                </tbody>
+            </table>
+            <tr className='table-controls'>
+                <FontAwesomeIcon icon={faArrowLeft} className='table-arrow' onClick={iterateLeft} />
+                <p>{`${lowerBound} - ${upperBound}`}</p>
+                <FontAwesomeIcon icon={faArrowRight} className='table-arrow' onClick={iterateRight} />
+            </tr>
+        </div>
     );
 };

@@ -1,13 +1,25 @@
+// User Components
+import UserLookup from "./UserLookup";
 import UsersTable from "./UsersTable";
 import EditTable from "./EditTable";
+
+// Context
 import UserProvider from "../../context/UserProvider";
+
+import { getAllUsers } from '../../utils/api'
+
+import { useState, useEffect } from "react";
 
 export default function Users() {
 
-    const users = [
-        { name: 'John', surname: 'Doe', money: 100 },
-        { name: 'Jane', surname: 'Smith', money: 69 },
-    ];
+    const [allUsers, setAllUsers] = useState(null);
+    useEffect(() => {
+        getAllUsers().then(data => {
+            console.log('successfully retrieved all users')
+            console.log(data.result);
+            setAllUsers(data.result);
+        });
+    }, []);
 
     return (
         <div className="page">
@@ -16,8 +28,9 @@ export default function Users() {
             </div>
             <UserProvider>
             <div className='users'>
-                <UsersTable users={users} />
+                <UserLookup />
                 <EditTable />
+                <UsersTable users={allUsers} />
             </div>
             </UserProvider>
         </div>

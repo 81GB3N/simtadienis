@@ -86,7 +86,7 @@ body,
 }
 
 .page>.header {
-    height: 120px;
+    height: 80px;
     padding: 0 40px;
     box-sizing: border-box;
     font-size: xx-large;
@@ -194,6 +194,25 @@ body,
 
 .edit-button.active{
     display: block;
+}
+
+.table-controls{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--background-card);
+}
+
+.table-arrow{
+    font-size: 2rem;
+    color: var(--text-faded);
+    cursor: pointer;
+}
+.table-arrow:hover{
+    transform: scale(1.03);
+}
+.table-arrow:active{
+    color: var(--text-primary);
 }
 
 .edit{
