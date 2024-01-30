@@ -25,6 +25,7 @@ async function getMoneyAmount(){
 
 const type='main';
 
+//gets specifies user data
 const allData = await getUserData(userData.name, userData.surname, type);
 const data = await allData;
 return data.result[0].money;
@@ -32,6 +33,7 @@ return data.result[0].money;
 
 const history = document.querySelector('.history');
 
+//gets and displays this user history 
 async function getUserHistory(){
 
     const type='history';
