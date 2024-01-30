@@ -1,5 +1,5 @@
 // User Components
-import UserLookup from "./UserLookup";
+import NewUserLookup from "./UserLookup";
 import UsersTable from "./UsersTable";
 import EditTable from "./EditTable";
 
@@ -28,7 +28,7 @@ export default function Users() {
             </div>
             <UserProvider>
             <div className='users'>
-                <UserLookup />
+                <NewUserLookup users={allUsers}/>
                 <EditTable />
                 <UsersTable users={allUsers} />
             </div>

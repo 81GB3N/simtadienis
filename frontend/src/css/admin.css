@@ -17,14 +17,12 @@
 }
 
 html,
-body,
-#root {
+body {
     width: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Open Sans', sans-serif;
     color: var(--text-primary);
 }
 
@@ -32,6 +30,7 @@ body,
     display: flex;
     position: relative;
     justify-content: space-between;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .drawer {
@@ -135,7 +134,7 @@ body,
 }
 
 /* USERS */
-.users{
+.users {
     display: flex;
     align-items: flex-start;
     justify-content: space-around;
@@ -150,11 +149,11 @@ body,
     margin: 20px 0;
 }
 
-.table__head{
+.table__head {
     background: var(--background-card);
 }
 
-.table__body{
+.table__body {
     background: var(--background-secondary);
 }
 
@@ -164,7 +163,7 @@ body,
     text-align: left;
 }
 
-.body-row{
+.body-row {
     transition: all 0.22s ease;
 }
 
@@ -176,12 +175,12 @@ body,
     background: var(--background-secondary);
 } */
 
-.body-row.active{
+.body-row.active {
     background: var(--background-card);
     transform: translateX(-100px);
 }
 
-.edit-button{
+.edit-button {
     height: 36px;
     margin: 3px 5px;
     width: 90px;
@@ -192,41 +191,151 @@ body,
     border-radius: 0.5rem;
 }
 
-.edit-button.active{
+.edit-button.active {
     display: block;
 }
 
-.table-controls{
+.table-controls {
     display: flex;
     justify-content: space-around;
     align-items: center;
     background-color: var(--background-card);
 }
 
-.table-arrow{
+.table-arrow {
     font-size: 2rem;
     color: var(--text-faded);
     cursor: pointer;
 }
-.table-arrow:hover{
+
+.table-arrow:hover {
     transform: scale(1.03);
 }
-.table-arrow:active{
+
+.table-arrow:active {
     color: var(--text-primary);
 }
 
-.edit{
-    flex-grow: 1;
+.edit {
+    flex-grow: 2;
     max-width: 400px;
+    min-width: 200px;
     background-color: var(--background-secondary);
     padding-top: 2rem;
     height: 300px;
 }
-.edit__header{
+
+.edit__header {
     display: flex;
     justify-content: space-around;
 }
 
+.edit__name{
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.edit__info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem;
+
+}
+
+/* user lookup */
+.user-lookup {
+    flex-grow: 1;
+    min-width: 200px;
+    max-width: 300px;
+}
+
+.react-autosuggest__container {
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+
+.react-autosuggest__input {
+    display: block;
+    width: 100%;
+    height: 4em;
+    padding: 1em 1.5em;
+    box-sizing: border-box;
+    font-size: 1em;
+    border: 2px solid #aaa;
+    border-radius: 1em;
+    outline: none;
+    transition: border-radius 250ms ease;
+    background: unset;
+    color: var(--text-primary)
+}
+
+.react-autosuggest__input:focus {
+    outline: none;
+    border: 2px solid var(--accent-primary);
+}
+
+.react-autosuggest__container--open .react-autosuggest__input {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: 0;
+}
+
+.react-autosuggest__suggestion--highlighted {
+    background: var(--background-card);
+}
+
+.react-autosuggest__suggestions-container {
+    width: 100%;
+    visibility: hidden;
+    will-change: opacity;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 200ms ease;
+    max-height: 400px;
+}
+
+.react-autosuggest__container--open .react-autosuggest__suggestions-container {
+    display: block;
+    position: absolute;
+    top: 4em;
+    width: 100%;
+    visibility: visible;
+    opacity: 1;
+    box-sizing: border-box;
+    border-radius:0 0 1em 1em;
+    border: 2px solid var(--accent-primary);
+    border-top: 0;
+}
+
+
+.react-autosuggest__container--open .react-autosuggest__suggestions-container .suggestion {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.react-autosuggest__container--open .react-autosuggest__suggestions-container .username {
+    font-size: 0.7em;
+    padding: 0.25em 0.5em;
+    box-sizing: border-box;
+    /* background: #ccc; */
+    background: red;
+    /* color: white; */
+    color: red;
+    margin-right: 1em;
+    z-index: 100;
+}
+
+.react-autosuggest__suggestion {
+    cursor: default;
+    box-sizing: border-box;
+    padding: 1em 1.5em;
+}
 
 /* DIALOG */
 .dialog {
@@ -245,32 +354,39 @@ body,
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     display: none;
 }
-.dialog.active{
+
+.dialog.active {
     display: flex;
 }
-.dialog-title{
+
+.dialog-title {
     padding: 1rem;
     text-align: center;
     color: var(--text-primary);
     font-size: x-large;
 }
-.controls{
+
+.controls {
     display: flex;
     justify-content: flex-end;
     gap: 2rem;
     padding-right: 2rem;
     padding-bottom: 3rem;
 }
-.dialog-button{
+
+.dialog-button {
     padding: 0.5rem 1rem;
     font-size: large;
 }
-.dialog-button:hover{
+
+.dialog-button:hover {
     background-color: var(--background-secondary);
 }
-.dialog-button.logout{
-    color:var(--text-primary);
+
+.dialog-button.logout {
+    color: var(--text-primary);
 }
-.dialog-button.cancel{
+
+.dialog-button.cancel {
     color: var(--text-faded);
 }
