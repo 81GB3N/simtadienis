@@ -13,5 +13,6 @@
     "name": "Vardas",
     "surname": "Pavardė",
     "password": "Slaptažodis",
-    "repeat.password": "Pakartokite slaptažodį"
+    "repeat.password": "Pakartokite slaptažodį",
+    "back": "Atgal"
 }

@@ -1,14 +1,16 @@
+// Landing page components
 import HeroTicket from "../components/HeroTicket"
-// import {ReactComponent as Frame} from "../components/Hand-Drawn-Ornamental-Frame.svg"
+import Header from "../components/Header"
 
 export default function LandingPage() {
     return (
-        <div className="landing">
-            <HeroTicket />
-            <div className="content">
-                {/* <Frame className='svg'/> */}
-
+        <>
+            <Header />
+            <div className="landing">
+                <HeroTicket />
+                <div className="content">
+                </div>
             </div>
-        </div>
+        </>
     )
 }

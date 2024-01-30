@@ -5,7 +5,6 @@ import English from '../languages/en.json';
 import Lithuanian from '../languages/lt.json';
 
 const LanguageContext = React.createContext();
-
 export const useLanguage = () => {
     const context = useContext(LanguageContext);
     if (!context) {
