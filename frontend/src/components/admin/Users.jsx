@@ -1,19 +1,25 @@
 import UsersTable from "./UsersTable";
+import EditTable from "./EditTable";
+import UserProvider from "../../context/UserProvider";
 
 export default function Users() {
 
     const users = [
         { name: 'John', surname: 'Doe', money: 100 },
-        { name: 'Jane', surname: 'Smith', money:69 },
-      ];
-
+        { name: 'Jane', surname: 'Smith', money: 69 },
+    ];
 
     return (
-        <div className="page" data-page="users">
+        <div className="page">
             <div className="header">
-                    <h2>Users</h2>
+                <h2>Users</h2>
             </div>
-            <UsersTable users={users} />
+            <UserProvider>
+            <div className='users'>
+                <UsersTable users={users} />
+                <EditTable />
+            </div>
+            </UserProvider>
         </div>
     )
 }

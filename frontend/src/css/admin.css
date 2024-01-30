@@ -135,9 +135,17 @@ body,
 }
 
 /* USERS */
+.users{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    gap: 3rem;
+}
+
 .user-table {
     overflow: hidden;
     width: 500px;
+    max-height: min-content;
     border-collapse: collapse;
     margin: 20px 0;
 }
@@ -183,11 +191,25 @@ body,
     display: none;
     border-radius: 0.5rem;
 }
+
 .edit-button.active{
     display: block;
 }
 
-/* MODAL */
+.edit{
+    flex-grow: 1;
+    max-width: 400px;
+    background-color: var(--background-secondary);
+    padding-top: 2rem;
+    height: 300px;
+}
+.edit__header{
+    display: flex;
+    justify-content: space-around;
+}
+
+
+/* DIALOG */
 .dialog {
     flex-direction: column;
     justify-content: space-between;

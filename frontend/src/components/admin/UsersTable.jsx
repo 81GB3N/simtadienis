@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { useUser } from '../../context/UserProvider';
 
 export default function UsersTable({ users }) {
-
+    const { setUser } = useUser();
     const [focus, setFocus] = useState(null);
     const [rowInfo, setRowInfo] = useState({});
 
@@ -11,7 +12,13 @@ export default function UsersTable({ users }) {
     }
 
     const handleEdit = (e) => {
-        
+        console.log('edit');
+        console.log(e.target.parentElement);
+        const name = e.target.parentElement.children[0].innerText;
+        const surname = e.target.parentElement.children[1].innerText;
+        const money = e.target.parentElement.children[2].innerText;
+        const user = { name, surname, money };
+        setUser(user);
     }
 
     const handleLeave = (e) => {
