@@ -7,8 +7,7 @@ const getSuggestions = (value, users) => {
     const inputLength = inputValue.length;
 
     return inputLength === 0 ? [] : users.filter(user =>
-        user.name.toLowerCase().slice(0, inputLength) === inputValue ||
-        user.surname.toLowerCase().slice(0, inputLength) === inputValue
+        (user.name + ' ' + user.surname).toLowerCase().slice(0, inputLength) === inputValue
     );
 }
 

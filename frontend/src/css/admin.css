@@ -1,19 +1,19 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700');
 
 :root {
-    --drawer: #16191C;
-    --text-primary: #FFFFFF;
-    --text-secondary: #86909A;
-    --text-faded: #C3C5C7;
-    --background-primary: #22272B;
-    --background-secondary: #374148;
-    --background-secondary-faded: rgba(55, 65, 72, 0.5);
-    --background-card: #2C343A;
-    --accent-primary: rgba(54, 80, 209, 1);
-    --accent-primary-faded: rgba(54, 80, 209, 0.5);
-    --accent-primary-transparent: rgba(54, 80, 209, 0);
-    --status-red: #EF4836;
-    --status-green: #36D744;
+    --admin-drawer: #16191C;
+    --admin-text-primary: #FFFFFF;
+    --admin-text-secondary: #86909A;
+    --admin-text-faded: #C3C5C7;
+    --admin-background-primary: #22272B;
+    --admin-background-secondary: #374148;
+    --admin-background-secondary-faded: rgba(55, 65, 72, 0.5);
+    --admin-background-card: #2C343A;
+    --admin-accent-primary: rgba(54, 80, 209, 1);
+    --admin-accent-primary-faded: rgba(54, 80, 209, 0.5);
+    --admin-accent-primary-transparent: rgba(54, 80, 209, 0);
+    --admin-status-red: #EF4836;
+    --admin-status-green: #36D744;
 }
 
 html,
@@ -23,7 +23,6 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    color: var(--text-primary);
 }
 
 .container {
@@ -31,13 +30,14 @@ body {
     position: relative;
     justify-content: space-between;
     font-family: 'Open Sans', sans-serif;
+    color: var(--admin-text-primary);
 }
 
 .drawer {
     display: flex;
     height: 100%;
     width: 100px;
-    background: var(--drawer);
+    background: var(--admin-drawer);
     box-shadow: 1px 0px 3px rgba(0, 0, 0, 0.16), 1px 0px 3px rgba(0, 0, 0, 0.23);
     align-items: center;
 }
@@ -48,7 +48,7 @@ body {
     height: 100px;
     line-height: 100px;
     text-align: center;
-    color: var(--text-primary);
+    color: var(--admin-text-primary);
     font-size: 40px;
     opacity: 0.6;
     box-sizing: border-box;
@@ -71,7 +71,7 @@ body {
     width: min-content;
     height: 100%;
     flex-grow: 1;
-    background: var(--background-primary);
+    background: var(--admin-background-primary);
     box-sizing: border-box;
     z-index: 1;
 }
@@ -113,7 +113,7 @@ body {
     position: relative;
     height: 480px;
     width: 350px;
-    background: var(--background-card);
+    background: var(--admin-background-card);
     border-radius: 4px;
     box-sizing: border-box;
     padding: 0 20px;
@@ -150,11 +150,11 @@ body {
 }
 
 .table__head {
-    background: var(--background-card);
+    background: var(--admin-background-card);
 }
 
 .table__body {
-    background: var(--background-secondary);
+    background: var(--admin-background-secondary);
 }
 
 .head-prop,
@@ -168,15 +168,15 @@ body {
 }
 
 /* .body-row:nth-child(even){
-    background: var(--background-secondary-faded);
+    background: var(--admin-background-secondary-faded);
 }
 
 .body-row:nth-child(odd){
-    background: var(--background-secondary);
+    background: var(--admin-background-secondary);
 } */
 
 .body-row.active {
-    background: var(--background-card);
+    background: var(--admin-background-card);
     transform: translateX(-100px);
 }
 
@@ -185,7 +185,7 @@ body {
     margin: 3px 5px;
     width: 90px;
     text-align: center;
-    background-color: var(--accent-primary);
+    background-color: var(--admin-accent-primary);
     position: absolute;
     display: none;
     border-radius: 0.5rem;
@@ -199,12 +199,12 @@ body {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: var(--background-card);
+    background-color: var(--admin-background-card);
 }
 
 .table-arrow {
     font-size: 2rem;
-    color: var(--text-faded);
+    color: var(--admin-text-faded);
     cursor: pointer;
 }
 
@@ -213,14 +213,14 @@ body {
 }
 
 .table-arrow:active {
-    color: var(--text-primary);
+    color: var(--admin-text-primary);
 }
 
 .edit {
     flex-grow: 2;
     max-width: 400px;
     min-width: 200px;
-    background-color: var(--background-secondary);
+    background-color: var(--admin-background-secondary);
     padding-top: 2rem;
     height: 300px;
 }
@@ -233,7 +233,7 @@ body {
 .edit__name{
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--admin-text-primary);
 }
 
 .edit__info{
@@ -270,12 +270,12 @@ body {
     outline: none;
     transition: border-radius 250ms ease;
     background: unset;
-    color: var(--text-primary)
+    color: var(--admin-text-primary)
 }
 
 .react-autosuggest__input:focus {
     outline: none;
-    border: 2px solid var(--accent-primary);
+    border: 2px solid var(--admin-accent-primary);
 }
 
 .react-autosuggest__container--open .react-autosuggest__input {
@@ -285,7 +285,7 @@ body {
 }
 
 .react-autosuggest__suggestion--highlighted {
-    background: var(--background-card);
+    background: var(--admin-background-card);
 }
 
 .react-autosuggest__suggestions-container {
@@ -308,7 +308,7 @@ body {
     opacity: 1;
     box-sizing: border-box;
     border-radius:0 0 1em 1em;
-    border: 2px solid var(--accent-primary);
+    border: 2px solid var(--admin-accent-primary);
     border-top: 0;
 }
 
@@ -347,10 +347,10 @@ body {
     width: 500px;
     height: 500px;
     transform: translate(-50%, -50%);
-    background: var(--background-card);
+    background: var(--admin-background-card);
     z-index: 100;
     border: unset;
-    border-top: 1px solid var(--accent-primary);
+    border-top: 1px solid var(--admin-accent-primary);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     display: none;
 }
@@ -362,7 +362,7 @@ body {
 .dialog-title {
     padding: 1rem;
     text-align: center;
-    color: var(--text-primary);
+    color: var(--admin-text-primary);
     font-size: x-large;
 }
 
@@ -380,13 +380,13 @@ body {
 }
 
 .dialog-button:hover {
-    background-color: var(--background-secondary);
+    background-color: var(--admin-background-secondary);
 }
 
 .dialog-button.logout {
-    color: var(--text-primary);
+    color: var(--admin-text-primary);
 }
 
 .dialog-button.cancel {
-    color: var(--text-faded);
+    color: var(--admin-text-faded);
 }
