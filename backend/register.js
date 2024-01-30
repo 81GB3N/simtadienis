@@ -42,6 +42,7 @@ registerForm.addEventListener("submit", async (e) => {
 
   const type="main";
 
+  //check if user exists
   if (await checkUserStatus(name, surname, type)) {
     userExists();
     return;

@@ -6,6 +6,8 @@ dotenv.config();
 const uri = process.env.URI;
 const main = "main";
 
+
+//get client configuration
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -17,6 +19,7 @@ const client = new MongoClient(uri, {
 
 const database = client.db("my-test-db");
 
+//test connection to db
 async function connect() {
   try {
     await client.connect();
@@ -32,11 +35,12 @@ async function connect() {
 
 connect();
 
+//write the given data to the specifies collection
 const writeDocument = async (registerData) => {
   try {
     let collection;
     if (registerData.history === undefined) {
-      collection = database.collection("main");
+      collection = database.collection(main);
     } else {
       collection = database.collection("history");
     }
@@ -47,16 +51,18 @@ const writeDocument = async (registerData) => {
   }
 };
 
+//find the given user money in the history collection
 async function getCurrentMoney(name, surname, type) {
   const user = await findUser(name, surname, type);
   return Number(user[0].money);
 }
 
+//get all the data requested for all the users
 const retrieveDocument = async () => {
   try {
     const collection = database.collection(main);
     const projection = { name: 1, surname: 1, money: 1, _id: 0};
-    
+    //find collection collums
     const cursor = collection.find({}).project(projection);
     const documents = await cursor.toArray();
     
@@ -66,6 +72,7 @@ const retrieveDocument = async () => {
   }
 };
 
+//update the given user with the given information
 const updateUser = async (updateMoney) => {
   try {
     const collection = database.collection(main);
@@ -75,6 +82,7 @@ const updateUser = async (updateMoney) => {
       main
     );
 
+    //update the users current money
     const result = await collection.updateOne(
       { name: updateMoney.name, surname: updateMoney.surname },
       { $set: { money: currentMoney + Number(updateMoney.money) } }
@@ -86,6 +94,7 @@ const updateUser = async (updateMoney) => {
   }
 };
 
+//find user and its info on the given data
 const findUser = async (name, surname, type, getPassword) => {
   try {
     // added getPassword variable to know when to call for password extraction and when for everything other
@@ -109,11 +118,13 @@ const findUser = async (name, surname, type, getPassword) => {
   }
 };
 
+//close program after use
 process.on("SIGINT", async () => {
   await client.close();
   process.exit();
 });
 
+//export used modules
 module.exports = {
   writeDocument,
   findUser,
