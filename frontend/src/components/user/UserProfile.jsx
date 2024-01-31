@@ -3,6 +3,8 @@ import { getUserData } from "../../utils/api";
 import { useState, useEffect } from "react";
 
 export default function UserProfile({ userData, setUserExists }) {
+    console.log("in user: ", userData);
+
     const { toggleMenu } = useMenu();
     const [moneyAmount, setMoneyAmount] = useState(0);
 
