@@ -11,15 +11,21 @@ import { getAllUsers } from '../../utils/api'
 import { useState, useEffect } from "react";
 
 export default function Users() {
-
     const [allUsers, setAllUsers] = useState(null);
+    const [refresh, setRefresh] = useState(false);
+
+    const refreshUsers = () => {
+        console.log('refreshing')
+        setRefresh(!refresh);
+    }
+
     useEffect(() => {
         getAllUsers().then(data => {
             console.log('successfully retrieved all users')
             console.log(data.result);
             setAllUsers(data.result);
         });
-    }, []);
+    }, [refresh]);
 
     return (
         <div className="page">
@@ -29,7 +35,7 @@ export default function Users() {
             <UserProvider>
             <div className='users'>
                 <NewUserLookup users={allUsers}/>
-                <EditTable />
+                <EditTable refreshUsers={refreshUsers}/>
                 <UsersTable users={allUsers} />
             </div>
             </UserProvider>

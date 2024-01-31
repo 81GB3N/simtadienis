@@ -15,7 +15,7 @@ export default function Login({ setUserExists, leave }) {
     const [errMsg, setErrMsg] = useState("");
 
     function setUserLocalStorage(name, surname) {
-        const user = { name: name, surname: surname, admin: false };
+        const user = { name: name, surname: surname };
         localStorage.setItem("user", JSON.stringify(user));
     }
 

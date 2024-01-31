@@ -3,6 +3,7 @@ const baseUrl = window.location.hostname === 'localhost' ? `http://localhost:${p
 
 export async function sendUserData(userData, page) {
   try {
+    console.log('sending from: ', page)
     const response = await fetch(`${baseUrl}/api/${page}`, {
       method: "POST",
       headers: {
@@ -10,7 +11,9 @@ export async function sendUserData(userData, page) {
       },
       body: JSON.stringify(userData),
     })
-    if (!response.ok) throw new Error('Something went wrong')
+    // TODO: Think on where to handle errors? 
+    // Currently erros in addmoney are propogated to the component
+    // if (!response.ok) throw new Error('Something went wrong')
     const responseBody = await response.json();
     return responseBody;
   }
@@ -60,7 +63,7 @@ export async function userExists(name, surname, type = 'main') {
   }
 }
 
-export async function validatePassword(name, surname, password, type='main') {
+export async function validatePassword(name, surname, password, type = 'main') {
   try {
     const response = await fetch(
       `${baseUrl}/api/check-password?name=${name}&surname=${surname}&password=${password}&type=${type}`
