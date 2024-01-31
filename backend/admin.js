@@ -1,4 +1,5 @@
 import { checkUserStatus, sendUserData, getAllUsers } from "./getUserData.js";
+import { loadLeaderboard } from "./leaderboard.js";
 
 const adminSubmit = document.querySelector(".admin-form");
 const user = document.querySelector(".username");
@@ -30,7 +31,7 @@ function userDoesntExist(){
 
 const fullName = document.querySelector("#full-name");
 
-fullName.addEventListener('input', displayUsers);
+// fullName.addEventListener('input', displayUsers);
 
 function getFullName(){
     return fullName.textContent.toLowerCase();  
@@ -72,4 +73,5 @@ function getFullName(){
         history: true
     }
     sendUserData(history, "write-history");
+    // loadLeaderboard();
 })
