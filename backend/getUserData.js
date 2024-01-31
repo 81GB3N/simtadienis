@@ -58,10 +58,26 @@ export async function getAllUsers(){
   return data;
 }
 
-
 //checks if the user exists
 export async function checkUserStatus(name, surname, type) {
-  const data = await getUserData(name, surname, type);
-  const usersAmount = Object.keys(data.result).length;
-  return usersAmount > 0 ? true : false;
+  const userData = {
+    name: name,
+    surname: surname,
+    type: type,
+  }
+  const response = await fetch(`${baseUrl}/api/check-status`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userData),
+  });
+  const data = await response.json();
+  return data;
 }
+
+// export async function checkUserStatus(name, surname, type) {
+//   const data = await getUserData(name, surname, type);
+//   const usersAmount = Object.keys(data.result).length;
+//   return usersAmount > 0 ? true : false;
+// }
