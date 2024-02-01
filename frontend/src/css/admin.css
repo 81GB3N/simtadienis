@@ -400,3 +400,44 @@ body {
 .dialog-button.cancel {
     color: var(--admin-text-faded);
 }
+
+/* Admin Login */
+.admin-login-container{
+    position: absolute;
+    z-index: 1000;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--admin-background-primary);
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 0 auto;
+}
+.admin-login-title{
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--admin-text-primary);
+    text-align: center;
+    padding: 1rem;
+}
+
+.admin-login{
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 2rem;
+    max-height: 300px;
+    align-items: center;
+}
+
+.take-space{    
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.admin-login-pass{
+    display: flex;
+    flex-direction: column;
+}

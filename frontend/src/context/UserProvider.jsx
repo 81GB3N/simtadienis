@@ -12,8 +12,14 @@ export const useUser = () => {
 
 export default function UserProvider({ children }) {
     const [user, setUser] = useState({});
+    const [refresh, setRefresh] = useState(false);
+
+    const refreshUsers = () => {
+        setRefresh(!refresh);
+    }
+
     return (
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ user, setUser, refresh, refreshUsers }}>
             {children}
         </UserContext.Provider>
     );

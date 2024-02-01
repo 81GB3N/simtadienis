@@ -50,7 +50,6 @@ export async function getUserData(name, surname, type = "main") {
 
 //sending user data to check if the suplied password matches with the required
 export async function validatePassword(name, surname, password, type = "main") {
-
   try {
     const userData = {
       name: name,

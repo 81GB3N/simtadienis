@@ -19,12 +19,6 @@ export default function Login({ setUserExists, leave }) {
         localStorage.setItem("user", JSON.stringify(user));
     }
 
-    // async function infoIsCorrect(name, surname, password) {
-    //     const info = await getUserData(name, surname);
-    //     return password === info?.result[0]?.password ? true : false;
-    // }
-
-    
     useEffect(() => {
         nameRef.current.focus();
     }, [])
