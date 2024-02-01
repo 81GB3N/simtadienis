@@ -75,9 +75,3 @@ export async function checkUserStatus(name, surname, type) {
   const data = await response.json();
   return data;
 }
-
-// export async function checkUserStatus(name, surname, type) {
-//   const data = await getUserData(name, surname, type);
-//   const usersAmount = Object.keys(data.result).length;
-//   return usersAmount > 0 ? true : false;
-// }

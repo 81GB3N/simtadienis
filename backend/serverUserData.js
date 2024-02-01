@@ -50,10 +50,10 @@ app.post("/api/check-password", async (req, res) => {
 app.post("/api/check-status", async (req, res) => {
   try {
     const body = req.body;
-    const result = await findUser(body.name, body.surname, body.type, body.password);
-    console.log(result);
-    result ? console.log(true) : console.log(false);
-    result ? res.json(true) : res.json(false);
+    const result = await findUser(body.name, body.surname, body.type);
+    // console.log(result);
+    // result ? console.log(true) : console.log(false);
+    result[0] ? res.json(true) : res.json(false);
   } catch (error) {
     console.error("Error in check-password route:", error);
     res.status(500).json({ error: "Internal Server Error" });
