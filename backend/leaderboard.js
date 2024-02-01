@@ -1,6 +1,5 @@
 import { getAllUsers } from "./getUserData.js";
 
-const leaderboard = document.querySelector(".leaderboard");
 
 async function all() {
   //get all user data
@@ -8,11 +7,17 @@ async function all() {
   return allUsers.result;
 }
 
-const allUsers = await all();
-allUsers.sort((a, b) => b.money - a.money);
+document.addEventListener('DOMContentLoaded', async function() {
+  await loadLeaderboard();
+});
 
-let cnt = 0;
-leaderboard.innerHTML = ``;
+export async function loadLeaderboard(){
+  
+  const allUsers = await all();
+  allUsers.sort((a, b) => b.money - a.money);
+  
+  let cnt = 0;
+  const leaderboard = document.querySelector(".leaderboard");
 //display all user data in leaderboard
   for (let x in allUsers) {
     if (!allUsers[x].admin) {
@@ -21,3 +26,6 @@ leaderboard.innerHTML = ``;
       cnt++;
     }
   }
+}
+
+loadLeaderboard();

@@ -18,21 +18,46 @@ const userData = {};
 
 //gets all user information without password
 app.get("/api/getallusers", async (req, res) => {
-  const result = await retrieveDocument();
-  res.json({ result });
-});
-
-//gets user information specifies without password
-app.get("/api/getuser", async (req, res) => {
-  const result = await findUser(req.query.name, req.query.surname, req.query.type);
-  res.json({ result });
+    const result = await retrieveDocument();
+    res.json({ result });
+  });
+    
+    //gets user information specifies without password
+app.post("/api/getuser", async (req, res) => {
+  try {
+    const body = req.body;
+    const result = await findUser(body.name, body.surname, body.type);
+    res.json({ result });
+  } catch (error) {
+    console.error("Error in find user route:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 //recieving user data to check for the password
-app.get("/api/check-password", async (req, res) => {
-  //accesing function in checkUserPassword.js 
-  const result = await checkPassword(req.query.name, req.query.surname, req.query.type, req.query.password);
-  res.json({ result });
+app.post("/api/check-password", async (req, res) => {
+  try {
+    const body = req.body;
+    const result = await checkPassword(body.name, body.surname, body.type, body.password);
+    // console.log(result);
+    res.json({ result });
+  } catch (error) {
+    console.error("Error in check-password route:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.post("/api/check-status", async (req, res) => {
+  try {
+    const body = req.body;
+    const result = await findUser(body.name, body.surname, body.type, body.password);
+    console.log(result);
+    result ? console.log(true) : console.log(false);
+    result ? res.json(true) : res.json(false);
+  } catch (error) {
+    console.error("Error in check-password route:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 //writes user data by registering 
@@ -40,7 +65,9 @@ app.post("/api/register", async (req, res) => {
   userData.register = req.body;
   userData.register.password = await encrypt(userData.register.password);
   writeDocument(userData.register);
+  res.json({ message: "Registration successful" });
 });
+
 
 //writes user history to history collection
 app.post("/api/write-history", (req, res) => {

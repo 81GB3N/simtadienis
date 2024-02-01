@@ -5,7 +5,7 @@ const baseUrl = window.location.hostname === 'localhost' ? `http://localhost:${p
 
 //send the user data to the specific page
 export async function sendUserData(userData, page) {
-  await fetch(`${baseUrl}/api/${page}`, {
+  await fetch(`${baseUrl}/api/${encodeURI(page)}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -16,18 +16,37 @@ export async function sendUserData(userData, page) {
 
 //get specific user data: name, surname, money
 export async function getUserData(name, surname, type) {
-  const response = await fetch(
-    `${baseUrl}/api/getuser?name=${name}&surname=${surname}&type=${type}`
-  );
+  const userData = {
+    name: name,
+    surname: surname,
+    type: type,
+  }
+  const response = await fetch(`${baseUrl}/api/getuser`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userData),
+  });
   const data = await response.json();
   return data;
 }
 
 //sending user data to check if the suplied password matches with the required
-export async function confirmPassword(name, surname, password, type){
-  const response = await fetch(
-    `${baseUrl}/api/check-password?name=${name}&surname=${surname}&password=${password}&type=${type}`
-  );
+export async function confirmPassword(name, surname, password, type) {
+  const userData = {
+    name: name,
+    surname: surname,
+    password: password,
+    type: type,
+  }
+  const response = await fetch(`${baseUrl}/api/check-password`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userData),
+  });
   const data = await response.json();
   return data;
 }
@@ -39,10 +58,26 @@ export async function getAllUsers(){
   return data;
 }
 
-
 //checks if the user exists
 export async function checkUserStatus(name, surname, type) {
-  const data = await getUserData(name, surname, type);
-  const usersAmount = Object.keys(data.result).length;
-  return usersAmount > 0 ? true : false;
+  const userData = {
+    name: name,
+    surname: surname,
+    type: type,
+  }
+  const response = await fetch(`${baseUrl}/api/check-status`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userData),
+  });
+  const data = await response.json();
+  return data;
 }
+
+// export async function checkUserStatus(name, surname, type) {
+//   const data = await getUserData(name, surname, type);
+//   const usersAmount = Object.keys(data.result).length;
+//   return usersAmount > 0 ? true : false;
+// }
