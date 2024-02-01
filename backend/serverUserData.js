@@ -18,11 +18,11 @@ const userData = {};
 
 //gets all user information without password
 app.get("/api/getallusers", async (req, res) => {
-    const result = await retrieveDocument();
-    res.json({ result });
-  });
+  const result = await retrieveDocument();
+  res.json({ result });
+});
 
-  //gets user information specifies without password
+//gets user information specifies without password
 app.get("/api/getuser", async (req, res) => {
   const result = await findUser(req.query.name, req.query.surname, req.query.type);
   res.json({ result });
@@ -44,15 +44,36 @@ app.post("/api/register", async (req, res) => {
 
 //writes user history to history collection
 app.post("/api/write-history", (req, res) => {
-  userData.history = req.body; 
+  userData.history = req.body;
   writeDocument(userData.history);
 });
 
 //uodates user money
 app.post("/api/addmoney", (req, res) => {
-    userData.money = req.body; 
-    updateUser(userData.money);
-  });
+  const moneyValue = req.body.money;
+
+  if (!moneyValue || isNaN(moneyValue)) {
+    res.status(400).json({
+      success: false,
+      message: 'Invalid money format'
+    })
+  }
+
+  userData.money = req.body;
+
+
+  updateUser(userData.money).then(() => {
+    res.status(200).json({
+      success: true,
+      message: 'Money added successfully!'
+    })
+  }).catch(err => {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error."
+    });
+  })
+});
 
 
 app.listen(port, () => {

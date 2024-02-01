@@ -1,35 +1,90 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useUser } from "../../context/UserProvider";
 import { useEffect, useState } from "react";
+import { sendUserData } from "../../utils/api";
 
-export default function EditTable() {
+export default function EditTable({ refreshUsers }) {
     const { user } = useUser();
     const [selected, setSelected] = useState(false);
-
+    const [submitStatus, setSubmitStatus] = useState('');
+    const [errorMsg, setErrorMsg] = useState('');
+    // kind of hacky, but I dont want to figure out how to update the UserProvider toolbar
+    // so Ill just stick with this for now
+    const [userMoney, setUserMoney] = useState(null)
+    
     useEffect(() => {
         setSelected(Object.keys(user).length !== 0);
+        setUserMoney(Number(user.money))
     }, [user])
+
+    function handleMoneySubmit(e) {
+        e.preventDefault();
+        console.log("submitting")
+        const amount = Number(e.target.amount.value);
+        const userData = {
+            name: user.name,
+            surname: user.surname,
+            money: amount,
+        }
+        setUserMoney(current=>current+amount);
+        console.log('sending..');
+        sendUserData(userData, "addmoney").then((res) => {
+            console.log('success: ', res);
+            setSubmitStatus('success');
+            setErrorMsg('');
+            refreshUsers();
+            setTimeout(() => {
+                setSubmitStatus('');
+            }, 300)
+        }).catch(err => {
+            console.log(err);
+            setSubmitStatus('error');
+            setErrorMsg(err.message);
+            setTimeout(() => {
+                setSubmitStatus('');
+                setErrorMsg('');
+            }, 3000)
+        })
+    }
 
     return (
         <div className="edit">
             <div className="edit__header">
                 <FontAwesomeIcon className='edit-icon' icon={faUser} />
                 <p className="edit__name">
-                    {selected ? user.name : 'No user selected' }
+                    {selected ? `${user.name} ${user.surname}` : 'No user selected'}
                 </p>
-                <FontAwesomeIcon className='edit-icon' icon={faXmark} />
             </div>
             {selected ? (
                 <div className="edit__info">
-                    <p className="info-name">
-                        {user.name} {user.surname}
-                    </p>
-                    <p className="info-money">
-                        {user.money}
-                    </p>
+                    <form className="edit-money edit-form" onSubmit={handleMoneySubmit}>
+                        <div className="edit-info">
+                            <label className='money-amount' htmlFor="amount">Amount</label>
+                            <p className="money-current">{userMoney}</p>
+                            <p className="submit-status">
+                                <div className={`edit-success edit-status ${submitStatus === 'success' ? 'active' : ''}`}>
+                                    <FontAwesomeIcon
+                                        className={`submit-sucess`}
+                                        icon={faCheck} />
+                                    <p className={`sucess-msg`}>Success!</p>
+                                </div>
+                                <div className={`edit-error edit-status  ${submitStatus === 'error' ? 'active' : ''}`}>
+                                    <FontAwesomeIcon
+                                        className={`submit-error`}
+                                        icon={faXmark} />
+                                    <p className={`error-msg`}>{errorMsg}</p>
+                                </div>
+                            </p>
+                        </div>
+
+                        <div className="edit-controls">
+                            <input className="money-input" type="number" id="amount" name="amount" />
+                            <button className="money-submit" type="submit">Submit Change</button>
+                        </div>
+                    </form>
                 </div>
-            ) : (<p>Select a user to edit</p>)}
+            ) : (<p className="edit-placeholder">Select a user to edit</p>)}
         </div>
     )
 }

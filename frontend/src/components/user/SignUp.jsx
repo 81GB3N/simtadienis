@@ -59,8 +59,7 @@ export default function Signup({ setUserExists, leave }) {
             name: name,
             surname: surname,
             password: password,
-            money: 0,
-            admin: false
+            money: 0
         };
 
         // #TODO, check additionally if submit button was enabled via console
@@ -70,7 +69,7 @@ export default function Signup({ setUserExists, leave }) {
             return;
         }
 
-        sendUserData(userData, "register").then((data) => console.log(data));
+        sendUserData(userData, "register").then((data) => console.log("signup: ", data));
         // userExists is changed to rerender hamburgerMenu, which is dependent on this state
         // this causes an unecessary render of userProfile but oh well
         setUserExists(true);

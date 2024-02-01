@@ -49,15 +49,21 @@ export default function UserLookup({ users }) {
 
     return (
         <div className='user-lookup'>
-            <Autosuggest
-                suggestions={suggestions}
-                onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-                onSuggestionsClearRequested={onSuggestionsClearRequested}
-                onSuggestionSelected={(event, { suggestion }) => setUser(suggestion)}
-                getSuggestionValue={getSuggestionValue}
-                renderSuggestion={renderSuggestion}
-                inputProps={inputProps}
-            />
+            {
+                !users ? (
+                    <p>fetching user list...</p>
+                ) : (
+                    <Autosuggest
+                        suggestions={suggestions}
+                        onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                        onSuggestionsClearRequested={onSuggestionsClearRequested}
+                        onSuggestionSelected={(event, { suggestion }) => setUser(suggestion)}
+                        getSuggestionValue={getSuggestionValue}
+                        renderSuggestion={renderSuggestion}
+                        inputProps={inputProps}
+                    />
+                )
+            }
         </div>
     )
 }

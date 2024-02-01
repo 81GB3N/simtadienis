@@ -217,9 +217,7 @@ body {
 }
 
 .edit {
-    flex-grow: 2;
-    max-width: 400px;
-    min-width: 200px;
+    width: 400px;
     background-color: var(--admin-background-secondary);
     padding-top: 2rem;
     height: 300px;
@@ -245,6 +243,57 @@ body {
 
 }
 
+.edit__header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 0.5rem 2rem 0.5rem;
+}
+
+.edit-form{
+    padding: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid var(--admin-background-primary);
+}
+
+.money-input{
+    max-width: 50%;
+}
+
+.edit-controls{
+    display:flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem
+}
+
+.money-submit{
+    background-color: var(--admin-accent-primary);
+    padding: 0.5rem 1rem;
+}
+
+.edit-status{
+    display: none;
+    align-items: center;
+    gap: 1rem;
+    overflow: visible;
+}
+.edit-status.active{
+    display: flex;
+}
+.edit-success{
+    color: #36D744;
+}
+.edit-error{
+    color: #EF4836;
+}
+.edit-placeholder{
+    text-align: center;
+    color: var(--admin-text-faded);
+}
 /* user lookup */
 .user-lookup {
     flex-grow: 1;
