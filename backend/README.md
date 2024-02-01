@@ -1,11 +1,11 @@
 security:
-make rate limit redrirect/ error
+make rate limit redrirect/ error <---->
 
 user experience:
-4. make leaderboard update on money sent in leaderboard.html and user.html <------ see how just calling a function in react would work
 
 dev experience:
-12. add error handling 
+12. add error handling
+13. clean up code 
 
 Pre-release:
 14. do loadtesting db, server, frontend
@@ -17,3 +17,4 @@ Pre-release:
 
 adam:
 12. add admin and group login
+4. make leaderboard update on money sent in leaderboard.html and user.html <------ see how just calling a function in react would work

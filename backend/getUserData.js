@@ -22,7 +22,7 @@ export async function getUserData(name, surname, type) {
     type: type,
   }
   const response = await fetch(`${baseUrl}/api/getuser`, {
-    method: "GET",
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
@@ -66,7 +66,7 @@ export async function checkUserStatus(name, surname, type) {
     type: type,
   }
   const response = await fetch(`${baseUrl}/api/check-status`, {
-    method: "GET",
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },

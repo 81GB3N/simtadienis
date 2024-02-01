@@ -24,7 +24,7 @@ export async function getUserData(name, surname, type = "main") {
     type: type,
   }
   const response = await fetch(`${baseUrl}/api/getuser`, {
-    method: "GET",
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
@@ -67,13 +67,14 @@ export async function userExists(name, surname, type="main") {
     type: type,
   }
   const response = await fetch(`${baseUrl}/api/check-status`, {
-    method: "GET",
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(userData),
   });
   const data = await response.json();
+  console.log(data);
   return data;
 }
 
