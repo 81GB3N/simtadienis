@@ -1,4 +1,4 @@
-import { getAllUsers } from "./getUserData.js";
+import { getAllUsers } from "../getUserData.js";
 
 
 async function all() {
