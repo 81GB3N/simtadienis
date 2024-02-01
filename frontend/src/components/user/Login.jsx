@@ -1,4 +1,4 @@
-import { getUserData, userExists } from "../../utils/api.js";
+import { userExists, validatePassword } from "../../utils/api.js";
 import { FormattedMessage } from "react-intl";
 
 import { useRef, useState, useEffect } from "react";
@@ -15,15 +15,16 @@ export default function Login({ setUserExists, leave }) {
     const [errMsg, setErrMsg] = useState("");
 
     function setUserLocalStorage(name, surname) {
-        const user = { name: name, surname: surname, admin: false };
+        const user = { name: name, surname: surname };
         localStorage.setItem("user", JSON.stringify(user));
     }
 
-    async function infoIsCorrect(name, surname, password) {
-        const info = await getUserData(name, surname);
-        return password === info?.result[0]?.password ? true : false;
-    }
+    // async function infoIsCorrect(name, surname, password) {
+    //     const info = await getUserData(name, surname);
+    //     return password === info?.result[0]?.password ? true : false;
+    // }
 
+    
     useEffect(() => {
         nameRef.current.focus();
     }, [])
@@ -40,7 +41,7 @@ export default function Login({ setUserExists, leave }) {
             return;
         }
 
-        if (!await infoIsCorrect(name, surname, password)) {
+        if(!await validatePassword(name, surname, password)){
             console.log("the entered user info doesnt match the password");
             return;
         }
