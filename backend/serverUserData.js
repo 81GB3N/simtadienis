@@ -23,7 +23,7 @@ app.get("/api/getallusers", async (req, res) => {
   });
     
     //gets user information specifies without password
-app.post("/api/getuser", async (req, res) => {
+app.get("/api/getuser", async (req, res) => {
   try {
     const body = req.body;
     const result = await findUser(body.name, body.surname, body.type);
@@ -47,7 +47,7 @@ app.post("/api/check-password", async (req, res) => {
   }
 });
 
-app.post("/api/check-status", async (req, res) => {
+app.get("/api/check-status", async (req, res) => {
   try {
     const body = req.body;
     const result = await findUser(body.name, body.surname, body.type, body.password);

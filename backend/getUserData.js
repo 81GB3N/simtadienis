@@ -22,7 +22,7 @@ export async function getUserData(name, surname, type) {
     type: type,
   }
   const response = await fetch(`${baseUrl}/api/getuser`, {
-    method: "POST",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
@@ -66,7 +66,7 @@ export async function checkUserStatus(name, surname, type) {
     type: type,
   }
   const response = await fetch(`${baseUrl}/api/check-status`, {
-    method: "POST",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
@@ -75,9 +75,3 @@ export async function checkUserStatus(name, surname, type) {
   const data = await response.json();
   return data;
 }
-
-// export async function checkUserStatus(name, surname, type) {
-//   const data = await getUserData(name, surname, type);
-//   const usersAmount = Object.keys(data.result).length;
-//   return usersAmount > 0 ? true : false;
-// }
