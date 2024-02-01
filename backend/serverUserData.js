@@ -1,23 +1,40 @@
 const { writeDocument, findUser, updateUser, retrieveDocument } = require("./db");
 const { encrypt } = require("./encryptPassword")
 const { checkPassword } = require("./checkUserPassword");
+const {limiter} = require('./rateLimiter');
 
 const dotenv = require('dotenv');
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const rateLimit = require("express-rate-limit");
+const http = require('http');
+const socketIO = require('socket.io');
 
-dotenv.config();
 const app = express();
 const port = process.env.PORT;
+const server = http.createServer(app);
+const io = socketIO(server);
 
+dotenv.config();
 app.use(bodyParser.json());
 app.use(cors());
 
 const userData = {};
 
+io.on('connection', () => {
+  console.log('Socket connected');
+});
+
+// Listen for events from the client
+io.on('updateLeaderboard', () => {
+  // When the 'updateLeaderboard' event is received, emit 'leaderboardUpdated' to all connected clients
+  io.emit('leaderboardUpdated');
+});
+
 //gets all user information without password
 app.get("/api/getallusers", async (req, res) => {
+  // return res.status(503).json({ error: "Service Temporarily Unavailable" });
     const result = await retrieveDocument();
     res.json({ result });
   });
@@ -65,6 +82,10 @@ app.post("/api/register", async (req, res) => {
   userData.register = req.body;
   userData.register.password = await encrypt(userData.register.password);
   writeDocument(userData.register);
+
+  //call websocket to update leaderboard when user registers
+  io.emit('updateLeaderboard');
+
   res.json({ message: "Registration successful" });
 });
 
@@ -88,8 +109,11 @@ app.post("/api/addmoney", (req, res) => {
 
   userData.money = req.body;
 
-
   updateUser(userData.money).then(() => {
+
+    //call websocket to update leaderboard when user info gets updated
+    io.emit('updateLeaderboard');
+
     res.status(200).json({
       success: true,
       message: 'Money added successfully!'
@@ -100,8 +124,11 @@ app.post("/api/addmoney", (req, res) => {
       message: "Internal server error."
     });
   })
+
 });
 
+//use rate limiter
+// app.use("/api/getallusers", limiter);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
