@@ -18,11 +18,11 @@ const userData = {};
 
 //gets all user information without password
 app.get("/api/getallusers", async (req, res) => {
-    const result = await retrieveDocument();
-    res.json({ result });
-  });
-    
-    //gets user information specifies without password
+  const result = await retrieveDocument();
+  res.json({ result });
+});
+
+//gets user information specifies without password
 app.post("/api/getuser", async (req, res) => {
   try {
     const body = req.body;
@@ -97,7 +97,7 @@ app.post("/api/addmoney", (req, res) => {
   }).catch(err => {
     res.status(500).json({
       success: false,
-      message: "Internal server error."
+      message: `Internal server error: ${err}`
     });
   })
 });
