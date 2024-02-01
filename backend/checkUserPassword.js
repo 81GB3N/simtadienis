@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const comparePassword = async (password, hashedUserPassword) => {
     try {
       const match = await bcrypt.compare(password, hashedUserPassword);
+      console.log('hash compare', hashedUserPassword)
       return match;
     } catch (error) {
       throw error;
