@@ -14,19 +14,6 @@ export default function UserGreeting() {
         return delay;
     };
 
-    // const incrementPercentage = () => {
-    //     setPercentage((prevPercentage) => {
-    //         const newPercentage = prevPercentage + parseInt(Math.random() * 10);
-    //         return newPercentage > 100 ? 100 : newPercentage;
-    //     });
-    //     if (percentage < 100) {
-    //         console.log('new percent', percentage)
-    //         setTimeout(() => {
-    //             incrementPercentage();
-    //         }, getRandomDelay());
-    //     }
-    // };
-
     const incrementPercentage = () => {
         setPercentage((prevPercentage) => {
             const newPercentage = prevPercentage + parseInt(Math.random() * 10);
@@ -35,17 +22,17 @@ export default function UserGreeting() {
     };
 
     useEffect(() => {
-        if (percentage < 100) {
-            console.log('new percent', percentage);
-            const timeoutId = setTimeout(() => {
+        const interval = setInterval(() => {
+            if (percentage < 100) {
                 incrementPercentage();
-            }, getRandomDelay());
+            } else {
+                clearInterval(interval);
+            }
+        }, getRandomDelay());
 
-            return () => {
-                // Cleanup to prevent setting state on unmounted component
-                clearTimeout(timeoutId);
-            };
-        }
+        return () => {
+            clearInterval(interval);
+        };
     }, [percentage]);
 
     const handleChestOpen = () => {
