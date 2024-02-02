@@ -2,10 +2,12 @@ import '../../css/chest.css'
 import TreasureChest from './TreasureChest'
 import { useState, useEffect } from 'react';
 
-export default function UserGreeting() {
+export default function UserGreeting({ endGreeting }) {
     const [startBlueScreen, setStartBlueScreen] = useState(false);
     const [startLoading, setStartLoading] = useState(false);
     const [percentage, setPercentage] = useState(null);
+
+    const spinnerDuration = 3000; // in ms
 
     const getRandomDelay = () => {
         const upperBound = 1000; // max delay (100 = 1second)
@@ -16,7 +18,7 @@ export default function UserGreeting() {
 
     const incrementPercentage = () => {
         setPercentage((prevPercentage) => {
-            const newPercentage = prevPercentage + parseInt(Math.random() * 10);
+            const newPercentage = prevPercentage + parseInt(Math.random() * 30);
             return newPercentage > 100 ? 100 : newPercentage;
         });
     };
@@ -26,7 +28,7 @@ export default function UserGreeting() {
             if (percentage < 100) {
                 incrementPercentage();
             } else {
-                clearInterval(interval);
+                endGreeting();
             }
         }, getRandomDelay());
 
@@ -42,7 +44,7 @@ export default function UserGreeting() {
             setStartLoading(false);
             setPercentage(0);
             incrementPercentage();
-        }, 1);
+        }, spinnerDuration);
     }
 
 

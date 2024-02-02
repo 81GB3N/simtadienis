@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import Login from "./Login";
 import SignUp from "./SignUp";
 import UserGreeting from "./UserGreeting";
-export default function NoUser({ setUserExists, firstTime }) {
+export default function NoUser({ setUserExists, firstTime, endGreeting }) {
     const [login, setLogin] = useState(false);
     const [signup, setSignup] = useState(false);
 
@@ -22,7 +22,7 @@ export default function NoUser({ setUserExists, firstTime }) {
 
     if(firstTime){
         return (
-            <UserGreeting />
+            <UserGreeting endGreeting={endGreeting}/>
         )
     }
 
