@@ -92,46 +92,7 @@ body {
     font-weight: 700;
 }
 
-/* DASHBOARD (not for production) */
-
-.grid {
-    display: flex;
-    position: relative;
-    width: 100%;
-    height: 480px;
-    flex-grow: 0;
-    flex-shrink: 0;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0 40px;
-    /* overflow: hidden; */
-}
-
-/* TODO: FINISH CARDS */
-.grid .card {
-    display: flex;
-    position: relative;
-    height: 480px;
-    width: 350px;
-    background: var(--admin-background-card);
-    border-radius: 4px;
-    box-sizing: border-box;
-    padding: 0 20px;
-    margin: 0 20px 0 0;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.card .head {
-    display: flex;
-    position: relative;
-    width: 100%;
-    height: 75px;
-    overflow: hidden;
-    box-sizing: border-box;
-    flex-direction: row;
-    justify-content: space-between;
-}
+/* DASHBOARD (todo) */
 
 /* USERS */
 .users {
@@ -438,4 +399,45 @@ body {
 
 .dialog-button.cancel {
     color: var(--admin-text-faded);
+}
+
+/* Admin Login */
+.admin-login-container{
+    position: absolute;
+    z-index: 1000;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--admin-background-primary);
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 0 auto;
+}
+.admin-login-title{
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--admin-text-primary);
+    text-align: center;
+    padding: 1rem;
+}
+
+.admin-login{
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 2rem;
+    max-height: 300px;
+    align-items: center;
+}
+
+.take-space{    
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.admin-login-pass{
+    display: flex;
+    flex-direction: column;
 }

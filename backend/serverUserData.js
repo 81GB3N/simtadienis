@@ -121,7 +121,7 @@ app.post("/api/addmoney", (req, res) => {
   }).catch(err => {
     res.status(500).json({
       success: false,
-      message: "Internal server error."
+      message: `Internal server error: ${err}`
     });
   })
 

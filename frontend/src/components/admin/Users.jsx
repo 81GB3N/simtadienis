@@ -10,14 +10,11 @@ import { getAllUsers } from '../../utils/api'
 
 import { useState, useEffect } from "react";
 
+import { useUser } from "../../context/UserProvider";
+
 export default function Users() {
     const [allUsers, setAllUsers] = useState(null);
-    const [refresh, setRefresh] = useState(false);
-
-    const refreshUsers = () => {
-        console.log('refreshing')
-        setRefresh(!refresh);
-    }
+    const { refresh, refreshUsers } = useUser();
 
     useEffect(() => {
         getAllUsers().then(data => {
@@ -32,13 +29,11 @@ export default function Users() {
             <div className="header">
                 <h2>Users</h2>
             </div>
-            <UserProvider>
             <div className='users'>
-                <NewUserLookup users={allUsers}/>
-                <EditTable refreshUsers={refreshUsers}/>
+                <NewUserLookup users={allUsers} />
+                <EditTable />
                 <UsersTable users={allUsers} />
             </div>
-            </UserProvider>
         </div>
     )
 }
