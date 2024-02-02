@@ -9,6 +9,7 @@ export default function HamburgerMenu() {
     const userRef = useRef(null);
     const [user, setUser] = useState(null);
     const [userExists, setUserExists] = useState(user !== null);
+    const firstTime = localStorage.getItem('firstTime') === null;
 
     function getCachedUser() {
         return new Promise((resolve, reject) => {
@@ -20,13 +21,17 @@ export default function HamburgerMenu() {
     }
 
     useEffect(() => {
-        getCachedUser().then( async (user) => {
-            await setUser(user);
-            setUserExists(true);
-        }).catch((err) => {
-            console.log(err)
-            setUserExists(false);
-        });
+        getCachedUser()
+            .then((user) => {
+                setUser(user);
+                setUserExists(true);
+            })
+            .catch((err) => {
+                if (err !== 'No Cached User Info') {
+                    console.log(err);
+                }
+                setUserExists(false);
+            });
     }, [userExists])
 
 
@@ -40,9 +45,9 @@ export default function HamburgerMenu() {
                 <div id='user' ref={userRef}>
                     {
                         userExists ? (
-                            <UserProfile userData={user} setUserExists={setUserExists}/>
+                            <UserProfile userData={user} setUserExists={setUserExists} />
                         ) : (
-                            <NoUser setUserExists={setUserExists} />
+                            <NoUser setUserExists={setUserExists} firstTime={firstTime}/>
                         )
 
                     }

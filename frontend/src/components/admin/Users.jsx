@@ -16,6 +16,10 @@ export default function Users() {
     const [allUsers, setAllUsers] = useState(null);
     const { refresh, refreshUsers } = useUser();
 
+    // io.on('userUpdate', () => {
+    //     refreshUsers();
+    // })
+
     useEffect(() => {
         getAllUsers().then(data => {
             console.log('successfully retrieved all users')

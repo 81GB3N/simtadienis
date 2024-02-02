@@ -3,6 +3,8 @@ import HeroTicket from "../components/HeroTicket"
 import Header from "../components/Header"
 // Utilities
 import ErrorModal from "../components/ErrorModal"
+// Context provider
+import MenuProvider from '../context/MenuProvider';
 
 export default function LandingPage() {
     const isMobile = () => {
@@ -11,7 +13,7 @@ export default function LandingPage() {
     };
 
     return (
-        <>
+        <MenuProvider>
             {!isMobile() ? <ErrorModal
                 status='Desktop Detected!'
                 errorMessage='This website was designed for mobile devices. 
@@ -23,6 +25,6 @@ export default function LandingPage() {
                 <div className="content">
                 </div>
             </div>
-        </>
+        </MenuProvider>
     )
 }

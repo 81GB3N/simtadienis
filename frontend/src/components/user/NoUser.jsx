@@ -2,7 +2,8 @@ import { useState } from "react"
 import { FormattedMessage } from 'react-intl';
 import Login from "./Login";
 import SignUp from "./SignUp";
-export default function NoUser({ setUserExists }) {
+import UserGreeting from "./UserGreeting";
+export default function NoUser({ setUserExists, firstTime }) {
     const [login, setLogin] = useState(false);
     const [signup, setSignup] = useState(false);
 
@@ -17,6 +18,12 @@ export default function NoUser({ setUserExists }) {
             setUserExists={setUserExists}
             leave={() => setSignup(!signup)}
         />
+    }
+
+    if(firstTime){
+        return (
+            <UserGreeting />
+        )
     }
 
     return (

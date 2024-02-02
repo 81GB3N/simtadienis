@@ -19,8 +19,6 @@ export default function AdminLogin() {
         const surname = e.target[1].value;
         const password = e.target[2].value;
 
-        console.log(name, surname, password);
-
         if (!await userExists(name, surname, 'admin')) {
             console.log("Admin account doesn't exist");
             setErrMsg("Admin account doesn't exist")
