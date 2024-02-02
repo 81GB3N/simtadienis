@@ -38,11 +38,6 @@ app.get("/api/getallusers", async (req, res) => {
     const result = await retrieveDocument();
     res.json({ result });
   });
-    
-    //gets user information specifies without password
-  const result = await retrieveDocument();
-  res.json({ result });
-});
 
 //gets user information specifies without password
 app.post("/api/getuser", async (req, res) => {
