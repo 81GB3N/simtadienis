@@ -1,4 +1,4 @@
-import {getUserData, checkUserStatus, confirmPassword} from "./getUserData.js";
+import {getUserData, checkUserStatus, confirmPassword} from "../getUserData.js";
 
 const loginForm = document.querySelector(".login-form");
 
