@@ -25,8 +25,10 @@ export default function Users() {
     
     //SOCKET CODE
     //--------------------------------------------------------
-    socket.on("getusers", ()=>{
+    socket.on("getusers", (res)=>{
         //MAKE THIS UPDATE THE BOARD
+        console.log('user data updated');
+        console.log(res);
     });
     //DO THE SAME IN THE LEADERBOARD PAGE
     //-------------------------------------------------------

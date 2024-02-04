@@ -686,6 +686,10 @@ body.no-scroll {
     margin-bottom: 0.5rem;
 }
 
+.noerr{
+    opacity: 0;
+}
+
 .line {
     display: inline-block;
 }

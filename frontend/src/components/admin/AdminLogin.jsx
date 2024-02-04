@@ -12,6 +12,12 @@ export default function AdminLogin() {
         localStorage.setItem("admin", JSON.stringify(user));
     }
 
+    function displayError(msg) {
+        setErrMsg(msg);
+        setTimeout(() => {
+            setErrMsg("");
+        }, 3000);
+    }
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -21,14 +27,14 @@ export default function AdminLogin() {
 
         if (!await userExists(name, surname, 'admin')) {
             console.log("Admin account doesn't exist");
-            setErrMsg("Admin account doesn't exist")
+            displayError("Admin account doesn't exist");
             return;
         }
 
         validatePassword(name, surname, password, 'admin').then((res) => {
             if (!res.result) {
                 console.log("Incorrect Admin Information", res);
-                setErrMsg("Incorrect Admin Information")
+                displayError("Incorrect Admin Information");
             }
             else {
                 console.log('logging in as', name, surname);
@@ -43,7 +49,7 @@ export default function AdminLogin() {
     return (
         <section className="admin-login-container container">
             <h2 className="admin-login-title">Login</h2>
-            <p className={`${errMsg ? "errmsg" : "offscreen"} take-space`}>{errMsg}</p>
+            <p className={`${errMsg ? "errmsg" : "noerr"} take-space`}>{errMsg}</p>
             <form className="admin-login" method="get" onSubmit={handleSubmit}>
                 <div >
                     <label htmlFor="name">
@@ -77,7 +83,7 @@ export default function AdminLogin() {
                         required>
                     </input>
                 </div>
-                <input type="submit" id="login-submit"></input>
+                <input type="submit" id="admin-login-submit"></input>
             </form>
         </section>
     )
