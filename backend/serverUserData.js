@@ -2,35 +2,28 @@ const { writeDocument, findUser, updateUser, retrieveDocument } = require("./db"
 const { encrypt } = require("./encryptPassword")
 const { checkPassword } = require("./checkUserPassword");
 const {limiter} = require('./rateLimiter');
+const http = require('http');
+
 
 const dotenv = require('dotenv');
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const rateLimit = require("express-rate-limit");
-const http = require('http');
-const socketIO = require('socket.io');
 
 const app = express();
 const port = process.env.PORT;
-const server = http.createServer(app);
-const io = socketIO(server);
+const socketPort = process.env.SOCKETPORT;
+
+const { initializeSocket } = require('./socket');
 
 dotenv.config();
 app.use(bodyParser.json());
 app.use(cors());
 
+const server = http.createServer(app);
+const io = initializeSocket(server);
+
 const userData = {};
-
-io.on('connection', () => {
-  console.log('Socket connected');
-});
-
-// Listen for events from the client
-io.on('updateLeaderboard', () => {
-  // When the 'updateLeaderboard' event is received, emit 'leaderboardUpdated' to all connected clients
-  io.emit('leaderboardUpdated');
-});
 
 //gets all user information without password
 app.get("/api/getallusers", async (req, res) => {
@@ -56,7 +49,6 @@ app.post("/api/check-password", async (req, res) => {
   try {
     const body = req.body;
     const result = await checkPassword(body.name, body.surname, body.type, body.password);
-    // console.log(result);
     res.json({ result });
   } catch (error) {
     console.error("Error in check-password route:", error);
@@ -68,8 +60,6 @@ app.post("/api/check-status", async (req, res) => {
   try {
     const body = req.body;
     const result = await findUser(body.name, body.surname, body.type);
-    // console.log(result);
-    // result ? console.log(true) : console.log(false);
     result[0] ? res.json(true) : res.json(false);
   } catch (error) {
     console.error("Error in check-password route:", error);
@@ -83,8 +73,7 @@ app.post("/api/register", async (req, res) => {
   userData.register.password = await encrypt(userData.register.password);
   writeDocument(userData.register);
 
-  //call websocket to update leaderboard when user registers
-  io.emit('updateLeaderboard');
+  io.emit("getusers");
 
   res.json({ message: "Registration successful" });
 });
@@ -111,14 +100,12 @@ app.post("/api/addmoney", (req, res) => {
 
   updateUser(userData.money).then(() => {
 
-    //call websocket to update leaderboard when user info gets updated
-    io.emit('updateLeaderboard');
-
     res.status(200).json({
       success: true,
       message: 'Money added successfully!'
-    })
-  }).catch(err => {
+    }) 
+  io.emit("getusers");
+} ).catch(err => {
     res.status(500).json({
       success: false,
       message: `Internal server error: ${err}`
@@ -130,6 +117,10 @@ app.post("/api/addmoney", (req, res) => {
 //use rate limiter
 // app.use("/api/getallusers", limiter);
 
+server.listen(socketPort, ()=>{
+  console.log(`socket server is running on port http://localhost:${socketPort}`);
+})
+
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`express Server is running on http://localhost:${port}`);
 });
