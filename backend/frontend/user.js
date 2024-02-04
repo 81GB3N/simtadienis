@@ -1,4 +1,4 @@
-import { getUserData } from "./getUserData.js";
+import { getUserData } from "../getUserData.js";
 
 const user = document.querySelector(".username");
 const moneyAmount = document.querySelector(".money-amount");

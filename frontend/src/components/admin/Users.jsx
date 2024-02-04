@@ -10,14 +10,26 @@ import { getAllUsers } from '../../utils/api'
 
 import { useState, useEffect } from "react";
 
+import { useUser } from "../../context/UserProvider";
+
+
+//SOCKET CODE
+//--------------------------------------------------------
+import io from 'socket.io-client';
+const socket = io.connect('http://localhost:5000');
+//--------------------------------------------------------
+
 export default function Users() {
     const [allUsers, setAllUsers] = useState(null);
-    const [refresh, setRefresh] = useState(false);
-
-    const refreshUsers = () => {
-        console.log('refreshing')
-        setRefresh(!refresh);
-    }
+    const { refresh, refreshUsers } = useUser();
+    
+    //SOCKET CODE
+    //--------------------------------------------------------
+    socket.on("getusers", ()=>{
+        //MAKE THIS UPDATE THE BOARD
+    });
+    //DO THE SAME IN THE LEADERBOARD PAGE
+    //-------------------------------------------------------
 
     useEffect(() => {
         getAllUsers().then(data => {
@@ -32,13 +44,11 @@ export default function Users() {
             <div className="header">
                 <h2>Users</h2>
             </div>
-            <UserProvider>
             <div className='users'>
-                <NewUserLookup users={allUsers}/>
-                <EditTable refreshUsers={refreshUsers}/>
+                <NewUserLookup users={allUsers} />
+                <EditTable />
                 <UsersTable users={allUsers} />
             </div>
-            </UserProvider>
         </div>
     )
 }

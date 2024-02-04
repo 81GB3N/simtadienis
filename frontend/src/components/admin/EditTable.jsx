@@ -4,15 +4,15 @@ import { useUser } from "../../context/UserProvider";
 import { useEffect, useState } from "react";
 import { sendUserData } from "../../utils/api";
 
-export default function EditTable({ refreshUsers }) {
-    const { user } = useUser();
+export default function EditTable() {
+    const { user, refreshUsers } = useUser();
     const [selected, setSelected] = useState(false);
     const [submitStatus, setSubmitStatus] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
     // kind of hacky, but I dont want to figure out how to update the UserProvider toolbar
     // so Ill just stick with this for now
     const [userMoney, setUserMoney] = useState(null)
-    
+
     useEffect(() => {
         setSelected(Object.keys(user).length !== 0);
         setUserMoney(Number(user.money))

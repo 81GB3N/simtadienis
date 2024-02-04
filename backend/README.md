@@ -1,7 +1,9 @@
 security:
-make rate limit redrirect/ error <---->
+test out rate limiter/ decide wheter to leave it only in nginx
 
 user experience:
+mke leaderboard autoupdate
+google lighthouse
 
 dev experience:
 12. add error handling
@@ -16,5 +18,4 @@ Pre-release:
 17. remove auth
 
 adam:
-12. add admin and group login
-4. make leaderboard update on money sent in leaderboard.html and user.html <------ see how just calling a function in react would work
+12. group login

@@ -1,4 +1,4 @@
-import { sendUserData, checkUserStatus } from "./getUserData.js";
+import { sendUserData, checkUserStatus } from "../getUserData.js";
 
 const registerForm = document.querySelector(".register-form");
 
