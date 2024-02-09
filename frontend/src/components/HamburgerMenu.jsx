@@ -10,11 +10,13 @@ export default function HamburgerMenu() {
     const [user, setUser] = useState(null);
     const [userExists, setUserExists] = useState(user !== null);
 
-    const [firstTime, setFirstTime] = useState(localStorage.getItem('firstTime') === null);
+    const [firstTime, setFirstTime] = useState(localStorage.getItem('firstTime')===null);
+    console.log('firstTime hamburger:', firstTime);
 
     const endGreeting = () => {
         setFirstTime(false);
-        localStorage.setItem('firstTime', 'false');
+        console.log('endGreeting');
+        localStorage.setItem('firstTime', JSON.stringify(false));
     }
 
     function getCachedUser() {

@@ -20,11 +20,11 @@ export default function NoUser({ setUserExists, firstTime, endGreeting }) {
         />
     }
 
-    if(firstTime){
-        return (
-            <UserGreeting endGreeting={endGreeting}/>
-        )
-    }
+    // if(firstTime){
+    //     return (
+    //         <UserGreeting endGreeting={endGreeting}/>
+    //     )
+    // }
 
     return (
         <div className="user__buttons">

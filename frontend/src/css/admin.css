@@ -82,9 +82,10 @@ body {
 .page {
     padding: 1rem;
     display: flex;
+    min-height: 100vh;
     flex-direction: column;
-    justify-content: space-between;
-    transition: all 0.22s ease;
+    gap: 2rem;
+    transition: all  0.22s ease;
 }
 
 .page>.header {
@@ -471,12 +472,12 @@ body {
     background-color: var(--admin-accent-primary-faded);
 }
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 800px) {
     #admin-login-submit:active {
         background-color: var(--admin-accent-primary-transparent);
     }
 }
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
     .users{
         flex-direction: column;
         align-items: flex-start;

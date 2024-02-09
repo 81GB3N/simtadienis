@@ -1,11 +1,11 @@
 import '../../css/chest.css'
 import TreasureChest from './TreasureChest'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function UserGreeting({ endGreeting }) {
     const [startBlueScreen, setStartBlueScreen] = useState(false);
     const [startLoading, setStartLoading] = useState(false);
-    const [percentage, setPercentage] = useState(null);
+    const [percentage, setPercentage] = useState(0);
 
     const spinnerDuration = 3000; // in ms
 
@@ -18,24 +18,30 @@ export default function UserGreeting({ endGreeting }) {
 
     const incrementPercentage = () => {
         setPercentage((prevPercentage) => {
-            const newPercentage = prevPercentage + parseInt(Math.random() * 30);
+            const newPercentage = prevPercentage + parseInt(Math.random() * 300);
             return newPercentage > 100 ? 100 : newPercentage;
         });
     };
 
-    useEffect(() => {
+    // increment loop
+    function incrementLoop(){
         const interval = setInterval(() => {
             if (percentage < 100) {
+                console.log('incrementing: ', percentage);
                 incrementPercentage();
             } else {
+                console.log('endGreeting');
                 endGreeting();
             }
         }, getRandomDelay());
-
+    
         return () => {
             clearInterval(interval);
         };
-    }, [percentage]);
+    }
+
+
+
 
     const handleChestOpen = () => {
         setStartLoading(true);
@@ -43,7 +49,7 @@ export default function UserGreeting({ endGreeting }) {
             setStartBlueScreen(true);
             setStartLoading(false);
             setPercentage(0);
-            incrementPercentage();
+            incrementLoop();
         }, spinnerDuration);
     }
 
