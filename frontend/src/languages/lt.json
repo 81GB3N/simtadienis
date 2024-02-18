@@ -16,5 +16,6 @@
     "surname": "Pavardė",
     "password": "Slaptažodis",
     "repeat.password": "Pakartokite slaptažodį",
-    "back": "Atgal"
+    "back": "Atgal",
+    "sumbit": "Pateikti"
 }

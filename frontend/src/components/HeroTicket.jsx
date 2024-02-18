@@ -11,7 +11,7 @@ export default function HeroTicket() {
     const handleClick = () => {
         ticketLoweref.current.classList.add('clicked');
         ticketUpperRef.current.classList.add('clicked');
-        buttonRef.current.classList.add('clicked');
+        // buttonRef.current.classList.add('clicked');
         console.log(ticketLoweref.current);
         setTimeout(() => {
             toggleMenu();
@@ -19,7 +19,7 @@ export default function HeroTicket() {
         ticketLoweref.current.addEventListener('animationend', () => {
             ticketLoweref.current.classList.remove('clicked');
             ticketUpperRef.current.classList.remove('clicked');
-            buttonRef.current.classList.remove('clicked');
+            // buttonRef.current.classList.remove('clicked');
         });
     }
     return (

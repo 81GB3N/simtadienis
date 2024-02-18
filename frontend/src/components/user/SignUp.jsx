@@ -1,14 +1,13 @@
 import { sendUserData, userExists } from "../../utils/api";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 
 import { useRef, useState, useEffect } from "react";
-import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const USER_REGEX = /^[a-zA-Z0-9]{3,30}$/;
 const PASSWORD_REGEX = /^(?=.*[a-zA-Z])(?=.*\d).{5,}$/;
 
 export default function Signup({ setUserExists, leave }) {
+    const intl = useIntl();
 
     const nameRef = useRef();
     const errRef = useRef();
@@ -65,7 +64,7 @@ export default function Signup({ setUserExists, leave }) {
         // #TODO, check additionally if submit button was enabled via console
 
         if (await userExists(name, surname)) {
-            console.log("this user already exists");
+            setErrMsg("User already exists.");
             return;
         }
 
@@ -76,19 +75,16 @@ export default function Signup({ setUserExists, leave }) {
     }
 
     return (
-        <section>
-            <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"}>{errMsg}</p>
-            <h1>Sign Up</h1>
-            <form method="post" onSubmit={handleSubmit}>
-                <div >
-                    <label htmlFor="name">
-                        <FormattedMessage id="name" />
-                        <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
-                        <FontAwesomeIcon icon={faTimes} className={validName || !name ? "hide" : "invalid"} />
-                    </label>
+        <section className="form-wrapper">
+            <h3 className="form-title signup-title">
+                <FormattedMessage id="signup" />
+            </h3>
+            <form className="form signup" method="post" onSubmit={handleSubmit}>
+                <div className="input-wrapper">
                     <input
+                        className={`form-input form-name ${validName || !name ? "" : "invalid"}`}
                         type="text"
-                        placeholder="vardenis"
+                        placeholder={intl.formatMessage({ id: "name" })}
                         id="name"
                         ref={nameRef}
                         onChange={(e) => setName(e.target.value)}
@@ -97,22 +93,17 @@ export default function Signup({ setUserExists, leave }) {
                         onFocus={() => setNameFocus(true)}
                         onBlur={() => setNameFocus(false)}>
                     </input>
-                    <p className={nameFocus && name && !validName ? "instructions" : "offscreen"}>
-                        <FontAwesomeIcon icon={faInfoCircle} />
-                        3 to 30 characters.<br />
-                        Must begin with a letter.<br />
+                    <p className={`instructions ${nameFocus && name && !validName ? "show" : ""}`}>
+                        3 to 30 characters.
+                        Must begin with a letter.
                         Letters, numbers, underscores, hyphens allowed.
                     </p>
                 </div>
-                <div >
-                    <label htmlFor="surname">
-                        <FormattedMessage id="surname" />
-                        <FontAwesomeIcon icon={faCheck} className={validSurname ? "valid" : "hide"} />
-                        <FontAwesomeIcon icon={faTimes} className={validSurname || !surname ? "hide" : "invalid"} />
-                    </label>
+                <div className="input-wrapper">
                     <input
+                        className={`form-input surname-input ${validSurname || !surname ? "" : "invalid"}`}
                         type="text"
-                        placeholder="pavardenis"
+                        placeholder={intl.formatMessage({ id: "surname" })}
                         id="surname"
                         onChange={(e) => setSurname(e.target.value)}
                         value={surname}
@@ -120,66 +111,60 @@ export default function Signup({ setUserExists, leave }) {
                         onFocus={() => setSurnameFocus(true)}
                         onBlur={() => setSurnameFocus(false)}>
                     </input>
-                    <p className={surnameFocus && surname && !validSurname ? "instructions" : "offscreen"}>
-                        <FontAwesomeIcon icon={faInfoCircle} />
-                        3 to 30 characters.<br />
-                        Must begin with a letter.<br />
+                    <p className={`instructions ${surnameFocus && surname && !validSurname ? "show" : ""}`}>
+                        3 to 30 characters.
+                        Must begin with a letter.
                         Letters, numbers, underscores, hyphens allowed.
                     </p>
                 </div>
-                <div >
-                    <label htmlFor="password">
-                        <FormattedMessage id="password" />
-                        <FontAwesomeIcon icon={faCheck} className={validPassword ? "valid" : "hide"} />
-                        <FontAwesomeIcon icon={faTimes} className={validPassword || !password ? "hide" : "invalid"} />
-                    </label>
+                <div className="input-wrapper">
                     <input
+                        className={`form-input form-password ${validPassword || !password ? "" : "invalid"}`}
                         type="password"
                         id="password"
                         onChange={(e) => setPassword(e.target.value)}
+                        placeholder={intl.formatMessage({ id: "password" })}
                         value={password}
                         required
                         onFocus={() => setPasswordFocus(true)}
                         onBlur={() => setPasswordFocus(false)}>
                     </input>
-                    <p className={passwordFocus && !validPassword ? "instructions" : "offscreen"}>
-                        <FontAwesomeIcon icon={faInfoCircle} />
-                        At least 5 characters.<br />
-                        Must include letter and number<br />
+                    <p className={`instructions ${passwordFocus && password && !validPassword ? "show" : ""}`}>
+                        At least 5 characters.
+                        Must include letter and number
                         Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
                     </p>
                 </div>
-                <div>
-                    <label htmlFor="repeat-password">
-                        <FormattedMessage id="repeat.password" />
-                        <FontAwesomeIcon icon={faCheck} className={validMatch ? "valid" : "hide"} />
-                        <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPassword ? "hide" : "invalid"} />
-                    </label>
+                <div className="input-wrapper">
                     <input
+                        className="form-input form-rpassword"
                         type="password"
                         id="repeat-password"
                         onChange={(e) => setMatchPassword(e.target.value)}
+                        placeholder={intl.formatMessage({ id: "repeat.password" })}
                         value={matchPassword}
                         required
                         onFocus={() => setMatchFocus(true)}
                         onBlur={() => setMatchFocus(false)}>
-
                     </input>
-                    <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
-                        <FontAwesomeIcon icon={faInfoCircle} />
+                    <p className={`instructions ${matchFocus && matchPassword && !validMatch ? "show" : ""}`}>
                         Must match the first password input field.
                     </p>
                 </div>
-                <input
-                    type="submit"
-                    id="register-submit"
-                    disabled={!validName || !validPassword || !validMatch}>
-                </input>
-                <button onClick={leave}>
-                    <FormattedMessage id="back"
-                    />
-                </button>
-            </form >
+                <p ref={errRef} className={`errmsg ${errMsg ? "active" : ""}`}>{errMsg}</p>
+                <div className="form__buttons">
+                    <button
+                        className={`form-submit ${!validName || !validPassword || !validMatch ? '' : 'enabled'}`}
+                        type="submit"
+                        id="register-submit"
+                        disabled={!validName || !validPassword || !validMatch}>
+                        <FormattedMessage id="submit" />
+                    </button>
+                    <button className="form-leave" onClick={leave}>
+                        <FormattedMessage id="back" />
+                    </button>
+                </div>
+            </form>
         </section>
     )
 }

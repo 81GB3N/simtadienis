@@ -10,11 +10,12 @@
     "ticket.text": "Build Wealth",
     "ticket.date": "until 03.25.2024",
     "ticket.button": "Join",
-    "login": "Log In",
+    "login": "Login",
     "signup": "Sign Up",
     "name": "Name",
     "surname": "Surname",
     "password": "Password",
     "repeat.password": "Repeat Password",
-    "back": "Back"
+    "back": "Back",
+    "submit": "Submit"
 }
