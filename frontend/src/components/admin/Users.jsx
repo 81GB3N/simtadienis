@@ -3,13 +3,8 @@ import NewUserLookup from "./UserLookup";
 import UsersTable from "./UsersTable";
 import EditTable from "./EditTable";
 
-// Context
-import UserProvider from "../../context/UserProvider";
-
 import { getAllUsers } from '../../utils/api'
-
 import { useState, useEffect } from "react";
-
 import { useUser } from "../../context/UserProvider";
 
 
@@ -47,13 +42,13 @@ export default function Users() {
         });
     }, [refresh]);
 
-    useEffect(() => {
-        getAllUsers().then(data => {
-            console.log('successfully retrieved all users')
-            console.log(data.result);
-            setAllUsers(data.result);
-        });
-    }, []);
+    // useEffect(() => {
+    //     getAllUsers().then(data => {
+    //         console.log('successfully retrieved all users')
+    //         console.log(data.result);
+    //         setAllUsers(data.result);
+    //     });
+    // }, []);
 
     return (
         <div className="page">

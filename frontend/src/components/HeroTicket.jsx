@@ -25,12 +25,20 @@ export default function HeroTicket() {
     return (
         <div id='ticket'>
             <div id='ticket__upper' ref={ticketUpperRef}>
+                <div className='ticket__info'>
+                    <p className='ticket-text'>
+                        <FormattedMessage id='ticket.text' />
+                    </p>
+                    <p className='ticket-date'>
+                        <FormattedMessage id='ticket.date' />
+                    </p>
+                </div>
             </div>
             <div id='ticket__lower' ref={ticketLoweref}>
+                <button id='ticket-button' onClick={handleClick} ref={buttonRef}>
+                    <FormattedMessage id='ticket.button' />
+                </button>
             </div>
-            <button id='ticket-button' onClick={handleClick} ref={buttonRef}>
-                <FormattedMessage id='ticket.button' />
-            </button>
         </div>
     )
 }

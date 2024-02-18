@@ -43,7 +43,7 @@ button {
 }
 
 /* ERROR MODAL */
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:600,500,400,300);
 
 /* ERROR FRAME */
 .frame {
@@ -115,7 +115,7 @@ button {
 body {
     background-color: #000000;
     opacity: 1;
-    background-image: linear-gradient(30deg, #2f2f31 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(150deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(30deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(150deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(60deg, #04061a77 25%, transparent 25.5%, transparent 75%, #04061a77 75%, #04061a77), linear-gradient(60deg, #04061a77 25%, transparent 25.5%, transparent 75%, #04061a77 75%, #04061a77);
+    /* background-image: linear-gradient(30deg, #040404 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(150deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(30deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(150deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(60deg, #04061a77 25%, transparent 25.5%, transparent 75%, #04061a77 75%, #04061a77), linear-gradient(60deg, #04061a77 25%, transparent 25.5%, transparent 75%, #04061a77 75%, #04061a77); */
     background-size: 8px 14px;
     background-position: 0 0, 0 0, 4px 7px, 4px 7px, 0 0, 4px 7px;
     font-family: 'Cormorant', Arial, sans-serif;
@@ -166,7 +166,7 @@ body.no-scroll {
 }
 
 .selector-btn.active {
-    color: var(--primary-color-green);
+    color: var(--primary-color-red);
 }
 
 /* Money Images */
@@ -240,11 +240,13 @@ body.no-scroll {
     flex-direction: column;
     padding: 0 1rem;
     padding-top: 1rem;
+    line-height: 2.75rem;
 }
 
 .title-text {
-    font-size: 2.75rem;
-    font-weight: 500;
+    /* 3.25 */
+    font-size: 3rem;
+    font-weight: 400;
     letter-spacing: 2px;
     text-transform: uppercase;
     word-break: normal;
@@ -269,6 +271,10 @@ body.no-scroll {
     align-self: flex-end;
 }
 
+.title-three{
+    align-self: center;
+}
+
 /* HAMBURGER */
 /* burger button */
 #hamburger {
@@ -285,14 +291,14 @@ body.no-scroll {
     content: "";
     display: block;
     width: 100%;
-    height: 3px;
+    height: 2px;
     background-color: #fff;
     margin: 6px 0;
     transition: 0.4s;
 }
 
 #hamburger>#bar {
-    width: 70%;
+    width: 100%;
 }
 
 /* hamburger is active */
@@ -301,12 +307,12 @@ body.no-scroll {
 }
 
 #hamburger.active::after {
-    transform: rotate(-45deg) translate(3px, -10px);
+    transform: rotate(-45deg) translate(4px, -8px);
     background-color: #000000;
 }
 
 #hamburger.active::before {
-    transform: rotate(45deg) translate(3px, 10px);
+    transform: rotate(45deg) translate(4px, 8px);
     background-color: #000000;
 }
 
@@ -372,6 +378,8 @@ body.no-scroll {
     background-image: url(../images/ticket-upper.webp);
     padding: 0 1rem;
     gap: 1rem;
+    border-bottom: 1px dashed black;
+    /* border-style: ; */
 }
 
 #ticket__lower.clicked {
@@ -380,6 +388,20 @@ body.no-scroll {
 
 #ticket__upper.clicked {
     animation: ticket-upper-click 1s ease-in-out;
+}
+
+.ticket__info{
+    text-align: center;
+    padding-top: 1rem;
+}
+
+.ticket-text{
+    font-size: 3rem;
+    line-height: 2.5rem;
+}
+
+.ticket-date{
+    font-size: 2rem;
 }
 
 @keyframes ticket-lower-click {
@@ -425,18 +447,11 @@ body.no-scroll {
 }
 
 #ticket-button {
-    position: absolute;
-    width: 60%;
-    height: 60%;
-    text-align: center;
-    --og-color: #000000;
-    text-transform: uppercase;
-    color: var(--og-color);
-    font-size: 2rem;
-    font-weight: 500;
-    padding: 1.5rem 2.5rem;
-    border: 3px solid var(--primary-color-green);
-    border-radius: 1px;
+   font-size: 4rem;
+   font-weight: 600;
+   text-transform: uppercase;
+   padding: 1rem 3.5rem;
+   border: 1px solid var(--primary-color-green);
 }
 
 #ticket-button.clicked {
