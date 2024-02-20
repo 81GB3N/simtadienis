@@ -1,5 +1,8 @@
 export default function LeaderBoard() {
+    
+
+
     return (
-            <h1>Leaderboard</h1>
-        )
+        <h1>LeaderBoard</h1>
+    )
 }

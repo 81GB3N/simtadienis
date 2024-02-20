@@ -40,10 +40,6 @@ li {
     text-wrap: pretty;
 }
 
-input{
-    all: unset;
-}
-
 button {
     all: unset;
     cursor: pointer;
@@ -384,7 +380,7 @@ body.no-scroll {
 }
 
 #ticket__lower.clicked {
-    animation: ticket-lower-click 3s ease-in-out;
+    animation: ticket-lower-click 1s ease-in-out;
 }
 
 
@@ -493,6 +489,7 @@ body.no-scroll {
 }
 
 .form-input{
+    all: unset;
     background-color: white;
     padding: 0.5rem;
     border-radius: 0.5rem;

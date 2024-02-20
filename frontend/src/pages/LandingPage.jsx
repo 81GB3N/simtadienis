@@ -1,6 +1,7 @@
 // Landing page components
-import HeroTicket from "../components/HeroTicket"
 import Header from "../components/Header"
+import HeroTicket from "../components/HeroTicket"
+import LeaderBoard from "../components/LeaderBoard"
 // Utilities
 import ErrorModal from "../components/ErrorModal"
 // Context provider
@@ -22,8 +23,7 @@ export default function LandingPage() {
             <Header />
             <div className="landing">
                 <HeroTicket />
-                <div className="content">
-                </div>
+                <LeaderBoard />
             </div>
         </MenuProvider>
     )

@@ -4,7 +4,7 @@ import './css/app.css';
 import { Routes, Route } from 'react-router-dom';
 // Pages
 import LandingPage from './pages/LandingPage';
-import LeaderBoard from './pages/LeaderBoard';
+import LeaderBoardPage from './pages/LeaderBoardPage';
 import Admin from './pages/Admin';
 // Error modal
 import ErrorModal from './components/ErrorModal';
@@ -13,7 +13,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/leaderboard" element={<LeaderBoard />} />
+      <Route path="/leaderboard" element={<LeaderBoardPage />} />
       <Route path="/admin/*" element={<Admin />} />
       <Route path="*" element={<ErrorModal
         status='404'
