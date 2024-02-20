@@ -116,7 +116,8 @@ body {
     width: 100%;
     max-height: min-content;
     border-collapse: collapse;
-    margin: 20px 0;
+    margin-bottom: 20px;
+    border-radius: 0.8rem;
 }
 
 .table__head {
@@ -170,6 +171,7 @@ body {
     justify-content: space-around;
     align-items: center;
     background-color: var(--admin-background-card);
+    border-radius: 0.5rem;
 }
 
 .table-arrow {
@@ -192,6 +194,7 @@ body {
     background-color: var(--admin-background-secondary);
     padding-top: 2rem;
     height: 300px;
+    border-radius: 1rem;
 }
 
 .edit__header {
@@ -472,12 +475,12 @@ body {
     background-color: var(--admin-accent-primary-faded);
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 980px) {
     #admin-login-submit:active {
         background-color: var(--admin-accent-primary-transparent);
     }
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 980px) {
     .users{
         flex-direction: column;
         align-items: flex-start;
