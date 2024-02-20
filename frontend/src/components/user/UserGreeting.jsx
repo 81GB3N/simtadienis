@@ -1,5 +1,3 @@
-import '../../css/chest.css'
-import TreasureChest from './TreasureChest'
 import { useState } from 'react';
 
 export default function UserGreeting({ endGreeting }) {
@@ -56,7 +54,7 @@ export default function UserGreeting({ endGreeting }) {
 
     return (
         <div className='greeting'>
-            <TreasureChest handleChestOpen={handleChestOpen} />
+            {/* <TreasureChest handleChestOpen={handleChestOpen} /> */}
             <div className={`spinner ${startLoading ? 'active' : ''}`} >
                 <div className="lds-roller">
                     <div></div>

@@ -11,7 +11,6 @@ export default function HamburgerMenu() {
     const [userExists, setUserExists] = useState(user !== null);
 
     const [firstTime, setFirstTime] = useState(localStorage.getItem('firstTime')===null);
-    console.log('firstTime hamburger:', firstTime);
 
     const endGreeting = () => {
         setFirstTime(false);

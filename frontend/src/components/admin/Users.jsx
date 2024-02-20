@@ -10,45 +10,35 @@ import { useUser } from "../../context/UserProvider";
 
 //SOCKET CODE
 //--------------------------------------------------------
-import io from 'socket.io-client';
-const socket = io.connect('http://localhost:5000');
+// import io from 'socket.io-client';
+// const socket = io.connect('http://localhost:5000');
 //--------------------------------------------------------
 
 export default function Users() {
     const [allUsers, setAllUsers] = useState(null);
-    const { refresh, refreshUsers } = useUser();
+    const { refresh } = useUser();
     
     //SOCKET CODE
     //--------------------------------------------------------
-    socket.on("getusers", (res)=>{
-        //MAKE THIS UPDATE THE BOARD
-        console.log('user data fetched');
-        console.log(res);
-    });
+    // socket.on("getusers", (res)=>{
+    //     //MAKE THIS UPDATE THE BOARD
+    //     console.log('users updtated');
+    //     console.log(res);
+    // });
     //DO THE SAME IN THE LEADERBOARD PAGE
     //-------------------------------------------------------
 
-    socket.on('userUpdate', (res) => {
-        // refreshUsers();
-        console.log('user data updated');
-        console.log(res);
-    })
+    // socket.on('userUpdate', (res) => {
+    //     console.log('user data updated');
+    //     console.log(res);
+    // })
 
     useEffect(() => {
         getAllUsers().then(data => {
-            console.log('successfully retrieved all users')
             console.log(data.result);
             setAllUsers(data.result);
         });
     }, [refresh]);
-
-    // useEffect(() => {
-    //     getAllUsers().then(data => {
-    //         console.log('successfully retrieved all users')
-    //         console.log(data.result);
-    //         setAllUsers(data.result);
-    //     });
-    // }, []);
 
     return (
         <div className="page">

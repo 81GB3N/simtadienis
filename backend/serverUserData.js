@@ -104,14 +104,13 @@ app.post("/api/addmoney", (req, res) => {
       success: true,
       message: 'Money added successfully!'
     }) 
-  io.emit("getusers");
+    io.emit('getusers');
 } ).catch(err => {
     res.status(500).json({
       success: false,
       message: `Internal server error: ${err}`
     });
   })
-
 });
 
 //use rate limiter
