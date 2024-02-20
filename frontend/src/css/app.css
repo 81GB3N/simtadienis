@@ -655,7 +655,17 @@ body.no-scroll {
     margin-right: 0.25rem;
 }
 
+.leaderboard__controls button{
+    font-size: 1.25rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid white;
+    background-color: transparent;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    color: white;
+    cursor: pointer;
 
+}
 
 .bar{
     height: 4px;
