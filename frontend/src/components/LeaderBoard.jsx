@@ -1,6 +1,7 @@
 import { getAllUsers } from "../utils/api"
 import { useState, useEffect } from 'react'
 import LeaderBoardEntry from './LeaderBoardEntry'
+import { useInView } from 'react-intersection-observer';
 
 import io from 'socket.io-client';
 const socket = io.connect('http://localhost:5000');
@@ -10,6 +11,10 @@ export default function LeaderBoard() {
     const [error, setError] = useState(null);
     let maxDisplayLimit;
     const [displayLimit, setDisplayLimit] = useState(5);
+    let threshold;
+    if (displayLimit === 5) threshold = 0.3;
+    else threshold = 0.05;
+    const { ref, inView } = useInView({ threshold: threshold, fallbackInView: true });
 
     const fetchUsers = () => {
         getAllUsers()
@@ -45,13 +50,12 @@ export default function LeaderBoard() {
     if (!allUsers) return <div>Loading...</div>
 
     return (
-        <div className="leaderboard">
+        <div className={`leaderboard ${inView ? 'in-view' : ''}`} ref={ref}>
             {(allUsers).slice(0, displayLimit).map((user, index) =>
-                <LeaderBoardEntry key={user.name+user.surname} position={index + 1} user={user} mostMoney={allUsers[0].money}/>
+                <LeaderBoardEntry key={user.name + user.surname} position={index + 1} user={user} mostMoney={allUsers[0].money} />
             )}
             <div className="leaderboard__controls">
                 <button onClick={toggleDisplayLimit}>{displayLimit === maxDisplayLimit ? 'Retract' : 'Load All'}</button>
-                <span>Showing {displayLimit} of {maxDisplayLimit} users</span>
             </div>
         </div>
     )

@@ -43,7 +43,7 @@ export default function LeaderBoardEntry({ user, position, mostMoney }) {
                 </div>
             </div>
             <div className="entry-bar">
-                <div className="bar" style={{ width: `${barWidth}%` }}></div>
+                <div className="bar" style={{ '--bar-width': `${barWidth}%` }}></div>
             </div>
         </div>
     )
