@@ -13,7 +13,6 @@ export default function Header() {
             const currentScrollY = window.scrollY;
             // arbitrary value for when to hide the header (unit: vh)
             const threshold = 125;
-            console.log(currentScrollY)
             setHidden(currentScrollY > threshold);
         }
         window.addEventListener('scroll', handleScroll);

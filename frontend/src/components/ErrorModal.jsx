@@ -1,10 +1,11 @@
 import { useRef } from "react"
 
-export default function ErrorModal({status, errorMessage, dismissable}) {
+export default function ErrorModal({status, errorMessage, dismissable, dismiss}) {
     const frameRef = useRef(null);
 
     const dismissModal = () => {
         frameRef.current.classList.add('hide');
+        dismiss();
     }
 
     return (

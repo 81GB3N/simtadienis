@@ -1,4 +1,4 @@
-import { useLanguage } from "./LanguageProvider";
+import { useLanguage } from "../context/LanguageProvider";
 import coin from "../images/coin.webp";
 
 export default function LanguageSelector() {

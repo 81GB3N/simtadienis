@@ -1,18 +1,21 @@
 {
     "header.title.one": "lyceum's",
-    "header.title.two": "goods —",
+    "header.title.two": "goods",
     "header.title.three": "in the hands",
     "header.title.four": "of the rich?",
     "ticket.title.left.one": "explore ",
     "ticket.title.left.two": "luxury",
     "ticket.title.right.one": "2024",
     "ticket.title.right.two": "auction",
-    "ticket.button": "join",
-    "login": "Log In",
+    "ticket.text": "Build Wealth",
+    "ticket.date": "until 03.25.2024",
+    "ticket.button": "Join",
+    "login": "Login",
     "signup": "Sign Up",
     "name": "Name",
     "surname": "Surname",
     "password": "Password",
     "repeat.password": "Repeat Password",
-    "back": "Back"
+    "back": "Back",
+    "submit": "Submit"
 }

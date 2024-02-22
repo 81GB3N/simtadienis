@@ -3,37 +3,38 @@ import NewUserLookup from "./UserLookup";
 import UsersTable from "./UsersTable";
 import EditTable from "./EditTable";
 
-// Context
-import UserProvider from "../../context/UserProvider";
-
 import { getAllUsers } from '../../utils/api'
-
 import { useState, useEffect } from "react";
-
 import { useUser } from "../../context/UserProvider";
 
 
 //SOCKET CODE
 //--------------------------------------------------------
-import io from 'socket.io-client';
-const socket = io.connect('http://localhost:5000');
+// import io from 'socket.io-client';
+// const socket = io.connect('http://localhost:5000');
 //--------------------------------------------------------
 
 export default function Users() {
     const [allUsers, setAllUsers] = useState(null);
-    const { refresh, refreshUsers } = useUser();
+    const { refresh } = useUser();
     
     //SOCKET CODE
     //--------------------------------------------------------
-    socket.on("getusers", ()=>{
-        //MAKE THIS UPDATE THE BOARD
-    });
+    // socket.on("getusers", (res)=>{
+    //     //MAKE THIS UPDATE THE BOARD
+    //     console.log('users updtated');
+    //     console.log(res);
+    // });
     //DO THE SAME IN THE LEADERBOARD PAGE
     //-------------------------------------------------------
 
+    // socket.on('userUpdate', (res) => {
+    //     console.log('user data updated');
+    //     console.log(res);
+    // })
+
     useEffect(() => {
         getAllUsers().then(data => {
-            console.log('successfully retrieved all users')
             console.log(data.result);
             setAllUsers(data.result);
         });

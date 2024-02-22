@@ -1,10 +1,11 @@
 import { userExists, validatePassword } from "../../utils/api.js";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 
 import { useRef, useState, useEffect } from "react";
 
 
 export default function Login({ setUserExists, leave }) {
+    const intl = useIntl();
 
     const nameRef = useRef();
     const errRef = useRef();
@@ -31,69 +32,69 @@ export default function Login({ setUserExists, leave }) {
         e.preventDefault();
 
         if (!await userExists(name, surname)) {
-            console.log("user doesnt exist");
+            try {
+                setErrMsg("User does not exist");
+                return;
+            }
+            catch (err) {
+                setErrMsg("Something went wrong: ", err);
+            }
+        }
+
+        if (!await validatePassword(name, surname, password)) {
+            setErrMsg("Incorrect password");
             return;
         }
 
-        if(!await validatePassword(name, surname, password)){
-            console.log("the entered user info doesnt match the password");
-            return;
-        }
-
-        console.log('logging in as', name, surname);
         await setUserLocalStorage(name, surname);
         setUserExists(true);
     }
 
     return (
-        <section>
-            <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"}>{errMsg}</p>
-            <h1>Log In</h1>
-            <form method="get" onSubmit={handleSubmit}>
-                <div >
-                    <label htmlFor="name">
-                        <FormattedMessage id='name' />
-                    </label>
-                    <input
-                        type="text"
-                        placeholder="vardenis"
-                        id="name"
-                        required
-                        ref={nameRef}
-                        onChange={(e) => setName(e.target.value)}
-                        value={name}>
-                    </input>
+        <section className="form-wrapper">
+            <h3 className="form-title login-title">
+                <FormattedMessage id="login" />
+            </h3>
+            <form className="form login" method="get" onSubmit={handleSubmit}>
+                <input
+                    className="form-input form-name"
+                    type="text"
+                    placeholder={intl.formatMessage({ id: "name" })}
+                    id="name"
+                    required
+                    ref={nameRef}
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}>
+                </input>
+                <input
+                    className="form-input form-surname"
+                    type="text"
+                    placeholder={intl.formatMessage({ id: "surname" })}
+                    id="surname"
+                    required
+                    onChange={(e) => setSurname(e.target.value)}
+                    value={surname}>
+                </input>
+                <input
+                    className="form-input form-password"
+                    type="password"
+                    id="password"
+                    placeholder={intl.formatMessage({ id: "password" })}
+                    required
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}>
+                </input>
+                <p ref={errRef} className={`errmsg ${errMsg ? "active" : ""}`}>{errMsg}</p>
+                <div className="form__buttons">
+                    <button className="form-submit enabled" type="submit" id="login-submit">
+                        <FormattedMessage id="submit" />
+                    </button>
+                    <button
+                        className="form-leave"
+                        onClick={leave}>
+                        <FormattedMessage id="back" />
+                    </button>
                 </div>
-                <div >
-                    <label htmlFor="surname">
-                        <FormattedMessage id='surname' />
-                    </label>
-                    <input
-                        type="text"
-                        placeholder="pavardnenis"
-                        id="surname"
-                        required
-                        onChange={(e) => setSurname(e.target.value)}
-                        value={surname}>
-                    </input>
-                </div>
-                <div >
-                    <label htmlFor="password">
-                        <FormattedMessage id='password' />
-                    </label>
-                    <input
-                        type="password"
-                        id="password" 
-                        required
-                        onChange={(e) => setPassword(e.target.value)}
-                        value={password}>
-                    </input>
-                </div>
-                <input type="submit" id="login-submit"></input>
-                <button onClick={leave}>
-                    <FormattedMessage id="back"
-                    />
-                </button>
             </form>
         </section>
     )

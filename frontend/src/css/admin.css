@@ -31,11 +31,14 @@ body {
     justify-content: space-between;
     font-family: 'Open Sans', sans-serif;
     color: var(--admin-text-primary);
+    height: max-content;
+    align-items: stretch;
+    overflow: hidden;
 }
 
 .drawer {
     display: flex;
-    height: 100%;
+    height: 100vh;
     width: 100px;
     background: var(--admin-drawer);
     box-shadow: 1px 0px 3px rgba(0, 0, 0, 0.16), 1px 0px 3px rgba(0, 0, 0, 0.23);
@@ -79,9 +82,10 @@ body {
 .page {
     padding: 1rem;
     display: flex;
+    min-height: 100vh;
     flex-direction: column;
-    justify-content: space-between;
-    transition: all 0.22s ease;
+    gap: 2rem;
+    transition: all  0.22s ease;
 }
 
 .page>.header {
@@ -102,12 +106,18 @@ body {
     gap: 3rem;
 }
 
+.user-table-wrapper{
+    flex-grow: 1;
+    max-width: 500px;
+}
+
 .user-table {
     overflow: hidden;
-    width: 500px;
+    width: 100%;
     max-height: min-content;
     border-collapse: collapse;
-    margin: 20px 0;
+    margin-bottom: 20px;
+    border-radius: 0.8rem;
 }
 
 .table__head {
@@ -161,6 +171,7 @@ body {
     justify-content: space-around;
     align-items: center;
     background-color: var(--admin-background-card);
+    border-radius: 0.5rem;
 }
 
 .table-arrow {
@@ -178,10 +189,12 @@ body {
 }
 
 .edit {
-    width: 400px;
+    flex-grow: 2;
+    max-width: 400px;
     background-color: var(--admin-background-secondary);
     padding-top: 2rem;
     height: 300px;
+    border-radius: 1rem;
 }
 
 .edit__header {
@@ -189,13 +202,13 @@ body {
     justify-content: space-around;
 }
 
-.edit__name{
+.edit__name {
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--admin-text-primary);
 }
 
-.edit__info{
+.edit__info {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -204,7 +217,7 @@ body {
 
 }
 
-.edit__header{
+.edit__header {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -212,7 +225,7 @@ body {
     padding: 0 0.5rem 2rem 0.5rem;
 }
 
-.edit-form{
+.edit-form {
     padding: 1rem;
     width: 100%;
     display: flex;
@@ -220,41 +233,46 @@ body {
     border: 1px solid var(--admin-background-primary);
 }
 
-.money-input{
+.money-input {
     max-width: 50%;
 }
 
-.edit-controls{
-    display:flex;
+.edit-controls {
+    display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 0.5rem
 }
 
-.money-submit{
+.money-submit {
     background-color: var(--admin-accent-primary);
     padding: 0.5rem 1rem;
 }
 
-.edit-status{
+.edit-status {
     display: none;
     align-items: center;
     gap: 1rem;
     overflow: visible;
 }
-.edit-status.active{
+
+.edit-status.active {
     display: flex;
 }
-.edit-success{
+
+.edit-success {
     color: #36D744;
 }
-.edit-error{
+
+.edit-error {
     color: #EF4836;
 }
-.edit-placeholder{
+
+.edit-placeholder {
     text-align: center;
     color: var(--admin-text-faded);
 }
+
 /* user lookup */
 .user-lookup {
     flex-grow: 1;
@@ -317,7 +335,7 @@ body {
     visibility: visible;
     opacity: 1;
     box-sizing: border-box;
-    border-radius:0 0 1em 1em;
+    border-radius: 0 0 1em 1em;
     border: 2px solid var(--admin-accent-primary);
     border-top: 0;
 }
@@ -402,7 +420,7 @@ body {
 }
 
 /* Admin Login */
-.admin-login-container{
+.admin-login-container {
     position: absolute;
     z-index: 1000;
     width: 100vw;
@@ -413,7 +431,8 @@ body {
     justify-content: space-evenly;
     padding: 0 auto;
 }
-.admin-login-title{
+
+.admin-login-title {
     font-size: 2rem;
     font-weight: 600;
     color: var(--admin-text-primary);
@@ -421,7 +440,7 @@ body {
     padding: 1rem;
 }
 
-.admin-login{
+.admin-login {
     width: 100vw;
     display: flex;
     flex-direction: column;
@@ -431,13 +450,52 @@ body {
     align-items: center;
 }
 
-.take-space{    
+.take-space {
     height: 50px;
     display: flex;
     align-items: center;
 }
 
-.admin-login-pass{
+.admin-login-pass {
     display: flex;
     flex-direction: column;
+}
+
+#admin-login-submit {
+    background-color: var(--admin-accent-primary);
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: var(--admin-text-primary);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+#admin-login-submit:hover {
+    background-color: var(--admin-accent-primary-faded);
+}
+
+@media screen and (min-width: 980px) {
+    #admin-login-submit:active {
+        background-color: var(--admin-accent-primary-transparent);
+    }
+}
+@media screen and (max-width: 980px) {
+    .users{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .edit{
+        width: 100%;
+    }
+    .edit-form{
+        flex-direction: column;
+    }
+    .user-table-wrapper{
+        width: 100%;
+    }
+    .react-autosuggest__suggestions-container{
+        background-color: var(--admin-accent-primary-faded);
+    }
+
 }
