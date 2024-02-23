@@ -39,6 +39,7 @@ export default function UserProfile({ userData, setUserExists }) {
         <div className="user__profile">
             <p>Logged in as {userData?.name}, {userData?.surname}<span ></span></p>
             <button>Current amount: <span>{moneyAmount}</span></button>
+            <p>Discount code for <a href="https://weborado.lt" target="_blank">weborado.lt</a></p>
             <button onClick={logout}>LOGOUT</button>
             <div ></div>
         </div>
