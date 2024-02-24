@@ -57,6 +57,14 @@ async function getCurrentMoney(name, surname, type) {
   return Number(user[0].money);
 }
 
+function findKey(updateInfo){
+  for(let key in updateInfo){
+    if(key !== "name" && key !== "surname"){
+      return key;
+    }
+  }
+}
+
 //get all the data requested for all the users
 const retrieveDocument = async () => {
   try {
@@ -73,19 +81,28 @@ const retrieveDocument = async () => {
 };
 
 //update the given user with the given information
-const updateUser = async (updateMoney) => {
+const updateUser = async (updateInfo) => {
   try {
     const collection = database.collection(main);
-    const currentMoney = await getCurrentMoney(
-      updateMoney.name,
-      updateMoney.surname,
-      main
-    );
 
-    //update the users current money
+    let money;
+    
+    if(updateInfo.money){
+      money = await getCurrentMoney(
+      updateInfo.name,
+      updateInfo.surname,
+      main
+      )+Number(updateInfo.money);}
+
+        // find the key requested for updating
+      const key = findKey(updateInfo);
+
+      console.log(key, [key], updateInfo[key])
+
+    //update the users information
     const result = await collection.updateOne(
-      { name: updateMoney.name, surname: updateMoney.surname },
-      { $set: { money: currentMoney + Number(updateMoney.money) } }
+      { name: updateInfo.name, surname: updateInfo.surname },
+      { $set: { [key]: updateInfo[key] } }
     );
 
     console.log("Document updated successfully", result);
