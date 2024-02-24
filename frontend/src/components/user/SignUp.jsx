@@ -3,6 +3,8 @@ import { FormattedMessage, useIntl } from "react-intl";
 
 import { useRef, useState, useEffect } from "react";
 
+import unkownUserImg from "../../images/unknown-user.png";
+
 const USER_REGEX = /^[a-zA-Z0-9]{3,30}$/;
 const PASSWORD_REGEX = /^(?=.*[a-zA-Z])(?=.*\d).{5,}$/;
 
@@ -58,7 +60,8 @@ export default function Signup({ setUserExists, leave }) {
             name: name,
             surname: surname,
             password: password,
-            money: 0
+            money: 0,
+            image: unkownUserImg
         };
 
         // #TODO, check additionally if submit button was enabled via console

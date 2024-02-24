@@ -12,9 +12,9 @@ function BackArrow({ handleArrowClick }) {
           setTimeout(() => {
             handleArrowClick()
           }, ANIMATION_DURATION / 5);
-          setTimeout(() => {
-            setAnimationActive(false);
-          }, ANIMATION_DURATION);
+            setTimeout(() => {
+              setAnimationActive(false);
+            }, ANIMATION_DURATION);
         }}
         style={{
           width: '21.2px',

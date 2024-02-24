@@ -1038,6 +1038,20 @@ body {
     max-width: var(--bar-width, 30%);
 }
 
+/* WEBCAM (temporary) */
+.webcam-temp{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10vh;
+}
+
+.webcam-container{
+    height: 20rem;
+    width: 20rem;
+}
+
 /* CSS FOR VISUAL TESTS (will be deleted in production) */
 .content {
     height: 350vh;

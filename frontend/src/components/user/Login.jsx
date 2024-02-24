@@ -4,7 +4,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { useRef, useState, useEffect } from "react";
 
 
-export default function Login({ setUserExists, leave }) {
+export default function Login({ setUserExists }) {
     const intl = useIntl();
 
     const nameRef = useRef();
