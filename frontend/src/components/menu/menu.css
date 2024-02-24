@@ -1,0 +1,28 @@
+/* burger menu */
+#menu {
+    position: absolute;
+    z-index: 9;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    top: 0;
+    left: 100%;
+    width: 100%;
+    min-height: 100vh;
+    transition: transform 0.5s ease-in-out;
+    background-color: var(--primary-color-yellow);
+}
+
+#menu.active {
+    transform: translateX(-100%);
+}
+
+.menu-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.menu-img.img-one {
+    transform: rotate(180deg) translateY(2rem);
+}

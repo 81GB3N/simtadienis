@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
-import LanguageSelector from './LanguageSelector';
-import moneyImg from '../assets/flying-money.png';
+import LanguageSelector from '../LanguageSelector';
+import moneyImg from '../../assets/images/flying-money.png';
 // Internationalization
 import { FormattedMessage } from 'react-intl';
+import PageControls from '../page-control/PageControls';
+
+import './header.css'
 
 export default function Header() {
     const [hidden, setHidden] = useState(false);
@@ -22,6 +25,7 @@ export default function Header() {
     
     return (
         <header id='header' >
+            <PageControls />
             <div id='header__selector' className={hidden ? 'hidden' : ''}>
                 <LanguageSelector />
             </div>

@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 
 import { useRef, useState, useEffect } from "react";
 
-import unkownUserImg from "../../images/unknown-user.png";
+import unkownUserImg from "../../assets/images/unknown-user.png";
 
 const USER_REGEX = /^[a-zA-Z0-9]{3,30}$/;
 const PASSWORD_REGEX = /^(?=.*[a-zA-Z])(?=.*\d).{5,}$/;

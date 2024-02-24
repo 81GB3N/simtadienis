@@ -3,8 +3,9 @@ import { getUserData, sendUserData } from "../../utils/api";
 import { useState, useEffect, useRef } from "react";
 // import Webcam from "react-webcam";
 import CustomWebcam from "../CustomWebcam";
-import unkownUserImg from "../../images/unknown-user.png";
+import unkownUserImg from "../../assets/images/unknown-user.png";
 
+import './user.css';
 export default function UserProfile({ userData, setUserExists }) {
     const { toggleMenu } = useSubPage();
     const [moneyAmount, setMoneyAmount] = useState(0);
@@ -48,6 +49,7 @@ export default function UserProfile({ userData, setUserExists }) {
             <button>Current amount: <span>{moneyAmount}</span></button>
             <p>Discount code for <a href="https://weborado.lt" target="_blank">weborado.lt</a></p>
             <button onClick={logout}>LOGOUT</button>
+            
             <div className="webcam-temp">
                 {(open ?
                     <div className="webcam-modal">

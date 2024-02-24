@@ -1,5 +1,5 @@
 import { useLanguage } from "../context/LanguageProvider";
-import coin from "../images/coin.webp";
+import coin from "../assets/images/coin.webp";
 
 export default function LanguageSelector() {
     const { locale, changeLocale } = useLanguage();

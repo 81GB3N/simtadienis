@@ -1,4 +1,5 @@
 import { useRef } from "react"
+import './error.css'
 
 export default function ErrorModal({status, errorMessage, dismissable, dismiss}) {
     const frameRef = useRef(null);

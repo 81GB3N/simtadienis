@@ -1,14 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSubPage } from '../context/SubPageProvider';
-import UserProfile from './user/UserProfile';
-import NoUser from './user/NoUser';
-import BackArrow from './BackArrow';
-import hundredDollarsImg from '../images/heap-hundred-dollar-.webp';
-
+import { useSubPage } from '../../context/SubPageProvider';
+import UserProfile from '../user/UserProfile';
+import NoUser from '../user/NoUser';
+import hundredDollarsImg from '../../assets/images/heap-hundred-dollar-.webp';
+import './menu.css'
 export default function HamburgerMenu() {
-    const { menuActive, toggleMenu,
-        loginActive, signupActive,
-        toggleLoginActive, toggleSignupActive } = useSubPage();
+    const { menuActive } = useSubPage();
 
     const userRef = useRef(null);
     const [user, setUser] = useState(null);
@@ -36,25 +33,8 @@ export default function HamburgerMenu() {
             });
     }, [userExists])
 
-    let handleArrowClick;
-    if (!loginActive && !signupActive) {
-        handleArrowClick = () => toggleMenu();
-    }
-    if (loginActive) {
-        handleArrowClick = () => toggleLoginActive();
-    }
-    if (signupActive) {
-        handleArrowClick = () => toggleSignupActive();
-    }
-
     return (
-        <>
-            <div className={`menu__controls ${menuActive ? 'active' : ''}`}>
-                <BackArrow handleArrowClick={handleArrowClick} />
-                <button id="hamburger" onClick={toggleMenu}>
-                    <div id='bar'></div>
-                </button>
-            </div>
+        <div className='menu'>
             <div id="menu" className={menuActive ? 'active' : ''}>
                 <img src={hundredDollarsImg} alt="hundred dollars" className='menu-img img-one'></img>
                 <div id='user' ref={userRef}>
@@ -68,6 +48,6 @@ export default function HamburgerMenu() {
                 </div>
                 <img src={hundredDollarsImg} alt="hundred dollars" className='menu-img img-two'></img>
             </div>
-        </>
+        </div>
     )
 }

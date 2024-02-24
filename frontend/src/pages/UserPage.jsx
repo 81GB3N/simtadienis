@@ -1,10 +1,11 @@
 // Landing page components
-import Header from "../components/Header"
-import HeroTicket from "../components/HeroTicket"
-import HamburgerMenu from "../components/HamburgerMenu"
-import LeaderBoard from "../components/LeaderBoard"
+import Home from "../components/home/Home"
+import Header from "../components/header/Header"
+import HeroTicket from "../components/ticket/HeroTicket"
+import HamburgerMenu from "../components/menu/HamburgerMenu"
+import LeaderBoard from "../components/leaderboard/LeaderBoard"
 // Utilities
-import ErrorModal from "../components/ErrorModal"
+import ErrorModal from "../components/error/ErrorModal"
 // Context provider
 import { useSubPage } from "../context/SubPageProvider"
 
@@ -34,18 +35,8 @@ export default function UserPage() {
     }
 
     return (
-        <section className={`page-container ${userSubPageName}-page`}>
-            {/* {userSubPageName === 'home' &&
-                <>
-                    <Header />
-                    <HeroTicket />
-                </>
-            }
-            {userSubPageName === 'leaderboard' && <LeaderBoard />} */}
-            <div className="home">
-                <Header />
-                <HeroTicket />
-            </div>
+        <section className={`page-carousel ${userSubPageName}-page`}>
+            <Home />
             <HamburgerMenu />
             <LeaderBoard />
         </section>

@@ -1,0 +1,142 @@
+/* HEADER */
+#header {
+    /* padding-bottom: 10vh; */
+    position: relative;
+}
+
+/* selector */
+#header__selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.2rem;
+    height: 6rem;
+    padding-top: 1rem;
+    margin-bottom: 3rem;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    transition: transform 0.5s ease-in-out;
+}
+
+#header__selector.hidden {
+    transform: translateY(-100%);
+}
+
+#selector-img {
+    position: relative;
+    max-height: 50%;
+    max-width: 50%;
+    object-fit: contain;
+}
+
+.selector-btn {
+    font-size: 1.5rem;
+    color: #fff;
+    font-weight: 600;
+    transition: color 0.2s ease-in-out;
+}
+
+.selector-btn.active {
+    color: var(--primary-color-red);
+}
+
+/* Money Images */
+.header-money {
+    position: absolute;
+    width: 25%;
+    height: 25%;
+    object-fit: contain;
+    z-index: -100;
+}
+
+.money-upper {
+    top: 0;
+    left: 0;
+    transform: translate(50%, 50%);
+    animation: fly-upper-money 8s infinite;
+}
+
+.money-lower {
+    bottom: 0;
+    right: 0;
+    width: 40%;
+    height: 40%;
+    animation: fly-lower-money 8s infinite;
+}
+
+@keyframes fly-upper-money {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(80vw, 25%);
+    }
+
+    50% {
+        transform: translate(50%, 50%);
+    }
+
+    75% {
+        transform: translate(75%, 75%);
+    }
+}
+
+@keyframes fly-lower-money {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(-80vw, 25%);
+    }
+
+    50% {
+        transform: translate(40vw, 50%);
+    }
+
+    75% {
+        transform: translate(30%, 75%);
+    }
+}
+
+
+/* title */
+#header__title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1rem;
+    padding-top: 1rem;
+    line-height: 2.75rem;
+}
+
+.title-text {
+    /* 3.25 */
+    font-size: 3rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    word-break: normal;
+
+}
+
+.title-one,
+.title-four {
+    color: var(--primary-color-red);
+}
+
+.title-two,
+.title-three {
+    color: var(--primary-color-yellow);
+}
+
+.title-one,
+.title-two {
+    /* align-self: flex-end; */
+}

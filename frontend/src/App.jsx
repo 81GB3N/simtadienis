@@ -7,7 +7,7 @@ import UserPage from './pages/UserPage';
 import LeaderBoardPage from './pages/LeaderBoardPage';
 import AdminPage from './pages/AdminPage';
 // Error modal
-import ErrorModal from './components/ErrorModal';
+import ErrorModal from './components/error/ErrorModal';
 // User Page Context Provider
 import SubPageProvider from './context/SubPageProvider';
 

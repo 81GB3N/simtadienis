@@ -1,0 +1,86 @@
+/* MENU CONTROLS */
+.menu__controls {
+    --animation-duration: 500ms;
+    position: absolute;
+    /* necessary because menu__controls is going to block language selector btns */
+    pointer-events: none;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    z-index: 10;
+    padding: 0 1rem;
+    transition: transform var(--animation-duration) ease-in-out;
+}
+
+.menu__controls.active {
+    transform: translateY(3rem);
+}
+
+/* HAMBURGER */
+/* burger button */
+#hamburger,
+.arrow-btn {
+    width: 35px;
+    /* set to initial because they were disabled in menu__controls */
+    pointer-events: initial;
+    transition: transform var(--animation-duration) ease-in-out;
+}
+
+#hamburger>#bar,
+#hamburger::after,
+#hamburger::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #fff;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+#hamburger>#bar {
+    width: 100%;
+}
+
+/* hamburger is active */
+.menu__controls.active>#hamburger>#bar {
+    opacity: 0;
+}
+
+.menu__controls.active>#hamburger::after {
+    transform: rotate(-45deg) translate(4px, -8px);
+    background-color: var(--primary-color-black);
+}
+
+.menu__controls.active>#hamburger::before {
+    transform: rotate(45deg) translate(4px, 8px);
+    background-color: var(--primary-color-black);
+}
+
+/* arrow */
+.arrow-btn {
+    cursor: pointer;
+    transform: translateX(-50vh);
+    transition: transform var(--animation-duration) ease-in-out;
+}
+
+.menu__controls.active>.arrow-btn {
+    transform: translateX(0);
+}
+
+.fly-off {
+    transform: translateX(50px) rotate(45deg);
+    animation: flyOffAnimation 0.5s forwards;
+}
+
+@keyframes flyOffAnimation {
+    0% {
+        opacity: 1;
+        transform: translateX(50px) rotate(45deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(-300%) rotate(45deg);
+    }
+}

@@ -1,6 +1,7 @@
 import { FormattedMessage } from 'react-intl';
 import { useRef } from 'react';
-import { useSubPage } from '../context/SubPageProvider';
+import { useSubPage } from '../../context/SubPageProvider';
+import './ticket.css';
 
 export default function HeroTicket() {
     const ticketLoweref = useRef(null);

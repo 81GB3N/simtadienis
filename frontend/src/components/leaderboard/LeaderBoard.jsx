@@ -1,8 +1,9 @@
-import { getAllUsers } from "../utils/api"
+import { getAllUsers } from "../../utils/api"
 import { useState, useEffect } from 'react'
 import LeaderBoardEntry from './LeaderBoardEntry'
 import { useInView } from 'react-intersection-observer';
-import { useSubPage } from '../context/SubPageProvider';
+import { useSubPage } from '../../context/SubPageProvider';
+import './leaderboard.css'
 
 import io from 'socket.io-client';
 const socket = io.connect('http://localhost:5000');

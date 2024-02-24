@@ -2,7 +2,7 @@ import { FormattedMessage } from 'react-intl';
 import { useSubPage } from '../../context/SubPageProvider';
 import Login from "./Login";
 import SignUp from "./SignUp";
-
+import './user.css';
 export default function NoUser({ setUserExists }) {
     const { loginActive, signupActive, toggleLoginActive, toggleSignupActive, changeUserSubPage } = useSubPage();
 
