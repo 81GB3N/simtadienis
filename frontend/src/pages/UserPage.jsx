@@ -5,12 +5,13 @@ import LeaderBoard from "../components/LeaderBoard"
 // Utilities
 import ErrorModal from "../components/ErrorModal"
 // Context provider
-import MenuProvider from '../context/MenuProvider';
+import { useSubPage } from "../context/SubPageProvider"
+
 import { useEffect, useState } from "react";
 
-export default function LandingPage() {
-
+export default function UserPage() {
     const [showModal, setShowModal] = useState(false);
+    const { userSubPageName } = useSubPage();
 
     const isMobile = () => {
         const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
@@ -32,12 +33,14 @@ export default function LandingPage() {
     }
 
     return (
-        <MenuProvider>
-            <Header />
-            <div className="landing">
-                <HeroTicket />
-                <LeaderBoard />
-            </div>
-        </MenuProvider>
+        <section className={`page-container ${userSubPageName}-page`}>
+            {userSubPageName === 'home' &&
+                <>
+                    <Header />
+                    <HeroTicket />
+                </>
+            }
+            {userSubPageName === 'leaderboard' && <LeaderBoard />}
+        </section>
     )
 }

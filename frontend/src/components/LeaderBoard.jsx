@@ -2,6 +2,7 @@ import { getAllUsers } from "../utils/api"
 import { useState, useEffect } from 'react'
 import LeaderBoardEntry from './LeaderBoardEntry'
 import { useInView } from 'react-intersection-observer';
+import { useSubPage } from '../context/SubPageProvider';
 
 import io from 'socket.io-client';
 const socket = io.connect('http://localhost:5000');
@@ -15,6 +16,7 @@ export default function LeaderBoard() {
     if (displayLimit === 5) threshold = 0.3;
     else threshold = 0.05;
     const { ref, inView } = useInView({ threshold: threshold, fallbackInView: true });
+    const { changeUserSubPage } = useSubPage();
 
     const fetchUsers = () => {
         getAllUsers()
@@ -51,6 +53,9 @@ export default function LeaderBoard() {
 
     return (
         <div className={`leaderboard ${inView ? 'in-view' : ''}`} ref={ref}>
+            <button onClick={()=>changeUserSubPage('home')} style={{color: 'white'}}>
+                Back to Home
+            </button>
             {(allUsers).slice(0, displayLimit).map((user, index) =>
                 <LeaderBoardEntry key={user.name + user.surname} position={index + 1} user={user} mostMoney={allUsers[0].money} />
             )}

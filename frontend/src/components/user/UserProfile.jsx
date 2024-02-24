@@ -1,11 +1,11 @@
-import { useMenu } from "../../context/MenuProvider";
+import { useSubPage } from "../../context/SubPageProvider";
 import { getUserData } from "../../utils/api";
 import { useState, useEffect } from "react";
 
 export default function UserProfile({ userData, setUserExists }) {
     console.log("in user: ", userData);
 
-    const { toggleMenu } = useMenu();
+    const { toggleMenu } = useSubPage();
     const [moneyAmount, setMoneyAmount] = useState(0);
 
     const logout = async () => {

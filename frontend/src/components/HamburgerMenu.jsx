@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useMenu } from '../context/MenuProvider';
+import { useSubPage } from '../context/SubPageProvider';
 import UserProfile from './user/UserProfile';
 import NoUser from './user/NoUser';
 import BackArrow from './BackArrow';
@@ -8,7 +8,7 @@ import hundredDollarsImg from '../images/heap-hundred-dollar-.webp';
 export default function HamburgerMenu() {
     const { menuActive, toggleMenu,
         loginActive, signupActive,
-        toggleLoginActive, toggleSignupActive } = useMenu();
+        toggleLoginActive, toggleSignupActive } = useSubPage();
 
     const userRef = useRef(null);
     const [user, setUser] = useState(null);
