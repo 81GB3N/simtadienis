@@ -282,6 +282,8 @@ body.no-scroll {
 .menu__controls {
     --animation-duration: 500ms;
     position: absolute;
+    /* necessary because menu__controls is going to block language selector btns */
+    pointer-events: none;
     width: 100vw;
     display: flex;
     justify-content: space-between;
@@ -299,6 +301,8 @@ body.no-scroll {
 #hamburger,
 .arrow-btn {
     width: 35px;
+    /* set to initial because they were disabled in menu__controls */
+    pointer-events: initial;
     transition: transform var(--animation-duration) ease-in-out;
 }
 
