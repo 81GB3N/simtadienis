@@ -1,6 +1,7 @@
 // Landing page components
 import Header from "../components/Header"
 import HeroTicket from "../components/HeroTicket"
+import HamburgerMenu from "../components/HamburgerMenu"
 import LeaderBoard from "../components/LeaderBoard"
 // Utilities
 import ErrorModal from "../components/ErrorModal"
@@ -34,13 +35,19 @@ export default function UserPage() {
 
     return (
         <section className={`page-container ${userSubPageName}-page`}>
-            {userSubPageName === 'home' &&
+            {/* {userSubPageName === 'home' &&
                 <>
                     <Header />
                     <HeroTicket />
                 </>
             }
-            {userSubPageName === 'leaderboard' && <LeaderBoard />}
+            {userSubPageName === 'leaderboard' && <LeaderBoard />} */}
+            <div className="home">
+                <Header />
+                <HeroTicket />
+            </div>
+            <HamburgerMenu />
+            <LeaderBoard />
         </section>
     )
 }

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import LanguageSelector from './LanguageSelector';
-import HamburgerMenu from './HamburgerMenu';
 import moneyImg from '../assets/flying-money.png';
 // Internationalization
 import { FormattedMessage } from 'react-intl';
@@ -25,7 +24,6 @@ export default function Header() {
         <header id='header' >
             <div id='header__selector' className={hidden ? 'hidden' : ''}>
                 <LanguageSelector />
-                <HamburgerMenu />
             </div>
             <img className='header-money money-upper' src={moneyImg} alt='flying money' />
             <div id='header__title'>

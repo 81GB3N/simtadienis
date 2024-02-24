@@ -1,5 +1,5 @@
 import { useSubPage } from "../../context/SubPageProvider";
-import { getUserData } from "../../utils/api";
+import { getUserData, sendUserData } from "../../utils/api";
 import { useState, useEffect, useRef } from "react";
 // import Webcam from "react-webcam";
 import CustomWebcam from "../CustomWebcam";
@@ -27,7 +27,6 @@ export default function UserProfile({ userData, setUserExists }) {
         catch (err) {
             console.log("Error while fetching money: ", err);
         }
-
     }
 
     useEffect(() => {
@@ -54,8 +53,11 @@ export default function UserProfile({ userData, setUserExists }) {
                     <div className="webcam-modal">
                         <CustomWebcam ref={webcamRef} setImgSrc={setImgSrc}/>
                         <button onClick={() => {
-                            webcamRef.current.capture();
+                            const webcamImgSrc = webcamRef.current.capture();
                             setOpen(false);
+                            setImgSrc(webcamImgSrc);
+                            console.log('new image: ', webcamImgSrc);
+                            sendUserData({ imgSrc: webcamImgSrc, name: userData.name, surname: userData.surname}, 'update-picture')
                         }}>Capture</button>
                     </div>
                     :

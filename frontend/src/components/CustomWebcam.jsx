@@ -1,7 +1,7 @@
 import Webcam from "react-webcam";
 import { useEffect, useRef, forwardRef, useImperativeHandle } from "react";
 
-const CustomWebcam = forwardRef(function CustomWebcam({ setImgSrc }, ref) {
+const CustomWebcam = forwardRef(function CustomWebcam(props, ref) {
     const containerRef = useRef(null);
     const webcamRef = useRef(null);
 
@@ -18,7 +18,7 @@ const CustomWebcam = forwardRef(function CustomWebcam({ setImgSrc }, ref) {
     useImperativeHandle(ref, () => ({
         capture: () => {
             const imageSrc = webcamRef.current.getScreenshot();
-            setImgSrc(imageSrc);
+            return imageSrc;
         },
     }));
 
