@@ -9,6 +9,10 @@
     --secondary-color-red: #d97f67;
 
     --error-color: #c10000;
+
+    --box-shadow-default: 3px 3px 0 1px rgb(0, 0, 0);
+    --box-shadow-valid: 3px 3px 0 1px var(--primary-color-green);
+    --box-shadow-invalid: 3px 3px 0 1px var(--error-color);
 }
 
 /* CSS RESET */
@@ -74,10 +78,12 @@ button {
     background: #fff;
     border-radius: 3px;
     text-align: center;
+    padding: 10px 20px;
 }
 
 #modal__image {
-    margin-top: 24px;
+    margin-top: 10px;
+
 }
 
 #modal__title {
@@ -85,14 +91,14 @@ button {
     font-size: 26px;
     line-height: 24px;
     font-weight: 400;
-    margin: 16px 0;
+    margin: 24px 0;
 }
 
 #modal__mesage {
     font-size: 14px;
     font-weight: 300;
     line-height: 19px;
-    padding: 0 30px;
+
 }
 
 #modal__button {
@@ -122,16 +128,27 @@ body {
     background-size: 8px 14px;
     background-position: 0 0, 0 0, 4px 7px, 4px 7px, 0 0, 4px 7px;
     font-family: 'Cormorant', Arial, sans-serif;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
-body.no-scroll {
+/* body.no-scroll {
     overflow: hidden;
+} */
+
+/* PAGE CONTAINER */
+.page-container{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.page-container.home-page{
+    padding-bottom: 10vh;
 }
 
 /* HEADER */
 #header {
-    padding-bottom: 10rem;
+    /* padding-bottom: 10vh; */
     position: relative;
 }
 
@@ -272,14 +289,32 @@ body.no-scroll {
     /* align-self: flex-end; */
 }
 
+/* MENU CONTROLS */
+.menu__controls {
+    --animation-duration: 500ms;
+    position: absolute;
+    /* necessary because menu__controls is going to block language selector btns */
+    pointer-events: none;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    z-index: 10;
+    padding: 0 1rem;
+    transition: transform var(--animation-duration) ease-in-out;
+}
+
+.menu__controls.active {
+    transform: translateY(3rem);
+}
+
 /* HAMBURGER */
 /* burger button */
-#hamburger {
-    position: absolute;
-    right: 1rem;
+#hamburger,
+.arrow-btn {
     width: 35px;
-    z-index: 10;
-    transition: transform 0.5s ease-in-out;
+    /* set to initial because they were disabled in menu__controls */
+    pointer-events: initial;
+    transition: transform var(--animation-duration) ease-in-out;
 }
 
 #hamburger>#bar,
@@ -299,22 +334,46 @@ body.no-scroll {
 }
 
 /* hamburger is active */
-#hamburger.active>#bar {
+.menu__controls.active>#hamburger>#bar {
     opacity: 0;
 }
 
-#hamburger.active::after {
+.menu__controls.active>#hamburger::after {
     transform: rotate(-45deg) translate(4px, -8px);
     background-color: var(--primary-color-black);
 }
 
-#hamburger.active::before {
+.menu__controls.active>#hamburger::before {
     transform: rotate(45deg) translate(4px, 8px);
     background-color: var(--primary-color-black);
 }
 
-#hamburger.active {
-    transform: translateY(3rem);
+/* arrow */
+.arrow-btn {
+    cursor: pointer;
+    transform: translateX(-50vh);
+    transition: transform var(--animation-duration) ease-in-out;
+}
+
+.menu__controls.active>.arrow-btn {
+    transform: translateX(0);
+}
+
+.fly-off {
+    transform: translateX(50px) rotate(45deg);
+    animation: flyOffAnimation 0.5s forwards;
+}
+
+@keyframes flyOffAnimation {
+    0% {
+        opacity: 1;
+        transform: translateX(50px) rotate(45deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(-300%) rotate(45deg);
+    }
 }
 
 /* burger menu */
@@ -353,7 +412,6 @@ body.no-scroll {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-bottom: 10rem;
     transform: scale(0.8);
 }
 
@@ -452,7 +510,200 @@ body.no-scroll {
     text-transform: uppercase;
     padding: 1rem 3.5rem;
     border: 1px solid var(--primary-color-green);
+    animation: animateTicketButton 2s ease-in-out infinite;
 }
+
+/* @keyframes animateTicketButton {
+    0%, 100% {
+      transform: translateX(0) scale(1);
+    }
+    10%{
+        transform: scale(1.1) rotate(15deg);
+    }
+    20%{
+        transform: scale(1.2) rotate(0);
+    }
+    30%{
+        transform: scale(1) rotate(-15deg);
+    }
+    40%{
+        transform: scale(0.9) rotate(-30deg);
+    }
+    50%{
+        transform: scale(0.8) rotate(-0deg);
+    }
+    60%{
+        transform: scale(1) rotate(10deg);
+    }
+    70%{
+        transform: scale(1.2) rotate(20deg);
+    }
+    80%{
+        transform: scale(1.1) rotate(-10deg);
+
+    }
+    90%{
+        transform: scale(1.05) rotate(5deg);
+    }
+  } */
+
+@keyframes animateTicketButton {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    5% {
+        transform: scale(1.1) rotate(15deg);
+    }
+
+    8.5% {
+        transform: scale(1.15) rotate(7.5deg);
+    }
+
+    10% {
+        transform: scale(1.2) rotate(0deg);
+    }
+
+    12.5% {
+        transform: scale(1.1) rotate(-7.5deg);
+    }
+
+    15% {
+        transform: scale(1) rotate(-15deg);
+    }
+
+    17.5% {
+        transform: scale(0.95) rotate(-22.5deg);
+    }
+
+    20% {
+        transform: scale(0.9) rotate(-30deg);
+    }
+
+    22.5% {
+        transform: scale(0.85) rotate(-22.5deg);
+    }
+
+    25% {
+        transform: scale(0.8) rotate(-15deg);
+    }
+
+    27.5% {
+        transform: scale(0.85) rotate(-10deg);
+    }
+
+    30% {
+        transform: scale(0.9) rotate(-5deg);
+    }
+
+    32.5% {
+        transform: scale(1) rotate(0deg);
+    }
+
+    35% {
+        transform: scale(1.05) rotate(5deg);
+    }
+
+    37.5% {
+        transform: scale(1.1) rotate(10deg);
+    }
+
+    40% {
+        transform: scale(1.15) rotate(15deg);
+    }
+
+    42.5% {
+        transform: scale(1.2) rotate(10deg);
+    }
+
+    45% {
+        transform: scale(1.15) rotate(5deg);
+    }
+
+    47.5% {
+        transform: scale(1.1) rotate(0deg);
+    }
+
+    50% {
+        transform: scale(1.05) rotate(-5deg);
+    }
+
+    52.5% {
+        transform: scale(1) rotate(-10deg);
+    }
+
+    55% {
+        transform: scale(0.95) rotate(-15deg);
+    }
+
+    57.5% {
+        transform: scale(0.9) rotate(-22.5deg);
+    }
+
+    60% {
+        transform: scale(0.85) rotate(-30deg);
+    }
+
+    62.5% {
+        transform: scale(0.9) rotate(-22.5deg);
+    }
+
+    65% {
+        transform: scale(0.95) rotate(-15deg);
+    }
+
+    67.5% {
+        transform: scale(1) rotate(-10deg);
+    }
+
+    70% {
+        transform: scale(1.05) rotate(-5deg);
+    }
+
+    72.5% {
+        transform: scale(1.1) rotate(0deg);
+    }
+
+    75% {
+        transform: scale(1.15) rotate(5deg);
+    }
+
+    77.5% {
+        transform: scale(1.2) rotate(10deg);
+    }
+
+    80% {
+        transform: scale(1.15) rotate(15deg);
+    }
+
+    82.5% {
+        transform: scale(1.1) rotate(10deg);
+    }
+
+    85% {
+        transform: scale(1.05) rotate(5deg);
+    }
+
+    87.5% {
+        transform: scale(1) rotate(0deg);
+    }
+
+    /* 90% {
+      transform: scale(0.95) rotate(-5deg);
+    }
+    92.5% {
+      transform: scale(0.9) rotate(-10deg);
+    }
+    95% {
+      transform: scale(0.85) rotate(-15deg);
+    }
+    97.5% {
+      transform: scale(0.95) rotate(-22.5deg);
+    } */
+}
+
 
 #ticket-button.clicked {
     opacity: 0;
@@ -465,12 +716,49 @@ body.no-scroll {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    /* REQUIRED ON MOBILE */
     padding-top: min(8rem, 30%);
 }
 
 /* USER LOGIN/SIGNUP */
+/* buttons for log in/sign up */
+.user__buttons {
+    padding-top: 30%;
+    min-height: 150px;
+    width: 300px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.user-button {
+    width: 200px;
+    height: 50px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border-radius: 10px;
+    border: 1px solid var(--primary-color-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-button:hover {
+    background-color: var(--primary-color-black);
+    color: var(--primary-color-yellow);
+    transition: all 0.3s ease-in-out;
+}
+
+.form-input,
+.form-submit,
+.user-button {
+    box-shadow: var(--box-shadow-default);
+}
+/* login/sign up form */
 .form-wrapper {
     display: flex;
+    width: 350px;
     flex-direction: column;
     gap: 1rem;
     padding: 0 3rem;
@@ -504,19 +792,19 @@ body.no-scroll {
     font-size: 1.15rem;
 }
 
-.form-input.invalid {
-    border: 1px solid var(--error-color);
-}
 
 .form-input:hover,
 .form-input:focus {
-    outline: none;
-    box-shadow: 3px 3px 0 1px var(--primary-color-green);
+    box-shadow: var(--box-shadow-valid);
 }
 
+.form-input.invalid {
+    border: 2px solid var(--error-color);
+}
 .form-input.invalid:hover,
 .form-input.invalid:focus {
-    box-shadow: 3px 3px 0 1px var(--error-color);
+    border-width: 0;
+    box-shadow: var(--box-shadow-invalid);
 }
 
 .errmsg,
@@ -538,12 +826,11 @@ body.no-scroll {
 
 .form__buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     margin-top: 1rem;
 }
 
-.form-submit,
-.form-leave {
+.form-submit {
     font-size: 1.25rem;
     transition: all 0.3s ease-in-out;
 }
@@ -556,6 +843,12 @@ body.no-scroll {
     border-radius: 0.5rem;
     color: var(--primary-color-black);
     cursor: pointer;
+
+    width: 50%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+
 }
 
 .form-submit.enabled:hover,
@@ -567,12 +860,6 @@ body.no-scroll {
 
 .form-submit:disabled {
     opacity: 0.5;
-}
-
-.form-leave:hover,
-.form-leave:focus,
-.form-leave:active {
-    font-weight: 600;
 }
 
 .offscreen {
@@ -606,32 +893,38 @@ body.no-scroll {
     transform: translateX(-100vh);
     --transition-delay-base: 300ms;
     --transition-delay-multiplier: 0;
-    --transition-delay: calc( var(--transition-delay-base) * var(--transition-delay-multiplier));
+    --transition-delay: calc(var(--transition-delay-base) * var(--transition-delay-multiplier));
     --transition-length: 1000ms;
     --entry-color-primary: gray;
-    transition: transform var(--transition-length) cubic-bezier(.41,-0.7,.27,1.71);
+    transition: transform var(--transition-length) cubic-bezier(.41, -0.7, .27, 1.71);
     transition-delay: var(--transition-delay);
 }
-.entry.first{
+
+.entry.first {
     --transition-delay-multiplier: 0;
     --entry-color-primary: rgb(255, 185, 0);
 }
-.entry.second{
+
+.entry.second {
     --transition-delay-multiplier: 1;
     --entry-color-primary: rgb(105, 121, 126);
 }
-.entry.third{
+
+.entry.third {
     --transition-delay-multiplier: 2;
     --entry-color-primary: rgb(132, 117, 69);
 
 }
-.entry.fourth{
+
+.entry.fourth {
     --transition-delay-multiplier: 3;
 }
-.entry.fifth{
+
+.entry.fifth {
     --transition-delay-multiplier: 4;
 }
-.entry.none{
+
+.entry.none {
     --transition-delay-multiplier: 5;
 }
 
@@ -675,51 +968,53 @@ body.no-scroll {
     transition: border-bottom-color .2s ease-in-out;
 }
 
-.entry__info{
+.entry__info {
     color: whitesmoke;
     max-width: 100%;
 
 }
+
 .entry-pos,
-.money-icon{
+.money-icon {
     margin-right: 0.5rem;
 }
 
 .entry-pos::after {
     content: ".";
 }
+
 .entry-pos {
     font-weight: 700;
 }
 
 .entry-name,
-.entry-money{
+.entry-money {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
-.entry-name{
+.entry-name {
     font-size: 2rem;
     margin-bottom: 0.15rem;
 }
 
-.entry-money{
+.entry-money {
     font-size: 1.5rem;
 }
 
-.money-cnt{
+.money-cnt {
     text-transform: uppercase;
     font-weight: 700;
 }
 
-.leaderboard__controls{
+.leaderboard__controls {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.leaderboard__controls button{
+.leaderboard__controls button {
     font-size: 1.25rem;
     padding: 0.5rem 1rem;
     border: 1px solid white;
@@ -730,14 +1025,15 @@ body.no-scroll {
     cursor: pointer;
 }
 
-.bar{
+.bar {
     height: 4px;
     background-color: var(--entry-color-primary);
     max-width: 0%;
     transition: max-width 1s ease-in-out;
     transition-delay: calc(var(--transition-delay) + var(--transition-length) + 25ms);
 }
-.leaderboard.in-view .bar{
+
+.leaderboard.in-view .bar {
     /* bar-width defined in react */
     max-width: var(--bar-width, 30%);
 }
@@ -747,26 +1043,6 @@ body.no-scroll {
     height: 350vh;
 }
 
-.user__buttons {
-    padding-top: 30%;
-    min-height: 150px;
-    width: 300px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.user-button {
-    width: 200px;
-    height: 50px;
-    font-size: 1.5rem;
-    border-radius: 10px;
-    border: 1px solid var(--primary-color-black);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
 .user__profile {
     display: flex;

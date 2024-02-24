@@ -86,13 +86,10 @@ export default function Login({ setUserExists, leave }) {
                 </input>
                 <p ref={errRef} className={`errmsg ${errMsg ? "active" : ""}`}>{errMsg}</p>
                 <div className="form__buttons">
-                    <button className="form-submit enabled" type="submit" id="login-submit">
+                    <button className={`form-submit enabled`} type="submit" id="login-submit"
+                    //{ disabled={!validName || !validPassword || !validMatch}}
+                    >
                         <FormattedMessage id="submit" />
-                    </button>
-                    <button
-                        className="form-leave"
-                        onClick={leave}>
-                        <FormattedMessage id="back" />
                     </button>
                 </div>
             </form>

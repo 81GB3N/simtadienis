@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // Context
 import UserProvider from '../context/UserProvider';
 
-export default function Admin() {
+export default function AdminPage() {
     const navigate = useNavigate();
     const [access, setAccess] = useState(false);
     const dialogRef = useRef(null);

@@ -137,7 +137,7 @@ export default function Signup({ setUserExists, leave }) {
                 </div>
                 <div className="input-wrapper">
                     <input
-                        className="form-input form-rpassword"
+                        className={`form-input form-rpassword ${validMatch || !matchPassword ? "" : "invalid"}`}
                         type="password"
                         id="repeat-password"
                         onChange={(e) => setMatchPassword(e.target.value)}
@@ -159,9 +159,6 @@ export default function Signup({ setUserExists, leave }) {
                         id="register-submit"
                         disabled={!validName || !validPassword || !validMatch}>
                         <FormattedMessage id="submit" />
-                    </button>
-                    <button className="form-leave" onClick={leave}>
-                        <FormattedMessage id="back" />
                     </button>
                 </div>
             </form>

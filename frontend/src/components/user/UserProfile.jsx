@@ -1,11 +1,11 @@
-import { useMenu } from "../../context/MenuProvider";
+import { useSubPage } from "../../context/SubPageProvider";
 import { getUserData } from "../../utils/api";
 import { useState, useEffect } from "react";
 
 export default function UserProfile({ userData, setUserExists }) {
     console.log("in user: ", userData);
 
-    const { toggleMenu } = useMenu();
+    const { toggleMenu } = useSubPage();
     const [moneyAmount, setMoneyAmount] = useState(0);
 
     const logout = async () => {
@@ -39,6 +39,7 @@ export default function UserProfile({ userData, setUserExists }) {
         <div className="user__profile">
             <p>Logged in as {userData?.name}, {userData?.surname}<span ></span></p>
             <button>Current amount: <span>{moneyAmount}</span></button>
+            <p>Discount code for <a href="https://weborado.lt" target="_blank">weborado.lt</a></p>
             <button onClick={logout}>LOGOUT</button>
             <div ></div>
         </div>
