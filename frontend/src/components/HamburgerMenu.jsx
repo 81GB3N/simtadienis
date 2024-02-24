@@ -2,21 +2,17 @@ import { useEffect, useRef, useState } from 'react';
 import { useMenu } from '../context/MenuProvider';
 import UserProfile from './user/UserProfile';
 import NoUser from './user/NoUser';
+import BackArrow from './BackArrow';
 import hundredDollarsImg from '../images/heap-hundred-dollar-.webp';
 
 export default function HamburgerMenu() {
-    const { menuActive, toggleMenu } = useMenu();
+    const { menuActive, toggleMenu,
+        loginActive, signupActive,
+        toggleLoginActive, toggleSignupActive } = useMenu();
+
     const userRef = useRef(null);
     const [user, setUser] = useState(null);
     const [userExists, setUserExists] = useState(user !== null);
-
-    const [firstTime, setFirstTime] = useState(localStorage.getItem('firstTime')===null);
-
-    const endGreeting = () => {
-        setFirstTime(false);
-        console.log('endGreeting');
-        localStorage.setItem('firstTime', JSON.stringify(false));
-    }
 
     function getCachedUser() {
         return new Promise((resolve, reject) => {
@@ -40,12 +36,25 @@ export default function HamburgerMenu() {
             });
     }, [userExists])
 
+    let handleArrowClick;
+    if (!loginActive && !signupActive) {
+        handleArrowClick = () => toggleMenu();
+    }
+    if (loginActive) {
+        handleArrowClick = () => toggleLoginActive();
+    }
+    if (signupActive) {
+        handleArrowClick = () => toggleSignupActive();
+    }
 
     return (
         <>
-            <button id="hamburger" className={`${menuActive ? 'active' : ''}`} onClick={toggleMenu}>
-                <div id='bar'></div>
-            </button>
+            <div className={`menu__controls ${menuActive ? 'active' : ''}`}>
+                <BackArrow handleArrowClick={handleArrowClick} />
+                <button id="hamburger" onClick={toggleMenu}>
+                    <div id='bar'></div>
+                </button>
+            </div>
             <div id="menu" className={menuActive ? 'active' : ''}>
                 <img src={hundredDollarsImg} alt="hundred dollars" className='menu-img img-one'></img>
                 <div id='user' ref={userRef}>
@@ -53,9 +62,8 @@ export default function HamburgerMenu() {
                         userExists ? (
                             <UserProfile userData={user} setUserExists={setUserExists} />
                         ) : (
-                            <NoUser setUserExists={setUserExists} firstTime={firstTime} endGreeting={endGreeting} />
+                            <NoUser setUserExists={setUserExists} />
                         )
-
                     }
                 </div>
                 <img src={hundredDollarsImg} alt="hundred dollars" className='menu-img img-two'></img>

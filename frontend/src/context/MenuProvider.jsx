@@ -12,7 +12,6 @@ export const useMenu = () => {
 
 export default function MenuProvider({ children }) {
     const [menuActive, setMenuActive] = useState(false);
-
     const toggleMenu = () => {
         setMenuActive(!menuActive);
         // Screen behaviour on menu toggle
@@ -20,8 +19,18 @@ export default function MenuProvider({ children }) {
         document.body.classList.toggle('no-scroll');
     };
 
+    const [loginActive, setLoginActive] = useState(false);
+    const [signupActive, setSignupActive] = useState(false);
+
+    const toggleLoginActive = () => {
+        setLoginActive(prevState => !prevState);
+    }
+    const toggleSignupActive = () => {
+        setSignupActive(prevState => !prevState);
+    }
+
     return (
-        <MenuContext.Provider value={{ menuActive, toggleMenu }}>
+        <MenuContext.Provider value={{ menuActive, toggleMenu, loginActive, toggleLoginActive, signupActive, toggleSignupActive }}>
             {children}
         </MenuContext.Provider>
     );

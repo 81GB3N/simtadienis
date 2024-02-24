@@ -2,7 +2,6 @@ import { sendUserData, userExists } from "../../utils/api";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import { useRef, useState, useEffect } from "react";
-import BackArrow from "../backArrow";
 
 const USER_REGEX = /^[a-zA-Z0-9]{3,30}$/;
 const PASSWORD_REGEX = /^(?=.*[a-zA-Z])(?=.*\d).{5,}$/;
@@ -30,9 +29,6 @@ export default function Signup({ setUserExists, leave }) {
     const [matchFocus, setMatchFocus] = useState(false);
 
     const [errMsg, setErrMsg] = useState("");
-
-    const [backArrowAnimate, setBackArrowAnimate] = useState(false);
-
 
     useEffect(() => {
         nameRef.current.focus();
@@ -78,19 +74,8 @@ export default function Signup({ setUserExists, leave }) {
         setUserExists(true);
     }
 
-    const handleBackArrowClick = () => {
-        setBackArrowAnimate(true);
-        setTimeout(() => {
-            leave(); 
-        }, 500); 
-    };
-
     return (
         <section className="form-wrapper">
-             <button className="form-leave" onClick={handleBackArrowClick}>
-             <BackArrow animate={backArrowAnimate} onAnimate={() => {}}/>
-         </button>
-
             <h3 className="form-title signup-title">
                 <FormattedMessage id="signup" />
             </h3>
@@ -152,7 +137,7 @@ export default function Signup({ setUserExists, leave }) {
                 </div>
                 <div className="input-wrapper">
                     <input
-                        className="form-input form-rpassword"
+                        className={`form-input form-rpassword ${validMatch || !matchPassword ? "" : "invalid"}`}
                         type="password"
                         id="repeat-password"
                         onChange={(e) => setMatchPassword(e.target.value)}
