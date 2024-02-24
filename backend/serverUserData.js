@@ -98,6 +98,8 @@ app.post("/api/addmoney", (req, res) => {
 
   userData.money = req.body;
 
+  console.log(userData.money, moneyValue);
+
   updateUser(userData.money).then(() => {
 
     res.status(200).json({
@@ -105,6 +107,21 @@ app.post("/api/addmoney", (req, res) => {
       message: 'Money added successfully!'
     }) 
     io.emit('getusers');
+} ).catch(err => {
+    res.status(500).json({
+      success: false,
+      message: `Internal server error: ${err}`
+    });
+  })
+});
+
+app.post('/api/update-picture', (req, res) => {
+  updateUser(req.body).then(() => {
+
+    res.status(200).json({
+      success: true,
+      message: 'picture changed'
+    }) 
 } ).catch(err => {
     res.status(500).json({
       success: false,
