@@ -1,5 +1,5 @@
 import { useSubPage } from "../../context/SubPageProvider";
-import { getUserData } from "../../utils/api";
+import { getUserData, sendUserData } from "../../utils/api";
 import { useState, useEffect } from "react";
 
 export default function UserProfile({ userData, setUserExists }) {
@@ -35,12 +35,19 @@ export default function UserProfile({ userData, setUserExists }) {
             .catch((err) => console.log(err));
     }, [])
 
+    const picture = {
+        binary: "10010100",
+        name: userData?.name,
+        surname: userData?.surname
+    };
+
     return (
         <div className="user__profile">
             <p>Logged in as {userData?.name}, {userData?.surname}<span ></span></p>
             <button>Current amount: <span>{moneyAmount}</span></button>
             <p>Discount code for <a href="https://weborado.lt" target="_blank">weborado.lt</a></p>
             <button onClick={logout}>LOGOUT</button>
+            <button onClick={()=>sendUserData(picture, "update-picture")} style={{height: "50px", width: "50px", border: "1px solid black"}}></button>
             <div ></div>
         </div>
     )
