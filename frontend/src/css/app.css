@@ -13,6 +13,13 @@
     --box-shadow-default: 3px 3px 0 1px rgb(0, 0, 0);
     --box-shadow-valid: 3px 3px 0 1px var(--primary-color-green);
     --box-shadow-invalid: 3px 3px 0 1px var(--error-color);
+
+    /* sizes */
+    --total-selector-height: 10rem;
+    --selector-padding-top: 1rem;
+    --selector-margin-bottom: 3rem;
+    --actual-selector-height: calc(var(--total-selector-height) - var(--selector-padding-top) - var(--selector-margin-bottom));
+
 }
 
 /* CSS RESET */
@@ -64,21 +71,17 @@ body {
 
 
 /* PAGE CONTAINER */
-.page-container{
+.page-carousel {
+    display: flex;
     height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-.page-container.home-page{
-    padding-bottom: 10vh;
+    overflow-x: hidden;
 }
 
-.page-carousel{
-    display: flex;
+.home-page,
+.leaderboard-page {
+    height: 100vh;
+
 }
-
-
 
 .offscreen {
     display: none;
@@ -97,7 +100,7 @@ body {
 }
 
 /* WEBCAM (temporary) */
-.webcam-temp{
+.webcam-temp {
     width: 100vw;
     display: flex;
     justify-content: center;
@@ -105,7 +108,7 @@ body {
     padding-top: 10vh;
 }
 
-.webcam-container{
+.webcam-container {
     height: 20rem;
     width: 20rem;
 }

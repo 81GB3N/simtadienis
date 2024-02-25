@@ -10,9 +10,10 @@
     justify-content: center;
     align-items: center;
     gap: 0.2rem;
-    height: 6rem;
-    padding-top: 1rem;
-    margin-bottom: 3rem;
+    height: var(--actual-selector-height);
+    /* height: calc(10rem - 4.2rem); */
+    padding-top: var(--selector-padding-top);
+    margin-bottom: var(--selector-margin-bottom);
     position: sticky;
     top: 0;
     z-index: 2;

@@ -4,17 +4,14 @@ import Header from "../components/header/Header"
 import HeroTicket from "../components/ticket/HeroTicket"
 import HamburgerMenu from "../components/menu/HamburgerMenu"
 import LeaderBoard from "../components/leaderboard/LeaderBoard"
+import PageControls from "../components/page-control/PageControls"
 // Utilities
 import ErrorModal from "../components/error/ErrorModal"
-// Context provider
-import { useSubPage } from "../context/SubPageProvider"
 
 import { useEffect, useState } from "react";
 
 export default function UserPage() {
     const [showModal, setShowModal] = useState(false);
-    const { userSubPageName } = useSubPage();
-
     const isMobile = () => {
         const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
         return regex.test(navigator.userAgent);
@@ -35,10 +32,13 @@ export default function UserPage() {
     }
 
     return (
-        <section className={`page-carousel ${userSubPageName}-page`}>
-            <Home />
-            <HamburgerMenu />
-            <LeaderBoard />
-        </section>
+        <>
+            <PageControls />
+            <section className={`page-carousel`}>
+                <Home />
+                <HamburgerMenu />
+                <LeaderBoard />
+            </section>
+        </>
     )
 }

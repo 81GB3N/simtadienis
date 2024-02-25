@@ -34,20 +34,18 @@ export default function HamburgerMenu() {
     }, [userExists])
 
     return (
-        <div className='menu'>
-            <div id="menu" className={menuActive ? 'active' : ''}>
-                <img src={hundredDollarsImg} alt="hundred dollars" className='menu-img img-one'></img>
-                <div id='user' ref={userRef}>
-                    {
-                        userExists ? (
-                            <UserProfile userData={user} setUserExists={setUserExists} />
-                        ) : (
-                            <NoUser setUserExists={setUserExists} />
-                        )
-                    }
-                </div>
-                <img src={hundredDollarsImg} alt="hundred dollars" className='menu-img img-two'></img>
+        <div id="menu" className={menuActive ? 'active' : ''}>
+            <img src={hundredDollarsImg} alt="hundred dollars" className='menu-img img-one'></img>
+            <div id='user' ref={userRef}>
+                {
+                    userExists ? (
+                        <UserProfile userData={user} setUserExists={setUserExists} />
+                    ) : (
+                        <NoUser setUserExists={setUserExists} />
+                    )
+                }
             </div>
+            <img src={hundredDollarsImg} alt="hundred dollars" className='menu-img img-two'></img>
         </div>
     )
 }

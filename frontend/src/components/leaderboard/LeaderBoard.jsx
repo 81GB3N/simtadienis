@@ -17,7 +17,7 @@ export default function LeaderBoard() {
     if (displayLimit === 5) threshold = 0.3;
     else threshold = 0.05;
     const { ref, inView } = useInView({ threshold: threshold, fallbackInView: true });
-    const { changeUserSubPage } = useSubPage();
+    const { userSubPageName, changeUserSubPage } = useSubPage();
 
     const fetchUsers = () => {
         getAllUsers()
@@ -53,8 +53,8 @@ export default function LeaderBoard() {
     if (!allUsers) return <div>Loading...</div>
 
     return (
-        <div className={`leaderboard ${inView ? 'in-view' : ''}`} ref={ref}>
-            <button onClick={()=>changeUserSubPage('home')} style={{color: 'white'}}>
+        <div className={`leaderboard ${inView ? 'in-view' : ''} ${userSubPageName==='leaderboard' ? 'active' : ''}`} ref={ref}>
+            <button onClick={() => changeUserSubPage('home')} style={{ color: 'white' }}>
                 Back to Home
             </button>
             {(allUsers).slice(0, displayLimit).map((user, index) =>

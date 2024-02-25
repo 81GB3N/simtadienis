@@ -1,8 +1,12 @@
-/* MENU CONTROLS */
-.menu__controls {
+/* PAGE CONTROLS */
+.page__controls {
     --animation-duration: 500ms;
+    --bar-size: 2px;
     position: absolute;
-    /* necessary because menu__controls is going to block language selector btns */
+    /* so that page__controls is centered with language selector */
+    top: calc(var(--selector-padding-top) + ( var(--actual-selector-height) / 2) - (var(--bar-size) * 3));
+    transform: translateY(-50%);
+    /* necessary because page__controls is going to block language selector btns */
     pointer-events: none;
     width: 100vw;
     display: flex;
@@ -12,16 +16,16 @@
     transition: transform var(--animation-duration) ease-in-out;
 }
 
-.menu__controls.active {
+.page__controls.active {
     transform: translateY(3rem);
 }
 
 /* HAMBURGER */
 /* burger button */
 #hamburger,
-.arrow-btn {
+.back-arrow {
     width: 35px;
-    /* set to initial because they were disabled in menu__controls */
+    /* set to initial because they were disabled in page__controls */
     pointer-events: initial;
     transition: transform var(--animation-duration) ease-in-out;
 }
@@ -32,7 +36,7 @@
     content: "";
     display: block;
     width: 100%;
-    height: 2px;
+    height: var(--bar-size);
     background-color: #fff;
     margin: 6px 0;
     transition: 0.4s;
@@ -43,16 +47,16 @@
 }
 
 /* hamburger is active */
-.menu__controls.active>#hamburger>#bar {
+.page__controls.active>#hamburger>#bar {
     opacity: 0;
 }
 
-.menu__controls.active>#hamburger::after {
+.page__controls.active>#hamburger::after {
     transform: rotate(-45deg) translate(4px, -8px);
     background-color: var(--primary-color-black);
 }
 
-.menu__controls.active>#hamburger::before {
+.page__controls.active>#hamburger::before {
     transform: rotate(45deg) translate(4px, 8px);
     background-color: var(--primary-color-black);
 }
@@ -64,7 +68,7 @@
     transition: transform var(--animation-duration) ease-in-out;
 }
 
-.menu__controls.active>.arrow-btn {
+.page__controls.active>.arrow-btn {
     transform: translateX(0);
 }
 
