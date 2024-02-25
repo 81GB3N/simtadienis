@@ -2,6 +2,7 @@ const { writeDocument, findUser, updateUser, retrieveDocument } = require("./db"
 const { encrypt } = require("./encryptPassword")
 const { checkPassword } = require("./checkUserPassword");
 const {limiter} = require('./rateLimiter');
+const { generateJWT } = require("./generateJWT.js");
 const http = require('http');
 
 
@@ -86,8 +87,9 @@ app.post("/api/write-history", (req, res) => {
 });
 
 app.post("/api/register-admin", (req, res) => {
-  userData.history = req.body;
-  writeDocument(userData.history, "admin");
+  const admin = req.body;
+  admin.token = generateJWT(admin);
+  writeDocument(admin, "admin");
 });
 
 //uodates user money
