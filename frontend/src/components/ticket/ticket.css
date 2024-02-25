@@ -43,9 +43,11 @@
 .ticket-text {
     font-size: 3rem;
     line-height: 2.5rem;
+    margin-bottom: 5px;
 }
 
 .ticket-date {
+    font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 2rem;
 }
 
