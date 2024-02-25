@@ -6,7 +6,6 @@ dotenv.config();
 const uri = process.env.URI;
 const main = "main";
 
-
 //get client configuration
 const client = new MongoClient(uri, {
   serverApi: {
@@ -36,14 +35,10 @@ async function connect() {
 connect();
 
 //write the given data to the specifies collection
-const writeDocument = async (registerData) => {
+const writeDocument = async (registerData, page) => {
   try {
-    let collection;
-    if (registerData.history === undefined) {
-      collection = database.collection(main);
-    } else {
-      collection = database.collection("history");
-    }
+    if(page === undefined) page = main;
+    const collection = database.collection(page);
 
     await collection.insertOne(registerData);
   } catch (error) {
@@ -57,23 +52,28 @@ async function getCurrentMoney(name, surname, type) {
   return Number(user[0].money);
 }
 
-function findKey(updateInfo){
-  for(let key in updateInfo){
-    if(key !== "name" && key !== "surname"){
+
+//find object key specified
+function findKey(updateInfo) {
+  if (Object.keys(updateInfo).length !== 3) return null;
+
+  for (let key in updateInfo) {
+    if (key !== "name" && key !== "surname") {
       return key;
     }
   }
+  return null;
 }
 
 //get all the data requested for all the users
 const retrieveDocument = async () => {
   try {
     const collection = database.collection(main);
-    const projection = { name: 1, surname: 1, money: 1, _id: 0};
+    const projection = { name: 1, surname: 1, money: 1, _id: 0 };
     //find collection collums
     const cursor = collection.find({}).project(projection);
     const documents = await cursor.toArray();
-    
+
     return documents;
   } catch (error) {
     console.error(error);
@@ -85,19 +85,20 @@ const updateUser = async (updateInfo) => {
   try {
     const collection = database.collection(main);
 
-    let money;
-    
-    if(updateInfo.money){
-      money = await getCurrentMoney(
-      updateInfo.name,
-      updateInfo.surname,
-      main
-      )+Number(updateInfo.money);}
+    if (updateInfo.money) {
+      updateInfo.money =
+        (await getCurrentMoney(updateInfo.name, updateInfo.surname, main)) +
+        Number(updateInfo.money);
+    }
 
-        // find the key requested for updating
-      const key = findKey(updateInfo);
+    // find the key requested for updating
+    const key = findKey(updateInfo);
 
-      console.log(key, [key], updateInfo[key])
+    if (!key) {
+      console.error("incorrect object format");
+      return;
+    }
+    // console.log(key, [key], updateInfo[key])
 
     //update the users information
     const result = await collection.updateOne(
@@ -105,7 +106,8 @@ const updateUser = async (updateInfo) => {
       { $set: { [key]: updateInfo[key] } }
     );
 
-    console.log("Document updated successfully", result);
+    console.log("Document updated successfully");
+    console.table(result);
   } catch (error) {
     console.error(error);
   }
@@ -118,21 +120,20 @@ const findUser = async (name, surname, type, getPassword) => {
     const collection = database.collection(type);
     const query = { name: name, surname: surname };
     let cursor;
-    if(getPassword === undefined){
+    if (getPassword === undefined) {
       // const projection = {name: 1, surname: 1, money: 1, _id: 0, admin: 1, imgSrc: 1, galleryCnt: 1};
 
       //gets everything accept the password and _id
-      const projection = {_id: 0, password: 0};
+      const projection = { _id: 0, password: 0 };
       cursor = collection.find(query).project(projection);
-    }
-    else{
+    } else {
       //get only the password for the requested user
       cursor = collection.find(query);
       const document = await cursor.toArray();
       return document[0].password;
     }
     const documents = await cursor.toArray();
-    console.log(documents);
+    // console.log(documents);
     return documents;
   } catch (error) {
     console.error(error);
