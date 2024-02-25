@@ -1,7 +1,7 @@
 import { FormattedMessage } from 'react-intl';
 import { useSubPage } from "../../context/SubPageProvider";
 
-export default function LeaderBordNav() {
+export default function LeaderBordNav({ userExists }) {
     const { userSubPageName, changeUserSubPage, toggleMenu } = useSubPage();
 
     // button for navigating to and from the home page
@@ -34,7 +34,7 @@ export default function LeaderBordNav() {
 
     // button for navigating to and from the gallery page
     let galleryBtn;
-    if (userSubPageName !== 'gallery') {
+    if (userExists && userSubPageName !== 'gallery') {
         galleryBtn =
             <button className="nav-btn gallery-button" onClick={() => {
                 changeUserSubPage('gallery');

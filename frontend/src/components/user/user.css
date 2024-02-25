@@ -5,14 +5,13 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    /* REQUIRED ON MOBILE */
-    padding-top: min(8rem, 30%);
+    /* REQUIRED ON MOBILE */    
+    padding-top: max(10rem, 50%);
 }
 
 /* USER LOGIN/SIGNUP */
 /* buttons for log in/sign up */
 .user__buttons {
-    padding-top: 30%;
     min-height: 150px;
     width: 300px;
     display: flex;

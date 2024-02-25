@@ -14,39 +14,46 @@
     background-color: var(--primary-color-yellow);
 }
 
-#menu.from-home,
-#menu.from-gallery {
+#menu.from-home {
     transform: translateX(100%);
 }
-#menu.active.from-home,
-#menu.active.from-gallery{
+
+#menu.active.from-home {
     transform: translateX(-100%);
 }
 
-#menu.from-leaderboard{
+#menu.from-leaderboard,
+#menu.from-gallery {
     transform: translateX(-200%);
 }
-#menu.active.from-leaderboard.active{
+
+#menu.active.from-leaderboard.active,
+#menu.active.from-gallery {
     transform: translateX(-100%);
+}
+
+.menu-img-container {
+    position: relative;
+    height: min(10vh, 120px);
+    transform: translateY(100%);
+    transition: transform 0.2s ease-in-out;
+    transition-delay: var(--translation-duration);
 }
 
 .menu-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transform: translateY(100%);
-    transition: transform 0.2s ease-in-out;
-    transition-delay: var(--translation-duration);
 }
 
-.menu-img.img-one {
+.menu-img-container.img-one {
     transform: rotate(180deg) translateY(100%);
 }
 
-#menu.active .menu-img{
+#menu.active .menu-img-container {
     transform: translateY(0);
 }
 
-#menu.active .menu-img.img-one {
+#menu.active .menu-img-container.img-one {
     transform: rotate(180deg) translateY(0);
 }

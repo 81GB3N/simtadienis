@@ -12,13 +12,13 @@ import { faMoneyBill1Wave, faCameraRotate, faTrashCan } from "@fortawesome/free-
 import './user.css';
 import PageNav from "../page-control/PageNav";
 
-export default function UserProfile({ savedUser, setUserExists }) {
+export default function UserProfile({ savedUser, removeUserExists }) {
     const [open, setOpen] = useState(false);
     const [userData, setUserData] = useState({});
 
     const logout = async () => {
         await localStorage.removeItem("user");
-        setUserExists(false);
+        removeUserExists();
     }
 
     const fetchData = async () => {
@@ -85,7 +85,7 @@ export default function UserProfile({ savedUser, setUserExists }) {
                 {open && createPortal(<WebcamModal changeImg={changeImg} closeWebcam={closeWebcam} />, document.getElementById('modal-root'))}
                 {/* <p>Discount code for <a href="https://weborado.lt" target="_blank">weborado.lt</a></p> */}
             </div>
-            <PageNav />
+            <PageNav userExists={true}/>
         </>
     )
 }

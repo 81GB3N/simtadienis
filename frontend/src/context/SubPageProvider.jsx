@@ -5,7 +5,7 @@ const SubPageContext = createContext();
 export const useSubPage = () => {
     const context = useContext(SubPageContext);
     if (!context) {
-        throw new Error("useMenu must be used within a SubPageProvider");
+        throw new Error("useSubPage must be used within a SubPageProvider");
     }
     return context;
 };

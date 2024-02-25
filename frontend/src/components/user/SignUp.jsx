@@ -1,7 +1,9 @@
 import { sendUserData, userExists } from "../../utils/api";
-import { FormattedMessage, useIntl } from "react-intl";
 
+import { FormattedMessage, useIntl } from "react-intl";
 import { useRef, useState, useEffect } from "react";
+
+import { useSubPage } from "../../context/SubPageProvider";
 
 import unkownUserImg from "../../assets/images/unknown-user.png";
 
@@ -10,6 +12,8 @@ const PASSWORD_REGEX = /^(?=.*[a-zA-Z])(?=.*\d).{5,}$/;
 
 export default function Signup({ setUserExists, leave }) {
     const intl = useIntl();
+
+    const { toggleSignupActive } = useSubPage();
 
     const nameRef = useRef();
     const errRef = useRef();
@@ -71,10 +75,8 @@ export default function Signup({ setUserExists, leave }) {
             return;
         }
 
-        sendUserData(userData, "register").then((data) => console.log("signup: ", data));
-        // userExists is changed to rerender hamburgerMenu, which is dependent on this state
-        // this causes an unecessary render of userProfile but oh well
-        setUserExists(true);
+        await sendUserData(userData, "register")
+        toggleSignupActive();
     }
 
     return (
