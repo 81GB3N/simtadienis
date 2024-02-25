@@ -131,8 +131,7 @@
 }
 
 .money-cnt {
-    text-transform: uppercase;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .leaderboard__controls {

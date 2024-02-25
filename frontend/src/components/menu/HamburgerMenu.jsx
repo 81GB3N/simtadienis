@@ -41,7 +41,7 @@ export default function HamburgerMenu() {
             <div id='user' className={userExists ? 'user-exists' : 'no-user'} ref={userRef}>
                 {
                     userExists ? (
-                        <UserProfile userData={user} setUserExists={setUserExists} />
+                        <UserProfile savedUser={user} setUserExists={setUserExists} />
                     ) : (
                         <NoUser setUserExists={setUserExists} />
                     )

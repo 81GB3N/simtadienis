@@ -9,6 +9,7 @@ import ErrorModal from "../components/error/ErrorModal"
 import { useSubPage } from "../context/SubPageProvider"
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 export default function UserPage() {
     const { userSubPageName } = useSubPage();
@@ -24,13 +25,13 @@ export default function UserPage() {
     }, [])
 
     if (showModal) {
-        return (<ErrorModal
+        return createPortal(<ErrorModal
             status='Mobile Device Required!'
             errorMessage='This website was designed for mobile devices. 
       Please use a mobile device to proceed'
             dismissable={true}
             dismiss={() => setShowModal(false)}
-        />)
+        />, document.getElementById('modal-root'));
     }
 
     return (

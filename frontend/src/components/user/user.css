@@ -151,6 +151,60 @@
     opacity: 0.5;
 }
 
-#user.no-user{
+#user{
     gap: min(20%, 5rem);
+}
+
+/* USER PROFILE */
+.user__profile{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.profile__img{
+    position: relative;
+}
+
+.profile-img-container{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profile-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-img__controls{
+    position: absolute;
+    bottom: 0;
+    right: -3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+}
+
+.img-control{
+    font-size: 1.5rem;
+}
+
+.user-name{
+    text-transform: capitalize;
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
+.user__money{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.5rem;
 }

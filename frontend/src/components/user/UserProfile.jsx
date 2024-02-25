@@ -1,26 +1,32 @@
 import { getUserData, sendUserData } from "../../utils/api";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
+
 // import Webcam from "react-webcam";
-import CustomWebcam from "../CustomWebcam";
+import WebcamModal from "../webcam/WebcamModal";
 import unkownUserImg from "../../assets/images/unknown-user.png";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMoneyBill1Wave, faCameraRotate, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 import './user.css';
 import LeaderBordNav from "../leaderboard/LeaderBordNav";
-export default function UserProfile({ userData, setUserExists }) {
-    const [moneyAmount, setMoneyAmount] = useState(0);
-    const webcamRef = useRef(null);
-    const [imgSrc, setImgSrc] = useState(null);
+
+export default function UserProfile({ savedUser, setUserExists }) {
     const [open, setOpen] = useState(false);
+    const [userData, setUserData] = useState({});
 
     const logout = async () => {
         await localStorage.removeItem("user");
         setUserExists(false);
     }
 
-    const fetchMoney = async () => {
+    const fetchData = async () => {
+        console.log('fetching data...')
         try {
-            const data = await getUserData(userData.name, userData.surname);
-            return data.result[0].money;
+            const data = await getUserData(savedUser.name, savedUser.surname);
+            console.log("Data: ", data.result[0]);
+            return data.result[0];
         }
         catch (err) {
             console.log("Error while fetching money: ", err);
@@ -28,53 +34,82 @@ export default function UserProfile({ userData, setUserExists }) {
     }
 
     useEffect(() => {
-        fetchMoney()
-            .then((money) => {
-                setMoneyAmount(money)
-            })
-            .catch((err) => console.log(err));
+        fetchData().then(data => setUserData(data));
     }, [])
 
-    const openWebcam = () => {
-        setOpen(true);
+    const openWebcam = () => setOpen(true);
+    const closeWebcam = () => setOpen(false);
+
+    const changeImg = (imgSrc) => {
+        sendUserData({ imgSrc: imgSrc, name: userData.name, surname: userData.surname }, 'update-picture')
+            .then(res => {
+                console.log(res);
+                fetchData().then(data => setUserData(data));
+            })
+            .catch(err => console.log(err));
+    }
+
+    const deleteImg = () => {
+        sendUserData({ imgSrc: '', name: userData.name, surname: userData.surname }, 'update-picture')
+            .then(res => {
+                console.log(res);
+                fetchData().then(data => setUserData(data));
+            })
+            .catch(err => console.log(err));
     }
 
     return (
-        <div className="user__profile">
-            <div className="profile__img">
-                {/* <img className="profile-img" src={unkownUserImg} alt="user">
-                </img> */}
-            </div>
-            <p>Logged in as {userData?.name}, {userData?.surname}<span ></span></p>
-            <button>Current amount: <span>{moneyAmount}</span></button>
-            <p>Discount code for <a href="https://weborado.lt" target="_blank">weborado.lt</a></p>
-            <button onClick={logout}>LOGOUT</button>
-            
-            <div className="webcam-temp">
-                {(open ?
-                    <div className="webcam-modal">
-                        <CustomWebcam ref={webcamRef} setImgSrc={setImgSrc}/>
-                        <button onClick={() => {
-                            const webcamImgSrc = webcamRef.current.capture();
-                            setOpen(false);
-                            setImgSrc(webcamImgSrc);
-                            sendUserData({ imgSrc: webcamImgSrc, name: userData.name, surname: userData.surname}, 'update-picture')
-                        }}>Capture</button>
+        <>
+            <div className="user__profile">
+                <div className="profile__img">
+                    <div className="profile-img-container">
+                        <img className="profile-img" src={userData?.imgSrc || unkownUserImg} alt="user">
+                        </img>
                     </div>
-                    :
-                    <>
-                        {(imgSrc ?
-                            <img style={{ maxWidth: `10rem` }} src={imgSrc} alt="webcam capture" /> :
-                            <img style={{ maxWidth: `10rem` }} src={unkownUserImg} alt="unknown user" />
-                        )}
-                        <button onClick={openWebcam}>
-                            Upload {imgSrc ? "new" : "your"} photo
+                    <div className="profile-img__controls">
+                        <button className="img-control new-profile-btn">
+                            <FontAwesomeIcon icon={faCameraRotate} onClick={openWebcam} />
                         </button>
-                    </>
-                )}
-            </div>
+                        <button className="img-control delete-profile-btn">
+                            <FontAwesomeIcon icon={faTrashCan} onClick={deleteImg}/>
+                        </button>
+                    </div>
+                </div>
+                <p className="user-name">{userData?.name}, {userData?.surname}</p>
+                <div className="user__money">
+                    <FontAwesomeIcon icon={faMoneyBill1Wave} className="money-icon" />
+                    <p className="money-cnt">{userData?.money}</p>
+                </div>
+                <button className="user-logout" onClick={logout}>LOGOUT</button>
 
+                {open && createPortal(<WebcamModal changeImg={changeImg} closeWebcam={closeWebcam} />, document.getElementById('modal-root'))}
+
+                {/* <p>Discount code for <a href="https://weborado.lt" target="_blank">weborado.lt</a></p> */}
+                {/* <div className="webcam-temp">
+                    {(open ?
+                        <div className="webcam-modal">
+                            <CustomWebcam ref={webcamRef} setImgSrc={setImgSrc} />
+                            <button onClick={() => {
+                                const webcamImgSrc = webcamRef.current.capture();
+                                setOpen(false);
+                                setImgSrc(webcamImgSrc);
+                                sendUserData({ imgSrc: webcamImgSrc, name: userData.name, surname: userData.surname }, 'update-picture')
+                            }}>Capture</button>
+                        </div>
+                        :
+                        <>
+                            {(imgSrc ?
+                                <img style={{ maxWidth: `10rem` }} src={imgSrc} alt="webcam capture" /> :
+                                <img style={{ maxWidth: `10rem` }} src={unkownUserImg} alt="unknown user" />
+                            )}
+                            <button onClick={openWebcam}>
+                                Upload {imgSrc ? "new" : "your"} photo
+                            </button>
+                        </>
+                    )}
+                </div> */}
+            </div>
             <LeaderBordNav />
-        </div>
+        </>
     )
 }
