@@ -119,7 +119,7 @@ const findUser = async (name, surname, type, getPassword) => {
     const query = { name: name, surname: surname };
     let cursor;
     if(getPassword === undefined){
-      const projection = {name: 1, surname: 1, money: 1, _id: 0, admin: 1};
+      const projection = {name: 1, surname: 1, money: 1, _id: 0, admin: 1, imgSrc: 1, galleryCnt: 1};
       cursor = collection.find(query).project(projection);
     }
     else{

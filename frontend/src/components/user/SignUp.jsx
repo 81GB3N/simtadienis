@@ -61,7 +61,8 @@ export default function Signup({ setUserExists, leave }) {
             surname: surname,
             password: password,
             money: 0,
-            image: unkownUserImg
+            image: unkownUserImg,
+            galleryCnt: 0
         };
 
         // #TODO, check additionally if submit button was enabled via console
