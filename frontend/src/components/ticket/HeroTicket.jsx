@@ -13,7 +13,6 @@ export default function HeroTicket() {
         ticketLoweref.current.classList.add('clicked');
         ticketUpperRef.current.classList.add('clicked');
         // buttonRef.current.classList.add('clicked');
-        console.log(ticketLoweref.current);
         setTimeout(() => {
             toggleMenu();
         }, 600)
@@ -29,7 +28,6 @@ export default function HeroTicket() {
         // march - 2, 25th - 25
         const endDate = new Date(now.getFullYear(), 2, 25);
         const timeDifference = endDate.getTime() - now.getTime();
-        console.log('time dif: ',timeDifference);
         const hours = Math.floor(timeDifference / (1000 * 60 * 60));
         const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
         return `${String(hours).padStart(2, '0')}h, ${String(minutes).padStart(2, '0')}m`;

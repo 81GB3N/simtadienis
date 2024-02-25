@@ -20,7 +20,6 @@ export default function UserProfile({ userData, setUserExists }) {
     const fetchMoney = async () => {
         try {
             const data = await getUserData(userData.name, userData.surname);
-            console.log("in user: ", data);
             return data.result[0].money;
         }
         catch (err) {
@@ -31,7 +30,6 @@ export default function UserProfile({ userData, setUserExists }) {
     useEffect(() => {
         fetchMoney()
             .then((money) => {
-                console.log(money);
                 setMoneyAmount(money)
             })
             .catch((err) => console.log(err));
@@ -60,7 +58,6 @@ export default function UserProfile({ userData, setUserExists }) {
                             const webcamImgSrc = webcamRef.current.capture();
                             setOpen(false);
                             setImgSrc(webcamImgSrc);
-                            console.log('new image: ', webcamImgSrc);
                             sendUserData({ imgSrc: webcamImgSrc, name: userData.name, surname: userData.surname}, 'update-picture')
                         }}>Capture</button>
                     </div>

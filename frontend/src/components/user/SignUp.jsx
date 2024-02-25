@@ -66,7 +66,6 @@ export default function Signup({ setUserExists, leave }) {
         };
 
         // #TODO, check additionally if submit button was enabled via console
-
         if (await userExists(name, surname)) {
             setErrMsg("User already exists.");
             return;

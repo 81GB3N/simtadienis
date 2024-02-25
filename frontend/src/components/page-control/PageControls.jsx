@@ -12,15 +12,12 @@ export default function PageControls() {
     let handleArrowClick;
     if (!loginActive && !signupActive) {
         handleArrowClick = () => toggleMenu();
-        console.log('closing menu')
     }
     if (loginActive) {
         handleArrowClick = () => toggleLoginActive();
-        console.log('closing login')
     }
     if (signupActive) {
         handleArrowClick = () => toggleSignupActive();
-        console.log('closing signup')
     }
 
     return (

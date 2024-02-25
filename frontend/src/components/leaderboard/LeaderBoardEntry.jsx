@@ -24,7 +24,6 @@ export default function LeaderBoardEntry({ user, position, mostMoney }) {
     const entryProps = getEntryProps(position);
     let barWidth = (Number(user.money) / mostMoney) * 100;
     if(entryProps.customClass === 'first') barWidth -= OFFSET; 
-    console.log(barWidth);
     
     return (
         <div className={`entry ${entryProps.customClass}`}>
