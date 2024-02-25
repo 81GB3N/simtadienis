@@ -11,6 +11,7 @@
     --error-color: #c10000;
 
     --box-shadow-default: 3px 3px 0 1px rgb(0, 0, 0);
+    --box-shadow-default-thin: 1px 1px 0 1px rgb(0, 0, 0);
     --box-shadow-valid: 3px 3px 0 1px var(--primary-color-green);
     --box-shadow-invalid: 3px 3px 0 1px var(--error-color);
 

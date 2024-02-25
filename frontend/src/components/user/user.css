@@ -150,3 +150,7 @@
 .form-submit:disabled {
     opacity: 0.5;
 }
+
+#user.no-user{
+    gap: min(20%, 5rem);
+}

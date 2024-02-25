@@ -2,6 +2,7 @@ import { FormattedMessage } from 'react-intl';
 import { useSubPage } from '../../context/SubPageProvider';
 import Login from "./Login";
 import SignUp from "./SignUp";
+import LeaderBordNav from '../leaderboard/LeaderBordNav';
 import './user.css';
 export default function NoUser({ setUserExists }) {
     const { loginActive, signupActive, toggleLoginActive, toggleSignupActive, changeUserSubPage, toggleMenu } = useSubPage();
@@ -29,14 +30,7 @@ export default function NoUser({ setUserExists }) {
                     <FormattedMessage id='signup' />
                 </button>
             </div>
-            <div className='leaderboard__navigation'>
-                <button className="leaderboard__button" onClick={() => {
-                    changeUserSubPage('leaderboard');
-                    toggleMenu();
-                }}>
-                    <FormattedMessage id='leaderboard' />
-                </button>
-            </div>
+            <LeaderBordNav />
         </>
     )
 

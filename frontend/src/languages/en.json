@@ -17,5 +17,7 @@
     "password": "Password",
     "repeat.password": "Repeat Password",
     "back": "Back",
-    "submit": "Submit"
+    "submit": "Submit",
+    "leaderboard": "Leaderboard",
+    "landing": "Back to Landing"
 }

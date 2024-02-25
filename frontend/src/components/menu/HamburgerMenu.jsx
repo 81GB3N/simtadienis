@@ -38,7 +38,7 @@ export default function HamburgerMenu() {
     return (
         <div id="menu" className={`${menuActive ? 'active' : ''} ${userSubPageName==='home' ? 'from-home' : ''} ${userSubPageName === 'leaderboard' ? 'from-leaderboard' : ''} ${menuSlide ? 'slide' : ''}`}>
             <img src={hundredDollarsImg} alt="hundred dollars" className='menu-img img-one'></img>
-            <div id='user' ref={userRef}>
+            <div id='user' className={userExists ? 'user-exists' : 'no-user'} ref={userRef}>
                 {
                     userExists ? (
                         <UserProfile userData={user} setUserExists={setUserExists} />

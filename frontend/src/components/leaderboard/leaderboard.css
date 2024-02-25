@@ -161,3 +161,10 @@
     /* bar-width defined in react */
     max-width: var(--bar-width, 30%);
 }
+
+.leaderboard-button{
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--primary-color-black);
+    border-radius: 8px;
+    box-shadow: var(--box-shadow-default-thin);
+}
