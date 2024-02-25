@@ -111,4 +111,5 @@
 
 .page__controls.active .go-home {
     opacity: 0;
+    pointer-events: none;
 }

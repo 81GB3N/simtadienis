@@ -3,9 +3,11 @@ import { FormattedMessage, useIntl } from "react-intl";
 
 import { useRef, useState, useEffect } from "react";
 
+import { useSubPage } from "../../context/SubPageProvider.jsx";
 
 export default function Login({ setUserExists }) {
     const intl = useIntl();
+    const { toggleLoginActive } = useSubPage();
 
     const nameRef = useRef();
     const errRef = useRef();
@@ -47,6 +49,7 @@ export default function Login({ setUserExists }) {
         }
 
         await setUserLocalStorage(name, surname);
+        toggleLoginActive();
         setUserExists(true);
     }
 

@@ -5,7 +5,7 @@ import SignUp from "./SignUp";
 import LeaderBordNav from '../leaderboard/LeaderBordNav';
 import './user.css';
 export default function NoUser({ setUserExists }) {
-    const { loginActive, signupActive, toggleLoginActive, toggleSignupActive, changeUserSubPage, toggleMenu } = useSubPage();
+    const { loginActive, signupActive, toggleLoginActive, toggleSignupActive } = useSubPage();
 
     if (loginActive) {
         return <Login

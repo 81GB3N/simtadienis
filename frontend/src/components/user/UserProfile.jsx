@@ -1,4 +1,3 @@
-import { useSubPage } from "../../context/SubPageProvider";
 import { getUserData, sendUserData } from "../../utils/api";
 import { useState, useEffect, useRef } from "react";
 // import Webcam from "react-webcam";
@@ -6,8 +5,8 @@ import CustomWebcam from "../CustomWebcam";
 import unkownUserImg from "../../assets/images/unknown-user.png";
 
 import './user.css';
+import LeaderBordNav from "../leaderboard/LeaderBordNav";
 export default function UserProfile({ userData, setUserExists }) {
-    const { toggleMenu } = useSubPage();
     const [moneyAmount, setMoneyAmount] = useState(0);
     const webcamRef = useRef(null);
     const [imgSrc, setImgSrc] = useState(null);
@@ -16,7 +15,6 @@ export default function UserProfile({ userData, setUserExists }) {
     const logout = async () => {
         await localStorage.removeItem("user");
         setUserExists(false);
-        toggleMenu();
     }
 
     const fetchMoney = async () => {
@@ -45,6 +43,10 @@ export default function UserProfile({ userData, setUserExists }) {
 
     return (
         <div className="user__profile">
+            <div className="profile__img">
+                {/* <img className="profile-img" src={unkownUserImg} alt="user">
+                </img> */}
+            </div>
             <p>Logged in as {userData?.name}, {userData?.surname}<span ></span></p>
             <button>Current amount: <span>{moneyAmount}</span></button>
             <p>Discount code for <a href="https://weborado.lt" target="_blank">weborado.lt</a></p>
@@ -74,6 +76,8 @@ export default function UserProfile({ userData, setUserExists }) {
                     </>
                 )}
             </div>
+
+            <LeaderBordNav />
         </div>
     )
 }
