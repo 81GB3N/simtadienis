@@ -53,8 +53,10 @@ export default function LeaderBoard() {
     if (!allUsers) return <div>Loading...</div>
 
     return (
-        <div className={`leaderboard ${inView ? 'in-view' : ''} ${userSubPageName==='leaderboard' ? 'active' : ''}`} ref={ref}>
-            <button onClick={() => changeUserSubPage('home')} style={{ color: 'white' }}>
+        <div className={`leaderboard ${inView ? 'in-view' : ''} ${userSubPageName === 'leaderboard' ? 'active' : ''}`} ref={ref}>
+            <button onClick={() => {
+                changeUserSubPage('home');
+            }} style={{ color: 'white' }}>
                 Back to Home
             </button>
             {(allUsers).slice(0, displayLimit).map((user, index) =>

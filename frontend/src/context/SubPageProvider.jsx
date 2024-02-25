@@ -31,7 +31,6 @@ export default function SubPageProvider({ children }) {
     const changeUserSubPage = (pageName) => {
         if (validUserSubPages.includes(pageName)) {
             setUserSubPageName(pageName);
-            // window.scrollTo(0, 0);
         }
     }
 

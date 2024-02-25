@@ -1,5 +1,6 @@
 /* burger menu */
 #menu {
+    --translation-duration: 0.5s;
     position: absolute;
     z-index: 9;
     display: flex;
@@ -9,11 +10,21 @@
     left: 100%;
     width: 100%;
     min-height: 100vh;
-    transition: transform 0.5s ease-in-out;
+    transition: transform var(--translation-duration) ease-in-out;
     background-color: var(--primary-color-yellow);
 }
 
-#menu.active {
+#menu.from-home {
+    transform: translateX(100%);
+}
+#menu.active.from-home{
+    transform: translateX(-100%);
+}
+
+#menu.from-leaderboard{
+    transform: translateX(-200%);
+}
+#menu.active.from-leaderboard.active{
     transform: translateX(-100%);
 }
 
@@ -21,8 +32,19 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transform: translateY(100%);
+    transition: transform 0.2s ease-in-out;
+    transition-delay: var(--translation-duration);
 }
 
 .menu-img.img-one {
-    transform: rotate(180deg) translateY(2rem);
+    transform: rotate(180deg) translateY(100%);
+}
+
+#menu.active .menu-img{
+    transform: translateY(0);
+}
+
+#menu.active .menu-img.img-one {
+    transform: rotate(180deg) translateY(0);
 }

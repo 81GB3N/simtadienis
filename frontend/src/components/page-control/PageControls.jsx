@@ -3,7 +3,7 @@ import BackArrow from "../BackArrow";
 import './pageControls.css';
 
 export default function PageControls() {
-    const { menuActive, toggleMenu, toggleLoginActive, toggleSignupActive, loginActive, signupActive } = useSubPage();
+    const { menuActive, toggleMenu, toggleLoginActive, toggleSignupActive, loginActive, signupActive, userSubPageName } = useSubPage();
 
     let handleArrowClick;
     if (!loginActive && !signupActive) {
