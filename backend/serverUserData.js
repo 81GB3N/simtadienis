@@ -82,7 +82,12 @@ app.post("/api/register", async (req, res) => {
 //writes user history to history collection
 app.post("/api/write-history", (req, res) => {
   userData.history = req.body;
-  writeDocument(userData.history);
+  writeDocument(userData.history, "history");
+});
+
+app.post("/api/register-admin", (req, res) => {
+  userData.history = req.body;
+  writeDocument(userData.history, "admin");
 });
 
 //uodates user money
@@ -98,7 +103,7 @@ app.post("/api/addmoney", (req, res) => {
 
   userData.money = req.body;
 
-  console.log(userData.money, moneyValue);
+  // console.log(userData.money, moneyValue);
 
   updateUser(userData.money).then(() => {
 
