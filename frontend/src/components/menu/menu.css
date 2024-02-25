@@ -14,10 +14,12 @@
     background-color: var(--primary-color-yellow);
 }
 
-#menu.from-home {
+#menu.from-home,
+#menu.from-gallery {
     transform: translateX(100%);
 }
-#menu.active.from-home{
+#menu.active.from-home,
+#menu.active.from-gallery{
     transform: translateX(-100%);
 }
 

@@ -27,7 +27,7 @@ export default function SubPageProvider({ children }) {
     }
 
     const [userSubPageName, setUserSubPageName] = useState('home');
-    const validUserSubPages = ['home', 'leaderboard'];
+    const validUserSubPages = ['home', 'leaderboard', 'gallery'];
     const changeUserSubPage = (pageName) => {
         if (validUserSubPages.includes(pageName)) {
             setUserSubPageName(pageName);

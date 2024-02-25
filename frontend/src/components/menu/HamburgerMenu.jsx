@@ -5,7 +5,7 @@ import NoUser from '../user/NoUser';
 import hundredDollarsImg from '../../assets/images/heap-hundred-dollar-.webp';
 import './menu.css'
 export default function HamburgerMenu() {
-    const { menuActive, userSubPageName, menuSlide } = useSubPage();
+    const { menuActive, userSubPageName } = useSubPage();
 
     const userRef = useRef(null);
     const [user, setUser] = useState(null);
@@ -36,7 +36,7 @@ export default function HamburgerMenu() {
 
 
     return (
-        <div id="menu" className={`${menuActive ? 'active' : ''} ${userSubPageName==='home' ? 'from-home' : ''} ${userSubPageName === 'leaderboard' ? 'from-leaderboard' : ''} ${menuSlide ? 'slide' : ''}`}>
+        <div id="menu" className={`${menuActive ? 'active' : ''} from-${userSubPageName}`}>
             <img src={hundredDollarsImg} alt="hundred dollars" className='menu-img img-one'></img>
             <div id='user' className={userExists ? 'user-exists' : 'no-user'} ref={userRef}>
                 {

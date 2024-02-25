@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoneyBill1Wave, faCameraRotate, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 import './user.css';
-import LeaderBordNav from "../leaderboard/LeaderBordNav";
+import PageNav from "../page-control/PageNav";
 
 export default function UserProfile({ savedUser, setUserExists }) {
     const [open, setOpen] = useState(false);
@@ -83,33 +83,9 @@ export default function UserProfile({ savedUser, setUserExists }) {
                 <button className="user-logout" onClick={logout}>LOGOUT</button>
 
                 {open && createPortal(<WebcamModal changeImg={changeImg} closeWebcam={closeWebcam} />, document.getElementById('modal-root'))}
-
                 {/* <p>Discount code for <a href="https://weborado.lt" target="_blank">weborado.lt</a></p> */}
-                {/* <div className="webcam-temp">
-                    {(open ?
-                        <div className="webcam-modal">
-                            <CustomWebcam ref={webcamRef} setImgSrc={setImgSrc} />
-                            <button onClick={() => {
-                                const webcamImgSrc = webcamRef.current.capture();
-                                setOpen(false);
-                                setImgSrc(webcamImgSrc);
-                                sendUserData({ imgSrc: webcamImgSrc, name: userData.name, surname: userData.surname }, 'update-picture')
-                            }}>Capture</button>
-                        </div>
-                        :
-                        <>
-                            {(imgSrc ?
-                                <img style={{ maxWidth: `10rem` }} src={imgSrc} alt="webcam capture" /> :
-                                <img style={{ maxWidth: `10rem` }} src={unkownUserImg} alt="unknown user" />
-                            )}
-                            <button onClick={openWebcam}>
-                                Upload {imgSrc ? "new" : "your"} photo
-                            </button>
-                        </>
-                    )}
-                </div> */}
             </div>
-            <LeaderBordNav />
+            <PageNav />
         </>
     )
 }

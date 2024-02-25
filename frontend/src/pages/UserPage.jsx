@@ -3,6 +3,7 @@ import Home from "../components/home/Home"
 import HamburgerMenu from "../components/menu/HamburgerMenu"
 import LeaderBoard from "../components/leaderboard/LeaderBoard"
 import PageControls from "../components/page-control/PageControls"
+import Gallery from "../components/gallery/Gallery"
 // Utilities
 import ErrorModal from "../components/error/ErrorModal"
 
@@ -41,6 +42,7 @@ export default function UserPage() {
                 <Home />
                 <HamburgerMenu />
                 <LeaderBoard />
+                <Gallery />
             </section>
         </>
     )
