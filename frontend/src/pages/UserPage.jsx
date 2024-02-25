@@ -1,16 +1,18 @@
 // Landing page components
 import Home from "../components/home/Home"
-import Header from "../components/header/Header"
-import HeroTicket from "../components/ticket/HeroTicket"
 import HamburgerMenu from "../components/menu/HamburgerMenu"
 import LeaderBoard from "../components/leaderboard/LeaderBoard"
 import PageControls from "../components/page-control/PageControls"
 // Utilities
 import ErrorModal from "../components/error/ErrorModal"
 
+import { useSubPage } from "../context/SubPageProvider"
+
 import { useEffect, useState } from "react";
 
 export default function UserPage() {
+    const { userSubPageName } = useSubPage();
+
     const [showModal, setShowModal] = useState(false);
     const isMobile = () => {
         const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
@@ -34,7 +36,7 @@ export default function UserPage() {
     return (
         <>
             <PageControls />
-            <section className={`page-carousel`}>
+            <section className={`page-carousel in-${userSubPageName}`}>
                 <Home />
                 <HamburgerMenu />
                 <LeaderBoard />

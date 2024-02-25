@@ -19,5 +19,7 @@
     "back": "Back",
     "submit": "Submit",
     "leaderboard": "Leaderboard",
+    "leaderboard.more": "More...",
+    "leaderboard.less": "Less..",
     "landing": "Back to Landing"
 }

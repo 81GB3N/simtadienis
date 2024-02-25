@@ -5,7 +5,10 @@
     flex-direction: column;
     gap: 1.5rem;
     padding: 0 min(3rem, 30%);
+    /* so that leaderboard doesnt conflict with page__controls */
+    margin-top: calc(var(--selector-padding-top) + ( var(--actual-selector-height) / 2) - (var(--burger-bar-size) * 3) + 3rem);
     padding-bottom: 3rem;
+    overflow-y: auto;
 }
 .leaderboard.active {
     display: flex;

@@ -20,7 +20,7 @@
     --selector-padding-top: 1rem;
     --selector-margin-bottom: 3rem;
     --actual-selector-height: calc(var(--total-selector-height) - var(--selector-padding-top) - var(--selector-margin-bottom));
-
+    --burger-bar-size: 2px;
 }
 
 /* CSS RESET */
@@ -75,13 +75,12 @@ body {
 .page-carousel {
     display: flex;
     height: 100vh;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 .home-page,
 .leaderboard-page {
     height: 100vh;
-
 }
 
 .offscreen {

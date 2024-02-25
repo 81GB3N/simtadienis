@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import LeaderBoardEntry from './LeaderBoardEntry'
 import { useInView } from 'react-intersection-observer';
 import { useSubPage } from '../../context/SubPageProvider';
+import { FormattedMessage } from 'react-intl';
 import './leaderboard.css'
 
 import io from 'socket.io-client';
@@ -54,16 +55,14 @@ export default function LeaderBoard() {
 
     return (
         <div className={`leaderboard ${inView ? 'in-view' : ''} ${userSubPageName === 'leaderboard' ? 'active' : ''}`} ref={ref}>
-            <button onClick={() => {
-                changeUserSubPage('home');
-            }} style={{ color: 'white' }}>
-                Back to Home
-            </button>
             {(allUsers).slice(0, displayLimit).map((user, index) =>
                 <LeaderBoardEntry key={user.name + user.surname} position={index + 1} user={user} mostMoney={allUsers[0].money} />
             )}
             <div className="leaderboard__controls">
-                <button onClick={toggleDisplayLimit}>{displayLimit === maxDisplayLimit ? 'Retract' : 'Load All'}</button>
+                <button onClick={toggleDisplayLimit}>{displayLimit === maxDisplayLimit ? 
+                    <FormattedMessage id="leaderboard.less" defaultMessage="Less..." /> : 
+                    <FormattedMessage id="leaderboard.more" defaultMessage="More..." />
+                 }</button>
             </div>
         </div>
     )
