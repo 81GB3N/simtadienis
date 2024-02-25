@@ -8,21 +8,36 @@ const baseUrl = window.location.hostname === 'localhost' ? `http://localhost:${p
 //send the user data to the specific page
 export async function sendUserData(userData, page) {
   try {
-    const response = await fetch(`${baseUrl}/api/${encodeURI(page)}`, {
+    const url = `${baseUrl}/api/${encodeURI(page)}`;
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    // Check if the endpoint is /addmoney
+    // if (page === 'addmoney') {
+    //   // Assuming you have a function to retrieve the bearer token
+    //   const token = getToken(); // Implement this function to retrieve the token
+    //   if (token) {
+    //     headers.Authorization = `Bearer ${token}`;
+    //   } else {
+    //     throw new Error('Bearer token not available');
+    //   }
+    // }
+
+    const response = await fetch(url, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: headers,
       body: JSON.stringify(userData),
-    })
+    });
+
     const responseBody = await response.json();
     return responseBody;
   } catch (err) {
-    console.log("Error in sendUserData")
+    console.log("Error in sendUserData:", err);
     throw err;
   }
-
 }
+
 
 //get specific user data: name, surname, money
 export async function getUserData(name, surname, type = "main") {
