@@ -8,7 +8,7 @@ import EditProfile from "./EditProfile";
 import unkownUserImg from "../../assets/images/unknown-user.png";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoneyBill1Wave, faCameraRotate, faTrashCan, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { faMoneyBill1Wave, faPenToSquare, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 import './user.css';
 import PageNav from "../page-control/PageNav";
@@ -73,7 +73,7 @@ export default function UserProfile({ savedUser, removeUserExists }) {
                     </div>
                     <div className="profile-img__controls">
                         <button className="profile-control edit-profile-btn">
-                            <FontAwesomeIcon icon={faPenToSquare} onClick={openEdit}/>
+                            <FontAwesomeIcon icon={faPenToSquare} onClick={openEdit} />
                         </button>
 
                     </div>
@@ -83,12 +83,16 @@ export default function UserProfile({ savedUser, removeUserExists }) {
                     <FontAwesomeIcon icon={faMoneyBill1Wave} className="money-icon" />
                     <p className="money-cnt">{userData?.money}</p>
                 </div>
-                <button className="user-logout" onClick={logout}>LOGOUT</button>
-                {editOpen && createPortal(<EditProfile closeEdit={closeEdit} deleteImg={deleteImg} openWebcam={openWebcam} imgSrc={userData.imgSrc}/>, document.getElementById('modal-root'))}  
+                {editOpen && createPortal(<EditProfile closeEdit={closeEdit} deleteImg={deleteImg} openWebcam={openWebcam} imgSrc={userData.imgSrc} />, document.getElementById('modal-root'))}
                 {webcamOpen && createPortal(<WebcamModal changeImg={changeImg} closeWebcam={closeWebcam} />, document.getElementById('modal-root'))}
                 {/* <p>Discount code for <a href="https://weborado.lt" target="_blank">weborado.lt</a></p> */}
             </div>
-            <PageNav userExists={true} />
+            <div className="user__extra-btns">
+                <PageNav userExists={true} />
+                <button className="profile-control user-logout-btn" onClick={logout}>
+                    <FontAwesomeIcon icon={faArrowRightFromBracket} />
+                </button>
+            </div>
         </>
     )
 }

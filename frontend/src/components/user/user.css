@@ -7,6 +7,11 @@
     align-items: center;
     /* REQUIRED ON MOBILE */    
     padding-top: max(10rem, 50%);
+    gap: min(20%, 5rem);
+}
+
+#user.user-exists{
+    padding-top: max(8rem, 30%);
 }
 
 /* USER LOGIN/SIGNUP */
@@ -150,10 +155,6 @@
     opacity: 0.5;
 }
 
-#user{
-    gap: min(20%, 5rem);
-}
-
 /* USER PROFILE */
 .user__profile{
     width: 100%;
@@ -206,4 +207,16 @@
     align-items: center;
     gap: 1rem;
     font-size: 1.5rem;
+}
+
+.user__extra-btns{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    padding-bottom: 3rem;
+    justify-content: space-between;
+}
+
+.user-logout-btn{
+    align-self: flex-start;
 }
