@@ -3,12 +3,14 @@ import Home from "../components/home/Home"
 import HamburgerMenu from "../components/menu/HamburgerMenu"
 import LeaderBoard from "../components/leaderboard/LeaderBoard"
 import PageControls from "../components/page-control/PageControls"
+import Gallery from "../components/gallery/Gallery"
 // Utilities
 import ErrorModal from "../components/error/ErrorModal"
 
 import { useSubPage } from "../context/SubPageProvider"
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 export default function UserPage() {
     const { userSubPageName } = useSubPage();
@@ -24,13 +26,13 @@ export default function UserPage() {
     }, [])
 
     if (showModal) {
-        return (<ErrorModal
+        return createPortal(<ErrorModal
             status='Mobile Device Required!'
             errorMessage='This website was designed for mobile devices. 
       Please use a mobile device to proceed'
             dismissable={true}
             dismiss={() => setShowModal(false)}
-        />)
+        />, document.getElementById('modal-root'));
     }
 
     return (
@@ -40,6 +42,7 @@ export default function UserPage() {
                 <Home />
                 <HamburgerMenu />
                 <LeaderBoard />
+                <Gallery />
             </section>
         </>
     )

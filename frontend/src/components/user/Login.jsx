@@ -5,7 +5,7 @@ import { useRef, useState, useEffect } from "react";
 
 import { useSubPage } from "../../context/SubPageProvider.jsx";
 
-export default function Login({ setUserExists }) {
+export default function Login({ handleUserExists }) {
     const intl = useIntl();
     const { toggleLoginActive } = useSubPage();
 
@@ -18,8 +18,11 @@ export default function Login({ setUserExists }) {
     const [errMsg, setErrMsg] = useState("");
 
     function setUserLocalStorage(name, surname) {
-        const user = { name: name, surname: surname };
-        localStorage.setItem("user", JSON.stringify(user));
+        return new Promise((resolve, reject) => {
+            const user = { name: name, surname: surname };
+            localStorage.setItem("user", JSON.stringify(user));
+            resolve(user);
+        });        
     }
 
     useEffect(() => {
@@ -50,7 +53,7 @@ export default function Login({ setUserExists }) {
 
         await setUserLocalStorage(name, surname);
         toggleLoginActive();
-        setUserExists(true);
+        handleUserExists(true);
     }
 
     return (

@@ -63,6 +63,7 @@ button {
 body {
     background-color: var(--primary-color-black);
     opacity: 1;
+    padding: 0;
     /* background-image: linear-gradient(30deg, #040404 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(150deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(30deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(150deg, #04061a 12%, transparent 12.5%, transparent 87%, #04061a 87.5%, #04061a), linear-gradient(60deg, #04061a77 25%, transparent 25.5%, transparent 75%, #04061a77 75%, #04061a77), linear-gradient(60deg, #04061a77 25%, transparent 25.5%, transparent 75%, #04061a77 75%, #04061a77); */
     background-size: 8px 14px;
     background-position: 0 0, 0 0, 4px 7px, 4px 7px, 0 0, 4px 7px;
@@ -70,6 +71,18 @@ body {
     overflow: hidden;
 }
 
+#modal-root {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    border: none;
+    background-color: transparent;
+    z-index: 9999;
+    display: block;
+}
 
 /* PAGE CONTAINER */
 .page-carousel {
@@ -99,30 +112,13 @@ body {
     opacity: 1;
 }
 
-/* WEBCAM (temporary) */
-.webcam-temp {
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 10vh;
-}
-
-.webcam-container {
-    height: 20rem;
-    width: 20rem;
+.money-cnt{
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 /* CSS FOR VISUAL TESTS (will be deleted in production) */
 .content {
     height: 350vh;
-}
-
-
-.user__profile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 .line {

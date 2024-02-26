@@ -14,11 +14,10 @@ export default function LeaderBoard() {
     const [error, setError] = useState(null);
     let maxDisplayLimit;
     const [displayLimit, setDisplayLimit] = useState(5);
-    let threshold;
-    if (displayLimit === 5) threshold = 0.3;
-    else threshold = 0.05;
-    const { ref, inView } = useInView({ threshold: threshold, fallbackInView: true });
-    const { userSubPageName, changeUserSubPage } = useSubPage();
+    // to many states, fix l8r
+    const { ref, inView } = useInView({ threshold: 0, fallbackInView: true });
+    const [animate, setAnimate] = useState(false);
+    const { userSubPageName } = useSubPage();
 
     const fetchUsers = () => {
         getAllUsers()
@@ -33,6 +32,19 @@ export default function LeaderBoard() {
             })
     }
 
+    useEffect(() => {
+        fetchUsers();
+    }, [])
+
+    useEffect(() => {
+        if (userSubPageName !== 'leaderboard') {
+            setDisplayLimit(5);
+        }
+        if (inView) {
+            setAnimate(true);
+        }
+    }, [userSubPageName, inView])
+
     const toggleDisplayLimit = () => {
         if (displayLimit !== maxDisplayLimit) {
             setDisplayLimit(maxDisplayLimit);
@@ -41,28 +53,31 @@ export default function LeaderBoard() {
         }
     }
 
-    useEffect(() => {
-        fetchUsers();
-    }, [])
 
-    socket.on('getusers', () => {
-        console.log('user data updated');
-        fetchUsers();
+    socket.on('getusers', async () => {
+        const ANIMATION_DURATION = 2500; // in ms, as set in css
+        setAnimate(false);
+        setTimeout(async () => {
+            await fetchUsers();
+        }, ANIMATION_DURATION);
+        setTimeout(() => {
+            setAnimate(true);
+        }, ANIMATION_DURATION);
     })
 
     if (error) return <div>{error}</div>
     if (!allUsers) return <div>Loading...</div>
 
     return (
-        <div className={`leaderboard ${inView ? 'in-view' : ''} ${userSubPageName === 'leaderboard' ? 'active' : ''}`} ref={ref}>
+        <div className={`leaderboard ${animate ? 'in-view' : ''} ${userSubPageName === 'leaderboard' ? 'active' : ''}`} ref={ref}>
             {(allUsers).slice(0, displayLimit).map((user, index) =>
                 <LeaderBoardEntry key={user.name + user.surname} position={index + 1} user={user} mostMoney={allUsers[0].money} />
             )}
             <div className="leaderboard__controls">
-                <button onClick={toggleDisplayLimit}>{displayLimit === maxDisplayLimit ? 
-                    <FormattedMessage id="leaderboard.less" defaultMessage="Less..." /> : 
+                <button onClick={toggleDisplayLimit}>{displayLimit === maxDisplayLimit ?
+                    <FormattedMessage id="leaderboard.less" defaultMessage="Less..." /> :
                     <FormattedMessage id="leaderboard.more" defaultMessage="More..." />
-                 }</button>
+                }</button>
             </div>
         </div>
     )

@@ -2,22 +2,18 @@ import { FormattedMessage } from 'react-intl';
 import { useSubPage } from '../../context/SubPageProvider';
 import Login from "./Login";
 import SignUp from "./SignUp";
-import LeaderBordNav from '../leaderboard/LeaderBordNav';
+import PageNav from "../page-control/PageNav";
 import './user.css';
-export default function NoUser({ setUserExists }) {
+export default function NoUser({ onUserExists }) {
     const { loginActive, signupActive, toggleLoginActive, toggleSignupActive } = useSubPage();
 
     if (loginActive) {
-        return <Login
-            setUserExists={setUserExists}
-            leave={toggleLoginActive}
+        return <Login 
+            handleUserExists={onUserExists}
         />
     }
     if (signupActive) {
-        return <SignUp
-            setUserExists={setUserExists}
-            leave={toggleSignupActive}
-        />
+        return <SignUp />
     }
 
     return (
@@ -30,7 +26,7 @@ export default function NoUser({ setUserExists }) {
                     <FormattedMessage id='signup' />
                 </button>
             </div>
-            <LeaderBordNav />
+            <PageNav userExists={false} />
         </>
     )
 

@@ -23,7 +23,7 @@ const CustomWebcam = forwardRef(function CustomWebcam(props, ref) {
     }));
 
     return (
-        <div className="webcam-container" ref={containerRef}>
+        <div className="video-container">
             <Webcam ref={webcamRef} audio={false} />
         </div>
     )

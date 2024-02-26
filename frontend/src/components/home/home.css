@@ -3,7 +3,7 @@
     display: none;
     flex-direction: column;
     justify-content: space-between;
-    margin-bottom: 10vh;
+    padding-bottom: 10vh;
 }
 .home-page.active{
     display: flex;
