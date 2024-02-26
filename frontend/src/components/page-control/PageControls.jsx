@@ -20,10 +20,12 @@ export default function PageControls() {
         handleArrowClick = () => toggleSignupActive();
     }
 
+    const nonHomeValidPages = ['leaderboard', 'gallery'];
+
     return (
         <div className={`page__controls ${menuActive ? 'active' : ''} in-${userSubPageName}`}>
             <BackArrow handleArrowClick={handleArrowClick} />
-            {userSubPageName === 'leaderboard' && <button className='go-home' onClick={() => changeUserSubPage('home')}><FontAwesomeIcon icon={faHouseChimney} /></button>}
+            {nonHomeValidPages.includes(userSubPageName) && <button className='go-home' onClick={() => changeUserSubPage('home')}><FontAwesomeIcon icon={faHouseChimney} /></button>}
             <button id="hamburger" onClick={toggleMenu}>
                 <div id='bar'></div>
             </button>
