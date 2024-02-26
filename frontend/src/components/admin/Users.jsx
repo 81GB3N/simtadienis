@@ -17,25 +17,9 @@ import { useUser } from "../../context/UserProvider";
 export default function Users() {
     const [allUsers, setAllUsers] = useState(null);
     const { refresh } = useUser();
-    
-    //SOCKET CODE
-    //--------------------------------------------------------
-    // socket.on("getusers", (res)=>{
-    //     //MAKE THIS UPDATE THE BOARD
-    //     console.log('users updtated');
-    //     console.log(res);
-    // });
-    //DO THE SAME IN THE LEADERBOARD PAGE
-    //-------------------------------------------------------
-
-    // socket.on('userUpdate', (res) => {
-    //     console.log('user data updated');
-    //     console.log(res);
-    // })
 
     useEffect(() => {
         getAllUsers().then(data => {
-            console.log(data.result);
             setAllUsers(data.result);
         });
     }, [refresh]);

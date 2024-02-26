@@ -17,5 +17,11 @@
     "password": "Slaptažodis",
     "repeat.password": "Pakartokite slaptažodį",
     "back": "Atgal",
-    "sumbit": "Pateikti"
+    "sumbit": "Pateikti",
+    "leaderboard": "Pirmūnų stulpas",
+    "leaderboard.more": "Daugiau...",
+    "leaderboard.less": "Mažiau...",
+    "landing": "Atgal į pradžią",
+    "left": "liko... ",
+    "gallery": "Tavo Galerija"
 }

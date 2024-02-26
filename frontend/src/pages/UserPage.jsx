@@ -1,18 +1,21 @@
 // Landing page components
-import Header from "../components/Header"
-import HeroTicket from "../components/HeroTicket"
-import LeaderBoard from "../components/LeaderBoard"
+import Home from "../components/home/Home"
+import HamburgerMenu from "../components/menu/HamburgerMenu"
+import LeaderBoard from "../components/leaderboard/LeaderBoard"
+import PageControls from "../components/page-control/PageControls"
+import Gallery from "../components/gallery/Gallery"
 // Utilities
-import ErrorModal from "../components/ErrorModal"
-// Context provider
+import ErrorModal from "../components/error/ErrorModal"
+
 import { useSubPage } from "../context/SubPageProvider"
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 export default function UserPage() {
-    const [showModal, setShowModal] = useState(false);
     const { userSubPageName } = useSubPage();
 
+    const [showModal, setShowModal] = useState(false);
     const isMobile = () => {
         const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
         return regex.test(navigator.userAgent);
@@ -23,24 +26,24 @@ export default function UserPage() {
     }, [])
 
     if (showModal) {
-        return (<ErrorModal
+        return createPortal(<ErrorModal
             status='Mobile Device Required!'
             errorMessage='This website was designed for mobile devices. 
       Please use a mobile device to proceed'
             dismissable={true}
             dismiss={() => setShowModal(false)}
-        />)
+        />, document.getElementById('modal-root'));
     }
 
     return (
-        <section className={`page-container ${userSubPageName}-page`}>
-            {userSubPageName === 'home' &&
-                <>
-                    <Header />
-                    <HeroTicket />
-                </>
-            }
-            {userSubPageName === 'leaderboard' && <LeaderBoard />}
-        </section>
+        <>
+            <PageControls />
+            <section className={`page-carousel in-${userSubPageName}`}>
+                <Home />
+                <HamburgerMenu />
+                <LeaderBoard />
+                <Gallery />
+            </section>
+        </>
     )
 }

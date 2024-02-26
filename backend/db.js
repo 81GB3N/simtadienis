@@ -57,15 +57,23 @@ async function getCurrentMoney(name, surname, type) {
   return Number(user[0].money);
 }
 
+function findKey(updateInfo) {
+  for (let key in updateInfo) {
+    if (key !== "name" && key !== "surname") {
+      return key;
+    }
+  }
+}
+
 //get all the data requested for all the users
 const retrieveDocument = async () => {
   try {
     const collection = database.collection(main);
-    const projection = { name: 1, surname: 1, money: 1, _id: 0};
+    const projection = { name: 1, surname: 1, money: 1, _id: 0 };
     //find collection collums
     const cursor = collection.find({}).project(projection);
     const documents = await cursor.toArray();
-    
+
     return documents;
   } catch (error) {
     console.error(error);
@@ -73,19 +81,27 @@ const retrieveDocument = async () => {
 };
 
 //update the given user with the given information
-const updateUser = async (updateMoney) => {
+const updateUser = async (updateInfo) => {
   try {
     const collection = database.collection(main);
-    const currentMoney = await getCurrentMoney(
-      updateMoney.name,
-      updateMoney.surname,
-      main
-    );
 
-    //update the users current money
+    if (updateInfo.money) {
+      updateInfo.money += await getCurrentMoney(
+        updateInfo.name,
+        updateInfo.surname,
+        main
+      )
+    }
+
+    // find the key requested for updating
+    const key = findKey(updateInfo);
+
+    console.log(key, [key], updateInfo[key])
+
+    //update the users information
     const result = await collection.updateOne(
-      { name: updateMoney.name, surname: updateMoney.surname },
-      { $set: { money: currentMoney + Number(updateMoney.money) } }
+      { name: updateInfo.name, surname: updateInfo.surname },
+      { $set: { [key]: updateInfo[key] } }
     );
 
     console.log("Document updated successfully", result);
@@ -101,11 +117,11 @@ const findUser = async (name, surname, type, getPassword) => {
     const collection = database.collection(type);
     const query = { name: name, surname: surname };
     let cursor;
-    if(getPassword === undefined){
-      const projection = {name: 1, surname: 1, money: 1, _id: 0, admin: 1};
+    if (getPassword === undefined) {
+      const projection = { name: 1, surname: 1, money: 1, _id: 0, admin: 1, imgSrc: 1, galleryCnt: 1 };
       cursor = collection.find(query).project(projection);
     }
-    else{
+    else {
       //get only the password for the requested user
       cursor = collection.find(query);
       const document = await cursor.toArray();

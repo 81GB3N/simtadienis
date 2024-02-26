@@ -1,6 +1,7 @@
 import { FormattedMessage } from 'react-intl';
-import { useRef } from 'react';
-import { useSubPage } from '../context/SubPageProvider';
+import { useRef, useEffect, useState } from 'react';
+import { useSubPage } from '../../context/SubPageProvider';
+import './ticket.css';
 
 export default function HeroTicket() {
     const ticketLoweref = useRef(null);
@@ -12,7 +13,6 @@ export default function HeroTicket() {
         ticketLoweref.current.classList.add('clicked');
         ticketUpperRef.current.classList.add('clicked');
         // buttonRef.current.classList.add('clicked');
-        console.log(ticketLoweref.current);
         setTimeout(() => {
             toggleMenu();
         }, 600)
@@ -22,6 +22,26 @@ export default function HeroTicket() {
             // buttonRef.current.classList.remove('clicked');
         });
     }
+
+    const calculateTimeLeft = () => {
+        const now = new Date();
+        // march - 2, 25th - 25
+        const endDate = new Date(now.getFullYear(), 2, 25);
+        const timeDifference = endDate.getTime() - now.getTime();
+        const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+        return `${String(hours).padStart(2, '0')}h, ${String(minutes).padStart(2, '0')}m`;
+    };
+
+    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+    // Update time every minute
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setTimeLeft(calculateTimeLeft());
+        }, 60000);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <div id='ticket'>
             <div id='ticket__upper' ref={ticketUpperRef}>
@@ -30,7 +50,8 @@ export default function HeroTicket() {
                         <FormattedMessage id='ticket.text' />
                     </p>
                     <p className='ticket-date'>
-                        <FormattedMessage id='ticket.date' />
+                        <FormattedMessage id='left' />
+                        {timeLeft}
                     </p>
                 </div>
             </div>

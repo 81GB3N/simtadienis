@@ -1,0 +1,129 @@
+/* PAGE CONTROLS */
+.page__controls {
+    --animation-duration: 500ms;
+    --x-padding: 1rem;
+    position: absolute;
+    /* so that page__controls is centered with language selector */
+    top: calc(var(--selector-padding-top) + (var(--actual-selector-height) / 2) - (var(--burger-bar-size) * 3));
+    transform: translateY(-50%);
+    /* necessary because page__controls is going to block language selector btns */
+    pointer-events: none;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    z-index: 10;
+    padding: 0 var(--x-padding);
+    transition: transform var(--animation-duration) ease-in-out;
+}
+
+.page__controls.active {
+    transform: translateY(3rem);
+}
+
+/* HAMBURGER */
+/* burger button */
+#hamburger,
+.back-arrow,
+.go-home {
+    /* set to initial because they were disabled in page__controls */
+    pointer-events: initial;
+}
+
+#hamburger,
+.back-arrow {
+    width: 35px;
+    transition: transform var(--animation-duration) ease-in-out;
+}
+
+#hamburger>#bar,
+#hamburger::after,
+#hamburger::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: var(--burger-bar-size);
+    background-color: #fff;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+#hamburger>#bar {
+    width: 100%;
+}
+
+/* hamburger is active */
+.page__controls.active>#hamburger>#bar {
+    opacity: 0;
+}
+
+.page__controls.active>#hamburger::after {
+    transform: rotate(-45deg) translate(4px, -8px);
+    background-color: var(--primary-color-black);
+}
+
+.page__controls.active>#hamburger::before {
+    transform: rotate(45deg) translate(4px, 8px);
+    background-color: var(--primary-color-black);
+}
+
+/* arrow */
+.arrow-btn {
+    cursor: pointer;
+    transform: translateX(-50vh);
+    transition: transform var(--animation-duration) ease-in-out;
+}
+
+.page__controls.active>.arrow-btn {
+    transform: translateX(0);
+}
+
+.fly-off {
+    transform: translateX(50px) rotate(45deg);
+    animation: flyOffAnimation 0.5s forwards;
+}
+
+@keyframes flyOffAnimation {
+    0% {
+        opacity: 1;
+        transform: translateX(50px) rotate(45deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(-300%) rotate(45deg);
+    }
+}
+
+.go-home {
+    width: 25px;
+    height: 25px;
+    color: aliceblue;
+    position: absolute;
+    top: 0;
+    left: var(--x-padding);
+    transition: opacity 0.1s ease-in-out;
+}
+
+.go-home svg {
+    width: 100%;
+    height: 100%;
+}
+
+.page__controls.active .go-home {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* PAGE NAVIGATION */
+.page__navigation{
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.nav-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--primary-color-black);
+    border-radius: 8px;
+    box-shadow: var(--box-shadow-default-thin);
+}

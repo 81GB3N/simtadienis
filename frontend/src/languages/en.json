@@ -17,5 +17,11 @@
     "password": "Password",
     "repeat.password": "Repeat Password",
     "back": "Back",
-    "submit": "Submit"
+    "submit": "Submit",
+    "leaderboard": "Leaderboard",
+    "leaderboard.more": "More...",
+    "leaderboard.less": "Less..",
+    "landing": "Back to Landing",
+    "left": "left... ",
+    "gallery": "Your Gallery"
 }
