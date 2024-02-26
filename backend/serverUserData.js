@@ -86,8 +86,9 @@ app.post("/api/write-history", (req, res) => {
   writeDocument(userData.history, "history");
 });
 
-app.post("/api/register-admin", (req, res) => {
+app.post("/api/register-admin", async (req, res) => {
   const admin = req.body;
+  admin.password = await encrypt(admin.password);
   admin.token = generateJWT(admin);
   writeDocument(admin, "admin");
 });
