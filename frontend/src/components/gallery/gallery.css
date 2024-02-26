@@ -3,12 +3,11 @@
     width: 100vw;
     display: none;
     overflow: hidden;
-    display: flex;
     flex-direction: column;
     color: aliceblue;
 }
 .gallery.active{
-    display: block;
+    display: flex;
 }
 
 .gallery-title{
