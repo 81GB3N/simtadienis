@@ -17,6 +17,7 @@ export default function UserProfile({ savedUser, removeUserExists }) {
     const [webcamOpen, setWebcamOpen] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
     const [userData, setUserData] = useState({});
+    const [moneyEffectActive, setMoneyEffectActive] = useState(false);
 
     const logout = async () => {
         await localStorage.removeItem("user");
@@ -80,7 +81,7 @@ export default function UserProfile({ savedUser, removeUserExists }) {
                 </div>
                 <p className="user-name">{userData?.name}, {userData?.surname}</p>
                 <div className="user__money">
-                    <FontAwesomeIcon icon={faMoneyBill1Wave} className="money-icon" />
+                    <FontAwesomeIcon icon={faMoneyBill1Wave} className={`user-money-icon ${moneyEffectActive ? 'active' : ''}`} onClick={()=>setMoneyEffectActive(prev => !prev)} />
                     <p className="money-cnt">{userData?.money}</p>
                 </div>
                 {editOpen && createPortal(<EditProfile closeEdit={closeEdit} deleteImg={deleteImg} openWebcam={openWebcam} imgSrc={userData.imgSrc} />, document.getElementById('modal-root'))}

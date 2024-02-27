@@ -1,6 +1,3 @@
-.home-page{
-    display: none;
-}
 .home-page.active{
     display: block;
 }

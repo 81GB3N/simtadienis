@@ -1,18 +1,22 @@
-import { FormattedMessage } from 'react-intl';
 import { useSubPage } from "../../context/SubPageProvider";
 
-export default function LeaderBordNav({ userExists }) {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouseUser, faListOl, faImages, faCommentDots } from '@fortawesome/free-solid-svg-icons';
+
+export default function PageNav({ userExists }) {
     const { userSubPageName, changeUserSubPage, toggleMenu } = useSubPage();
+
+    const changePage = (page) => {
+        changeUserSubPage(page);
+        toggleMenu();
+    }
 
     // button for navigating to and from the home page
     let homeBtn;
     if (userSubPageName !== 'home') {
         homeBtn =
-            <button className="nav-btn home-button" onClick={() => {
-                changeUserSubPage('home');
-                toggleMenu();
-            }}>
-                <FormattedMessage id='landing' />
+            <button className="nav-btn home-button" onClick={() => changePage('home')}>
+                <FontAwesomeIcon icon={faHouseUser} />
             </button>
     } else {
         homeBtn = null;
@@ -22,11 +26,8 @@ export default function LeaderBordNav({ userExists }) {
     let leaderBoardBtn;
     if (userSubPageName !== 'leaderboard') {
         leaderBoardBtn =
-            <button className="nav-btn leaderboard-button" onClick={() => {
-                changeUserSubPage('leaderboard');
-                toggleMenu();
-            }}>
-                <FormattedMessage id='leaderboard' />
+            <button className="nav-btn leaderboard-button" onClick={() => changePage('leaderboard')}>
+                <FontAwesomeIcon icon={faListOl} />
             </button>
     } else {
         leaderBoardBtn = null;
@@ -36,22 +37,29 @@ export default function LeaderBordNav({ userExists }) {
     let galleryBtn;
     if (userExists && userSubPageName !== 'gallery') {
         galleryBtn =
-            <button className="nav-btn gallery-button" onClick={() => {
-                changeUserSubPage('gallery');
-                toggleMenu();
-            }}>
-                <FormattedMessage id='gallery' />
+            <button className="nav-btn gallery-button" onClick={() => changePage('gallery')}>
+                <FontAwesomeIcon icon={faImages} />
             </button>
     } else {
         galleryBtn = null;
     }
 
+    let chatBtn;
+    if (userExists && userSubPageName !== 'chat') {
+        chatBtn =
+            <button className="nav-btn chat-button" onClick={() => changePage('chat')}>
+                <FontAwesomeIcon icon={faCommentDots} />
+            </button>
+    } else {
+        chatBtn = null;
+    }
 
     return (
         <div className='page__navigation'>
             {homeBtn}
             {leaderBoardBtn}
             {galleryBtn}
+            {chatBtn}
         </div>
     )
 }

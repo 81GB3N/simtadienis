@@ -205,7 +205,7 @@
 }
 
 .profile-control{
-    font-size: 1.5rem;
+    font-size: 2rem;
 }
 
 .user-name{
@@ -231,5 +231,16 @@
 }
 
 .user-logout-btn{
+    color: rgba(0, 0, 0, 0.6);
     align-self: flex-start;
+}
+
+.user-money-icon{
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.user-money-icon.active{
+    transform: rotate(360deg);
+    color: var(--primary-color-green);
 }

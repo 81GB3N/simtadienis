@@ -11,6 +11,7 @@ import { useSubPage } from "../context/SubPageProvider"
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import GlobalChat from "../components/chat/GlobalChat"
 
 export default function UserPage() {
     const { userSubPageName } = useSubPage();
@@ -43,6 +44,7 @@ export default function UserPage() {
                 <HamburgerMenu />
                 <LeaderBoard />
                 <Gallery />
+                <GlobalChat />
             </section>
         </>
     )

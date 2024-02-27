@@ -14,11 +14,13 @@
     background-color: var(--primary-color-yellow);
 }
 
-#menu.from-home {
+#menu.from-home,
+#menu.from-chat {
     transform: translateX(100%);
 }
 
-#menu.active.from-home {
+#menu.active.from-home,
+#menu.active.from-chat {
     transform: translateX(-100%);
 }
 

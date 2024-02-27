@@ -94,7 +94,10 @@ body {
 }
 
 .home-page,
-.leaderboard-page {
+.leaderboard-page,
+.chat-page,
+.gallery {
+    display: none;
     height: 100vh;
 }
 
