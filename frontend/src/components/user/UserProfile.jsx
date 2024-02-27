@@ -4,16 +4,18 @@ import { createPortal } from "react-dom";
 
 // import Webcam from "react-webcam";
 import WebcamModal from "../webcam/WebcamModal";
+import EditProfile from "./EditProfile";
 import unkownUserImg from "../../assets/images/unknown-user.png";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoneyBill1Wave, faCameraRotate, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faMoneyBill1Wave, faPenToSquare, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 import './user.css';
 import PageNav from "../page-control/PageNav";
 
 export default function UserProfile({ savedUser, removeUserExists }) {
-    const [open, setOpen] = useState(false);
+    const [webcamOpen, setWebcamOpen] = useState(false);
+    const [editOpen, setEditOpen] = useState(false);
     const [userData, setUserData] = useState({});
 
     const logout = async () => {
@@ -37,8 +39,11 @@ export default function UserProfile({ savedUser, removeUserExists }) {
         fetchData().then(data => setUserData(data));
     }, [])
 
-    const openWebcam = () => setOpen(true);
-    const closeWebcam = () => setOpen(false);
+    const openEdit = () => setEditOpen(true);
+    const closeEdit = () => setEditOpen(false);
+
+    const openWebcam = () => setWebcamOpen(true);
+    const closeWebcam = () => setWebcamOpen(false);
 
     const changeImg = (imgSrc) => {
         sendUserData({ imgSrc: imgSrc, name: userData.name, surname: userData.surname }, 'update-picture')
@@ -67,12 +72,10 @@ export default function UserProfile({ savedUser, removeUserExists }) {
                         </img>
                     </div>
                     <div className="profile-img__controls">
-                        <button className="img-control new-profile-btn">
-                            <FontAwesomeIcon icon={faCameraRotate} onClick={openWebcam} />
+                        <button className="profile-control edit-profile-btn">
+                            <FontAwesomeIcon icon={faPenToSquare} onClick={openEdit} />
                         </button>
-                        <button className="img-control delete-profile-btn">
-                            <FontAwesomeIcon icon={faTrashCan} onClick={deleteImg}/>
-                        </button>
+
                     </div>
                 </div>
                 <p className="user-name">{userData?.name}, {userData?.surname}</p>
@@ -80,12 +83,16 @@ export default function UserProfile({ savedUser, removeUserExists }) {
                     <FontAwesomeIcon icon={faMoneyBill1Wave} className="money-icon" />
                     <p className="money-cnt">{userData?.money}</p>
                 </div>
-                <button className="user-logout" onClick={logout}>LOGOUT</button>
-
-                {open && createPortal(<WebcamModal changeImg={changeImg} closeWebcam={closeWebcam} />, document.getElementById('modal-root'))}
+                {editOpen && createPortal(<EditProfile closeEdit={closeEdit} deleteImg={deleteImg} openWebcam={openWebcam} imgSrc={userData.imgSrc} />, document.getElementById('modal-root'))}
+                {webcamOpen && createPortal(<WebcamModal changeImg={changeImg} closeWebcam={closeWebcam} />, document.getElementById('modal-root'))}
                 {/* <p>Discount code for <a href="https://weborado.lt" target="_blank">weborado.lt</a></p> */}
             </div>
-            <PageNav userExists={true}/>
+            <div className="user__extra-btns">
+                <PageNav userExists={true} />
+                <button className="profile-control user-logout-btn" onClick={logout}>
+                    <FontAwesomeIcon icon={faArrowRightFromBracket} />
+                </button>
+            </div>
         </>
     )
 }

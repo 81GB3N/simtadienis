@@ -29,6 +29,13 @@
     border-radius: 50%;
 }
 
+.webcam img{
+    width: 70vw;
+    height: 70vw;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
 .webcam__controls{
     display: flex;
     justify-content: space-between;
