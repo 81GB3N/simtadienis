@@ -7,11 +7,23 @@
     align-items: center;
     /* REQUIRED ON MOBILE */    
     padding-top: max(10rem, 50%);
-    gap: min(20%, 5rem);
+    gap: 5rem;
+}
+
+@media screen and (min-height: 850px) {
+    #user {
+        gap: 8rem
+    }   
+}
+
+@media screen and (max-height: 660px) {
+    #user {
+        gap: 1rem;
+    }   
 }
 
 #user.user-exists{
-    padding-top: max(8rem, 30%);
+    padding-top: 12vh;
 }
 
 /* USER LOGIN/SIGNUP */
@@ -212,8 +224,9 @@
 .user__extra-btns{
     display: flex;
     flex-grow: 1;
+    min-height: 130px;
     flex-direction: column;
-    padding-bottom: 3rem;
+    padding-bottom: 5vh;
     justify-content: space-between;
 }
 
