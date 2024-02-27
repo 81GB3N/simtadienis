@@ -35,9 +35,8 @@ async function connect() {
 connect();
 
 //write the given data to the specifies collection
-const writeDocument = async (registerData, page) => {
+const writeDocument = async (registerData, page=main) => {
   try {
-    if(page === undefined) page = main;
     const collection = database.collection(page);
 
     await collection.insertOne(registerData);
@@ -47,8 +46,8 @@ const writeDocument = async (registerData, page) => {
 };
 
 //find the given user money in the history collection
-async function getCurrentMoney(name, surname, type) {
-  const user = await findUser(name, surname, type);
+async function getCurrentMoney(name, surname) {
+  const user = await findUser(name, surname);
   return Number(user[0].money);
 }
 
@@ -66,9 +65,9 @@ function findKey(updateInfo) {
 }
 
 //get all the data requested for all the users
-const retrieveDocument = async () => {
+const retrieveDocument = async (page=main) => {
   try {
-    const collection = database.collection(main);
+    const collection = database.collection(page);
     const projection = { name: 1, surname: 1, money: 1, _id: 0 };
     //find collection collums
     const cursor = collection.find({}).project(projection);
@@ -87,7 +86,7 @@ const updateUser = async (updateInfo) => {
 
     if (updateInfo.money) {
       updateInfo.money =
-        (await getCurrentMoney(updateInfo.name, updateInfo.surname, main)) +
+        (await getCurrentMoney(updateInfo.name, updateInfo.surname)) +
         Number(updateInfo.money);
     }
 
@@ -114,10 +113,11 @@ const updateUser = async (updateInfo) => {
 };
 
 //find user and its info on the given data
-const findUser = async (name, surname, type, getPassword) => {
+const findUser = async (name, surname, page=main, getPassword) => {
   try {
     // added getPassword variable to know when to call for password extraction and when for everything other
-    const collection = database.collection(type);
+
+    const collection = database.collection(page);
     const query = { name: name, surname: surname };
     let cursor;
     if (getPassword === undefined) {
