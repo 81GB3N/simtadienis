@@ -4,8 +4,8 @@
     display: none;
     flex-direction: column;
     gap: 1.5rem;
-    padding: 0 min(3rem, 30%);
-    padding-bottom: 3rem;
+    /* padding: 0 min(3rem, 30%); */
+    /* padding-bottom: 3rem; */
     overflow-y: auto;
 }
 .leaderboard.active {
@@ -137,6 +137,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-bottom: 5rem;
 }
 
 .leaderboard__controls button {

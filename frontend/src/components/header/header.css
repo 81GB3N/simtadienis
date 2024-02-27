@@ -1,6 +1,7 @@
 /* HEADER */
 #header {
-    /* padding-bottom: 10vh; */
+    height: 50vh;
+    padding-bottom: 10vh;
     position: relative;
 }
 
