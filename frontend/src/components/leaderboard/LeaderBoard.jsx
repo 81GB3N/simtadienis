@@ -7,7 +7,7 @@ import { FormattedMessage } from 'react-intl';
 import './leaderboard.css'
 
 import io from 'socket.io-client';
-const socket = io.connect('http://localhost:5000');
+const socket = io.connect('http://localhost:4000');
 
 export default function LeaderBoard() {
     const [allUsers, setAllUsers] = useState(null);

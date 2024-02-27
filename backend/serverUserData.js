@@ -12,7 +12,6 @@ const cors = require("cors");
 
 const app = express();
 const port = process.env.PORT;
-const socketPort = process.env.SOCKETPORT;
 
 dotenv.config();
 app.use(bodyParser.json());
@@ -137,10 +136,6 @@ const picture = req.body;
 
 // })
 
-server.listen(socketPort, ()=>{
-  console.log(`socket server is running on port http://localhost:${socketPort}`);
+server.listen(port, ()=>{
+  console.log(`server is running on port http://localhost:${port}`);
 })
-
-app.listen(port, () => {
-  console.log(`express Server is running on http://localhost:${port}`);
-});
