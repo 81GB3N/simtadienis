@@ -96,6 +96,13 @@ body {
     height: 100vh;
 }
 
+.leaderboard,
+.gallery {
+    /* so that page doesnt conflict with page__controls */
+    margin-top: calc(var(--selector-padding-top) + (var(--actual-selector-height) / 2) - (var(--burger-bar-size) * 3) + 3rem);
+
+}
+
 .offscreen {
     display: none;
 }
@@ -112,7 +119,7 @@ body {
     opacity: 1;
 }
 
-.money-cnt{
+.money-cnt {
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
