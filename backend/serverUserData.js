@@ -21,49 +21,42 @@ const server = http.createServer(app);
 const io = initializeSocket(server);
 
 //gets all user information without password
-app.get("/api/getallusers", async (req, res) => {
-  // return res.status(503).json({ error: "Service Temporarily Unavailable" });
+app.get("/api/getallusers", async (req, res, next) => {
+  try{
     const result = await retrieveDocument();
     res.json({ result });
+  }catch(err){next(err)}
   });
 
 //gets user information specifies without password
-app.post("/api/getuser", async (req, res) => {
-  try {
+app.post("/api/getuser", async (req, res, next) => {
+  try{
     const user = req.body;
     const result = await findUser(user.name, user.surname);
     res.json({ result });
-  } catch (error) {
-    console.error("Error in find user route:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+  }catch(err){next(err)}
 });
 
 //recieving user data to check for the password
-app.post("/api/check-password", async (req, res) => {
-  try {
+app.post("/api/check-password", async (req, res, next) => {
+  try{
     const user = req.body;
     const result = await checkPassword(user.name, user.surname, user.type, user.password);
     res.json({ result });
-  } catch (error) {
-    console.error("Error in check-password route:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+  }catch(err){next(err)}
 });
 
-app.post("/api/check-status", async (req, res) => {
-  try {
+app.post("/api/check-status", async (req, res, next) => {
+  try{
     const user = req.body;
     const result = await findUser(user.name, user.surname);
     result[0] ? res.json(true) : res.json(false);
-  } catch (error) {
-    console.error("Error in check-password route:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+  }catch(err){next(err)}
 });
 
 //writes user data by registering 
-app.post("/api/register", async (req, res) => {
+app.post("/api/register", async (req, res, next) => {
+  try{
   const register = req.body;
   register.password = await encrypt(register.password);
   writeDocument(register);
@@ -71,20 +64,23 @@ app.post("/api/register", async (req, res) => {
   io.emit("getusers");
 
   res.json({ message: "Registration successful" });
+  }catch(err){next(err)}
 });
 
 
 //writes user history to history collection
-app.post("/api/write-history", (req, res) => {
+app.post("/api/write-history", (req) => {
   const history = req.body;
   writeDocument(history, "history");
 });
 
-app.post("/api/register-admin", async (req, res) => {
+app.post("/api/register-admin", async (req) => {
+  try{
   const admin = req.body;
   admin.password = await encrypt(admin.password);
   admin.token = generateJWT(admin);
   writeDocument(admin, "admin");
+  }catch(err){next(err)}
 });
 
 //uodates user money
@@ -98,43 +94,22 @@ app.post("/api/addmoney", (req, res) => {
     })
   }
 
-  // console.log(userData.money, moneyValue);
-
-  updateUser(money).then(() => {
-
-    res.status(200).json({
-      success: true,
-      message: 'Money added successfully!'
-    }) 
+  updateUser(money)
     io.emit('getusers');
-} ).catch(err => {
-    res.status(500).json({
-      success: false,
-      message: `Internal server error: ${err}`
-    });
-  })
 });
 
-app.post('/api/update-picture', (req, res) => {
+app.post('/api/update-picture', (req, res, next) => {
+  try{
 const picture = req.body;
-
-  updateUser(picture).then(() => {
-
-    res.status(200).json({
-      success: true,
-      message: 'picture changed'
-    }) 
-} ).catch(err => {
-    res.status(500).json({
-      success: false,
-      message: `Internal server error: ${err}`
-    });
-  })
+  updateUser(picture);
+  }catch(err){next(err)}
 });
-//error handling function
-// app.use((req, res, next)=>{
 
-// })
+//error handling function
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+})
 
 server.listen(port, ()=>{
   console.log(`server is running on port http://localhost:${port}`);
