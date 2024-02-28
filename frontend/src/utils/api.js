@@ -5,6 +5,14 @@ const port = 4000;
 //depeding on what the current hostname is select baseurl
 const baseUrl = window.location.hostname === 'localhost' ? `http://localhost:${port}` : '';
 
+async function fetchData(userData, page, headers = {"Content-Type": "application/json",}){
+  return await fetch(`${baseUrl}/api/${encodeURI(page)}`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(userData),
+  });
+}
+
 //send the user data to the specific page
 export async function sendUserData(userData, page) {
   try {
@@ -24,14 +32,9 @@ export async function sendUserData(userData, page) {
     //   }
     // }
 
-    const response = await fetch(url, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify(userData),
-    });
-
-    const responseBody = await response.json();
-    return responseBody;
+    const response = await fetchData(userData, page, headers);
+    const data = await response.json();
+    return data;
   } catch (err) {
     console.log("Error in sendUserData:", err);
     throw err;
@@ -40,21 +43,9 @@ export async function sendUserData(userData, page) {
 
 
 //get specific user data: name, surname, money
-export async function getUserData(name, surname, type = "main") {
+export async function getUserData(userData) {
   try {
-    const userData = {
-      name: name,
-      surname: surname,
-      type: type,
-    }
-    const response = await fetch(`${baseUrl}/api/getuser`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    });
-    if (!response.ok) throw new Error('Something went wrong in getUserData');
+    const response = await fetchData(userData,'getuser')
     const data = await response.json();
     return data;
   } catch (err) {
@@ -66,20 +57,7 @@ export async function getUserData(name, surname, type = "main") {
 //sending user data to check if the suplied password matches with the required
 export async function validatePassword(name, surname, password, type = "main") {
   try {
-    const userData = {
-      name: name,
-      surname: surname,
-      password: password,
-      type: type,
-    }
-    const response = await fetch(`${baseUrl}/api/check-password`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    });
-    if (!response.ok) throw new Error('Something went wrong in validatePassword');
+    const response = await fetchData({name: name, surname: surname, password: password,type: type},'check-password')
     const data = await response.json();
     return data;
   } catch (err) {
@@ -101,21 +79,9 @@ export async function getAllUsers() {
   }
 }
 
-export async function userExists(name, surname, type = "main") {
-  try {
-    const userData = {
-      name: name,
-      surname: surname,
-      type: type,
-    }
-    const response = await fetch(`${baseUrl}/api/check-status`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    });
-    if (!response.ok) throw new Error('Something went wrong in userExists');
+export async function userExists(name, surname, type) {
+  try{
+    const response = await fetchData({name: name, surname: surname, type: type}, 'check-status');
     const data = await response.json();
     return data;
   } catch (err) {
