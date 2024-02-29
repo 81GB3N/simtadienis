@@ -68,6 +68,7 @@ export default function UserProfile({ savedUser, removeUserExists }) {
             })
             .catch(err => console.log(err));
     }
+      
 
     return (
         <>
@@ -89,7 +90,7 @@ export default function UserProfile({ savedUser, removeUserExists }) {
                     <LiaMoneyBillSolid className={`user-money-icon ${moneyEffectActive ? 'active' : ''}`} onClick={()=>setMoneyEffectActive(prev => !prev)}/>
                     <p className="money-cnt">{userData?.money}</p>
                 </div>
-                {editOpen && createPortal(<EditProfile closeEdit={closeEdit} deleteImg={deleteImg} openWebcam={openWebcam} imgSrc={userData.imgSrc} />, document.getElementById('modal-root'))}
+                {editOpen && createPortal(<EditProfile closeEdit={closeEdit} deleteImg={deleteImg} openWebcam={openWebcam} imgSrc={userData.imgSrc || unkownUserImg} />, document.getElementById('modal-root'))}
                 {webcamOpen && createPortal(<WebcamModal changeImg={changeImg} closeWebcam={closeWebcam} />, document.getElementById('modal-root'))}
                 {/* <p>Discount code for <a href="https://weborado.lt" target="_blank">weborado.lt</a></p> */}
             </div>

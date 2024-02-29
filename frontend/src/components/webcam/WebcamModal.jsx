@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import CustomWebcam from "./CustomWebcam"
 
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,6 +10,7 @@ import './webcam.css';
 
 export default function WebcamModal({ changeImg, closeWebcam }) {
     const webcamRef = useRef(null);
+    const [cameraActive, setCameraActive] = useState(false);
 
     const takeScreenshot = () => {
         const imgSrc = webcamRef.current.capture();
@@ -17,10 +18,25 @@ export default function WebcamModal({ changeImg, closeWebcam }) {
         closeWebcam();
     }
 
+    if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
+        console.log("Let's get this party started")
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(() => {
+                setCameraActive(true);
+            })
+            .catch(error => {
+                if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+                    console.log('Camera permission denied by the user.');
+                } else {
+                    console.error('Error accessing camera:', error);
+                }
+            });
+    }
+
     return (
         <div className="webcam-container">
             <div className="webcam">
-                <CustomWebcam ref={webcamRef} />
+                <CustomWebcam ref={webcamRef} enabled={cameraActive}/>
                 <div className="webcam__controls">
                     <button className="webcam-control take-screenshot-btn" onClick={takeScreenshot}>
                         <LiaCameraSolid />
