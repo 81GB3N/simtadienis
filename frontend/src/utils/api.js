@@ -57,7 +57,7 @@ export async function getUserData(userData) {
 //sending user data to check if the suplied password matches with the required
 export async function validatePassword(name, surname, password, type = "main") {
   try {
-    const response = await fetchData({name: name, surname: surname, password: password,type: type},'check-password')
+    const response = await fetchData({name: name, surname: surname, password: password, type: type},'check-password')
     const data = await response.json();
     return data;
   } catch (err) {
