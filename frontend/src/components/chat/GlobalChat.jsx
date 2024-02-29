@@ -7,7 +7,7 @@ export default function GlobalChat() {
     const { userSubPageName } = useSubPage();
 
     return (
-        <div className={`chat-page ${userSubPageName === 'chat' ? 'active' : ''}`}>
+        <div className={`user-page chat-page ${userSubPageName === 'chat' ? 'active' : ''}`}>
             <h1>Global Chat</h1>
         </div>
     )

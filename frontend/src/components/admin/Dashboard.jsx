@@ -1,5 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faServer } from "@fortawesome/free-solid-svg-icons"
 // JSUT A TEST
 export default function Dashboard() {
     return (

@@ -16,10 +16,11 @@
     --box-shadow-invalid: 3px 3px 0 1px var(--error-color);
 
     /* sizes */
-    --total-selector-height: 10rem;
-    --selector-padding-top: 1rem;
+    --total-selector-height: 23vh;
+    --selector-padding-top: 5vh;
     --selector-margin-bottom: 3rem;
     --actual-selector-height: calc(var(--total-selector-height) - var(--selector-padding-top) - var(--selector-margin-bottom));
+    --midpoint-selector-height: calc(var(--actual-selector-height) - var(--selector-padding-top));
     --burger-bar-size: 2px;
 }
 
@@ -90,13 +91,10 @@ body {
     justify-content: center;
     /* align-items: center; */
     height: 100vh;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
-.home-page,
-.leaderboard-page,
-.chat-page,
-.gallery {
+.user-page{
     display: none;
     height: 100vh;
 }
@@ -126,6 +124,7 @@ body {
 
 .money-cnt {
     font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: 500;
 }
 
 /* CSS FOR VISUAL TESTS (will be deleted in production) */

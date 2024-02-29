@@ -69,7 +69,7 @@ export default function LeaderBoard() {
     if (!allUsers) return <div>Loading...</div>
 
     return (
-        <div className={`leaderboard ${animate ? 'in-view' : ''} ${userSubPageName === 'leaderboard' ? 'active' : ''}`} ref={ref}>
+        <div className={`user-page leaderboard ${animate ? 'in-view' : ''} ${userSubPageName === 'leaderboard' ? 'active' : ''}`} ref={ref}>
             {(allUsers).slice(0, displayLimit).map((user, index) =>
                 <LeaderBoardEntry key={user.name + user.surname} position={index + 1} user={user} mostMoney={allUsers[0].money} />
             )}

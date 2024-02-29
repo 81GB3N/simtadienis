@@ -40,8 +40,8 @@ export default function UserPage() {
         <>
             <PageControls />
             <section className={`page-carousel in-${userSubPageName}`}>
+                <HamburgerMenu />   
                 <Home />
-                <HamburgerMenu />
                 <LeaderBoard />
                 <Gallery />
                 <GlobalChat />

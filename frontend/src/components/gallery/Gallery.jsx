@@ -17,7 +17,7 @@ export default function Gallery() {
     const submittedCount = galleryImages.filter(image => image).length;
 
     return (
-        <div className={`gallery ${userSubPageName === 'gallery' ? 'active' : ''}`}>
+        <div className={`user-page gallery ${userSubPageName === 'gallery' ? 'active' : ''}`}>
             <h3 className='gallery-title'>Your submissions</h3>
             <p className='gallery-info'>Already submitted: <span className='money-cnt'>{submittedCount} / {GALLERY_LENGTH}</span></p>
             <li className='gallery__images'>

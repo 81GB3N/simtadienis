@@ -1,8 +1,9 @@
 import { useSubPage } from '../../context/SubPageProvider';
 import BackArrow from "../BackArrow";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouseChimney } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faHouseChimney } from '@fortawesome/free-solid-svg-icons';
+import { LiaHomeSolid } from "react-icons/lia";
 
 import './pageControls.css';
 
@@ -20,12 +21,15 @@ export default function PageControls() {
         handleArrowClick = () => toggleSignupActive();
     }
 
-    const nonHomeValidPages = ['leaderboard', 'gallery'];
+    const nonHomeValidPages = ['leaderboard', 'gallery', 'chat'];
 
     return (
         <div className={`page__controls ${menuActive ? 'active' : ''} in-${userSubPageName}`}>
             <BackArrow handleArrowClick={handleArrowClick} />
-            {nonHomeValidPages.includes(userSubPageName) && <button className='go-home' onClick={() => changeUserSubPage('home')}><FontAwesomeIcon icon={faHouseChimney} /></button>}
+            {nonHomeValidPages.includes(userSubPageName) &&
+                <button className='go-home' onClick={() => changeUserSubPage('home')}>
+                    <LiaHomeSolid />
+                </button>}
             <button id="hamburger" onClick={toggleMenu}>
                 <div id='bar'></div>
             </button>

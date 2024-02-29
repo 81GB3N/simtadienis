@@ -1,6 +1,5 @@
 .gallery{
     width: 100vw;
-    overflow: hidden;
     flex-direction: column;
     color: aliceblue;
 }

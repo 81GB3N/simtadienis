@@ -7,8 +7,13 @@ import WebcamModal from "../webcam/WebcamModal";
 import EditProfile from "./EditProfile";
 import unkownUserImg from "../../assets/images/unknown-user.png";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoneyBill1Wave, faPenToSquare, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faMoneyBill1Wave, faPenToSquare, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+
+// a collection of icons from Icons8 Line Awesome
+import { LiaEdit, LiaMoneyBillSolid } from "react-icons/lia";
+
+import { IoIosLogOut } from "react-icons/io";
 
 import './user.css';
 import PageNav from "../page-control/PageNav";
@@ -74,14 +79,14 @@ export default function UserProfile({ savedUser, removeUserExists }) {
                     </div>
                     <div className="profile-img__controls">
                         <button className="profile-control edit-profile-btn">
-                            <FontAwesomeIcon icon={faPenToSquare} onClick={openEdit} />
+                            <LiaEdit onClick={openEdit} />
                         </button>
 
                     </div>
                 </div>
                 <p className="user-name">{userData?.name}, {userData?.surname}</p>
                 <div className="user__money">
-                    <FontAwesomeIcon icon={faMoneyBill1Wave} className={`user-money-icon ${moneyEffectActive ? 'active' : ''}`} onClick={()=>setMoneyEffectActive(prev => !prev)} />
+                    <LiaMoneyBillSolid className={`user-money-icon ${moneyEffectActive ? 'active' : ''}`} onClick={()=>setMoneyEffectActive(prev => !prev)}/>
                     <p className="money-cnt">{userData?.money}</p>
                 </div>
                 {editOpen && createPortal(<EditProfile closeEdit={closeEdit} deleteImg={deleteImg} openWebcam={openWebcam} imgSrc={userData.imgSrc} />, document.getElementById('modal-root'))}
@@ -91,7 +96,7 @@ export default function UserProfile({ savedUser, removeUserExists }) {
             <div className="user__extra-btns">
                 <PageNav userExists={true} />
                 <button className="profile-control user-logout-btn" onClick={logout}>
-                    <FontAwesomeIcon icon={faArrowRightFromBracket} />
+                    <IoIosLogOut />
                 </button>
             </div>
         </>
