@@ -133,20 +133,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-bottom: 5rem;
+    padding-bottom: var(--total-selector-height);
 }
 
 .leaderboard__controls button {
-    font-size: 1.25rem;
+    font-size: 3rem;
     padding: 0.5rem 1rem;
-    border: 1px solid white;
+    /* border: 1px solid white; */
     background-color: transparent;
     font-weight: 600;
     border-radius: 0.5rem;
     color: white;
     cursor: pointer;
 }
-
 .bar {
     height: 4px;
     background-color: var(--entry-color-primary);

@@ -4,6 +4,7 @@ import LeaderBoardEntry from './LeaderBoardEntry'
 import { useInView } from 'react-intersection-observer';
 import { useSubPage } from '../../context/SubPageProvider';
 import { FormattedMessage } from 'react-intl';
+import { LiaPlusSquare, LiaMinusSquare } from 'react-icons/lia';
 import './leaderboard.css'
 
 import io from 'socket.io-client';
@@ -75,8 +76,8 @@ export default function LeaderBoard() {
             )}
             <div className="leaderboard__controls">
                 <button onClick={toggleDisplayLimit}>{displayLimit === maxDisplayLimit ?
-                    <FormattedMessage id="leaderboard.less" defaultMessage="Less..." /> :
-                    <FormattedMessage id="leaderboard.more" defaultMessage="More..." />
+                    <LiaMinusSquare />:
+                    <LiaPlusSquare />
                 }</button>
             </div>
         </div>
