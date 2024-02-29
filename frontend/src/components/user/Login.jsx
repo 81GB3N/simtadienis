@@ -36,7 +36,10 @@ export default function Login({ handleUserExists }) {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        if (!await userExists(name, surname)) {
+        const userName = name.toLowerCase();
+        const userSurname = surname.toLowerCase();
+
+        if (!await userExists(userName, surname)) {
             try {
                 setErrMsg("User does not exist");
                 return;
@@ -46,12 +49,12 @@ export default function Login({ handleUserExists }) {
             }
         }
 
-        if (!await validatePassword(name, surname, password)) {
+        if (!await validatePassword(userName, surname, password)) {
             setErrMsg("Incorrect password");
             return;
         }
 
-        await setUserLocalStorage(name, surname);
+        await setUserLocalStorage(userName, surname);
         toggleLoginActive();
         handleUserExists(true);
     }

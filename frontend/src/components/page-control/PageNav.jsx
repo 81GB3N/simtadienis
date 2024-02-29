@@ -66,16 +66,18 @@ export default function PageNav({ userExists }) {
             <LiaListOlSolid />
         </button>
     )
-    let galleryBtn = (
+    let galleryBtn = userExists ? (
         <button className="nav-btn gallery-button" onClick={() => changePage('gallery')}>
             <LiaImage />
         </button>
-    )
-    let chatBtn = (
+    ) : null;
+    let chatBtn = userExists ? (
         <button className="nav-btn chat-button" onClick={() => changePage('chat')}>
             <LiaComments />
         </button>
-    )
+    ) : null;
+    
+    
 
     return (
         <div className='page__navigation'>
