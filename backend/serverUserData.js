@@ -9,6 +9,7 @@ const dotenv = require('dotenv');
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const cookieParser = require('cookie-parser'); 
 
 const app = express();
 const port = process.env.PORT;
@@ -19,6 +20,30 @@ app.use(cors());
 
 const server = http.createServer(app);
 const io = initializeSocket(server);
+
+
+//------------------------
+// app.use(cookieParser());
+
+// const user = {
+//   cookies: 0
+// }
+
+// app.use((req, res, next) => {
+//   // Check if the request has cookies
+//   if (req.cookies && req.cookies.user) {
+//     const cookieValue = req.cookies.user;
+
+//     // Check if the cookie value is an object and has a specific field with a value of 5
+//     if (cookieValue.field === 5) {
+//       // Block the request
+//       return res.status(403).send('Forbidden: Request blocked due to cookie value.');
+//     }
+//   }
+//   // If cookie does not meet blocking criteria, proceed to the next middleware
+//   next();
+// });
+//-------------------------------
 
 //gets all user information without password
 app.get("/api/getallusers", async (req, res, next) => {
@@ -41,6 +66,7 @@ app.post("/api/getuser", async (req, res, next) => {
 app.post("/api/check-password", async (req, res, next) => {
   try{
     const user = req.body;
+    console.log(user);
     const result = await checkPassword(user.name, user.surname, user.type, user.password);
     res.json({ result });
   }catch(err){next(err)}
@@ -80,6 +106,7 @@ app.post("/api/register-admin", async (req) => {
   admin.password = await encrypt(admin.password);
   admin.token = generateJWT(admin);
   writeDocument(admin, "admin");
+  // findUser(admin.name, admin.surname, "admin", admin.password);
   }catch(err){next(err)}
 });
 
@@ -98,10 +125,16 @@ app.post("/api/addmoney", (req, res) => {
     io.emit('getusers');
 });
 
+function isImageData(data) {
+  return /^data:image\/([a-zA-Z+]+);base64,/.test(data);
+}
+
 app.post('/api/update-picture', (req, res, next) => {
   try{
-const picture = req.body;
-  updateUser(picture);
+    const picture = req.body;
+    if(isImageData(picture)){
+      updateUser(picture);
+    }
   }catch(err){next(err)}
 });
 
