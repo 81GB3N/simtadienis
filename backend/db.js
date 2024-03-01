@@ -17,7 +17,7 @@ const client = new MongoClient(uri, {
   minPoolSize: 10,
 });
 
-const database = client.db("my-test-db");
+const database = client.db("simtadienis");
 
 //test connection to db
 async function connect() {

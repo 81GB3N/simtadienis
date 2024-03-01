@@ -22,6 +22,7 @@ const generateJWT = (user, role) => {
     return token;
 }
 
+//for generation of superadmin token
 // generateJWT({name: "super", surname: "admin"}, "super admin");
 
 function verifyToken(req, res, next) {
