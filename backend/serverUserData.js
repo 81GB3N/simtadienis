@@ -3,6 +3,7 @@
   const { checkPassword } = require("./checkUserPassword");
   const { initializeSocket } = require('./socket');
   const { verifyToken, generateJWT, getJWT } = require("./handlingJWT.js");
+  const { uploadToDrive, deleteFromDrive, retrieveFromDrive} = require("./handleDriveImages.js");
 
   const http = require('http');
   const dotenv = require('dotenv');
@@ -18,6 +19,12 @@
   app.use(cors());
   const server = http.createServer(app);
   const io = initializeSocket(server);
+
+  // app.use((req, res, next)=>{
+  //   let requests = req.requests;
+  //   if(requests>5) res.send("Too many requests");
+  //   else next();
+  // })
 
   //gets all user information without password
   app.get("/api/getallusers", async (req, res, next) => {
@@ -139,7 +146,7 @@
     return /^data:image\/([a-zA-Z+]+);base64,/.test(data);
   }
 
-  app.post('/api/update-picture', (req, res, next) => {
+  app.post('/api/update-picture', verifyToken, (req, res, next) => {
     try{
           //KEY USED +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -157,6 +164,48 @@
   }
     catch(err){next(err)}
   });
+
+  app.post('/api/set-image', verifyToken, async (req, res, next)=>{
+    try{
+    const data = req.body;
+    if(data.name === req.payload.name && data.surname === req.payload.surname){
+      console.log("uploadin image", data);
+    await uploadToDrive(data);
+    res.send("uploading image to google drive")
+    }
+    else{
+      console.log("wrong user");
+    }
+  }catch(err){next(err)}
+  })
+
+  app.post('/api/get-image', verifyToken, async (req, res, next)=>{
+    try{
+    const data = req.body;
+    if(data.name === req.payload.name && data.surname === req.payload.surname){
+    const response = await retrieveFromDrive(data);
+    console.log("response: ", response)
+    // res.send("retrieving from google drive");
+    res.json({response});
+    }
+    else{
+      console.log("wrong user");
+    }
+  }catch(err){next(err)}
+  })
+
+  app.post('/api/delete-image', verifyToken, async (req, res, next)=>{
+    try{
+    const data = req.body;
+    if(data.name === req.payload.name && data.surname === req.payload.surname){
+    await deleteFromDrive(data);
+    res.send("deleting from google drive")
+    }
+    else{
+      console.log("wrong user");
+    }
+  }catch(err){next(err)}
+  })
 
   //error handling function
   app.use((err, req, res, next) => {
