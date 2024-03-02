@@ -26,6 +26,7 @@ async function fetchData(userData, page) {
       method: "POST",
       headers: headers,
       body: JSON.stringify(userData),
+      // timer: JSON.parse(localStorage.getItem("requests"))
   });
 }
 
@@ -83,6 +84,19 @@ export async function getAllUsers() {
 export async function userExists(name, surname, type) {
   try{
     const response = await fetchData({name: name, surname: surname, type: type}, 'check-status');
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (err) {
+    console.log(err, "Error in userExists");
+    throw err;
+  }
+}
+
+export async function handleDriveData(name, surname, imgNum, action, img=undefined) {
+  try{
+    console.log("handling", name, surname, img, imgNum, action)
+    const response = await fetchData({name: name, surname: surname, img: img, imgNum: imgNum}, `${action}-image`);
     const data = await response.json();
     console.log(data);
     return data;
