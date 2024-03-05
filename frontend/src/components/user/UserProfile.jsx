@@ -26,7 +26,7 @@ export default function UserProfile({ savedUser, removeUserExists }) {
     const fetchData = async () => {
         console.log('fetching data...')
         try {
-            const data = await getUserData(savedUser.name, savedUser.surname);
+            const data = await getUserData({name: savedUser.name, surname: savedUser.surname});
             console.log("Data: ", data.result[0]);
             return data.result[0];
         }

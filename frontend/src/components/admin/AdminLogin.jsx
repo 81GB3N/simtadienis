@@ -7,9 +7,9 @@ export default function AdminLogin() {
     const [errMsg, setErrMsg] = useState("");
     const navigate = useNavigate();
 
-    function setAdminCache(name, surname) {
-        const user = { name: name, surname: surname };
-        localStorage.setItem("admin", JSON.stringify(user));
+    function setAdminCache(name, surname, token) {
+        const user = { name: name, surname: surname, token: token };
+        localStorage.setItem("user", JSON.stringify(user));
     }
 
     function displayError(msg) {
@@ -39,7 +39,8 @@ export default function AdminLogin() {
             else {
                 console.log('logging in as', name, surname);
                 setErrMsg("");
-                setAdminCache(name, surname);
+                console.log(res.result.token);
+                setAdminCache(name, surname, res.result.token);
                 navigate('/admin/dashboard');
             }
         })

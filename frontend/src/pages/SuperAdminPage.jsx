@@ -1,15 +1,36 @@
+import { useEffect } from "react";
 import { sendUserData } from "../utils/api";
 
 export default function SuperAdminPage() {
+
+    useEffect(()=>{
+    
+    const port = 4000;
+    const baseUrl = window.location.hostname === 'localhost' ? `http://localhost:${port}` : '';
+        async function fetchData(){
+        const response = await fetch(`${baseUrl}/api/ssas`, {
+            //set super admin storage
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          const data = await response.json();
+          console.log("setting token: ", data)
+          localStorage.setItem("user", JSON.stringify(data));
+        }
+        fetchData();
+    }
+    ,[])
+    
     const handleSubmit = (e) => {
         e.preventDefault();
 
         sendUserData({
-            username: e.target[0].value,
+            name: e.target[0].value,
             surname: e.target[1].value,
             password: e.target[2].value,
-            token: 'labas'
-        }, 'create-admin')
+        }, 'register-admin')
     };
 
     return (

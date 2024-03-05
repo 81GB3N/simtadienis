@@ -26,7 +26,7 @@ export default function AdminPage() {
         dialogRef.current.classList.remove('active');
     }
     const confirmLogout = () => {
-        localStorage.removeItem('admin');
+        localStorage.removeItem('user');
         dialogRef.current.close();
         dialogRef.current.classList.remove('active');
         navigate('/admin');
@@ -36,7 +36,7 @@ export default function AdminPage() {
 
     }, []);
 
-    if (!localStorage.getItem('admin')) {
+    if (!localStorage.getItem('user')) {
         return <AdminLogin />
     }
 

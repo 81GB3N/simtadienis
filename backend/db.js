@@ -1,11 +1,11 @@
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const dotenv = require("dotenv");
+const { subtle } = require("crypto");
 
 dotenv.config();
 
 const uri = process.env.URI;
 const main = "main";
-
 
 //get client configuration
 const client = new MongoClient(uri, {
@@ -17,7 +17,7 @@ const client = new MongoClient(uri, {
   minPoolSize: 10,
 });
 
-const database = client.db("my-test-db");
+const database = client.db("simtadienis");
 
 //test connection to db
 async function connect() {
@@ -36,40 +36,41 @@ async function connect() {
 connect();
 
 //write the given data to the specifies collection
-const writeDocument = async (registerData) => {
+const writeDocument = async (registerData, page=main) => {
   try {
-    let collection;
-    if (registerData.history === undefined) {
-      collection = database.collection(main);
-    } else {
-      collection = database.collection("history");
-    }
-
+    const collection = database.collection(page);
     await collection.insertOne(registerData);
+    // registerData.status = page;
+    await database.collection("tokens").insertOne({name: registerData.name, surname: registerData.surname, token: registerData.token});
   } catch (error) {
     console.error(error);
   }
 };
 
 //find the given user money in the history collection
-async function getCurrentMoney(name, surname, type) {
-  const user = await findUser(name, surname, type);
+async function getCurrentMoney(name, surname) {
+  const user = await findUser(name, surname);
   return Number(user[0].money);
 }
 
+
+//find object key specified
 function findKey(updateInfo) {
+  if (Object.keys(updateInfo).length !== 3) return null;
+
   for (let key in updateInfo) {
     if (key !== "name" && key !== "surname") {
       return key;
     }
   }
+  return null;
 }
 
 //get all the data requested for all the users
-const retrieveDocument = async () => {
+const retrieveDocument = async (page=main) => {
   try {
-    const collection = database.collection(main);
-    const projection = { name: 1, surname: 1, money: 1, _id: 0 };
+    const collection = database.collection(page);
+    const projection = { name: 1, surname: 1, money: 1, _id: 0};
     //find collection collums
     const cursor = collection.find({}).project(projection);
     const documents = await cursor.toArray();
@@ -86,17 +87,19 @@ const updateUser = async (updateInfo) => {
     const collection = database.collection(main);
 
     if (updateInfo.money) {
-      updateInfo.money += await getCurrentMoney(
-        updateInfo.name,
-        updateInfo.surname,
-        main
-      )
+      updateInfo.money =
+        (await getCurrentMoney(updateInfo.name, updateInfo.surname)) +
+        Number(updateInfo.money);
     }
 
     // find the key requested for updating
     const key = findKey(updateInfo);
 
-    console.log(key, [key], updateInfo[key])
+    if (!key) {
+      console.error("incorrect object format");
+      return;
+    }
+    // console.log(key, [key], updateInfo[key])
 
     //update the users information
     const result = await collection.updateOne(
@@ -104,30 +107,44 @@ const updateUser = async (updateInfo) => {
       { $set: { [key]: updateInfo[key] } }
     );
 
-    console.log("Document updated successfully", result);
+    console.log("Document updated successfully");
+    console.table(result);
   } catch (error) {
     console.error(error);
   }
 };
 
+
+const getUserToken = async (name, surname) =>{
+  const collection= database.collection("tokens");
+  const query = {name: name, surname: surname};
+  const cursor = collection.find(query);
+  const document = await cursor.toArray();
+  return document[0].token;
+}
+
 //find user and its info on the given data
-const findUser = async (name, surname, type, getPassword) => {
+const findUser = async (name, surname, page=main, getPassword) => {
   try {
     // added getPassword variable to know when to call for password extraction and when for everything other
-    const collection = database.collection(type);
+// console.log(name, surname, page, password)
+    const collection = database.collection(page);
     const query = { name: name, surname: surname };
     let cursor;
-    if (getPassword === undefined) {
-      const projection = { name: 1, surname: 1, money: 1, _id: 0, admin: 1, imgSrc: 1, galleryCnt: 1 };
+    if (!getPassword) {
+      // const projection = {name: 1, surname: 1, money: 1, _id: 0, admin: 1, imgSrc: 1, galleryCnt: 1};
+
+      //gets everything accept the password and _id
+      const projection = { _id: 0, password: 0, token: 0 };
       cursor = collection.find(query).project(projection);
-    }
-    else {
+    } else {
       //get only the password for the requested user
       cursor = collection.find(query);
       const document = await cursor.toArray();
-      return document[0].password;
+      return document[0];
     }
     const documents = await cursor.toArray();
+    // console.log(documents);
     return documents;
   } catch (error) {
     console.error(error);
@@ -146,4 +163,5 @@ module.exports = {
   findUser,
   updateUser,
   retrieveDocument,
+  getUserToken
 };
