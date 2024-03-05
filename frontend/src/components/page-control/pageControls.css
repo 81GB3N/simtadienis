@@ -2,10 +2,12 @@
 .page__controls {
     --animation-duration: 500ms;
     --x-padding: 1rem;
+    --burger-gap-size: 6px;
     position: absolute;
     /* so that page__controls is centered with language selector */
-    top: calc(var(--selector-padding-top) + (var(--actual-selector-height) / 2) - (var(--burger-bar-size) * 3));
-    transform: translateY(-50%);
+    /* top: calc(var(--selector-padding-top) + (var(--actual-selector-height) / 2) - (var(--burger-bar-size) * 3)); */
+    top: var(--midpoint-selector-height);
+    /* transform: translateY(-50%); */
     /* necessary because page__controls is going to block language selector btns */
     pointer-events: none;
     width: 100vw;
@@ -14,7 +16,7 @@
     z-index: 10;
     padding: 0 var(--x-padding);
     transition: transform var(--animation-duration) ease-in-out;
-}
+}   
 
 .page__controls.active {
     transform: translateY(3rem);
@@ -43,12 +45,11 @@
     width: 100%;
     height: var(--burger-bar-size);
     background-color: #fff;
-    margin: 6px 0;
     transition: 0.4s;
 }
 
 #hamburger>#bar {
-    width: 100%;
+    margin: var(--burger-gap-size) 0;
 }
 
 /* hamburger is active */
@@ -95,8 +96,8 @@
 }
 
 .go-home {
-    width: 25px;
-    height: 25px;
+    width: 35px;
+    height: 35px;
     color: aliceblue;
     position: absolute;
     top: 0;
@@ -118,12 +119,22 @@
 .page__navigation{
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
+    gap: 3rem;
 }
 
-.nav-btn {
+/* .nav-btn {
     padding: 0.5rem 1rem;
     border: 1px solid var(--primary-color-black);
     border-radius: 8px;
     box-shadow: var(--box-shadow-default-thin);
+} */
+
+.nav-btn{
+    font-size: 3rem;
+}
+
+@media screen and (max-height: 720px) {
+    .nav-btn {
+        font-size: 2.5rem;
+    }
 }

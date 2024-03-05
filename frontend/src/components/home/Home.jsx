@@ -5,7 +5,7 @@ import './home.css'
 export default function Home() {
     const { userSubPageName } = useSubPage();
     return (
-        <div className={`home-page ${userSubPageName === 'home' ? 'active' : ''}`}>
+        <div className={`user-page home-page ${userSubPageName === 'home' ? 'active' : ''}`}>
             <Header />
             <HeroTicket />
         </div>

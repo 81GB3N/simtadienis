@@ -7,8 +7,13 @@ import WebcamModal from "../webcam/WebcamModal";
 import EditProfile from "./EditProfile";
 import unkownUserImg from "../../assets/images/unknown-user.png";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoneyBill1Wave, faPenToSquare, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faMoneyBill1Wave, faPenToSquare, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+
+// a collection of icons from Icons8 Line Awesome
+import { LiaEdit, LiaMoneyBillSolid } from "react-icons/lia";
+
+import { IoIosLogOut } from "react-icons/io";
 
 import './user.css';
 import PageNav from "../page-control/PageNav";
@@ -17,6 +22,7 @@ export default function UserProfile({ savedUser, removeUserExists }) {
     const [webcamOpen, setWebcamOpen] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
     const [userData, setUserData] = useState({});
+    const [moneyEffectActive, setMoneyEffectActive] = useState(false);
 
     const logout = async () => {
         await localStorage.removeItem("user");
@@ -62,6 +68,7 @@ export default function UserProfile({ savedUser, removeUserExists }) {
             })
             .catch(err => console.log(err));
     }
+      
 
     return (
         <>
@@ -73,24 +80,24 @@ export default function UserProfile({ savedUser, removeUserExists }) {
                     </div>
                     <div className="profile-img__controls">
                         <button className="profile-control edit-profile-btn">
-                            <FontAwesomeIcon icon={faPenToSquare} onClick={openEdit} />
+                            <LiaEdit onClick={openEdit} />
                         </button>
 
                     </div>
                 </div>
                 <p className="user-name">{userData?.name}, {userData?.surname}</p>
                 <div className="user__money">
-                    <FontAwesomeIcon icon={faMoneyBill1Wave} className="money-icon" />
+                    <LiaMoneyBillSolid className={`user-money-icon ${moneyEffectActive ? 'active' : ''}`} onClick={()=>setMoneyEffectActive(prev => !prev)}/>
                     <p className="money-cnt">{userData?.money}</p>
                 </div>
-                {editOpen && createPortal(<EditProfile closeEdit={closeEdit} deleteImg={deleteImg} openWebcam={openWebcam} imgSrc={userData.imgSrc} />, document.getElementById('modal-root'))}
+                {editOpen && createPortal(<EditProfile closeEdit={closeEdit} deleteImg={deleteImg} openWebcam={openWebcam} imgSrc={userData.imgSrc || unkownUserImg} />, document.getElementById('modal-root'))}
                 {webcamOpen && createPortal(<WebcamModal changeImg={changeImg} closeWebcam={closeWebcam} />, document.getElementById('modal-root'))}
                 {/* <p>Discount code for <a href="https://weborado.lt" target="_blank">weborado.lt</a></p> */}
             </div>
             <div className="user__extra-btns">
                 <PageNav userExists={true} />
                 <button className="profile-control user-logout-btn" onClick={logout}>
-                    <FontAwesomeIcon icon={faArrowRightFromBracket} />
+                    <IoIosLogOut />
                 </button>
             </div>
         </>

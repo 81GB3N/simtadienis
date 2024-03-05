@@ -60,9 +60,12 @@ export default function Signup({ setUserExists, leave }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const userName = name.toLowerCase();
+        const userSurname = surname.toLowerCase();
+
         const userData = {
-            name: name,
-            surname: surname,
+            name: userName,
+            surname: userSurname.toLowerCase(),
             password: password,
             money: 0,
             image: unkownUserImg,
@@ -70,7 +73,7 @@ export default function Signup({ setUserExists, leave }) {
         };
 
         // #TODO, check additionally if submit button was enabled via console
-        if (await userExists(name, surname)) {
+        if (await userExists(userName, userSurname)) {
             setErrMsg("User already exists.");
             return;
         }

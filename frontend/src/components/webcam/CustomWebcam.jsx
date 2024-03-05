@@ -1,7 +1,7 @@
 import Webcam from "react-webcam";
 import { useEffect, useRef, forwardRef, useImperativeHandle } from "react";
 
-const CustomWebcam = forwardRef(function CustomWebcam(props, ref) {
+const CustomWebcam = forwardRef(function CustomWebcam({ enabled }, ref) {
     const containerRef = useRef(null);
     const webcamRef = useRef(null);
 
@@ -24,6 +24,7 @@ const CustomWebcam = forwardRef(function CustomWebcam(props, ref) {
 
     return (
         <div className="video-container">
+            <p className={`errmsg ${!enabled ? 'active' : null} webcam-err`}>Camera is not active</p>
             <Webcam ref={webcamRef} audio={false} />
         </div>
     )

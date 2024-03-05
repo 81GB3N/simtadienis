@@ -7,11 +7,11 @@
     align-items: center;
     /* REQUIRED ON MOBILE */    
     padding-top: max(10rem, 50%);
-    gap: min(20%, 5rem);
+    gap: 8rem;
 }
 
 #user.user-exists{
-    padding-top: max(8rem, 30%);
+    padding-top: 12vh;
 }
 
 /* USER LOGIN/SIGNUP */
@@ -184,7 +184,7 @@
 .profile-img__controls{
     position: absolute;
     bottom: 0;
-    right: -3rem;
+    right: -4rem;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -193,7 +193,7 @@
 }
 
 .profile-control{
-    font-size: 1.5rem;
+    font-size: 3rem;
 }
 
 .user-name{
@@ -212,11 +212,55 @@
 .user__extra-btns{
     display: flex;
     flex-grow: 1;
+    min-height: 130px;
     flex-direction: column;
-    padding-bottom: 3rem;
+    padding-bottom: 5vh;
     justify-content: space-between;
+    align-items: center;
 }
 
 .user-logout-btn{
-    align-self: flex-start;
+    color: rgba(0, 0, 0, 0.6);
+    /* align-self: flex-start; */
+}
+
+.user-money-icon{
+    font-size: 2.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.user-money-icon.active{
+    transform: rotate(360deg);
+    color: var(--primary-color-green);
+}
+
+#user .money-cnt{
+    font-size: 1.75rem;
+}
+
+@media screen and (max-height: 900px) {
+    #user {
+        gap: 6rem
+    }   
+}
+
+@media screen and (max-height: 820px) {
+    #user {
+        gap: 4rem;
+    }   
+}
+
+@media screen and (max-height: 780px) {
+    #user {
+        gap: 2rem;
+    }   
+}
+
+@media screen and (max-height: 720px) {
+    #user {
+        gap: 1rem;
+    }   
+    .user-logout-btn{
+        font-size: 2.5rem;
+    }
 }

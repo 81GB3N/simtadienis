@@ -36,7 +36,10 @@ export default function Login({ handleUserExists }) {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        if (!await userExists(name, surname)) {
+        const userName = name.toLowerCase();
+        const userSurname = surname.toLowerCase();
+
+        if (!await userExists(userName, surname)) {
             try {
                 setErrMsg("User does not exist");
                 return;

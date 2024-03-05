@@ -4,8 +4,8 @@
     display: none;
     flex-direction: column;
     gap: 1.5rem;
-    padding: 0 min(3rem, 30%);
-    padding-bottom: 3rem;
+    /* padding: 0 min(3rem, 30%); */
+    /* padding-bottom: 3rem; */
     overflow-y: auto;
 }
 .leaderboard.active {
@@ -129,27 +129,23 @@
     font-size: 1.5rem;
 }
 
-.money-cnt {
-    font-weight: 500;
-}
-
 .leaderboard__controls {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-bottom: var(--total-selector-height);
 }
 
 .leaderboard__controls button {
-    font-size: 1.25rem;
+    font-size: 3rem;
     padding: 0.5rem 1rem;
-    border: 1px solid white;
+    /* border: 1px solid white; */
     background-color: transparent;
     font-weight: 600;
     border-radius: 0.5rem;
     color: white;
     cursor: pointer;
 }
-
 .bar {
     height: 4px;
     background-color: var(--entry-color-primary);
