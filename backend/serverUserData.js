@@ -1,142 +1,218 @@
-const { writeDocument, findUser, updateUser, retrieveDocument } = require("./db");
-const { encrypt } = require("./encryptPassword")
-const { checkPassword } = require("./checkUserPassword");
-const {limiter} = require('./rateLimiter');
-const http = require('http');
+  const { writeDocument, findUser, updateUser, retrieveDocument } = require("./db");
+  const { encrypt } = require("./encryptPassword")
+  const { checkPassword } = require("./checkUserPassword");
+  const { initializeSocket } = require('./socket');
+  const { verifyToken, generateJWT, getJWT } = require("./handlingJWT.js");
+  const { uploadToDrive, deleteFromDrive, retrieveFromDrive} = require("./handleDriveImages.js");
 
+  const http = require('http');
+  const dotenv = require('dotenv');
+  const express = require("express");
+  const bodyParser = require("body-parser");
+  const cors = require("cors");
 
-const dotenv = require('dotenv');
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
+  const app = express();
+  const port = process.env.PORT;
 
-const app = express();
-const port = process.env.PORT;
-const socketPort = process.env.SOCKETPORT;
+  dotenv.config();
+  app.use(bodyParser.json());
+  app.use(cors());
+  const server = http.createServer(app);
+  const io = initializeSocket(server);
 
-const { initializeSocket } = require('./socket');
+  // app.use((req, res, next)=>{
+  //   let requests = req.requests;
+  //   if(requests>5) res.send("Too many requests");
+  //   else next();
+  // })
 
-dotenv.config();
-app.use(bodyParser.json());
-app.use(cors());
-
-const server = http.createServer(app);
-const io = initializeSocket(server);
-
-const userData = {};
-
-//gets all user information without password
-app.get("/api/getallusers", async (req, res) => {
-  // return res.status(503).json({ error: "Service Temporarily Unavailable" });
-    const result = await retrieveDocument();
-    res.json({ result });
+  //gets all user information without password
+  app.get("/api/getallusers", async (req, res, next) => {
+    try{
+      const result = await retrieveDocument();
+      res.json({ result });
+    }catch(err){next(err)}
+  });
+  
+  app.get('/api/ssas', async (req, res, next)=>{
+    try{
+    //KEY USED +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    const token = await getJWT('super', 'admin');
+    console.log(token);
+    res.json({token});
+    
+  }catch(err){next(err)}
+});
+  
+  //gets user information specifies without password
+  app.post("/api/getuser", async (req, res, next) => {
+    try{
+      const user = req.body;
+      const result = await findUser(user.name, user.surname);
+      res.json({ result });
+    }catch(err){next(err)}
+  });
+  
+  //recieving user data to check for the password
+  app.post("/api/check-password", async (req, res, next) => {
+    try{
+      //KEY USED +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      const user = req.body;
+      console.log(user);
+      const result = await checkPassword(user.name, user.surname, user.type, user.password);
+      console.log(result)
+      // console.log(result)
+      res.json({result})
+    }catch(err){next(err)}
   });
 
-//gets user information specifies without password
-app.post("/api/getuser", async (req, res) => {
-  try {
-    const body = req.body;
-    const result = await findUser(body.name, body.surname, body.type);
-    res.json({ result });
-  } catch (error) {
-    console.error("Error in find user route:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+
+  app.post("/api/check-status", async (req, res, next) => {
+    try{
+      const user = req.body;
+      const result = await findUser(user.name, user.surname);
+      console.log(result)
+      result[0] ? res.json(true) : res.json(false);
+    }catch(err){next(err)}
+  });
+
+  //writes user data by registering 
+  app.post("/api/register", async (req, res, next) => {
+    try{
+          //KEY USED +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    const register = req.body;
+    register.password = await encrypt(register.password);
+    register.token = generateJWT(register, "user");
+    console.log("generated user token: ", register.token);
+    writeDocument(register);
+
+    io.emit("getusers");
+
+    res.json({ message: "Registration successful" });
+    }catch(err){next(err)}
+  });
+
+
+  //writes user history to history collection
+  app.post("/api/write-history", (req) => {
+    const history = req.body;
+    //invoke in addmoney
+    writeDocument(history, "history");
+  });
+
+  app.post("/api/register-admin", verifyToken, async (req) => {
+    //KEY USED +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    try{
+      //checks token for right role
+      console.error("register admin role:", req.payload.role)
+
+      if(req.payload.role == 'super admin'){
+      const admin = req.body;
+      admin.password = await encrypt(admin.password);
+      admin.token = generateJWT(admin, "admin");
+
+      console.log("generated admin token: ", admin.token)
+      writeDocument(admin, "admin");
+      }
+      else{
+        return res.status(401).json({error: "Unauthorized request"});
+      }
+    }catch(err){next(err)}
+  });
+
+  //uodates user money
+  app.post("/api/addmoney", verifyToken,(req, res) => {
+    //checks status of requesting user
+  console.log("role in addmoney: ", req.payload.role);
+    //KEY USED +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    if(req.payload.role == 'admin'){
+    const money = req.body;
+    if (!money.money || isNaN(money.money)) {
+      res.status(400).json({error: "Invalid money format"})
+    }
+
+    updateUser(money)
+      io.emit('getusers');
   }
-});
-
-//recieving user data to check for the password
-app.post("/api/check-password", async (req, res) => {
-  try {
-    const body = req.body;
-    const result = await checkPassword(body.name, body.surname, body.type, body.password);
-    res.json({ result });
-  } catch (error) {
-    console.error("Error in check-password route:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+  else{
+    return res.status(401).json({error: "Unauthorized request"});
   }
-});
+  });
 
-app.post("/api/check-status", async (req, res) => {
-  try {
-    const body = req.body;
-    const result = await findUser(body.name, body.surname, body.type);
-    result[0] ? res.json(true) : res.json(false);
-  } catch (error) {
-    console.error("Error in check-password route:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
-//writes user data by registering 
-app.post("/api/register", async (req, res) => {
-  userData.register = req.body;
-  userData.register.password = await encrypt(userData.register.password);
-  writeDocument(userData.register);
-
-  io.emit("getusers");
-
-  res.json({ message: "Registration successful" });
-});
-
-
-//writes user history to history collection
-app.post("/api/write-history", (req, res) => {
-  userData.history = req.body;
-  writeDocument(userData.history);
-});
-
-//uodates user money
-app.post("/api/addmoney", (req, res) => {
-  const moneyValue = req.body.money;
-
-  if (!moneyValue || isNaN(moneyValue)) {
-    res.status(400).json({
-      success: false,
-      message: 'Invalid money format'
-    })
+  function isImageData(data) {
+    return /^data:image\/([a-zA-Z+]+);base64,/.test(data);
   }
 
-  userData.money = req.body;
+  app.post('/api/update-picture', verifyToken, (req, res, next) => {
+    try{
+          //KEY USED +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-  console.log(userData.money, moneyValue);
+      //checks if the right person is accesing his data
+      const picture = req.body;
+      console.log("user cookie: ", req.payload);
+    if(req.payload.name === picture.name && req.payload.surname === picture.surname){
+      if(isImageData(picture)){
+        updateUser(picture);
+      }
+    }
+    else{
+      return res.status(401).json({error: "Unauthorized request"});
+    }
+  }
+    catch(err){next(err)}
+  });
 
-  updateUser(userData.money).then(() => {
-
-    res.status(200).json({
-      success: true,
-      message: 'Money added successfully!'
-    }) 
-    io.emit('getusers');
-} ).catch(err => {
-    res.status(500).json({
-      success: false,
-      message: `Internal server error: ${err}`
-    });
+  app.post('/api/set-image', verifyToken, async (req, res, next)=>{
+    try{
+    const data = req.body;
+    if(data.name === req.payload.name && data.surname === req.payload.surname){
+      console.log("uploadin image", data);
+    await uploadToDrive(data);
+    res.send("uploading image to google drive")
+    }
+    else{
+      console.log("wrong user");
+    }
+  }catch(err){next(err)}
   })
-});
 
-app.post('/api/update-picture', (req, res) => {
-  updateUser(req.body).then(() => {
-
-    res.status(200).json({
-      success: true,
-      message: 'picture changed'
-    }) 
-} ).catch(err => {
-    res.status(500).json({
-      success: false,
-      message: `Internal server error: ${err}`
-    });
+  app.post('/api/get-image', verifyToken, async (req, res, next)=>{
+    try{
+    const data = req.body;
+    if(data.name === req.payload.name && data.surname === req.payload.surname){
+    const response = await retrieveFromDrive(data);
+    console.log("response: ", response)
+    // res.send("retrieving from google drive");
+    res.json({response});
+    }
+    else{
+      console.log("wrong user");
+    }
+  }catch(err){next(err)}
   })
-});
 
-//use rate limiter
-// app.use("/api/getallusers", limiter);
+  app.post('/api/delete-image', verifyToken, async (req, res, next)=>{
+    try{
+    const data = req.body;
+    if(data.name === req.payload.name && data.surname === req.payload.surname){
+    await deleteFromDrive(data);
+    res.send("deleting from google drive")
+    }
+    else{
+      console.log("wrong user");
+    }
+  }catch(err){next(err)}
+  })
 
-server.listen(socketPort, ()=>{
-  console.log(`socket server is running on port http://localhost:${socketPort}`);
-})
+  //error handling function
+  app.use((err, req, res, next) => {
+    console.error(err.stack)
+    res.status(500).send('Something broke!')
+  })
 
-app.listen(port, () => {
-  console.log(`express Server is running on http://localhost:${port}`);
-});
+  server.listen(port, ()=>{
+    console.log(`server is running on port http://localhost:${port}`);
+  })

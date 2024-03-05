@@ -12,11 +12,13 @@ const comparePassword = async (password, hashedUserPassword) => {
   };
     
 //function called in the serverUserData.js to compare passwords
-async function checkPassword(name, surname, type, password){
+async function checkPassword(name, surname, type="main", password){
     const getPassword = true;
     //specific configration to get only this user password
-    const hashedUserPassword = await findUser(name, surname, type, getPassword);
-    return await comparePassword(password, hashedUserPassword);
+    console.log(name, surname, type, password);
+    const data = await findUser(name, surname, type, getPassword);
+    const info = await comparePassword(password, data.password);
+    return info ? {token: data.token, info} : info;
 } 
 
 module.exports = {

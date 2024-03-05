@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquarePlus, faCheck } from '@fortawesome/free-solid-svg-icons';
+import {handleDriveData} from "../../utils/api"
 
 export default function GalleryImage({ position, imgSrc, uploadImage }) {
     // very hacky, figure out how to nest svgs in input or upload file with <button>
@@ -12,10 +13,25 @@ export default function GalleryImage({ position, imgSrc, uploadImage }) {
         if (inputRef.current) inputRef.current.click();
     }
 
-    const handleFileChange = (e) => {
+    const handleFileChange = async (e) => {
         const fileBlob = URL.createObjectURL(e.target.files[0]);
+        console.log(fileBlob);
         if (!fileBlob) return;
         setImage(fileBlob);
+        const user = JSON.parse(localStorage.getItem("user"));
+        //TESTING
+
+        //SETTING IMAGE SEEMS TO WORK
+        //const testingImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAyklEQVQYV2NkIBIwEqOLpH0rZ2fPf5y1cgkUiEIwMjJCwDAZNAABmkIQ3D+DUJjgEBBgYGBiKxqZDH0b/Gycnh6xkIB8QIQAANRgko5zF4uAAAAAElFTkSuQmCC"
+        //handleDriveData(user.name, user.surname, position, 'set', testingImage)
+
+        //DELETING IMAGE SEEMS TO WORK
+        //handleDriveData(user.name, user.surname, position, 'delete')
+
+        //GETTING IMAGE SEEMS TO WORK (added async for this)
+        //const data = await handleDriveData(user.name, user.surname, position, 'get')
+        //console.log(data);
+
         setConfirm(true);
     }
 

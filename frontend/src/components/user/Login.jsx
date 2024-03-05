@@ -17,9 +17,9 @@ export default function Login({ handleUserExists }) {
     const [password, setPassword] = useState("");
     const [errMsg, setErrMsg] = useState("");
 
-    function setUserLocalStorage(name, surname) {
+    function setUserLocalStorage(name, surname, token) {
         return new Promise((resolve, reject) => {
-            const user = { name: name, surname: surname };
+            const user = { name: name, surname: surname, token: token };
             localStorage.setItem("user", JSON.stringify(user));
             resolve(user);
         });        
@@ -49,12 +49,14 @@ export default function Login({ handleUserExists }) {
             }
         }
 
-        if (!await validatePassword(userName, surname, password)) {
+        const loginValidation = await validatePassword(name, surname, password);
+
+        if (!loginValidation.result) {
             setErrMsg("Incorrect password");
             return;
         }
-
-        await setUserLocalStorage(userName, surname);
+        console.log(loginValidation.result.token)
+        await setUserLocalStorage(name, surname, loginValidation.result.token);
         toggleLoginActive();
         handleUserExists(true);
     }
