@@ -90,20 +90,21 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
+<link rel="stylesheet" type="text/css" href="styles.css">
+<div class="flex-container">
+    <div class="flex-column">
+        <img src="https://img.shields.io/badge/Facebook-1877F2?style=for-the-badge&logo=facebook&logoColor=white">
+        <a href="https://www.facebook.com/profile.php?id=100015847005996" target="_blank">Adam Samulionis</a>
+        <a href="https://www.facebook.com/jonas.balukonis" target="_blank">Jonas Balukonis</a>
+        <br>
+    </div>
+    <div class="flex-column">
+        <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white">
+        <a href="https://www.linkedin.com/in/adam-samulionis-90683a2b8/" target="_blank">Adam Samulionis</a>
+        <a href="https://www.linkedin.com/in/jonas-balukonis-0045832ab/" target="_blank">Jonas Balukonis</a>
+    </div>
+</div>
 
-<div style='display:flex; justify-content: space-evenly'>
-<div style='display:flex; flex-direction:column; gap: 1rem;'>
-<img src="https://img.shields.io/badge/Facebook-1877F2?style=for-the-badge&logo=facebook&logoColor=white">
-<a href="https://www.facebook.com/profile.php?id=100015847005996" target="_blank">Adam Samulionis</a>
-<a href="https://www.facebook.com/jonas.balukonis" target="_blank">Jonas Balukonis</a>
-<br>
-</div>
-<div style='display:flex; flex-direction:column; gap: 1rem;'>
-<img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white">
-<a href="https://www.linkedin.com/in/adam-samulionis-90683a2b8/" target="_blank">Adam Samulionis</a>
-<a href="https://www.linkedin.com/in/jonas-balukonis-0045832ab/" target="_blank">Jonas Balukonis</a>
-</div>
-</div>
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
