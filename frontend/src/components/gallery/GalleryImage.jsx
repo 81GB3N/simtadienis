@@ -7,6 +7,8 @@ import { handleDriveData } from "../../utils/api"
 
 import { usePage } from '../../context/PageProvider';
 
+const googleDriveUrl = (id) => `https://lh3.googleusercontent.com/d/${id}=w1000?authuser=0`;
+
 export default function GalleryImage({ position, increaseCnt, decreaseCnt }) {
     // very hacky, figure out how to nest svgs in input or upload file with <button>
     const inputRef = useRef(null);
@@ -15,9 +17,9 @@ export default function GalleryImage({ position, increaseCnt, decreaseCnt }) {
 
     const { userId } = usePage();
 
+    console.log(`gallery image ${position} loaded`);
+
     const fetchImage = async () => {
-        const savedImage = await localStorage.getItem(`${userId.name}${userId.surname}${position}`)
-        if(savedImage) return savedImage;
         const image = await handleDriveData(userId.name, userId.surname, position, 'get')
         if (!image.response) return '';
         return image;
@@ -42,14 +44,14 @@ export default function GalleryImage({ position, increaseCnt, decreaseCnt }) {
         try{
             setImage(reader.result);
             await handleDriveData(userId.name, userId.surname, position, 'set', reader.result);
-            await localStorage.setItem(`${userId.name}${userId.surname}${position}`, reader.result);
         } catch (err) {
             console.error('Error uploading file:', err);
         }
     }
 
     const isImage = (file) => {
-        return file.type.includes('image');
+        if(file.type) return file.type.includes('image');
+        return file.includes('image');
     }
 
     const handleFileChange = async (e) => {
@@ -58,20 +60,6 @@ export default function GalleryImage({ position, increaseCnt, decreaseCnt }) {
         await reader.readAsDataURL(e.target.files[0]);
         increaseCnt();
         setLoading(false);
-
-        // const fileBlob = URL.createObjectURL(e.target.files[0]);
-        // console.log(fileBlob);
-        // if (!fileBlob) return;
-        // setImage(fileBlob);
-
-        // handleDriveData(userId.name, userId.surname, position, 'set', fileBlob);
-
-        //DELETING IMAGE SEEMS TO WORK
-        //handleDriveData(userId.name, userId.surname, position, 'delete')
-
-        //GETTING IMAGE SEEMS TO WORK (added async for this)
-        //const data = await handleDriveData(userId.name, userId.surname, position, 'get')
-        //console.log(data);
     }
 
     const handleDelete = async () => {
@@ -82,7 +70,10 @@ export default function GalleryImage({ position, increaseCnt, decreaseCnt }) {
 
     return (
         <ul className='gallery-image' onClick={handleUpload}>
-            {image && <img className="gallery-img-src" src={image} alt={`submission ${position}`} />}
+            {image && 
+            <img className="gallery-img-src" src={
+                isImage(image) ? image : googleDriveUrl(image)
+            } alt={`submission ${position}`}></img>}
             {!image
                 ?
                 (<>
@@ -99,6 +90,6 @@ export default function GalleryImage({ position, increaseCnt, decreaseCnt }) {
                 )
             }
             {loading && createPortal(<div className='gallery-loading'>Loading...</div>, document.getElementById('modal-root'))}
-        </ul >
+        </ul>
     )
 }

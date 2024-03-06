@@ -91,6 +91,8 @@ async function deleteFromDrive(data){
     }
 }
 
+// CURRENTLY NOT USED
+// in the current version images are fetched with imageId
 async function retrieveFromDrive(data){
     try {
 
@@ -146,6 +148,7 @@ async function retrieveFileId(data){
         //return the first image
         if (files.length > 0) {
             console.log(`File '${fileName}' found with ID: ${files[0].id}`);
+            console.log('RETRIEVED FILES: ', files)
             return files[0].id;
         } else {
             console.log(`File '${fileName}' not found in Google Drive.`);
@@ -157,4 +160,4 @@ async function retrieveFileId(data){
     }
 }
 
-module.exports = {uploadToDrive, retrieveFromDrive, deleteFromDrive};
+module.exports = {uploadToDrive, deleteFromDrive, retrieveFileId};

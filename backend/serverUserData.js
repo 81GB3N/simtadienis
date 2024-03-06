@@ -3,7 +3,7 @@ const { encrypt } = require("./encryptPassword")
 const { checkPassword } = require("./checkUserPassword");
 const { initializeSocket } = require('./socket');
 const { verifyToken, generateJWT, getJWT } = require("./handlingJWT.js");
-const { uploadToDrive, deleteFromDrive, retrieveFromDrive } = require("./handleDriveImages.js");
+const { uploadToDrive, deleteFromDrive, retrieveFileId } = require("./handleDriveImages.js");
 
 const http = require('http');
 const dotenv = require('dotenv');
@@ -189,9 +189,7 @@ app.post('/api/get-image', verifyToken, async (req, res, next) => {
   try {
     const data = req.body;
     if (data.name === req.payload.name && data.surname === req.payload.surname) {
-      const response = await retrieveFromDrive(data);
-      console.log("response: ", response)
-      // res.send("retrieving from google drive");
+      const response = await retrieveFileId(data);
       res.json({ response });
     }
     else {
