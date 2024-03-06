@@ -49,7 +49,20 @@ export default function UserProfile({ savedUser, removeUserExists }) {
     const closeEdit = () => setEditOpen(false);
 
     const openWebcam = () => setWebcamOpen(true);
-    const closeWebcam = () => setWebcamOpen(false);
+    const closeWebcam = () => {
+        // navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+        //     stream.getVideoTracks().forEach(track => {
+        //         console.log('stopping track: ', track);
+        //         track.stop();
+        //         console.log('stopped')
+        //     })
+        // });
+        navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+            stream.getVideoTracks().forEach(track => track.stop())
+        });
+        setWebcamOpen(false);
+        console.log('webcam closed');
+    };
 
     const changeImg = (imgSrc) => {
         sendUserData({ image: imgSrc, name: userData.name, surname: userData.surname }, 'update-picture')
