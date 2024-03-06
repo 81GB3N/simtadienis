@@ -171,7 +171,7 @@ app.post('/api/set-image', verifyToken, async (req, res, next) => {
     if (data.name === req.payload.name && data.surname === req.payload.surname) {
       console.log("uploadin image", data);
       await uploadToDrive(data);
-      
+      res.json({response: "Image Successfully Uploaded"})
     }
     else {
       console.log("wrong user set");
@@ -199,7 +199,7 @@ app.post('/api/delete-image', verifyToken, async (req, res, next) => {
     const data = req.body;
     if (data.name === req.payload.name && data.surname === req.payload.surname) {
       await deleteFromDrive(data);
-      res.send("deleting from google drive")
+      res.json({response: "Image Successfully Deleted"})
     }
     else {
       console.log("wrong user delete");

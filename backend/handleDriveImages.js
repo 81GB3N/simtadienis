@@ -26,7 +26,11 @@ async function uploadToDrive(data){
     if(!data.img) return;
 
     //create convertable file
-    const image = Buffer.from(data.img.split('base64,')[1], 'base64')
+    const image = Buffer.from(data.img.split('base64,')[1], 'base64');
+
+    //compressing image
+    // LZString.compress(image);
+
     fs.writeFileSync(fileName, image);
 
     const media = {
@@ -112,6 +116,11 @@ async function retrieveFromDrive(data){
         });
         // buffer = Buffer.from(buffer);
         const base64 = 'data:image/jpeg;base64,'+Buffer.from(buffer).toString('base64')
+
+        //decompressing image
+        // LZString.decompress(base64);
+
+        
         return base64;
     } catch (err) {
         console.error('Error downloading file:', err);
