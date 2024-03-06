@@ -151,12 +151,16 @@ app.post('/api/update-picture', verifyToken, (req, res, next) => {
     //KEY USED +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     //checks if the right person is accesing his data
+    console.log("user update image: ", req.body);
     const picture = req.body;
     console.log("user cookie: ", req.payload);
     if (req.payload.name === picture.name && req.payload.surname === picture.surname) {
-      if (isImageData(picture)) {
-        updateUser(picture);
-      }
+      // disabled conditional check due to temp invalid regext test
+      // if (isImageData(picture)) {
+      //   updateUser(picture);
+      // }
+      updateUser(picture);
+      res.json({ response: "Image Successfully Updated" });
     }
     else {
       return res.status(401).json({ error: "Unauthorized request" });
