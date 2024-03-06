@@ -1,4 +1,4 @@
-import { useSubPage } from '../../context/SubPageProvider';
+import { usePage } from '../../context/PageProvider';
 import BackArrow from "../BackArrow";
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,7 +8,7 @@ import { LiaHomeSolid } from "react-icons/lia";
 import './pageControls.css';
 
 export default function PageControls() {
-    const { menuActive, toggleMenu, toggleLoginActive, toggleSignupActive, loginActive, signupActive, userSubPageName, changeUserSubPage } = useSubPage();
+    const { menuActive, toggleMenu, toggleLoginActive, toggleSignupActive, loginActive, signupActive, userSubPageName, changeUserSubPage } = usePage();
 
     let handleArrowClick;
     if (!loginActive && !signupActive) {

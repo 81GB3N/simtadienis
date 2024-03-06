@@ -33,7 +33,6 @@ export default function UserProfile({ savedUser, removeUserExists }) {
         console.log('fetching data...')
         try {
             const data = await getUserData({name: savedUser.name, surname: savedUser.surname});
-            console.log("Data: ", data.result[0]);
             return data.result[0];
         }
         catch (err) {

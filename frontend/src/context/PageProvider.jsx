@@ -1,16 +1,16 @@
 import { createContext, useContext, useState } from "react";
 
 // Create the context, necessary for other components in App.jsx to acces the ability to toggle the menu.
-const SubPageContext = createContext();
-export const useSubPage = () => {
-    const context = useContext(SubPageContext);
+const PageContext = createContext();
+export const usePage = () => {
+    const context = useContext(PageContext);
     if (!context) {
-        throw new Error("useSubPage must be used within a SubPageProvider");
+        throw new Error("useSubPage must be used within a PageProvider");
     }
     return context;
 };
 
-export default function SubPageProvider({ children }) {
+export default function PageProvider({ children }) {
     const [menuActive, setMenuActive] = useState(false);
     const toggleMenu = () => {
         setMenuActive(prevState => !prevState);
@@ -33,10 +33,13 @@ export default function SubPageProvider({ children }) {
             setUserSubPageName(pageName);
         }
     }
+    
+    const [userId, setUserId] = useState({ name: '', surname: '' });
+
 
     return (
-        <SubPageContext.Provider value={{menuActive, toggleMenu, userSubPageName, changeUserSubPage, loginActive, toggleLoginActive, signupActive, toggleSignupActive }}>
+        <PageContext.Provider value={{menuActive, toggleMenu, userSubPageName, changeUserSubPage, loginActive, toggleLoginActive, signupActive, toggleSignupActive, userId, setUserId }}>
             {children}
-        </SubPageContext.Provider>
+        </PageContext.Provider>
     );
 }

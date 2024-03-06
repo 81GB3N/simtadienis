@@ -92,7 +92,9 @@ async function retrieveFromDrive(data){
 
         //get file id
         const fileId = await retrieveFileId(data);
-        if(!fileId) return;
+        if(!fileId){
+            return null;
+        } 
         //retrieving response from drive
         const response = await drive.files.get({
             fileId: fileId,
@@ -111,7 +113,6 @@ async function retrieveFromDrive(data){
         // buffer = Buffer.from(buffer);
         const base64 = 'data:image/jpeg;base64,'+Buffer.from(buffer).toString('base64')
         return base64;
-
     } catch (err) {
         console.error('Error downloading file:', err);
         throw err;

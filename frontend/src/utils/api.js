@@ -92,7 +92,7 @@ export async function userExists(name, surname, type) {
     throw err;
   }
 }
-
+// action: set delete get
 export async function handleDriveData(name, surname, imgNum, action, img=undefined) {
   try{
     console.log("handling", name, surname, img, imgNum, action)
@@ -101,7 +101,7 @@ export async function handleDriveData(name, surname, imgNum, action, img=undefin
     console.log(data);
     return data;
   } catch (err) {
-    console.log(err, "Error in userExists");
+    console.log(err, "Error in handleDriveData");
     throw err;
   }
 }

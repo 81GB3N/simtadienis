@@ -7,14 +7,14 @@ import Gallery from "../components/gallery/Gallery"
 // Utilities
 import ErrorModal from "../components/error/ErrorModal"
 
-import { useSubPage } from "../context/SubPageProvider"
+import { usePage } from "../context/PageProvider"
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import GlobalChat from "../components/chat/GlobalChat"
 
 export default function UserPage() {
-    const { userSubPageName } = useSubPage();
+    const { userSubPageName } = usePage();
 
     const [showModal, setShowModal] = useState(false);
     const isMobile = () => {
