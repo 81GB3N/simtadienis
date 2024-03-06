@@ -17,8 +17,6 @@ export default function GalleryImage({ position, increaseCnt, decreaseCnt }) {
 
     const { userId } = usePage();
 
-    console.log(`gallery image ${position} loaded`);
-
     const fetchImage = async () => {
         const image = await handleDriveData(userId.name, userId.surname, position, 'get')
         if (!image.response) return '';

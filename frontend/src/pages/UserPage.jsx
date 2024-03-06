@@ -16,17 +16,15 @@ import GlobalChat from "../components/chat/GlobalChat"
 export default function UserPage() {
     const { userSubPageName } = usePage();
 
-    const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState(true);
     const isMobile = () => {
         const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
         return regex.test(navigator.userAgent);
     };
 
-    useEffect(() => {
-        setShowModal(!isMobile());
-    }, [])
-
-    if (showModal) {
+    console.log('looking for modal');
+    if (showModal && isMobile()) {
+        console.log(isMobile());
         return createPortal(<ErrorModal
             status='Mobile Device Required!'
             errorMessage='This website was designed for mobile devices. 
@@ -35,7 +33,7 @@ export default function UserPage() {
             dismiss={() => setShowModal(false)}
         />, document.getElementById('modal-root'));
     }
-
+    console.log('UserPage mounted w/out modal');
     return (
         <>
             <PageControls />
