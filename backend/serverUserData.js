@@ -15,7 +15,7 @@ const app = express();
 const port = process.env.PORT;
 
 dotenv.config();
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '25mb', extended: true }));
 app.use(cors());
 const server = http.createServer(app);
 const io = initializeSocket(server);
@@ -171,12 +171,14 @@ app.post('/api/set-image', verifyToken, async (req, res, next) => {
     if (data.name === req.payload.name && data.surname === req.payload.surname) {
       console.log("uploadin image", data);
       await uploadToDrive(data);
-      res.json({response: "Image Successfully Uploaded"})
+      res.json({ response: "Image Successfully Uploaded" })
     }
     else {
       console.log("wrong user set");
     }
-  } catch (err) { next(err) }
+  } catch (err) {
+    next(err)
+  }
 })
 
 app.post('/api/get-image', verifyToken, async (req, res, next) => {
@@ -199,7 +201,7 @@ app.post('/api/delete-image', verifyToken, async (req, res, next) => {
     const data = req.body;
     if (data.name === req.payload.name && data.surname === req.payload.surname) {
       await deleteFromDrive(data);
-      res.json({response: "Image Successfully Deleted"})
+      res.json({ response: "Image Successfully Deleted" })
     }
     else {
       console.log("wrong user delete");
@@ -210,7 +212,8 @@ app.post('/api/delete-image', verifyToken, async (req, res, next) => {
 //error handling function
 app.use((err, req, res, next) => {
   console.error(err.stack)
-  res.status(500).send('Something broke!')
+  // res.status(500).send('Something broke!')
+  res.status(500).json({ error: err });
 })
 
 server.listen(port, () => {

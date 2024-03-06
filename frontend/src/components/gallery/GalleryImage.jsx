@@ -16,6 +16,8 @@ export default function GalleryImage({ position, increaseCnt, decreaseCnt }) {
     const { userId } = usePage();
 
     const fetchImage = async () => {
+        const savedImage = await localStorage.getItem(`${userId.name}${userId.surname}${position}`)
+        if(savedImage) return savedImage;
         const image = await handleDriveData(userId.name, userId.surname, position, 'get')
         if (!image.response) return '';
         return image;
@@ -37,12 +39,21 @@ export default function GalleryImage({ position, increaseCnt, decreaseCnt }) {
 
     const reader = new FileReader();
     reader.onload = async () => {
-        await handleDriveData(userId.name, userId.surname, position, 'set', reader.result);
-        setImage(reader.result);
+        try{
+            setImage(reader.result);
+            await handleDriveData(userId.name, userId.surname, position, 'set', reader.result);
+            await localStorage.setItem(`${userId.name}${userId.surname}${position}`, reader.result);
+        } catch (err) {
+            console.error('Error uploading file:', err);
+        }
+    }
+
+    const isImage = (file) => {
+        return file.type.includes('image');
     }
 
     const handleFileChange = async (e) => {
-        console.log('submission: ', e.target.files[0]);
+        if(!isImage(e.target.files[0])) return;
         setLoading(true);
         await reader.readAsDataURL(e.target.files[0]);
         increaseCnt();
