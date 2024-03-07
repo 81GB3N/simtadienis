@@ -42,23 +42,23 @@ npm install npm@latest -g
 
 1. Clone the repo
    ```sh
-   git clone git@github.com:81GB3N/simtadienis.git
+   git clone git@github.com:81GB3N/simtadienis.git && cd /šimtadienis
    ```
-2. Install the `concurrently` package
+2. Install package dependencies 
    ```sh
-   npm install
+   npm i && npm run install-packages
    ```
-   or
+3. Setup your `/backend/.env` file
    ```sh
-   npm install concurrently
-   ```
-3. Setup your `.env` file
+   cd /backend && touch .env
+   ``` 
    ```sh
+   # /šimtadienis/backend/.env
    API_KEY = 'ENTER YOUR API';
    ```
 4. Run the app
    ```sh
-   npm start
+   cd .. && npm start
    ```
 
 <!-- ROADMAP -->
