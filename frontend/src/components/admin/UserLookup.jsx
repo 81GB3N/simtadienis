@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useUser } from "../../context/AdminUserProvider";
+import { useUser } from "../../context/AdminProvider";
 import Autosuggest from "react-autosuggest";
 
 const getSuggestions = (value, users) => {

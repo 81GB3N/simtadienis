@@ -1,11 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { useUser } from "../../context/AdminUserProvider";
+import { useAdmin } from "../../context/AdminProvider";
 import { useEffect, useState } from "react";
 import { sendUserData } from "../../utils/api";
 
 export default function EditTable() {
-    const { user, refreshUsers } = useUser();
+    const { selectedUser, refreshUsers } = useAdmin();
     const [selected, setSelected] = useState(false);
     const [submitStatus, setSubmitStatus] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
@@ -14,17 +14,17 @@ export default function EditTable() {
     const [userMoney, setUserMoney] = useState(null)
 
     useEffect(() => {
-        setSelected(Object.keys(user).length !== 0);
-        setUserMoney(Number(user.money))
-    }, [user])
+        setSelected(Object.keys(selectedUser).length !== 0);
+        setUserMoney(Number(selectedUser.money))
+    }, [selectedUser])
 
     function handleMoneySubmit(e) {
         e.preventDefault();
         console.log("submitting")
         const amount = Number(e.target.amount.value);
         const userData = {
-            name: user.name,
-            surname: user.surname,
+            name: selectedUser.name,
+            surname: selectedUser.surname,
             money: amount,
         }
         console.log('sending..');
@@ -52,7 +52,7 @@ export default function EditTable() {
             <div className="edit__header">
                 <FontAwesomeIcon className='edit-icon' icon={faUser} />
                 <p className="edit__name">
-                    {selected ? `${user.name} ${user.surname}` : 'No user selected'}
+                    {selected ? `${selectedUser.name} ${selectedUser.surname}` : 'No user selected'}
                 </p>
             </div>
             {selected ? (

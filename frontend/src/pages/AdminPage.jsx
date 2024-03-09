@@ -10,7 +10,7 @@ import AdminLogin from '../components/admin/AdminLogin';
 import { faUser, faGauge, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // Context
-import UserProvider from '../context/AdminUserProvider';
+import AdminProvider from '../context/AdminProvider';
 
 export default function AdminPage() {
     const navigate = useNavigate();
@@ -41,7 +41,7 @@ export default function AdminPage() {
     }
 
     return (
-        <UserProvider>
+        <AdminProvider>
             <div className="container">
                 <div className="drawer">
                     <div className="menu">
@@ -73,6 +73,6 @@ export default function AdminPage() {
                     </div>
                 </dialog>
             </div>
-        </UserProvider>
+        </AdminProvider>
     )
 }
