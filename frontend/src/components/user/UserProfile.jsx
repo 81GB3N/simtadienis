@@ -32,8 +32,8 @@ export default function UserProfile({ savedUser, removeUserExists }) {
     const fetchData = async () => {
         console.log('fetching data...')
         try {
-            const data = await getUserData({name: savedUser.name, surname: savedUser.surname});
-            console.log("Data: ", data.result[0]);
+            const data = await getUserData({ name: savedUser.name, surname: savedUser.surname });
+            console.log('data: ', data);
             return data.result[0];
         }
         catch (err) {
@@ -49,33 +49,47 @@ export default function UserProfile({ savedUser, removeUserExists }) {
     const closeEdit = () => setEditOpen(false);
 
     const openWebcam = () => setWebcamOpen(true);
-    const closeWebcam = () => setWebcamOpen(false);
+    const closeWebcam = () => {
+        // navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+        //     stream.getVideoTracks().forEach(track => {
+        //         console.log('stopping track: ', track);
+        //         track.stop();
+        //         console.log('stopped')
+        //     })
+        // });
+        navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+            stream.getVideoTracks().forEach(track => track.stop())
+        });
+        setWebcamOpen(false);
+        console.log('webcam closed');
+    };
 
     const changeImg = (imgSrc) => {
-        sendUserData({ imgSrc: imgSrc, name: userData.name, surname: userData.surname }, 'update-picture')
+        sendUserData({ image: imgSrc, name: userData.name, surname: userData.surname }, 'update-picture')
             .then(res => {
-                console.log(res);
-                fetchData().then(data => setUserData(data));
+                console.log('change image res: ', res);
+                setUserData(prev => ({ ...prev, image: imgSrc }));
             })
             .catch(err => console.log(err));
+
     }
 
     const deleteImg = () => {
-        sendUserData({ imgSrc: '', name: userData.name, surname: userData.surname }, 'update-picture')
+        sendUserData({ image: '', name: userData.name, surname: userData.surname }, 'update-picture')
             .then(res => {
                 console.log(res);
                 fetchData().then(data => setUserData(data));
             })
             .catch(err => console.log(err));
     }
-      
+
 
     return (
         <>
             <div className="user__profile">
                 <div className="profile__img">
                     <div className="profile-img-container">
-                        <img className="profile-img" src={userData?.imgSrc || unkownUserImg} alt="user">
+                        <img className="profile-img" src={userData?.image || unkownUserImg} alt="user">
                         </img>
                     </div>
                     <div className="profile-img__controls">
@@ -87,10 +101,10 @@ export default function UserProfile({ savedUser, removeUserExists }) {
                 </div>
                 <p className="user-name">{userData?.name}, {userData?.surname}</p>
                 <div className="user__money">
-                    <LiaMoneyBillSolid className={`user-money-icon ${moneyEffectActive ? 'active' : ''}`} onClick={()=>setMoneyEffectActive(prev => !prev)}/>
+                    <LiaMoneyBillSolid className={`user-money-icon ${moneyEffectActive ? 'active' : ''}`} onClick={() => setMoneyEffectActive(prev => !prev)} />
                     <p className="money-cnt">{userData?.money}</p>
                 </div>
-                {editOpen && createPortal(<EditProfile closeEdit={closeEdit} deleteImg={deleteImg} openWebcam={openWebcam} imgSrc={userData.imgSrc || unkownUserImg} />, document.getElementById('modal-root'))}
+                {editOpen && createPortal(<EditProfile closeEdit={closeEdit} deleteImg={deleteImg} openWebcam={openWebcam} imgSrc={userData.image || unkownUserImg} />, document.getElementById('modal-root'))}
                 {webcamOpen && createPortal(<WebcamModal changeImg={changeImg} closeWebcam={closeWebcam} />, document.getElementById('modal-root'))}
                 {/* <p>Discount code for <a href="https://weborado.lt" target="_blank">weborado.lt</a></p> */}
             </div>

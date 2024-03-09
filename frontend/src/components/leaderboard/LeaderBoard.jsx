@@ -2,8 +2,7 @@ import { getAllUsers } from "../../utils/api"
 import { useState, useEffect } from 'react'
 import LeaderBoardEntry from './LeaderBoardEntry'
 import { useInView } from 'react-intersection-observer';
-import { useSubPage } from '../../context/SubPageProvider';
-import { FormattedMessage } from 'react-intl';
+import { usePage } from '../../context/PageProvider';
 import { LiaPlusSquare, LiaMinusSquare } from 'react-icons/lia';
 import './leaderboard.css'
 
@@ -22,7 +21,7 @@ export default function LeaderBoard() {
     // to many states, fix l8r
     const { ref, inView } = useInView({ threshold: 0, fallbackInView: true });
     const [animate, setAnimate] = useState(false);
-    const { userSubPageName } = useSubPage();
+    const { userSubPageName } = usePage();
 
     const fetchUsers = () => {
         getAllUsers()

@@ -26,7 +26,11 @@ async function uploadToDrive(data){
     if(!data.img) return;
 
     //create convertable file
-    const image = Buffer.from(data.img.split('base64,')[1], 'base64')
+    const image = Buffer.from(data.img.split('base64,')[1], 'base64');
+
+    //compressing image
+    // LZString.compress(image);
+
     fs.writeFileSync(fileName, image);
 
     const media = {
@@ -87,12 +91,16 @@ async function deleteFromDrive(data){
     }
 }
 
+// CURRENTLY NOT USED
+// in the current version images are fetched with imageId
 async function retrieveFromDrive(data){
     try {
 
         //get file id
         const fileId = await retrieveFileId(data);
-        if(!fileId) return;
+        if(!fileId){
+            return null;
+        } 
         //retrieving response from drive
         const response = await drive.files.get({
             fileId: fileId,
@@ -110,8 +118,12 @@ async function retrieveFromDrive(data){
         });
         // buffer = Buffer.from(buffer);
         const base64 = 'data:image/jpeg;base64,'+Buffer.from(buffer).toString('base64')
-        return base64;
 
+        //decompressing image
+        // LZString.decompress(base64);
+
+        
+        return base64;
     } catch (err) {
         console.error('Error downloading file:', err);
         throw err;
@@ -136,6 +148,7 @@ async function retrieveFileId(data){
         //return the first image
         if (files.length > 0) {
             console.log(`File '${fileName}' found with ID: ${files[0].id}`);
+            console.log('RETRIEVED FILES: ', files)
             return files[0].id;
         } else {
             console.log(`File '${fileName}' not found in Google Drive.`);
@@ -147,4 +160,4 @@ async function retrieveFileId(data){
     }
 }
 
-module.exports = {uploadToDrive, retrieveFromDrive, deleteFromDrive};
+module.exports = {uploadToDrive, deleteFromDrive, retrieveFileId};

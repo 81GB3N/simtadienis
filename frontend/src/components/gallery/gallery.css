@@ -1,6 +1,7 @@
 .gallery{
     width: 100vw;
     flex-direction: column;
+    align-items: center;
     color: aliceblue;
 }
 .gallery.active{
@@ -37,7 +38,7 @@
     height: 150px;
     overflow: hidden;
     border-radius: 10px;
-    background-color: rgb(71, 71, 71);
+    background-color: rgb(126, 126, 126);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -51,11 +52,28 @@
 
 .gallery-btn{
     position: absolute;
+    /* to center nested svg */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.15rem;
+}
+
+.gallery-delete-btn{
+    right: 8px;
+    top: 8px;
+    background-color: rgb(117, 117, 117);
+    border-radius: 5px;
+    backdrop-filter: blur(5px);
 }
 
 .gallery-btn svg{
     font-size: 2rem;
-    color: rgb(60, 33, 33);
+    color: rgb(62, 32, 32);
+}
+
+.gallery-delete-btn svg{
+    color: rgb(255, 0, 0);
 }
 
 .gallery-image .hidden{

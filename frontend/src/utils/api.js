@@ -7,7 +7,7 @@ const baseUrl = window.location.hostname === 'localhost' ? `http://localhost:${p
 
 async function fetchData(userData, page) {
   const headers = {
-      "Content-Type": "application/json",
+    "Content-Type": "application/json",
   };
 
   // Retrieve the "user" item from localStorage
@@ -15,18 +15,18 @@ async function fetchData(userData, page) {
 
   // Check if "user" item exists and contains a token
   if (userItem) {
-      // Parse the JSON string to extract the token
-      const { token } = JSON.parse(userItem);
-      if (token) {
-          headers.authorization = `Bearer ${token}`;
-      }
+    // Parse the JSON string to extract the token
+    const { token } = JSON.parse(userItem);
+    if (token) {
+      headers.authorization = `Bearer ${token}`;
+    }
   }
 
   return await fetch(`${baseUrl}/api/${encodeURI(page)}`, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify(userData),
-      // timer: JSON.parse(localStorage.getItem("requests"))
+    method: "POST",
+    headers: headers,
+    body: JSON.stringify(userData),
+    // timer: JSON.parse(localStorage.getItem("requests"))
   });
 }
 
@@ -36,6 +36,7 @@ export async function sendUserData(userData, page) {
   try {
     const response = await fetchData(userData, page);
     const data = await response.json();
+    if (response.status === 401) throw new Error(data.error);
     return data;
   } catch (err) {
     console.log("Error in sendUserData:", err);
@@ -46,7 +47,7 @@ export async function sendUserData(userData, page) {
 //get specific user data: name, surname, money
 export async function getUserData(userData) {
   try {
-    const response = await fetchData(userData,'getuser')
+    const response = await fetchData(userData, 'getuser')
     const data = await response.json();
     return data;
   } catch (err) {
@@ -59,7 +60,7 @@ export async function getUserData(userData) {
 export async function validatePassword(name, surname, password, type = "main") {
   try {
     console.log(name, surname, password, type)
-    const response = await fetchData({name: name, surname: surname, password: password, type: type},'check-password')
+    const response = await fetchData({ name: name, surname: surname, password: password, type: type }, 'check-password')
     const data = await response.json();
     return data;
   } catch (err) {
@@ -82,8 +83,8 @@ export async function getAllUsers() {
 }
 
 export async function userExists(name, surname, type) {
-  try{
-    const response = await fetchData({name: name, surname: surname, type: type}, 'check-status');
+  try {
+    const response = await fetchData({ name: name, surname: surname, type: type }, 'check-status');
     const data = await response.json();
     console.log(data);
     return data;
@@ -92,16 +93,16 @@ export async function userExists(name, surname, type) {
     throw err;
   }
 }
-
-export async function handleDriveData(name, surname, imgNum, action, img=undefined) {
-  try{
+// action: set delete get
+export async function handleDriveData(name, surname, imgNum, action, img = undefined) {
+  try {
     console.log("handling", name, surname, img, imgNum, action)
-    const response = await fetchData({name: name, surname: surname, img: img, imgNum: imgNum}, `${action}-image`);
+    const response = await fetchData({ name: name, surname: surname, img: img, imgNum: imgNum }, `${action}-image`);
     const data = await response.json();
     console.log(data);
     return data;
   } catch (err) {
-    console.log(err, "Error in userExists");
+    console.log(err, "Error in handleDriveData");
     throw err;
   }
 }

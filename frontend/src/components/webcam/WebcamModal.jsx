@@ -36,7 +36,7 @@ export default function WebcamModal({ changeImg, closeWebcam }) {
     return (
         <div className="webcam-container">
             <div className="webcam">
-                <CustomWebcam ref={webcamRef} enabled={cameraActive}/>
+                <CustomWebcam ref={webcamRef} enabled={cameraActive} />
                 <div className="webcam__controls">
                     <button className="webcam-control take-screenshot-btn" onClick={takeScreenshot}>
                         <LiaCameraSolid />

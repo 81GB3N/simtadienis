@@ -3,11 +3,11 @@ import { FormattedMessage, useIntl } from "react-intl";
 
 import { useRef, useState, useEffect } from "react";
 
-import { useSubPage } from "../../context/SubPageProvider.jsx";
+import { usePage } from "../../context/PageProvider";
 
 export default function Login({ handleUserExists }) {
     const intl = useIntl();
-    const { toggleLoginActive } = useSubPage();
+    const { toggleLoginActive, setUserId } = usePage();
 
     const nameRef = useRef();
     const errRef = useRef();
@@ -36,10 +36,7 @@ export default function Login({ handleUserExists }) {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        const userName = name.toLowerCase();
-        const userSurname = surname.toLowerCase();
-
-        if (!await userExists(userName, surname)) {
+        if (!await userExists(name, surname)) {
             try {
                 setErrMsg("User does not exist");
                 return;
@@ -55,8 +52,10 @@ export default function Login({ handleUserExists }) {
             setErrMsg("Incorrect password");
             return;
         }
-        console.log(loginValidation.result.token)
+        
         await setUserLocalStorage(name, surname, loginValidation.result.token);
+        setUserId({name: name, surname: surname});
+
         toggleLoginActive();
         handleUserExists(true);
     }

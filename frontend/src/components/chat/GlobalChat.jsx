@@ -1,10 +1,10 @@
 import './chat.css';
 
-import { useSubPage } from "../../context/SubPageProvider";
+import { usePage } from "../../context/PageProvider";
 
 export default function GlobalChat() {
 
-    const { userSubPageName } = useSubPage();
+    const { userSubPageName } = usePage();
 
     return (
         <div className={`user-page chat-page ${userSubPageName === 'chat' ? 'active' : ''}`}>

@@ -1,11 +1,11 @@
 import { FormattedMessage } from 'react-intl';
-import { useSubPage } from '../../context/SubPageProvider';
+import { usePage } from '../../context/PageProvider';
 import Login from "./Login";
 import SignUp from "./SignUp";
 import PageNav from "../page-control/PageNav";
 import './user.css';
 export default function NoUser({ onUserExists }) {
-    const { loginActive, signupActive, toggleLoginActive, toggleSignupActive } = useSubPage();
+    const { loginActive, signupActive, toggleLoginActive, toggleSignupActive } = usePage();
 
     if (loginActive) {
         return <Login 

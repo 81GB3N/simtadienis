@@ -1,10 +1,10 @@
-import { useSubPage } from "../../context/SubPageProvider";
+import { usePage } from "../../context/PageProvider";
 
 // a collection of icons from Icons8 Line Awesome
 import { LiaHomeSolid, LiaListOlSolid, LiaImage, LiaComments } from "react-icons/lia";
 
 export default function PageNav({ userExists }) {
-    const { userSubPageName, changeUserSubPage, toggleMenu } = useSubPage();
+    const { userSubPageName, changeUserSubPage, toggleMenu } = usePage();
 
     const changePage = (page) => {
         if(page !== userSubPageName){

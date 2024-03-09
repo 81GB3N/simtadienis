@@ -3,7 +3,7 @@ import { sendUserData, userExists } from "../../utils/api";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useRef, useState, useEffect } from "react";
 
-import { useSubPage } from "../../context/SubPageProvider";
+import { usePage } from "../../context/PageProvider";
 
 import unkownUserImg from "../../assets/images/unknown-user.png";
 
@@ -13,7 +13,7 @@ const PASSWORD_REGEX = /^(?=.*[a-zA-Z])(?=.*\d).{5,}$/;
 export default function Signup({ setUserExists, leave }) {
     const intl = useIntl();
 
-    const { toggleSignupActive } = useSubPage();
+    const { toggleSignupActive } = usePage();
 
     const nameRef = useRef();
     const errRef = useRef();

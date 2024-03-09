@@ -10,15 +10,15 @@ import SuperAdminPage from './pages/SuperAdminPage';
 // Error modal
 import ErrorModal from './components/error/ErrorModal';
 // User Page Context Provider
-import SubPageProvider from './context/SubPageProvider';
+import PageProvider from './context/PageProvider';
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={
-        <SubPageProvider>
+        <PageProvider>
           <UserPage />
-        </SubPageProvider>
+        </PageProvider>
       } />
       <Route path="/leaderboard" element={<LeaderBoardPage />} />
       <Route path="/admin/*" element={<AdminPage />} />

@@ -27,10 +27,9 @@ export default function EditTable() {
             surname: user.surname,
             money: amount,
         }
-        setUserMoney(current=>current+amount);
         console.log('sending..');
         sendUserData(userData, "addmoney").then((res) => {
-            console.log('success: ', res);
+            setUserMoney(current => current + amount);
             setSubmitStatus('success');
             setErrorMsg('');
             refreshUsers();

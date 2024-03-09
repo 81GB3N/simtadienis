@@ -1,13 +1,13 @@
 import { FormattedMessage } from 'react-intl';
 import { useRef, useEffect, useState } from 'react';
-import { useSubPage } from '../../context/SubPageProvider';
+import { usePage } from '../../context/PageProvider';
 import './ticket.css';
 
 export default function HeroTicket() {
     const ticketLoweref = useRef(null);
     const ticketUpperRef = useRef(null);
     const buttonRef = useRef(null);
-    const { toggleMenu } = useSubPage();
+    const { toggleMenu } = usePage();
 
     const handleClick = () => {
         ticketLoweref.current.classList.add('clicked');
