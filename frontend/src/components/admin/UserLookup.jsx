@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useUser } from "../../context/UserProvider";
+import { useAdmin } from "../../context/AdminProvider";
 import Autosuggest from "react-autosuggest";
 
 const getSuggestions = (value, users) => {
@@ -24,7 +24,7 @@ const renderSuggestion = suggestion => {
 export default function UserLookup({ users }) {
     const [value, setValue] = useState('');
     const [suggestions, setSuggestions] = useState([]);
-    const { setUser } = useUser();
+    const { selectUser } = useAdmin();
 
     const onChange = (event, { newValue }) => {
         setValue(newValue);
@@ -57,7 +57,7 @@ export default function UserLookup({ users }) {
                         suggestions={suggestions}
                         onSuggestionsFetchRequested={onSuggestionsFetchRequested}
                         onSuggestionsClearRequested={onSuggestionsClearRequested}
-                        onSuggestionSelected={(event, { suggestion }) => setUser(suggestion)}
+                        onSuggestionSelected={(event, { suggestion }) => selectUser(suggestion)}
                         getSuggestionValue={getSuggestionValue}
                         renderSuggestion={renderSuggestion}
                         inputProps={inputProps}

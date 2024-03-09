@@ -1,7 +1,11 @@
 import { createContext, useContext, useState } from "react";
 
-// Create the context, necessary for other components in App.jsx to acces the ability to toggle the menu.
 const PageContext = createContext();
+/**
+ * Custom hook to access the page context.
+ * @returns {Object} The page context object.
+ * @throws {Error} Throws an error if used outside of a PageProvider.
+ */
 export const usePage = () => {
     const context = useContext(PageContext);
     if (!context) {
@@ -10,35 +14,35 @@ export const usePage = () => {
     return context;
 };
 
+/**
+ * Provides context for the UserPage.
+ * @param {Object} props - The component props.
+ * @param {ReactNode} props.children - The child components.
+ * @returns {JSX.Element} The rendered component.
+ */
+
 export default function PageProvider({ children }) {
-    const [menuActive, setMenuActive] = useState(false);
-    const toggleMenu = () => {
-        setMenuActive(prevState => !prevState);
-    }
+    const [currentUserPageName, setCurrentUserPageName] = useState('home');
+    // refers to the components in App.jsx
+    const validUserPageNames = ['home', 'leaderboard', 'gallery', 'chat'];
 
-    const [loginActive, setLoginActive] = useState(false);
-    const [signupActive, setSignupActive] = useState(false);
-
-    const toggleLoginActive = () => {
-        setLoginActive(prevState => !prevState);
-    }
-    const toggleSignupActive = () => {
-        setSignupActive(prevState => !prevState);
-    }
-
-    const [userSubPageName, setUserSubPageName] = useState('home');
-    const validUserSubPages = ['home', 'leaderboard', 'gallery', 'chat'];
-    const changeUserSubPage = (pageName) => {
-        if (validUserSubPages.includes(pageName)) {
-            setUserSubPageName(pageName);
+    /**
+     * Changes the user subpage.
+     * @param {string} pageName - The name of the subpage.
+     */
+    const changeUserPage = (pageName) => {
+        if (validUserPageNames.includes(pageName)) {
+            setCurrentUserPageName(pageName);
         }
     }
-    
-    const [userId, setUserId] = useState({ name: '', surname: '' });
-
 
     return (
-        <PageContext.Provider value={{menuActive, toggleMenu, userSubPageName, changeUserSubPage, loginActive, toggleLoginActive, signupActive, toggleSignupActive, userId, setUserId }}>
+        <PageContext.Provider
+            value={{
+                currentUserPageName,
+                validUserPageNames,
+                changeUserPage,
+            }}>
             {children}
         </PageContext.Provider>
     );

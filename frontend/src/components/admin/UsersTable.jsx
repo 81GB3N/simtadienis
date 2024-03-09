@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useUser } from '../../context/UserProvider';
+import { useAdmin } from '../../context/AdminProvider';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 export default function UsersTable({ users }) {
-    const { setUser } = useUser();
+    const { selectUser } = useAdmin();
     const [focus, setFocus] = useState(null);
 
     const iterationStep = 10;
@@ -25,7 +25,7 @@ export default function UsersTable({ users }) {
         const surname = e.target.parentElement.children[1].innerText;
         const money = e.target.parentElement.children[2].innerText;
         const user = { name, surname, money };
-        setUser(user);
+        selectUser(user);
     }
 
     const handleLeave = (e) => {

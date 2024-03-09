@@ -15,7 +15,7 @@
     "name": "Vardas",
     "surname": "Pavardė",
     "password": "Slaptažodis",
-    "repeat.password": "Pakartokite slaptažodį",
+    "rpassword": "Pakartokite slaptažodį",
     "back": "Atgal",
     "sumbit": "Pateikti",
     "leaderboard": "Pirmūnų stulpas",

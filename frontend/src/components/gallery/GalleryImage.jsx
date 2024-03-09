@@ -1,27 +1,43 @@
-import { useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faSquarePlus, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { LiaPlusSolid, LiaTrashSolid } from 'react-icons/lia';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { useUser } from '../../context/UserProvider';
+
+import Modal from '../modal/Modal';
+
 import { handleDriveData } from "../../utils/api"
 
-import { usePage } from '../../context/PageProvider';
+import { LiaPlusSolid, LiaTrashSolid } from 'react-icons/lia';
 
 const googleDriveUrl = (id) => `https://lh3.googleusercontent.com/d/${id}=w1000?authuser=0`;
 
+
+/**
+ * Represents a gallery image component.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {number} props.position - The position of the image in the gallery.
+ * @param {Function} props.increaseCnt - The function to increase the count.
+ * @param {Function} props.decreaseCnt - The function to decrease the count.
+ * @returns {JSX.Element} The gallery image component.
+ */
 export default function GalleryImage({ position, increaseCnt, decreaseCnt }) {
     // very hacky, figure out how to nest svgs in input or upload file with <button>
     const inputRef = useRef(null);
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const { userId } = usePage();
+    const { userId } = useUser();
 
-    const fetchImage = async () => {
+    /**
+     * Fetches the image from the google drive.
+     *
+     * @returns {Promise<string>} A promise that resolves to the image URL.
+     */
+    const fetchImage = useCallback(async () => {
         const image = await handleDriveData(userId.name, userId.surname, position, 'get')
         if (!image.response) return '';
         return image;
-    }
+    }, [userId.name, userId.surname, position])
 
     useEffect(() => {
         if (!userId.name || !userId.surname) return;
@@ -31,15 +47,26 @@ export default function GalleryImage({ position, increaseCnt, decreaseCnt }) {
                 increaseCnt();
             }
         });
-    }, [userId])
+    }, [userId, increaseCnt, fetchImage])
 
     const handleUpload = () => {
         if (inputRef.current) inputRef.current.click();
     }
 
+    /**
+     * Checks if the file is an image.
+     *
+     * @param {File|string} file - The file to check.
+     * @returns {boolean} True if the file is an image, false otherwise.
+     */
+    const isImage = (file) => {
+        if (file?.type) return file.type.includes('image');
+        return file.includes('image');
+    }
+
     const reader = new FileReader();
     reader.onload = async () => {
-        try{
+        try {
             setImage(reader.result);
             await handleDriveData(userId.name, userId.surname, position, 'set', reader.result);
         } catch (err) {
@@ -47,31 +74,31 @@ export default function GalleryImage({ position, increaseCnt, decreaseCnt }) {
         }
     }
 
-    const isImage = (file) => {
-        if(file.type) return file.type.includes('image');
-        return file.includes('image');
-    }
-
-    const handleFileChange = async (e) => {
-        if(!isImage(e.target.files[0])) return;
+    /**
+     * Handles the file change event.
+     * 
+     * @param {Event} e - The file change event.
+     */
+    const handleFileChange = (e) => {
+        if (!isImage(e.target.files[0])) return;
         setLoading(true);
-        await reader.readAsDataURL(e.target.files[0]);
+        reader.readAsDataURL(e.target.files[0]);
         increaseCnt();
         setLoading(false);
     }
 
-    const handleDelete = async () => {
+    const handleDelete = () => {
         setImage(null);
-        await handleDriveData(userId.name, userId.surname, position, 'delete');
+        handleDriveData(userId.name, userId.surname, position, 'delete');
         decreaseCnt();
     }
 
     return (
         <ul className='gallery-image' onClick={handleUpload}>
-            {image && 
-            <img className="gallery-img-src" src={
-                isImage(image) ? image : googleDriveUrl(image)
-            } alt={`submission ${position}`}></img>}
+            {image &&
+                <img className="gallery-img-src" src={
+                    isImage(image) ? image : googleDriveUrl(image)
+                } alt={`submission ${position}`}></img>}
             {!image
                 ?
                 (<>
@@ -87,7 +114,11 @@ export default function GalleryImage({ position, increaseCnt, decreaseCnt }) {
                     </button>
                 )
             }
-            {loading && createPortal(<div className='gallery-loading'>Loading...</div>, document.getElementById('modal-root'))}
+            {loading &&
+                <Modal>
+                    <div className='gallery-loading'>Loading...</div>
+                </Modal>
+            }
         </ul>
     )
 }

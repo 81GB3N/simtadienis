@@ -5,7 +5,7 @@ import EditTable from "./EditTable";
 
 import { getAllUsers } from '../../utils/api'
 import { useState, useEffect } from "react";
-import { useUser } from "../../context/UserProvider";
+import { useAdmin } from "../../context/AdminProvider";
 
 
 //SOCKET CODE
@@ -16,7 +16,7 @@ import { useUser } from "../../context/UserProvider";
 
 export default function Users() {
     const [allUsers, setAllUsers] = useState(null);
-    const { refresh } = useUser();
+    const { refresh } = useAdmin();
 
     useEffect(() => {
         getAllUsers().then(data => {

@@ -1,17 +1,21 @@
-// Custom stylesheet
 import './css/app.css';
-// React utilities
+
 import { Routes, Route } from 'react-router-dom';
-// Pages
+
 import UserPage from './pages/UserPage';
 import LeaderBoardPage from './pages/LeaderBoardPage';
 import AdminPage from './pages/AdminPage';
 import SuperAdminPage from './pages/SuperAdminPage';
-// Error modal
-import ErrorModal from './components/error/ErrorModal';
-// User Page Context Provider
+import ErrorModal from './components/modal/ErrorModal';
+
 import PageProvider from './context/PageProvider';
 
+/**
+ * The main component of the application.
+ * Renders different pages based on the current route.
+ *
+ * @returns {JSX.Element} The rendered application component.
+ */
 export default function App() {
   return (
     <Routes>
@@ -22,11 +26,10 @@ export default function App() {
       } />
       <Route path="/leaderboard" element={<LeaderBoardPage />} />
       <Route path="/admin/*" element={<AdminPage />} />
-      <Route path='/superadmin/*' element={<SuperAdminPage /> } />
+      <Route path='/superadmin/*' element={<SuperAdminPage />} />
       <Route path="*" element={<ErrorModal
         status='404'
         errorMessage='Page not found'
-        dismissable={true}
       />} />
     </Routes>
   )

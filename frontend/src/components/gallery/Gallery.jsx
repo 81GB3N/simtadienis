@@ -1,23 +1,36 @@
 import { usePage } from '../../context/PageProvider';
-import { useRef } from 'react';
+import { useRef, useCallback } from 'react';
 import GalleryImage from './GalleryImage';
 import GalleryCount from './GalleryCount';
 import './gallery.css';
 
+const GALLERY_LENGTH = 5
+
+/**
+ * Renders the Gallery component.
+ * @component
+ * @returns {JSX.Element} The rendered Gallery component.
+ */
 export default function Gallery() {
-    const { userSubPageName } = usePage();
+    const { currentUserPageName } = usePage();
     const galleryCntRef = useRef();
-    const GALLERY_LENGTH = 5
     
-    const increaseCnt = () => {
+    /**
+     * Increases the count of the submitted images.
+     */
+    const increaseCnt = useCallback(() => {
         galleryCntRef.current.increaseCnt();
-    }
-    const decreaseCnt = () => {
+    }, [galleryCntRef])
+    
+    /**
+     * Decreases the count of the submitted images.
+     */
+    const decreaseCnt = useCallback(() => {
         galleryCntRef.current.decreaseCnt();
-    }
+    }, [galleryCntRef])
 
     return (
-        <div className={`user-page gallery ${userSubPageName === 'gallery' ? 'active' : ''}`}>
+        <div className={`user-page gallery ${currentUserPageName === 'gallery' ? 'active' : ''}`}>
             <h3 className='gallery-title'>Your submissions</h3>
             <GalleryCount ref={galleryCntRef} totalCnt={GALLERY_LENGTH} />
             <li className='gallery__images'>

@@ -1,13 +1,16 @@
-import { userExists, validatePassword } from "../../utils/api.js";
-import { FormattedMessage, useIntl } from "react-intl";
-
 import { useRef, useState, useEffect } from "react";
+import { userExists, validatePassword } from "../../utils/api.js";
+import { FormattedMessage} from "react-intl";
+import { useUser } from "../../context/UserProvider.jsx";
+import FormInput from "./FormInput.jsx";
 
-import { usePage } from "../../context/PageProvider";
-
-export default function Login({ handleUserExists }) {
-    const intl = useIntl();
-    const { toggleLoginActive, setUserId } = usePage();
+/**
+ * Represents the Login component.
+ * @component
+ * @returns {JSX.Element} The rendered Login component
+ */
+export default function Login() {
+    const { closeLogin, changeUserId } = useUser();
 
     const nameRef = useRef();
     const errRef = useRef();
@@ -17,6 +20,13 @@ export default function Login({ handleUserExists }) {
     const [password, setPassword] = useState("");
     const [errMsg, setErrMsg] = useState("");
 
+    /**
+     * Sets the user data in the local storage.
+     * @param {string} name - The user's name.
+     * @param {string} surname - The user's surname.
+     * @param {string} token - The user's token.
+     * @returns {Promise<object>} A promise that resolves to the user object.
+     */
     function setUserLocalStorage(name, surname, token) {
         return new Promise((resolve, reject) => {
             const user = { name: name, surname: surname, token: token };
@@ -33,6 +43,10 @@ export default function Login({ handleUserExists }) {
         setErrMsg("");
     }, [name, surname, password])
 
+    /**
+     * Handles the form submission.
+     * @param {Event} e - The form submit event.
+     */
     async function handleSubmit(e) {
         e.preventDefault();
 
@@ -54,10 +68,9 @@ export default function Login({ handleUserExists }) {
         }
         
         await setUserLocalStorage(name, surname, loginValidation.result.token);
-        setUserId({name: name, surname: surname});
-
-        toggleLoginActive();
-        handleUserExists(true);
+        console.log("User logged in");
+        changeUserId(name, surname);
+        closeLogin();
     }
 
     return (
@@ -66,39 +79,12 @@ export default function Login({ handleUserExists }) {
                 <FormattedMessage id="login" />
             </h3>
             <form className="form login" method="get" onSubmit={handleSubmit}>
-                <input
-                    className="form-input form-name"
-                    type="text"
-                    placeholder={intl.formatMessage({ id: "name" })}
-                    id="name"
-                    required
-                    ref={nameRef}
-                    onChange={(e) => setName(e.target.value)}
-                    value={name}>
-                </input>
-                <input
-                    className="form-input form-surname"
-                    type="text"
-                    placeholder={intl.formatMessage({ id: "surname" })}
-                    id="surname"
-                    required
-                    onChange={(e) => setSurname(e.target.value)}
-                    value={surname}>
-                </input>
-                <input
-                    className="form-input form-password"
-                    type="password"
-                    id="password"
-                    placeholder={intl.formatMessage({ id: "password" })}
-                    required
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}>
-                </input>
+                <FormInput ref={nameRef} id="name" onValueChange={(e) => setName(e.target.value)} inputValue={name} />
+                <FormInput id="surname" onValueChange={(e) => setSurname(e.target.value)} inputValue={surname} />
+                <FormInput id="password" onValueChange={(e) => setPassword(e.target.value)} inputValue={password} />
                 <p ref={errRef} className={`errmsg ${errMsg ? "active" : ""}`}>{errMsg}</p>
                 <div className="form__buttons">
-                    <button className={`form-submit enabled`} type="submit" id="login-submit"
-                    //{ disabled={!validName || !validPassword || !validMatch}}
-                    >
+                    <button className={`form-submit enabled`} type="submit" id="login-submit">
                         <FormattedMessage id="submit" />
                     </button>
                 </div>
