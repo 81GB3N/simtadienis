@@ -42,9 +42,9 @@ npm install npm@latest -g
 
 1. Clone the repo
    ```sh
-   git clone git@github.com:81GB3N/simtadienis.git && cd /šimtadienis
+   git clone git@github.com:81GB3N/simtadienis.git && cd /simtadienis
    ```
-2. Install package dependencies 
+2. Install all the project dependencies 
    ```sh
    npm i && npm run install-packages
    ```
@@ -53,10 +53,33 @@ npm install npm@latest -g
    cd /backend && touch .env
    ``` 
    ```sh
-   # /šimtadienis/backend/.env
-   API_KEY = 'ENTER YOUR API';
+   # /simtadienis/backend/.env
+   NODE_ENV=development
+   PORT=4000
+   URI="mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@YOUR_CLUSTER_URL/"
+   JWT_SECRET_KEY="YOUR_JWT_SECRET_KEY"
+   API_KEY='YOUR_API_KEY'
    ```
-4. Run the app
+4. Create an `auth.json` file for Google Drive authentication
+   ```sh
+   touch auth.json
+   ```  
+   ```json
+   {
+    "type": "service_account",
+    "project_id": "YOUR_PROJECT_ID",
+    "private_key_id": "YOUR_PRIVATE_KEY_ID",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nYOUR_PRIVATE_KEY\n-----END PRIVATE KEY-----\n",
+    "client_email": "YOUR_CLIENT_EMAIL",
+    "client_id": "YOUR_CLIENT_ID",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/YOUR_CLIENT_EMAIL",
+    "universe_domain": "googleapis.com"
+    }
+   ```
+5. Run the app
    ```sh
    cd .. && npm start
    ```
