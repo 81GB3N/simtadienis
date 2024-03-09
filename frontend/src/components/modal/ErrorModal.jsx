@@ -8,10 +8,6 @@ export default function ErrorModal({ status, errorMessage, dismissable }) {
         modalRef.current.close();
     }
 
-    useEffect(() => {
-        modalRef.current.open();
-    }, [])
-
     return (
         <Modal ref={modalRef} customClassNames={`error__modal ${dismissable ? 'dismissable' : 'not-dismissable'}`}>
             <img className='error-image' src="https://100dayscss.com/codepen/alert.png" alt='alert' width="44" height="38" />

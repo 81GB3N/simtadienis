@@ -1,8 +1,12 @@
-import { getAllUsers } from "../../utils/api"
-import { useState, useEffect } from 'react'
-import LeaderBoardEntry from './LeaderBoardEntry'
+import { useState, useEffect, useCallback } from 'react'
 import { useInView } from 'react-intersection-observer';
+
+import { getAllUsers } from "../../utils/api"
+
+import LeaderBoardEntry from './LeaderBoardEntry'
+
 import { usePage } from '../../context/PageProvider';
+
 import { LiaPlusSquare, LiaMinusSquare } from 'react-icons/lia';
 import './leaderboard.css'
 
@@ -13,42 +17,60 @@ const socketUrl = isLocalhost ? 'http://localhost:4000' : 'https://lic100.lt';
 
 const socket = io.connect(socketUrl);
 
+const MIN_DISPLAY_CNT = 5;
+
+/**
+ * Renders the LeaderBoard component.
+ *
+ * @returns {JSX.Element} The rendered LeaderBoard component.
+ */
+
 export default function LeaderBoard() {
-    const [allUsers, setAllUsers] = useState(null);
+    const [sortedUsers, setSortedUsers] = useState(null);
     const [error, setError] = useState(null);
-    let maxDisplayLimit;
-    const [displayLimit, setDisplayLimit] = useState(5);
+
+    const [displayLimit, setDisplayLimit] = useState(MIN_DISPLAY_CNT);
     // to many states, fix l8r
+    let maxDisplayLimit;
     const { ref, inView } = useInView({ threshold: 0, fallbackInView: true });
     const [animate, setAnimate] = useState(false);
-    const { userSubPageName } = usePage();
+    const { currentUserPageName } = usePage();
 
-    const fetchUsers = () => {
+    /**
+     * Fetches the leaderboard positions of all users.
+     */
+    const getLeaderBoardPositions = useCallback(() => {
         getAllUsers()
             .then(data => {
                 maxDisplayLimit = data.result.length;
-                const sorted = data.result.sort((a, b) => b.money - a.money);
-                setAllUsers(sorted);
+                if (maxDisplayLimit < MIN_DISPLAY_CNT) {
+                    setDisplayLimit(undefined);
+                }
+                const sortedUsers = data.result.sort((a, b) => b.money - a.money);
+                setSortedUsers(sortedUsers);
             })
             .catch(err => {
                 console.log('error retrieving all users')
                 setError(err);
             })
-    }
-
-    useEffect(() => {
-        fetchUsers();
     }, [])
 
     useEffect(() => {
-        if (userSubPageName !== 'leaderboard') {
+        getLeaderBoardPositions();
+    }, [getLeaderBoardPositions])
+
+    useEffect(() => {
+        if (currentUserPageName !== 'leaderboard') {
             setDisplayLimit(5);
         }
         if (inView) {
             setAnimate(true);
         }
-    }, [userSubPageName, inView])
+    }, [currentUserPageName, inView])
 
+    /**
+     * Toggles the display limit of the leaderboard.
+     */
     const toggleDisplayLimit = () => {
         if (displayLimit !== maxDisplayLimit) {
             setDisplayLimit(maxDisplayLimit);
@@ -57,12 +79,14 @@ export default function LeaderBoard() {
         }
     }
 
-
+    /**
+     * Listens for the 'getusers' event and fetches the leaderboard positions of all users.
+     */
     socket.on('getusers', async () => {
         const ANIMATION_DURATION = 2500; // in ms, as set in css
         setAnimate(false);
         setTimeout(async () => {
-            await fetchUsers();
+            await getLeaderBoardPositions();
         }, ANIMATION_DURATION);
         setTimeout(() => {
             setAnimate(true);
@@ -70,18 +94,22 @@ export default function LeaderBoard() {
     })
 
     if (error) return <div>{error}</div>
-    if (!allUsers) return <div>Loading...</div>
+    if (!sortedUsers) return <div>Loading...</div>
 
     return (
-        <div className={`user-page leaderboard ${animate ? 'in-view' : ''} ${userSubPageName === 'leaderboard' ? 'active' : ''}`} ref={ref}>
-            {(allUsers).slice(0, displayLimit).map((user, index) =>
-                <LeaderBoardEntry key={user.name + user.surname} position={index + 1} user={user} mostMoney={allUsers[0].money} />
+        <div className={`user-page leaderboard ${animate ? 'in-view' : ''} ${currentUserPageName === 'leaderboard' ? 'active' : ''}`} ref={ref}>
+            {(sortedUsers).slice(0, displayLimit).map((user, index) =>
+                <LeaderBoardEntry key={user.name + user.surname} position={index + 1} user={user} mostMoney={sortedUsers[0].money} />
             )}
             <div className="leaderboard__controls">
-                <button onClick={toggleDisplayLimit}>{displayLimit === maxDisplayLimit ?
-                    <LiaMinusSquare />:
-                    <LiaPlusSquare />
-                }</button>
+                {displayLimit &&
+                    <button onClick={toggleDisplayLimit}>
+                        {displayLimit === maxDisplayLimit ?
+                            <LiaMinusSquare /> :
+                            <LiaPlusSquare />
+                        }
+                    </button>
+                }
             </div>
         </div>
     )

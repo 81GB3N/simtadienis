@@ -1,62 +1,76 @@
 import { getUserData, sendUserData } from "../../utils/api";
-import { useState, useEffect } from "react";
-import { createPortal } from "react-dom";
+import { useState, useEffect, useCallback } from "react";
 
-// import Webcam from "react-webcam";
+import { useUser } from "../../context/UserProvider";
+
 import WebcamModal from "../webcam/WebcamModal";
 import EditProfile from "./EditProfile";
-import unkownUserImg from "../../assets/images/unknown-user.png";
+import PageNav from "../page-control/PageNav";
 
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faMoneyBill1Wave, faPenToSquare, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-
-// a collection of icons from Icons8 Line Awesome
 import { LiaEdit, LiaMoneyBillSolid } from "react-icons/lia";
-
 import { IoIosLogOut } from "react-icons/io";
 
 import './user.css';
-import PageNav from "../page-control/PageNav";
+import unkownUserImg from "../../assets/images/unknown-user.png";
 
-export default function UserProfile({ savedUser, removeUserExists }) {
+/**
+ * @component
+ * @returns {JSX.Element} The rendered user profile component.
+ */
+export default function UserProfile() {
     const [webcamOpen, setWebcamOpen] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
     const [userData, setUserData] = useState({});
     const [moneyEffectActive, setMoneyEffectActive] = useState(false);
 
-    const logout = async () => {
-        await localStorage.removeItem("user");
-        removeUserExists();
+    const { userId, clearUserId } = useUser();
+
+    /**
+     * Logs out the user by removing the user data from local storage and clearing the user ID.
+     */
+    const logout = () => {
+        localStorage.removeItem("user");
+        clearUserId();
     }
 
-    const fetchData = async () => {
-        console.log('fetching data...')
+    /**
+     * Fetches the user data from the server.
+     * @returns {Promise<Object>} A promise that resolves to the user data.
+     */
+    const fetchData = useCallback(async () => {
         try {
-            const data = await getUserData({ name: savedUser.name, surname: savedUser.surname });
+            const data = await getUserData({ name: userId.name, surname: userId.surname });
             console.log('data: ', data);
             return data.result[0];
         }
         catch (err) {
             console.log("Error while fetching money: ", err);
         }
-    }
+    }, [userId.name, userId.surname]);
 
     useEffect(() => {
         fetchData().then(data => setUserData(data));
-    }, [])
+    }, [fetchData])
 
+    /**
+     * Opens the edit profile modal.
+     */
     const openEdit = () => setEditOpen(true);
+
+    /**
+     * Closes the edit profile modal.
+     */
     const closeEdit = () => setEditOpen(false);
 
+    /**
+     * Opens the webcam modal.
+     */
     const openWebcam = () => setWebcamOpen(true);
+
+    /**
+     * Closes the webcam modal and stops the video stream.
+     */
     const closeWebcam = () => {
-        // navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
-        //     stream.getVideoTracks().forEach(track => {
-        //         console.log('stopping track: ', track);
-        //         track.stop();
-        //         console.log('stopped')
-        //     })
-        // });
         navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
             stream.getVideoTracks().forEach(track => track.stop())
         });
@@ -64,6 +78,10 @@ export default function UserProfile({ savedUser, removeUserExists }) {
         console.log('webcam closed');
     };
 
+    /**
+     * Changes the user's profile image.
+     * @param {string} imgSrc - The new image source.
+     */
     const changeImg = (imgSrc) => {
         sendUserData({ image: imgSrc, name: userData.name, surname: userData.surname }, 'update-picture')
             .then(res => {
@@ -71,9 +89,11 @@ export default function UserProfile({ savedUser, removeUserExists }) {
                 setUserData(prev => ({ ...prev, image: imgSrc }));
             })
             .catch(err => console.log(err));
-
     }
 
+    /**
+     * Deletes the user's profile image.
+     */
     const deleteImg = () => {
         sendUserData({ image: '', name: userData.name, surname: userData.surname }, 'update-picture')
             .then(res => {
@@ -104,8 +124,8 @@ export default function UserProfile({ savedUser, removeUserExists }) {
                     <LiaMoneyBillSolid className={`user-money-icon ${moneyEffectActive ? 'active' : ''}`} onClick={() => setMoneyEffectActive(prev => !prev)} />
                     <p className="money-cnt">{userData?.money}</p>
                 </div>
-                {editOpen && createPortal(<EditProfile closeEdit={closeEdit} deleteImg={deleteImg} openWebcam={openWebcam} imgSrc={userData.image || unkownUserImg} />, document.getElementById('modal-root'))}
-                {webcamOpen && createPortal(<WebcamModal changeImg={changeImg} closeWebcam={closeWebcam} />, document.getElementById('modal-root'))}
+                {editOpen && <EditProfile closeEdit={closeEdit} deleteImg={deleteImg} openWebcam={openWebcam} imgSrc={userData.image || unkownUserImg} />}
+                {webcamOpen && <WebcamModal changeImg={changeImg} closeWebcam={closeWebcam} />}
                 {/* <p>Discount code for <a href="https://weborado.lt" target="_blank">weborado.lt</a></p> */}
             </div>
             <div className="user__extra-btns">

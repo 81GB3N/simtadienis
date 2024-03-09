@@ -1,33 +1,39 @@
-import { usePage } from '../../context/PageProvider';
 import BackArrow from "../BackArrow";
-
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faHouseChimney } from '@fortawesome/free-solid-svg-icons';
 import { LiaHomeSolid } from "react-icons/lia";
+
+import { usePage } from '../../context/PageProvider';
+import { useMenu } from '../../context/MenuProvider';
+import { useUser } from '../../context/UserProvider';
 
 import './pageControls.css';
 
+/**
+ * Renders the page controls component.
+ * @returns {JSX.Element} The rendered page controls component.
+ */
 export default function PageControls() {
-    const { menuActive, toggleMenu, toggleLoginActive, toggleSignupActive, loginActive, signupActive, userSubPageName, changeUserSubPage } = usePage();
+    const { menuActive, closeMenu, toggleMenu } = useMenu();
+    const {closeLogin, closeSignup, loginActive, signupActive } = useUser();
+    const { currentUserPageName, validUserPageNames, changeUserPage } = usePage();
 
     let handleArrowClick;
     if (!loginActive && !signupActive) {
-        handleArrowClick = () => toggleMenu();
+        handleArrowClick = () => closeMenu();
     }
-    if (loginActive) {
-        handleArrowClick = () => toggleLoginActive();
+    else if (loginActive) {
+        handleArrowClick = () => closeLogin();
     }
-    if (signupActive) {
-        handleArrowClick = () => toggleSignupActive();
+    else if (signupActive) {
+        handleArrowClick = () => closeSignup();
     }
 
-    const nonHomeValidPages = ['leaderboard', 'gallery', 'chat'];
+    const nonHomeValidPages = validUserPageNames.filter(page => page !== 'home');
 
     return (
-        <div className={`page__controls ${menuActive ? 'active' : ''} in-${userSubPageName}`}>
+        <div className={`page__controls ${menuActive ? 'active' : ''} in-${currentUserPageName}`}>
             <BackArrow handleArrowClick={handleArrowClick} />
-            {nonHomeValidPages.includes(userSubPageName) &&
-                <button className='go-home' onClick={() => changeUserSubPage('home')}>
+            {nonHomeValidPages.includes(currentUserPageName) &&
+                <button className='go-home' onClick={() => changeUserPage('home')}>
                     <LiaHomeSolid />
                 </button>}
             <button id="hamburger" onClick={toggleMenu}>

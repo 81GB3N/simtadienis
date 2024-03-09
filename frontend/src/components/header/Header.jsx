@@ -1,27 +1,43 @@
 import { useState, useEffect } from 'react';
-import LanguageSelector from './LanguageSelector';
-import moneyImg from '../../assets/images/flying-money.png';
-// Internationalization
 import { FormattedMessage } from 'react-intl';
 
+import LanguageSelector from './LanguageSelector';
+
 import './header.css'
+import moneyImg from '../../assets/images/flying-money.png';
 
+/**
+ * Renders the header component.
+ * @returns {JSX.Element} The header component.
+ */
 export default function Header() {
-    const [hidden, setHidden] = useState(false);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            const currentScrollY = window.scrollY;
-            // arbitrary value for when to hide the header (unit: vh)
-            const threshold = 125;
-            setHidden(currentScrollY > threshold);
-        }
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        }
-    }, []);
-    
+    // will the home page have overflowing content?
+
+    const [hidden, setHidden] = useState(false);
+    // const [pastScrollY, setPastScrollY] = useState(0);
+
+    // useEffect(() => {
+    //     console.log('header mounted');
+    //     const handleScroll = () => {
+    //         const currentScrollY = window.scrollY;
+    //         const scrollThreshold = 125; // in vh
+
+    //         if (pastScrollY > currentScrollY) {
+    //             setHidden(false);
+    //         }
+    //         else {
+    //             setHidden(currentScrollY > scrollThreshold);
+    //         }
+
+    //         setPastScrollY(currentScrollY);
+    //     }
+    //     window.addEventListener('scroll', handleScroll);
+    //     return () => {
+    //         window.removeEventListener('scroll', handleScroll);
+    //     }
+    // }, [pastScrollY]);
+
     return (
         <header id='header' >
             <div id='header__selector' className={hidden ? 'hidden' : ''}>

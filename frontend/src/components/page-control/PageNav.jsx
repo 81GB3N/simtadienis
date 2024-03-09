@@ -1,60 +1,28 @@
+import { useMenu } from "../../context/MenuProvider";
 import { usePage } from "../../context/PageProvider";
+import { useUser } from "../../context/UserProvider";
 
-// a collection of icons from Icons8 Line Awesome
 import { LiaHomeSolid, LiaListOlSolid, LiaImage, LiaComments } from "react-icons/lia";
 
-export default function PageNav({ userExists }) {
-    const { userSubPageName, changeUserSubPage, toggleMenu } = usePage();
+/**
+ * Renders the navigation bar for the page.
+ * @returns {JSX.Element} The navigation bar component.
+ */
+export default function PageNav() {
+    const { currentUserPageName, changeUserPage } = usePage();
+    const { toggleMenu } = useMenu();
+    const { userIdExists } = useUser();
 
+    /**
+     * Changes the current page and toggles the menu.
+     * @param {string} page - The name of the page to navigate to.
+     */
     const changePage = (page) => {
-        if(page !== userSubPageName){
-            changeUserSubPage(page);
+        if(page !== currentUserPageName){
+            changeUserPage(page);
         }
         toggleMenu();
     }
-
-    // button for navigating to and from the home page
-    // let homeBtn;
-    // if (userSubPageName !== 'home') {
-    //     homeBtn =
-    //         <button className="nav-btn home-button" onClick={() => changePage('home')}>
-    //             <FontAwesomeIcon icon={faHouseUser} />
-    //         </button>
-    // } else {
-    //     homeBtn = null;
-    // }
-
-    // button for navigating to and from the leaderboard page
-    // let leaderBoardBtn;
-    // if (userSubPageName !== 'leaderboard') {
-    //     leaderBoardBtn =
-    //         <button className="nav-btn leaderboard-button" onClick={() => changePage('leaderboard')}>
-    //             <FontAwesomeIcon icon={faListOl} />
-    //         </button>
-    // } else {
-    //     leaderBoardBtn = null;
-    // }
-
-    // button for navigating to and from the gallery page
-    // let galleryBtn;
-    // if (userExists && userSubPageName !== 'gallery') {
-    //     galleryBtn =
-    //         <button className="nav-btn gallery-button" onClick={() => changePage('gallery')}>
-    //             <FontAwesomeIcon icon={faImages} />
-    //         </button>
-    // } else {
-    //     galleryBtn = null;
-    // }
-
-    // let chatBtn;
-    // if (userExists && userSubPageName !== 'chat') {
-    //     chatBtn =
-    //         <button className="nav-btn chat-button" onClick={() => changePage('chat')}>
-    //             <FontAwesomeIcon icon={faCommentDots} />
-    //         </button>
-    // } else {
-    //     chatBtn = null;
-    // }
 
     let homeBtn = (
         <button className="nav-btn home-button" onClick={() => changePage('home')}>
@@ -66,19 +34,17 @@ export default function PageNav({ userExists }) {
             <LiaListOlSolid />
         </button>
     )
-    let galleryBtn = userExists ? (
+    let galleryBtn = userIdExists ? (
         <button className="nav-btn gallery-button" onClick={() => changePage('gallery')}>
             <LiaImage />
         </button>
     ) : null;
-    let chatBtn = userExists ? (
+    let chatBtn = userIdExists ? (
         <button className="nav-btn chat-button" onClick={() => changePage('chat')}>
             <LiaComments />
         </button>
     ) : null;
     
-    
-
     return (
         <div className='page__navigation'>
             {homeBtn}

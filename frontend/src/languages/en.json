@@ -15,7 +15,7 @@
     "name": "Name",
     "surname": "Surname",
     "password": "Password",
-    "repeat.password": "Repeat Password",
+    "rpassword": "Repeat Password",
     "back": "Back",
     "submit": "Submit",
     "leaderboard": "Leaderboard",

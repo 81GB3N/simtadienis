@@ -7,10 +7,10 @@ import Dashboard from '../components/admin/Dashboard';
 import Users from '../components/admin/Users';
 import AdminLogin from '../components/admin/AdminLogin';
 // Icons
-// import { faUser, faGauge, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faGauge, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // Context
-import UserProvider from '../context/UserProvider';
+import UserProvider from '../context/AdminUserProvider';
 
 export default function AdminPage() {
     const navigate = useNavigate();
@@ -46,13 +46,13 @@ export default function AdminPage() {
                 <div className="drawer">
                     <div className="menu">
                         <NavLink to='dashboard' activeClassName='active' className='menu__icon'>
-                            {/* <FontAwesomeIcon icon={faGauge} /> */}
+                            <FontAwesomeIcon icon={faGauge} />
                         </NavLink>
                         <NavLink to="users" activeClassName='active' className='menu__icon'>
-                            {/* <FontAwesomeIcon icon={faUser} /> */}
+                            <FontAwesomeIcon icon={faUser} />
                         </NavLink>
                         <button className='menu__icon logout' onClick={handleLogout}>
-                            {/* <FontAwesomeIcon icon={faRightFromBracket} /> */}
+                            <FontAwesomeIcon icon={faRightFromBracket} />
                         </button>
                     </div>
                 </div>

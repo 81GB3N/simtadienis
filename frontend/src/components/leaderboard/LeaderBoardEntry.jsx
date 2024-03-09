@@ -1,9 +1,21 @@
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faCrown, faMoneyBill1Wave } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCrown, faMoneyBill1Wave } from "@fortawesome/free-solid-svg-icons";
 
+/**
+ * Renders a leaderboard entry component.
+ * @param {Object} props.user - The user object containing name, surname, and money.
+ * @param {number} props.position - The position of the user in the leaderboard.
+ * @param {number} props.mostMoney - The highest amount of money among all users.
+ * @returns {JSX.Element} The rendered leaderboard entry component.
+ */
 export default function LeaderBoardEntry({ user, position, mostMoney }) {
     const OFFSET = 10; // % of the bar width
 
+    /**
+     * Gets the custom class and crown status for the given position.
+     * @param {number} position - The position of the user in the leaderboard.
+     * @returns {Object} The custom class and crown status.
+     */
     function getEntryProps(position) {
         switch (position) {
             case 1:
@@ -30,13 +42,13 @@ export default function LeaderBoardEntry({ user, position, mostMoney }) {
             <div className="entry-wrap">
                 {entryProps.crown && (
                     <div className={`entry-ava`}>
-                        {/* <FontAwesomeIcon icon={faCrown} /> */}
+                        <FontAwesomeIcon icon={faCrown} />
                     </div>)
                 }
                 <div className="entry__info">
                     <p className="entry-name"><span className="entry-pos">{position}</span>{user.name + ' ' + user.surname}</p>
                     <div className="entry-money">
-                        {/* <FontAwesomeIcon icon={faMoneyBill1Wave} className="money-icon"/> */}
+                        <FontAwesomeIcon icon={faMoneyBill1Wave} className="money-icon"/>
                         <span className="money-cnt">{user.money}</span>
                     </div>
                 </div>

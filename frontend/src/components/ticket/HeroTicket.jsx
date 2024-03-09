@@ -1,28 +1,34 @@
 import { FormattedMessage } from 'react-intl';
 import { useRef, useEffect, useState } from 'react';
-import { usePage } from '../../context/PageProvider';
+import { useMenu } from '../../context/MenuProvider';
 import './ticket.css';
 
+/**
+ * Renders the HeroTicket component.
+ * @returns {JSX.Element} The rendered HeroTicket component.
+ */
 export default function HeroTicket() {
     const ticketLoweref = useRef(null);
-    const ticketUpperRef = useRef(null);
-    const buttonRef = useRef(null);
-    const { toggleMenu } = usePage();
 
+    const { openMenu } = useMenu();
+
+    /**
+     * Handles the click event on the ticket button.
+     */
     const handleClick = () => {
         ticketLoweref.current.classList.add('clicked');
-        ticketUpperRef.current.classList.add('clicked');
-        // buttonRef.current.classList.add('clicked');
         setTimeout(() => {
-            toggleMenu();
+            openMenu();
         }, 600)
         ticketLoweref.current.addEventListener('animationend', () => {
             ticketLoweref.current.classList.remove('clicked');
-            ticketUpperRef.current.classList.remove('clicked');
-            // buttonRef.current.classList.remove('clicked');
         });
     }
 
+    /**
+     * Calculates the time left until a specific date.
+     * @returns {string} The formatted time left.
+     */
     const calculateTimeLeft = () => {
         const now = new Date();
         // march - 2, 25th - 25
@@ -33,8 +39,14 @@ export default function HeroTicket() {
         return `${String(hours).padStart(2, '0')}h, ${String(minutes).padStart(2, '0')}m`;
     };
 
+    /**
+     * State for storing the time left.
+     */
     const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-    // Update time every minute
+
+    /**
+     * Updates the time left every minute.
+     */
     useEffect(() => {
         const interval = setInterval(() => {
             setTimeLeft(calculateTimeLeft());
@@ -44,7 +56,7 @@ export default function HeroTicket() {
 
     return (
         <div id='ticket'>
-            <div id='ticket__upper' ref={ticketUpperRef}>
+            <div id='ticket__upper' >
                 <div className='ticket__info'>
                     <p className='ticket-text'>
                         <FormattedMessage id='ticket.text' />
@@ -56,7 +68,7 @@ export default function HeroTicket() {
                 </div>
             </div>
             <div id='ticket__lower' ref={ticketLoweref}>
-                <button id='ticket-button' onClick={handleClick} ref={buttonRef}>
+                <button id='ticket-button' onClick={handleClick}>
                     <FormattedMessage id='ticket.button' />
                 </button>
             </div>

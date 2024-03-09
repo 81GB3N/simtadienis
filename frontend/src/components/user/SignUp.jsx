@@ -1,19 +1,19 @@
 import { sendUserData, userExists } from "../../utils/api";
 
-import { FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import { useRef, useState, useEffect } from "react";
 
-import { usePage } from "../../context/PageProvider";
+import { useUser } from "../../context/UserProvider";
+
+import FormInput from "./FormInput";
 
 import unkownUserImg from "../../assets/images/unknown-user.png";
 
 const USER_REGEX = /^[a-zA-Z0-9]{3,30}$/;
 const PASSWORD_REGEX = /^(?=.*[a-zA-Z])(?=.*\d).{5,}$/;
 
-export default function Signup({ setUserExists, leave }) {
-    const intl = useIntl();
-
-    const { toggleSignupActive } = usePage();
+export default function Signup() {
+    const { closeSignup } = useUser();
 
     const nameRef = useRef();
     const errRef = useRef();
@@ -79,7 +79,7 @@ export default function Signup({ setUserExists, leave }) {
         }
 
         await sendUserData(userData, "register")
-        toggleSignupActive();
+        closeSignup();
     }
 
     return (
@@ -89,18 +89,14 @@ export default function Signup({ setUserExists, leave }) {
             </h3>
             <form className="form signup" method="post" onSubmit={handleSubmit}>
                 <div className="input-wrapper">
-                    <input
-                        className={`form-input form-name ${validName || !name ? "" : "invalid"}`}
-                        type="text"
-                        placeholder={intl.formatMessage({ id: "name" })}
-                        id="name"
+                    <FormInput
                         ref={nameRef}
-                        onChange={(e) => setName(e.target.value)}
-                        value={name}
-                        required
-                        onFocus={() => setNameFocus(true)}
-                        onBlur={() => setNameFocus(false)}>
-                    </input>
+                        id="name"
+                        customClassNames={`${validName || !name ? "" : "invalid"}`}
+                        onValueChange={(e) => setName(e.target.value)}
+                        inputValue={name} onFocus={() => setNameFocus(true)}
+                        onBlur={() => setNameFocus(false)}
+                    />
                     <p className={`instructions ${nameFocus && name && !validName ? "show" : ""}`}>
                         3 to 30 characters.
                         Must begin with a letter.
@@ -108,17 +104,14 @@ export default function Signup({ setUserExists, leave }) {
                     </p>
                 </div>
                 <div className="input-wrapper">
-                    <input
-                        className={`form-input surname-input ${validSurname || !surname ? "" : "invalid"}`}
-                        type="text"
-                        placeholder={intl.formatMessage({ id: "surname" })}
+                    <FormInput
                         id="surname"
-                        onChange={(e) => setSurname(e.target.value)}
-                        value={surname}
-                        required
+                        customClassNames={`${validSurname || !surname ? "" : "invalid"}`}
+                        onValueChange={(e) => setSurname(e.target.value)}
+                        inputValue={surname}
                         onFocus={() => setSurnameFocus(true)}
-                        onBlur={() => setSurnameFocus(false)}>
-                    </input>
+                        onBlur={() => setSurnameFocus(false)}
+                    />
                     <p className={`instructions ${surnameFocus && surname && !validSurname ? "show" : ""}`}>
                         3 to 30 characters.
                         Must begin with a letter.
@@ -126,17 +119,15 @@ export default function Signup({ setUserExists, leave }) {
                     </p>
                 </div>
                 <div className="input-wrapper">
-                    <input
-                        className={`form-input form-password ${validPassword || !password ? "" : "invalid"}`}
-                        type="password"
+                    <FormInput
                         id="password"
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder={intl.formatMessage({ id: "password" })}
-                        value={password}
-                        required
+                        customClassNames={`${validPassword || !password ? "" : "invalid"}`}
+                        onValueChange={(e) => setPassword(e.target.value)}
+                        inputValue={password}
+                        type="password"
                         onFocus={() => setPasswordFocus(true)}
-                        onBlur={() => setPasswordFocus(false)}>
-                    </input>
+                        onBlur={() => setPasswordFocus(false)}
+                    />
                     <p className={`instructions ${passwordFocus && password && !validPassword ? "show" : ""}`}>
                         At least 5 characters.
                         Must include letter and number
@@ -144,17 +135,15 @@ export default function Signup({ setUserExists, leave }) {
                     </p>
                 </div>
                 <div className="input-wrapper">
-                    <input
-                        className={`form-input form-rpassword ${validMatch || !matchPassword ? "" : "invalid"}`}
+                    <FormInput 
+                        id="rpassword"
+                        customClassNames={`${validMatch || !matchPassword ? "" : "invalid"}`}
+                        onValueChange={(e) => setMatchPassword(e.target.value)}
+                        inputValue={matchPassword}
                         type="password"
-                        id="repeat-password"
-                        onChange={(e) => setMatchPassword(e.target.value)}
-                        placeholder={intl.formatMessage({ id: "repeat.password" })}
-                        value={matchPassword}
-                        required
                         onFocus={() => setMatchFocus(true)}
-                        onBlur={() => setMatchFocus(false)}>
-                    </input>
+                        onBlur={() => setMatchFocus(false)}
+                    />
                     <p className={`instructions ${matchFocus && matchPassword && !validMatch ? "show" : ""}`}>
                         Must match the first password input field.
                     </p>

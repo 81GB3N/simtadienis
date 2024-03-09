@@ -5,7 +5,7 @@ import EditTable from "./EditTable";
 
 import { getAllUsers } from '../../utils/api'
 import { useState, useEffect } from "react";
-import { useUser } from "../../context/UserProvider";
+import { useUser } from "../../context/AdminUserProvider";
 
 
 //SOCKET CODE
