@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useUser } from '../../context/UserProvider';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 export default function UsersTable({ users }) {
     const { setUser } = useUser();
@@ -97,9 +97,9 @@ export default function UsersTable({ users }) {
                 </tbody>
             </table>
             <div className='table-controls'>
-                <FontAwesomeIcon icon={faArrowLeft} className='table-arrow' onClick={iterateLeft} />
+                {/* <FontAwesomeIcon icon={faArrowLeft} className='table-arrow' onClick={iterateLeft} /> */}
                 <p>{`${lowerBound} - ${upperBound}`}</p>
-                <FontAwesomeIcon icon={faArrowRight} className='table-arrow' onClick={iterateRight} />
+                {/* <FontAwesomeIcon icon={faArrowRight} className='table-arrow' onClick={iterateRight} /> */}
             </div>
         </div>
     );

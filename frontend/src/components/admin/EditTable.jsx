@@ -1,5 +1,5 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faUser, faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useUser } from "../../context/UserProvider";
 import { useEffect, useState } from "react";
 import { sendUserData } from "../../utils/api";
@@ -50,7 +50,7 @@ export default function EditTable() {
     return (
         <div className="edit">
             <div className="edit__header">
-                <FontAwesomeIcon className='edit-icon' icon={faUser} />
+                {/* <FontAwesomeIcon className='edit-icon' icon={faUser} /> */}
                 <p className="edit__name">
                     {selected ? `${user.name} ${user.surname}` : 'No user selected'}
                 </p>
@@ -63,15 +63,15 @@ export default function EditTable() {
                             <p className="money-current">{userMoney}</p>
                             <p className="submit-status">
                                 <div className={`edit-success edit-status ${submitStatus === 'success' ? 'active' : ''}`}>
-                                    <FontAwesomeIcon
+                                    {/* <FontAwesomeIcon
                                         className={`submit-sucess`}
-                                        icon={faCheck} />
+                                        icon={faCheck} /> */}
                                     <p className={`sucess-msg`}>Success!</p>
                                 </div>
                                 <div className={`edit-error edit-status  ${submitStatus === 'error' ? 'active' : ''}`}>
-                                    <FontAwesomeIcon
+                                    {/* <FontAwesomeIcon
                                         className={`submit-error`}
-                                        icon={faXmark} />
+                                        icon={faXmark} /> */}
                                     <p className={`error-msg`}>{errorMsg}</p>
                                 </div>
                             </p>

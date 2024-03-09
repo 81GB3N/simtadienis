@@ -5,7 +5,7 @@ import LeaderBoard from "../components/leaderboard/LeaderBoard"
 import PageControls from "../components/page-control/PageControls"
 import Gallery from "../components/gallery/Gallery"
 // Utilities
-import ErrorModal from "../components/error/ErrorModal"
+import ErrorModal from "../components/modal/ErrorModal"
 
 import { usePage } from "../context/PageProvider"
 
@@ -19,11 +19,13 @@ export default function UserPage() {
     const [showModal, setShowModal] = useState(true);
     const isMobile = () => {
         const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+        console.log('agent: ', navigator.userAgent)
+        console.log('isMobile: ', regex.test(navigator.userAgent));
         return regex.test(navigator.userAgent);
     };
 
     console.log('looking for modal');
-    if (showModal && isMobile()) {
+    if (!isMobile()) {
         console.log(isMobile());
         return createPortal(<ErrorModal
             status='Mobile Device Required!'

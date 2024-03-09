@@ -1,5 +1,5 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCrown, faMoneyBill1Wave } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faCrown, faMoneyBill1Wave } from "@fortawesome/free-solid-svg-icons";
 
 export default function LeaderBoardEntry({ user, position, mostMoney }) {
     const OFFSET = 10; // % of the bar width
@@ -30,13 +30,13 @@ export default function LeaderBoardEntry({ user, position, mostMoney }) {
             <div className="entry-wrap">
                 {entryProps.crown && (
                     <div className={`entry-ava`}>
-                        <FontAwesomeIcon icon={faCrown} />
+                        {/* <FontAwesomeIcon icon={faCrown} /> */}
                     </div>)
                 }
                 <div className="entry__info">
                     <p className="entry-name"><span className="entry-pos">{position}</span>{user.name + ' ' + user.surname}</p>
                     <div className="entry-money">
-                        <FontAwesomeIcon icon={faMoneyBill1Wave} className="money-icon"/>
+                        {/* <FontAwesomeIcon icon={faMoneyBill1Wave} className="money-icon"/> */}
                         <span className="money-cnt">{user.money}</span>
                     </div>
                 </div>
