@@ -23,5 +23,11 @@
     "leaderboard.less": "Mažiau...",
     "landing": "Atgal į pradžią",
     "left": "liko... ",
-    "gallery": "Tavo Galerija"
+    "gallery": "Tavo Galerija",
+    "form.title.one": "Rinkis",
+    "form.title.two": "sau",
+    "form.title.three": "karalių ir",
+    "form.title.four": "karalienę",
+    "form.ticket.text": "laikas teka...",
+    "form.ticket.button": "Rinkis"
 }

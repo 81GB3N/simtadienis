@@ -21,7 +21,7 @@ const MIN_DISPLAY_CNT = 5;
 
 /**
  * Renders the LeaderBoard component.
- *
+ * @param {boolean} desktopMode - Whether the component is being rendered in desktop mode.
  * @returns {JSX.Element} The rendered LeaderBoard component.
  */
 
