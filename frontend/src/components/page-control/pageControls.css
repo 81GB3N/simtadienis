@@ -133,8 +133,8 @@
     font-size: 3rem;
 }
 
-@media screen and (max-height: 720px) {
+/* @media screen and (max-height: 720px) {
     .nav-btn {
         font-size: 2.5rem;
     }
-}
+} */
