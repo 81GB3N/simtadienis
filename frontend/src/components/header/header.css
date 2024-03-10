@@ -1,6 +1,6 @@
 /* HEADER */
 #header {
-    height: 50dvh;
+    /* height: 50dvh; */
     padding-bottom: 10dvh;
     position: relative;
 }
@@ -149,4 +149,22 @@
 .title-one,
 .title-two {
     /* align-self: flex-end; */
+}
+
+@media screen and (max-height: 740px) {
+    #header{
+        padding-bottom: 5dvh;
+    }
+    #header__selector{
+        margin-bottom: 1rem;
+    }   
+}
+
+@media screen and (max-height: 635px){
+    #header{
+        padding-bottom: 0;
+    }
+    #header__selector{
+        margin-bottom: 0;
+    }
 }
