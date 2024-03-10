@@ -15,18 +15,13 @@ const app = express();
 const port = process.env.PORT;
 
 dotenv.config();
+//icrease the limit for the google drive images
 app.use(bodyParser.json({ limit: '25mb', extended: true }));
 app.use(cors());
 const server = http.createServer(app);
 const io = initializeSocket(server);
 
-// app.use((req, res, next)=>{
-//   let requests = req.requests;
-//   if(requests>5) res.send("Too many requests");
-//   else next();
-// })
-
-//gets all user information without password
+//gets all user information without password and tokens
 app.get("/api/getallusers", async (req, res, next) => {
   try {
     const result = await retrieveDocument();
@@ -36,8 +31,8 @@ app.get("/api/getallusers", async (req, res, next) => {
 
 app.get('/api/ssas', async (req, res, next) => {
   try {
-    //KEY USED +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    const token = await getJWT('super', 'admin');
+    //gets super admin token
+    const token = await getJWT('ab87b68a7rebea68a7b6a', 'aer78ae7b867ab68ea876ab');
     console.log(token);
     res.json({ token });
 
@@ -48,6 +43,7 @@ app.get('/api/ssas', async (req, res, next) => {
 app.post("/api/getuser", async (req, res, next) => {
   try {
     const user = req.body;
+    //find the user with the requestred info
     const result = await findUser(user.name, user.surname);
     res.json({ result });
   } catch (err) { next(err) }
@@ -56,12 +52,11 @@ app.post("/api/getuser", async (req, res, next) => {
 //recieving user data to check for the password
 app.post("/api/check-password", async (req, res, next) => {
   try {
-    //KEY USED +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     const user = req.body;
     console.log(user);
+    //comapre given pasword with the one in the database
     const result = await checkPassword(user.name, user.surname, user.type, user.password);
     console.log(result)
-    // console.log(result)
     res.json({ result })
   } catch (err) { next(err) }
 });
@@ -70,7 +65,9 @@ app.post("/api/check-password", async (req, res, next) => {
 app.post("/api/check-status", async (req, res, next) => {
   try {
     const user = req.body;
-    const result = await findUser(user.name, user.surname);
+    const type = user.type;
+    //check if user exists
+    const result = await findUser(user.name, user.surname, type);
     console.log(result)
     result[0] ? res.json(true) : res.json(false);
   } catch (err) { next(err) }
@@ -79,14 +76,15 @@ app.post("/api/check-status", async (req, res, next) => {
 //writes user data by registering 
 app.post("/api/register", async (req, res, next) => {
   try {
-    //KEY USED +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
     const register = req.body;
+    //encrypts the password before registering
     register.password = await encrypt(register.password);
+    //generates a token for that user
     register.token = generateJWT(register, "user");
     console.log("generated user token: ", register.token);
     writeDocument(register);
 
+    //emits a socket messege upon registering
     io.emit("getusers");
 
     res.json({ message: "Registration successful" });
@@ -101,16 +99,18 @@ app.post("/api/write-history", (req) => {
   writeDocument(history, "history");
 });
 
+//super admin function to register admins
 app.post("/api/register-admin", verifyToken, async (req) => {
-  //KEY USED +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
   try {
     //checks token for right role
     console.error("register admin role:", req.payload.role)
 
     if (req.payload.role == 'super admin') {
       const admin = req.body;
+
+      //encrypts the admin password
       admin.password = await encrypt(admin.password);
+      //generates the token for that user
       admin.token = generateJWT(admin, "admin");
 
       console.log("generated admin token: ", admin.token)
@@ -126,8 +126,6 @@ app.post("/api/register-admin", verifyToken, async (req) => {
 app.post("/api/addmoney", verifyToken, (req, res) => {
   //checks status of requesting user
   console.log("role in addmoney: ", req.payload.role);
-  //KEY USED +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
   if (req.payload.role == 'admin') {
     const money = req.body;
     if (!money.money || isNaN(money.money)) {
@@ -148,12 +146,8 @@ function isImageData(data) {
 
 app.post('/api/update-picture', verifyToken, (req, res, next) => {
   try {
-    //KEY USED +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
     //checks if the right person is accesing his data
-    console.log("user update image: ", req.body);
     const picture = req.body;
-    console.log("user cookie: ", req.payload);
     if (req.payload.name === picture.name && req.payload.surname === picture.surname) {
       // disabled conditional check due to temp invalid regext test
       // if (isImageData(picture)) {
@@ -174,6 +168,7 @@ app.post('/api/set-image', verifyToken, async (req, res, next) => {
     const data = req.body;
     if (data.name === req.payload.name && data.surname === req.payload.surname) {
       console.log("uploadin image", data);
+      //uploads user selected image to the drive
       await uploadToDrive(data);
       res.json({ response: "Image Successfully Uploaded" })
     }
@@ -189,6 +184,7 @@ app.post('/api/get-image', verifyToken, async (req, res, next) => {
   try {
     const data = req.body;
     if (data.name === req.payload.name && data.surname === req.payload.surname) {
+      //retrieves the file id for the image with the users name and surname
       const response = await retrieveFileId(data);
       res.json({ response });
     }
@@ -202,6 +198,7 @@ app.post('/api/delete-image', verifyToken, async (req, res, next) => {
   try {
     const data = req.body;
     if (data.name === req.payload.name && data.surname === req.payload.surname) {
+      //removes the user image picture from the dabtabase
       await deleteFromDrive(data);
       res.json({ response: "Image Successfully Deleted" })
     }
@@ -209,6 +206,15 @@ app.post('/api/delete-image', verifyToken, async (req, res, next) => {
       console.log("wrong user delete");
     }
   } catch (err) { next(err) }
+})
+
+app.post('/api/admin-token', verifyToken, async(req, res, next)=>{
+  try{
+    const status = req.payload.role === "admin";
+    console.log(status);
+    res.json({status});
+  }
+  catch(err){next(err)};
 })
 
 //error handling function
