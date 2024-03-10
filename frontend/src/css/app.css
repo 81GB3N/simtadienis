@@ -39,7 +39,7 @@
 }
 
 body {
-    min-height: 100vh;
+    min-height: 100dvh;
 }
 
 img {
@@ -90,13 +90,13 @@ body {
     display: flex;
     justify-content: center;
     /* align-items: center; */
-    height: 100vh;
+    height: 100dvh;
     /* overflow: hidden; */
 }
 
 .user-page{
     display: none;
-    height: 100vh;
+    height: 100dvh;
 }
 
 .leaderboard,

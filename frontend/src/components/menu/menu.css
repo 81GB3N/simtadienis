@@ -9,7 +9,7 @@
     top: 0;
     left: 100%;
     width: 100%;
-    min-height: 100vh;
+    min-height: 100dvh;
     transition: transform var(--translation-duration) ease;
     background-color: var(--primary-color-yellow);
 }

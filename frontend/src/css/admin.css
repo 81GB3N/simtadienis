@@ -38,7 +38,7 @@ body {
 
 .drawer {
     display: flex;
-    height: 100vh;
+    height: 100dvh;
     width: 100px;
     background: var(--admin-drawer);
     box-shadow: 1px 0px 3px rgba(0, 0, 0, 0.16), 1px 0px 3px rgba(0, 0, 0, 0.23);
@@ -82,7 +82,7 @@ body {
 .page {
     padding: 1rem;
     display: flex;
-    min-height: 100vh;
+    min-height: 100dvh;
     flex-direction: column;
     gap: 2rem;
     transition: all  0.22s ease;
@@ -424,7 +424,7 @@ body {
     position: absolute;
     z-index: 1000;
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
     overflow: hidden;
     background-color: var(--admin-background-primary);
     flex-direction: column;
