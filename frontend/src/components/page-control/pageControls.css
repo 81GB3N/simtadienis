@@ -1,7 +1,6 @@
 /* PAGE CONTROLS */
 .page__controls {
     --animation-duration: 500ms;
-    --x-padding: 1rem;
     --burger-gap-size: 6px;
     position: absolute;
     /* so that page__controls is centered with language selector */
@@ -118,10 +117,15 @@
 /* PAGE NAVIGATION */
 .page__navigation{
     display: flex;
-    justify-content: space-between;
-    gap: 3rem;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color-yellow);
+    background-color: var(--primary-color-gray);
+    padding: 0.75rem 0;
 }
-
+ 
 /* .nav-btn {
     padding: 0.5rem 1rem;
     border: 1px solid var(--primary-color-black);
@@ -131,10 +135,12 @@
 
 .nav-btn{
     font-size: 3rem;
+    display: flex;
+    align-items: center;
 }
 
-/* @media screen and (max-height: 720px) {
+@media screen and (max-height: 720px) {
     .nav-btn {
         font-size: 2.5rem;
     }
-} */
+}

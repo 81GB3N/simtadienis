@@ -12,6 +12,10 @@
     display: flex;
 }
 
+.leaderboard.desktop{
+    padding: 0 10rem;
+}
+
 .entry {
     font-size: 1rem;
     color: white;

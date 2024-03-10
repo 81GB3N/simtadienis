@@ -24,7 +24,11 @@ export default function App() {
           <UserPage />
         </PageProvider>
       } />
-      <Route path="/leaderboard" element={<LeaderBoardPage />} />
+      <Route path="/leaderboard" element={
+        <PageProvider>
+          <LeaderBoardPage />
+        </PageProvider>
+      } />
       <Route path="/admin/*" element={<AdminPage />} />
       <Route path='/superadmin/*' element={<SuperAdminPage />} />
       <Route path="*" element={<ErrorModal

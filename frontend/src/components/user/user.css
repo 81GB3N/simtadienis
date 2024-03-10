@@ -160,7 +160,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    gap: 0.5rem;
 }
 
 .profile__img{
@@ -183,7 +183,7 @@
 .profile-img__controls{
     position: absolute;
     bottom: 0;
-    right: -4rem;
+    right: -2.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -192,7 +192,7 @@
 }
 
 .profile-control{
-    font-size: 3rem;
+    font-size: 2rem;
 }
 
 .user-name{
@@ -211,16 +211,18 @@
 .user__extra-btns{
     display: flex;
     flex-grow: 1;
-    min-height: 130px;
+    min-height: 120px;
+    width: 100%;
     flex-direction: column;
-    padding-bottom: 5vh;
     justify-content: space-between;
-    align-items: center;
+    /* padding: 0 var(--x-padding); */
+    padding-bottom: 5vh;
 }
 
 .user-logout-btn{
     color: rgba(0, 0, 0, 0.6);
-    /* align-self: flex-start; */
+    align-self: flex-end;
+    margin-right: var(--x-padding);
 }
 
 .user-money-icon{
@@ -262,6 +264,13 @@
         margin-top: 8rem;
         gap: 3rem;
     }   
+}
+
+@media screen and (max-height: 624px) {
+    .user__extra-btns{
+        padding-bottom: 0;
+    }
+    
 }
 
 @media screen and (max-height: 575px){

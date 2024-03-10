@@ -12,6 +12,7 @@
     min-height: 100dvh;
     transition: transform var(--translation-duration) ease;
     background-color: var(--primary-color-yellow);
+    overflow-x: hidden;
 }
 
 #menu.from-home,
