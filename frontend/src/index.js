@@ -14,7 +14,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <LanguageProvider>
       <BrowserRouter>
-        <App formMode={true}/>
+        <App formMode={false}/>
       </BrowserRouter>
     </LanguageProvider>
 );
