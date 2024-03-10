@@ -17,7 +17,7 @@ export default function SuperAdminPage() {
           });
           const data = await response.json();
           console.log("setting token: ", data)
-          localStorage.setItem("user", JSON.stringify(data));
+          localStorage.setItem("sp", JSON.stringify(data));
         }
         fetchData();
     }
