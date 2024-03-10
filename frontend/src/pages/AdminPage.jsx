@@ -11,6 +11,7 @@ import { faUser, faGauge, faRightFromBracket } from '@fortawesome/free-solid-svg
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // Context
 import AdminProvider from '../context/AdminProvider';
+import {checkIfAdmin} from '../utils/api'
 
 export default function AdminPage() {
     const navigate = useNavigate();
@@ -26,19 +27,33 @@ export default function AdminPage() {
         dialogRef.current.classList.remove('active');
     }
     const confirmLogout = () => {
-        localStorage.removeItem('user');
+        localStorage.removeItem('admin');
         dialogRef.current.close();
         dialogRef.current.classList.remove('active');
         navigate('/admin');
     }
 
+
     useEffect(() => {
+        async function status() {
+            try {
+                const adminItem = localStorage.getItem('admin');
+                if (!adminItem) {
+                    // Admin item not found in localStorage
+                    navigate('/admin');
+                } else {
+                    const admin = JSON.parse(adminItem);
+                    const isAdmin = await checkIfAdmin(admin.name, admin.surname);
+                    if (!isAdmin) navigate('/admin');
+                }
+            } catch (error) {
+                // Handle errors
+                console.error(error);
+            }
+        }
 
+        status();
     }, []);
-
-    if (!localStorage.getItem('user')) {
-        return <AdminLogin />
-    }
 
     return (
         <AdminProvider>
