@@ -6,7 +6,7 @@
     position: absolute;
     /* so that page__controls is centered with language selector */
     /* top: calc(var(--selector-padding-top) + (var(--actual-selector-height) / 2) - (var(--burger-bar-size) * 3)); */
-    top: var(--midpoint-selector-height);
+    top: calc(var(--midpoint-selector-height) + var(--burger-bar-size) * 4 + var(--burger-gap-size));
     /* transform: translateY(-50%); */
     /* necessary because page__controls is going to block language selector btns */
     pointer-events: none;
