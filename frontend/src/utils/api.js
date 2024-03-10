@@ -1,9 +1,10 @@
-
+import { json } from "react-router-dom";
 
 const port = 4000;
 
 //depeding on what the current hostname is select baseurl
-const baseUrl = window.location.hostname === 'localhost' ? `http://localhost:${port}` : '';
+const baseUrl =
+  window.location.hostname === "localhost" ? `http://localhost:${port}` : "";
 
 async function fetchData(userData, page) {
   const headers = {
@@ -11,7 +12,8 @@ async function fetchData(userData, page) {
   };
 
   // Retrieve the "user" item from localStorage
-  const userItem = localStorage.getItem("user");
+  //CHANGE THIS
+  const userItem = localStorage.getItem("sp") || localStorage.getItem("admin") || localStorage.getItem("user");
 
   // Check if "user" item exists and contains a token
   if (userItem) {
@@ -26,10 +28,8 @@ async function fetchData(userData, page) {
     method: "POST",
     headers: headers,
     body: JSON.stringify(userData),
-    // timer: JSON.parse(localStorage.getItem("requests"))
   });
 }
-
 
 //send the user data to the specific page
 export async function sendUserData(userData, page) {
@@ -39,7 +39,7 @@ export async function sendUserData(userData, page) {
     if (response.status === 401) throw new Error(data.error);
     return data;
   } catch (err) {
-    console.log("Error in sendUserData:", err);
+    console.error("Error in sendUserData:", err);
     throw err;
   }
 }
@@ -47,11 +47,11 @@ export async function sendUserData(userData, page) {
 //get specific user data: name, surname, money
 export async function getUserData(userData) {
   try {
-    const response = await fetchData(userData, 'getuser')
+    const response = await fetchData(userData, "getuser");
     const data = await response.json();
     return data;
   } catch (err) {
-    console.log("Error in getUserData");
+    console.error("Error in getUserData");
     throw err;
   }
 }
@@ -59,12 +59,15 @@ export async function getUserData(userData) {
 //sending user data to check if the suplied password matches with the required
 export async function validatePassword(name, surname, password, type = "main") {
   try {
-    console.log(name, surname, password, type)
-    const response = await fetchData({ name: name, surname: surname, password: password, type: type }, 'check-password')
+    console.log("user data:", name, surname, password, type);
+    const response = await fetchData(
+      { name: name, surname: surname, password: password, type: type },
+      "check-password"
+    );
     const data = await response.json();
     return data;
   } catch (err) {
-    console.log("Error in validatePassword");
+    console.error("Error in validatePassword");
     throw err;
   }
 }
@@ -72,37 +75,60 @@ export async function validatePassword(name, surname, password, type = "main") {
 //get all user information without password
 export async function getAllUsers() {
   try {
-    const response = await fetch(`${baseUrl}/api/getallusers`)
-    if (!response.ok) throw new Error('Something went wrong in getAllUsers');
+    const response = await fetch(`${baseUrl}/api/getallusers`);
+    if (!response.ok) throw new Error("Something went wrong in getAllUsers");
     const data = await response.json();
     return data;
   } catch (err) {
-    console.log("Error in getAllUsers");
+    console.error("Error in getAllUsers");
     throw err;
   }
 }
 
 export async function userExists(name, surname, type) {
   try {
-    const response = await fetchData({ name: name, surname: surname, type: type }, 'check-status');
+    console.log("user exists data:", name, surname, type);
+    const response = await fetchData(
+      { name: name, surname: surname, type: type },
+      "check-status"
+    );
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (err) {
-    console.log(err, "Error in userExists");
+    console.error(err, "Error in userExists");
     throw err;
   }
 }
 // action: set delete get
-export async function handleDriveData(name, surname, imgNum, action, img = undefined) {
+export async function handleDriveData(
+  name,
+  surname,
+  imgNum,
+  action,
+  img = undefined
+) {
   try {
-    console.log("handling", name, surname, img, imgNum, action)
-    const response = await fetchData({ name: name, surname: surname, img: img, imgNum: imgNum }, `${action}-image`);
+    console.log("handling", name, surname, img, imgNum, action);
+    const response = await fetchData(
+      { name: name, surname: surname, img: img, imgNum: imgNum },
+      `${action}-image`
+    );
     const data = await response.json();
     console.log(data);
     return data;
   } catch (err) {
-    console.log(err, "Error in handleDriveData");
+    console.error(err, "Error in handleDriveData");
+    throw err;
+  }
+}
+
+export async function checkIfAdmin(name, surname) {
+  try {
+    const response = await fetchData({name: name, surname: surname},'admin-token');
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.error(err, "Error in handleDriveData");
     throw err;
   }
 }
