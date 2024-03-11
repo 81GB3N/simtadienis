@@ -44,7 +44,7 @@ export default function UserProfile() {
             return data.result[0];
         }
         catch (err) {
-            console.log("Error while fetching money: ", err);
+            console.error("Error while fetching money: ", err);
         }
     }, [userId.name, userId.surname]);
 
@@ -100,7 +100,7 @@ export default function UserProfile() {
                 console.log(res);
                 fetchData().then(data => setUserData(data));
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     }
 
 
@@ -122,7 +122,7 @@ export default function UserProfile() {
                 <p className="user-name">{userData?.name}, {userData?.surname}</p>
                 <div className="user__money">
                     <LiaMoneyBillSolid className={`user-money-icon ${moneyEffectActive ? 'active' : ''}`} onClick={() => setMoneyEffectActive(prev => !prev)} />
-                    <p className="money-cnt">{userData?.money}</p>
+                    <p className="digit">{userData?.money}</p>
                 </div>
                 {editOpen && <EditProfile closeEdit={closeEdit} deleteImg={deleteImg} openWebcam={openWebcam} imgSrc={userData.image || unkownUserImg} />}
                 {webcamOpen && <WebcamModal changeImg={changeImg} closeWebcam={closeWebcam} />}

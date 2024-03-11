@@ -12,10 +12,14 @@
     display: flex;
 }
 
+.leaderboard.desktop{
+    padding: 0 10rem;
+}
+
 .entry {
     font-size: 1rem;
     color: white;
-    transform: translateX(-100vh);
+    transform: translateX(-100dvw);
     --transition-delay-base: 300ms;
     --transition-delay-multiplier: 0;
     --transition-delay: calc(var(--transition-delay-base) * var(--transition-delay-multiplier));

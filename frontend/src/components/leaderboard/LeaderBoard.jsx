@@ -21,11 +21,11 @@ const MIN_DISPLAY_CNT = 5;
 
 /**
  * Renders the LeaderBoard component.
- *
+ * @param {boolean} desktopMode - Whether the component is being rendered in desktop mode.
  * @returns {JSX.Element} The rendered LeaderBoard component.
  */
 
-export default function LeaderBoard() {
+export default function LeaderBoard({ desktopMode=false }) {
     const [sortedUsers, setSortedUsers] = useState(null);
     const [error, setError] = useState(null);
 
@@ -43,14 +43,14 @@ export default function LeaderBoard() {
         getAllUsers()
             .then(data => {
                 maxDisplayLimit = data.result.length;
-                if (maxDisplayLimit < MIN_DISPLAY_CNT) {
+                if (maxDisplayLimit < MIN_DISPLAY_CNT || desktopMode) {
                     setDisplayLimit(undefined);
                 }
                 const sortedUsers = data.result.sort((a, b) => b.money - a.money);
                 setSortedUsers(sortedUsers);
             })
             .catch(err => {
-                console.log('error retrieving all users')
+                console.error('error retrieving all users')
                 setError(err);
             })
     }, [])
@@ -97,12 +97,12 @@ export default function LeaderBoard() {
     if (!sortedUsers) return <div>Loading...</div>
 
     return (
-        <div className={`user-page leaderboard ${animate ? 'in-view' : ''} ${currentUserPageName === 'leaderboard' ? 'active' : ''}`} ref={ref}>
+        <div className={`user-page leaderboard ${animate ? 'in-view' : ''} ${desktopMode ? 'active desktop' : currentUserPageName === 'leaderboard' ? 'active' : ''}`} ref={ref}>
             {(sortedUsers).slice(0, displayLimit).map((user, index) =>
                 <LeaderBoardEntry key={user.name + user.surname} position={index + 1} user={user} mostMoney={sortedUsers[0].money} />
             )}
             <div className="leaderboard__controls">
-                {displayLimit &&
+                {displayLimit && !desktopMode &&
                     <button onClick={toggleDisplayLimit}>
                         {displayLimit === maxDisplayLimit ?
                             <LiaMinusSquare /> :

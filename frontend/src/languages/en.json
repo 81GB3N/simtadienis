@@ -23,5 +23,12 @@
     "leaderboard.less": "Less..",
     "landing": "Back to Landing",
     "left": "left... ",
-    "gallery": "Your Gallery"
+    "gallery": "Your Gallery",
+    "form.title.one": "Choose",
+    "form.title.two": "your",
+    "form.title.three": "King and",
+    "form.title.four": "Queen",
+    "form.ticket.text": "time will tell...",
+    "form.ticket.button": "Choose",
+    "message": "Your Message"
 }

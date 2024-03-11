@@ -5,7 +5,8 @@
     --primary-color-yellow: #e8c060;
     --primary-color-green: #2e5445;
     --primary-color-black: #000000;
-
+    
+    --primary-color-gray: rgb(113, 112, 112);
     --secondary-color-red: #d97f67;
 
     --error-color: #c10000;
@@ -16,12 +17,15 @@
     --box-shadow-invalid: 3px 3px 0 1px var(--error-color);
 
     /* sizes */
-    --total-selector-height: 23vh;
-    --selector-padding-top: 5vh;
+    --total-selector-height: 23dvh;
+    --selector-padding-top: 3rem;
     --selector-margin-bottom: 3rem;
-    --actual-selector-height: calc(var(--total-selector-height) - var(--selector-padding-top) - var(--selector-margin-bottom));
+    --actual-selector-height: 100px;
     --midpoint-selector-height: calc(var(--actual-selector-height) - var(--selector-padding-top));
     --burger-bar-size: 2px;
+    /* so that page doesnt conflict with page__controls */
+    --page-margin-top: calc(var(--selector-padding-top) + (var(--actual-selector-height) / 2) - (var(--burger-bar-size) * 3) + 3rem);
+    --x-padding: 1rem;
 }
 
 /* CSS RESET */
@@ -39,7 +43,7 @@
 }
 
 body {
-    min-height: 100vh;
+    min-height: 100dvh;
 }
 
 img {
@@ -90,19 +94,20 @@ body {
     display: flex;
     justify-content: center;
     /* align-items: center; */
-    height: 100vh;
+    height: 100dvh;
     /* overflow: hidden; */
 }
 
 .user-page{
     display: none;
-    height: 100vh;
+    height: 100dvh;
 }
 
 .leaderboard,
-.gallery {
+.gallery,
+.chat-page {
     /* so that page doesnt conflict with page__controls */
-    margin-top: calc(var(--selector-padding-top) + (var(--actual-selector-height) / 2) - (var(--burger-bar-size) * 3) + 3rem);
+    margin-top: var(--page-margin-top);
 
 }
 
@@ -122,7 +127,7 @@ body {
     opacity: 1;
 }
 
-.money-cnt {
+.digit {
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-weight: 500;
 }

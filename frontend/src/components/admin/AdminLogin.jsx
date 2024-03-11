@@ -9,7 +9,7 @@ export default function AdminLogin() {
 
     function setAdminCache(name, surname, token) {
         const user = { name: name, surname: surname, token: token };
-        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("admin", JSON.stringify(user));
     }
 
     function displayError(msg) {

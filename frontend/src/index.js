@@ -12,10 +12,10 @@ import App from './App';
  */
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <LanguageProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </LanguageProvider>
+  <LanguageProvider>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </LanguageProvider>
 );
 

@@ -1,8 +1,10 @@
+import { useState } from "react";
+
 import { useMenu } from "../../context/MenuProvider";
 import { usePage } from "../../context/PageProvider";
 import { useUser } from "../../context/UserProvider";
 
-import { LiaHomeSolid, LiaListOlSolid, LiaImage, LiaComments } from "react-icons/lia";
+import { LiaHomeSolid, LiaListOlSolid, LiaImage, LiaComments, LiaArrowRightSolid } from "react-icons/lia";
 
 /**
  * Renders the navigation bar for the page.
@@ -10,18 +12,20 @@ import { LiaHomeSolid, LiaListOlSolid, LiaImage, LiaComments } from "react-icons
  */
 export default function PageNav() {
     const { currentUserPageName, changeUserPage } = usePage();
-    const { toggleMenu } = useMenu();
+    const { menuActive, closeMenu } = useMenu();
     const { userIdExists } = useUser();
+
+    const [navActive, setNavActive] = useState(true);
 
     /**
      * Changes the current page and toggles the menu.
      * @param {string} page - The name of the page to navigate to.
      */
     const changePage = (page) => {
-        if(page !== currentUserPageName){
+        if (page !== currentUserPageName) {
             changeUserPage(page);
         }
-        toggleMenu();
+        closeMenu();
     }
 
     let homeBtn = (
@@ -44,13 +48,18 @@ export default function PageNav() {
             <LiaComments />
         </button>
     ) : null;
-    
+
     return (
-        <div className='page__navigation'>
-            {homeBtn}
-            {leaderBoardBtn}
-            {galleryBtn}
-            {chatBtn}
+        <div className="nav__container">
+            <div className={`page__navigation ${menuActive && navActive ? 'active' : ''}`}>
+                {homeBtn}
+                {leaderBoardBtn}
+                {galleryBtn}
+                {chatBtn}
+            </div>
+            <button className="nav-btn extend-nav-btn" onClick={() => setNavActive(prev => !prev)}>
+                <LiaArrowRightSolid />
+            </button>
         </div>
     )
 }

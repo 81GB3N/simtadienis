@@ -58,9 +58,9 @@ npm install npm@latest -g
    PORT=4000
    URI="mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@YOUR_CLUSTER_URL/"
    JWT_SECRET_KEY="YOUR_JWT_SECRET_KEY"
-   API_KEY='YOUR_API_KEY'
    ```
 4. Create an `auth.json` file for Google Drive authentication
+   Documentation found in <a href="https://developers.google.com/drive/api/quickstart/nodejs">Google Drive documentation for nodejs<a>
    ```sh
    touch auth.json
    ```  

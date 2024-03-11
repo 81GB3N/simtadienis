@@ -1,6 +1,5 @@
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const dotenv = require("dotenv");
-const { subtle } = require("crypto");
 
 dotenv.config();
 
@@ -81,6 +80,10 @@ const retrieveDocument = async (page=main) => {
   }
 };
 
+function toRegexInsensitive(value){
+  return new RegExp('^' + value + '$', 'i')
+}
+
 //update the given user with the given information
 const updateUser = async (updateInfo) => {
   try {
@@ -99,11 +102,11 @@ const updateUser = async (updateInfo) => {
       console.error("incorrect object format");
       return;
     }
-    // console.log(key, [key], updateInfo[key])
+
 
     //update the users information
     const result = await collection.updateOne(
-      { name: updateInfo.name, surname: updateInfo.surname },
+      { name: toRegexInsensitive(updateInfo.name), surname: toRegexInsensitive(updateInfo.surname) },
       { $set: { [key]: updateInfo[key] } }
     );
 
@@ -117,7 +120,7 @@ const updateUser = async (updateInfo) => {
 
 const getUserToken = async (name, surname) =>{
   const collection= database.collection("tokens");
-  const query = {name: name, surname: surname};
+  const query = {name: toRegexInsensitive(name), surname: toRegexInsensitive(surname)};
   const cursor = collection.find(query);
   const document = await cursor.toArray();
   return document[0].token;
@@ -129,7 +132,7 @@ const findUser = async (name, surname, page=main, getPassword) => {
     // added getPassword variable to know when to call for password extraction and when for everything other
 // console.log(name, surname, page, password)
     const collection = database.collection(page);
-    const query = { name: name, surname: surname };
+    const query = { name: toRegexInsensitive(name), surname: toRegexInsensitive(surname) };
     let cursor;
     if (!getPassword) {
       // const projection = {name: 1, surname: 1, money: 1, _id: 0, admin: 1, imgSrc: 1, galleryCnt: 1};

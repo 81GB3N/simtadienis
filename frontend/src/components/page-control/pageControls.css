@@ -1,12 +1,11 @@
 /* PAGE CONTROLS */
 .page__controls {
     --animation-duration: 500ms;
-    --x-padding: 1rem;
     --burger-gap-size: 6px;
     position: absolute;
     /* so that page__controls is centered with language selector */
     /* top: calc(var(--selector-padding-top) + (var(--actual-selector-height) / 2) - (var(--burger-bar-size) * 3)); */
-    top: var(--midpoint-selector-height);
+    top: calc(var(--midpoint-selector-height) + var(--burger-bar-size) * 4 + var(--burger-gap-size));
     /* transform: translateY(-50%); */
     /* necessary because page__controls is going to block language selector btns */
     pointer-events: none;
@@ -116,12 +115,31 @@
 }
 
 /* PAGE NAVIGATION */
-.page__navigation{
-    display: flex;
-    justify-content: space-between;
-    gap: 3rem;
+.nav__container{
+    --button-size: 3rem;
+    --gap: 2rem;
 }
 
+.page__navigation{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--gap);
+    margin-bottom: 0.5rem;
+    color: var(--primary-color-yellow);
+    background-color: var(--primary-color-gray);
+    padding: 0.75rem 0;
+    width: 100dvw;
+    transform: translateX(-100dvw);
+    transition: transform 0.2s ease-in-out;
+    /* the time it takes for the menu to slide in */
+    transition-delay: 0.5s;
+}
+
+.page__navigation.active {
+    transform: translateX(0);
+}
+ 
 /* .nav-btn {
     padding: 0.5rem 1rem;
     border: 1px solid var(--primary-color-black);
@@ -130,11 +148,22 @@
 } */
 
 .nav-btn{
-    font-size: 3rem;
+    font-size: var(--button-size);
+    display: flex;
+    align-items: center;
+}
+
+.extend-nav-btn{
+    color: var(--primary-color-gray);
+    transition: transform 0.5s ease-in-out;
+}
+
+.page__navigation.active~.extend-nav-btn {
+    transform: rotate(180deg);
 }
 
 @media screen and (max-height: 720px) {
-    .nav-btn {
-        font-size: 2.5rem;
+    .nav__container {
+        --button-size: 2.5rem;
     }
 }

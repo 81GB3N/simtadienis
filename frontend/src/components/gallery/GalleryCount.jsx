@@ -28,7 +28,7 @@ const GalleryCount = forwardRef(function GalleryCount({ totalCnt }, ref) {
     }))
 
     return (
-        <p className='gallery-info'>Already submitted: <span className='money-cnt'> {submittedCount} / {totalCnt}</span></p>
+        <p className='gallery-info'>Already submitted: <span className='digit'> {submittedCount} / {totalCnt}</span></p>
     )
 })
 
