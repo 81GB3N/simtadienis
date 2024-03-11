@@ -44,7 +44,7 @@ export default function UserProfile() {
             return data.result[0];
         }
         catch (err) {
-            console.log("Error while fetching money: ", err);
+            console.error("Error while fetching money: ", err);
         }
     }, [userId.name, userId.surname]);
 
@@ -100,7 +100,7 @@ export default function UserProfile() {
                 console.log(res);
                 fetchData().then(data => setUserData(data));
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     }
 
 

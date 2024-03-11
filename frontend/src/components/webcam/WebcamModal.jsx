@@ -34,7 +34,7 @@ export default function WebcamModal({ changeImg, closeWebcam }) {
             })
             .catch(error => {
                 if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
-                    console.log('Camera permission denied by the user.');
+                    console.warn('Camera permission denied by the user.');
                 } else {
                     console.error('Error accessing camera:', error);
                 }

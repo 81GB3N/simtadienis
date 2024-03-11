@@ -60,12 +60,12 @@ export default function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const userName = name.toLowerCase();
-        const userSurname = surname.toLowerCase();
+        const userName = name;
+        const userSurname = surname;
 
         const userData = {
             name: userName,
-            surname: userSurname.toLowerCase(),
+            surname: userSurname,
             password: password,
             money: 0,
             image: unkownUserImg,

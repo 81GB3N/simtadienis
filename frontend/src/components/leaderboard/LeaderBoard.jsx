@@ -50,7 +50,7 @@ export default function LeaderBoard({ desktopMode=false }) {
                 setSortedUsers(sortedUsers);
             })
             .catch(err => {
-                console.log('error retrieving all users')
+                console.error('error retrieving all users')
                 setError(err);
             })
     }, [])
