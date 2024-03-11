@@ -49,7 +49,7 @@ export default function LeaderBoardEntry({ user, position, mostMoney }) {
                     <p className="entry-name"><span className="entry-pos">{position}</span>{user.name + ' ' + user.surname}</p>
                     <div className="entry-money">
                         <FontAwesomeIcon icon={faMoneyBill1Wave} className="money-icon"/>
-                        <span className="money-cnt">{user.money}</span>
+                        <span className="digit">{user.money}</span>
                     </div>
                 </div>
             </div>

@@ -211,6 +211,21 @@ app.post('/api/delete-image', verifyToken, async (req, res, next) => {
   } catch (err) { next(err) }
 })
 
+const chat_messages = [];
+
+app.get('/api/chat', (req, res) => {
+  res.json(chat_messages);
+})
+
+app.post('/api/chat', (req, res) => {
+  try {
+    const message = req.body;
+    chat_messages.push(message);
+    io.emit('chat');
+    res.json({ response: "Message Sent" });
+  } catch (err) { next(err) }
+});
+
 //error handling function
 app.use((err, req, res, next) => {
   console.error(err.stack)

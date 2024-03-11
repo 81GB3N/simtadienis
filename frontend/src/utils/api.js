@@ -106,3 +106,25 @@ export async function handleDriveData(name, surname, imgNum, action, img = undef
     throw err;
   }
 }
+
+export async function getGlobalChat() {
+  try {
+    const response = await fetch(`${baseUrl}/api/chat`);
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.log("Error in getGlobalChat");
+    throw err;
+  }
+}
+
+export async function sendGlobalChat(message) {
+  try {
+    const response = await fetchData(message, 'chat');
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.log("Error in sendGlobalChat");
+    throw err;
+  }
+}

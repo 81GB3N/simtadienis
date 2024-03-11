@@ -103,7 +103,8 @@ body {
 }
 
 .leaderboard,
-.gallery {
+.gallery,
+.chat-page {
     /* so that page doesnt conflict with page__controls */
     margin-top: calc(var(--selector-padding-top) + (var(--actual-selector-height) / 2) - (var(--burger-bar-size) * 3) + 3rem);
 
@@ -125,7 +126,7 @@ body {
     opacity: 1;
 }
 
-.money-cnt {
+.digit {
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-weight: 500;
 }
