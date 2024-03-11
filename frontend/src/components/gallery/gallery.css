@@ -24,12 +24,17 @@
 }
 
 .gallery__images{
+    --gap: 2rem;
+    /* bbd, not sure why, but this is necessary */
+    --image-cnt: 5;
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
+    gap: var(--gap);
     justify-content: center;
     align-items: center;
     margin-top: 4rem;
+    margin-bottom: calc(var(--gap) * var(--image-cnt));
+    overflow-y: auto;
 }
 
 .gallery-image{
