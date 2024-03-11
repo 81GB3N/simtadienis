@@ -38,7 +38,7 @@
     height: 150px;
     overflow: hidden;
     border-radius: 10px;
-    background-color: rgb(126, 126, 126);
+    background-color: var(--primary-color-gray);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,19 +62,19 @@
 .gallery-delete-btn{
     right: 8px;
     top: 8px;
-    background-color: rgb(117, 117, 117);
+    background-color: var(--primary-color-gray);
     border-radius: 5px;
     backdrop-filter: blur(5px);
 }
 
 .gallery-btn svg{
     font-size: 2rem;
-    color: rgb(62, 32, 32);
+    color: var(--primary-color-yellow);
 }
 
-.gallery-delete-btn svg{
+/* .gallery-delete-btn svg{
     color: rgb(255, 0, 0);
-}
+} */
 
 .gallery-image .hidden{
     display: none;

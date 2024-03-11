@@ -10,42 +10,41 @@ const socket = io.connect(socketUrl);
 
 export default function ChatLog() {
     const [chatLog, setChatLog] = useState([]);
-    const [pagination, setPagination] = useState(1);
     const { currentUserPageName } = usePage();
     const chatLogRef = useRef(null);
 
-    socket.on('chat', () => {
-        getGlobalChat(pagination).then(data => {
-            setChatLog(data);
-        });
-    });
 
     useEffect(() => {
         if (currentUserPageName !== 'chat') {
             socket.off('chat');
             return;
         }
-        getGlobalChat(pagination).then(data => {
-            console.log('chat log', data);
-            setChatLog(data);
+        getGlobalChat().then(data => {
+            setChatLog(data.payload);
+            setTimeout(() => {
+                chatLogRef.current.scrollTop = chatLogRef.current.scrollHeight;
+            }, 1);
         });
-    }, [currentUserPageName, pagination]);
-    
+        socket.on('chat', (message) => {
+            console.log('socket message: ', message);
+            setChatLog(prev => [...prev, message]);
+            setTimeout(() => {
+                chatLogRef.current.scrollTop = chatLogRef.current.scrollHeight;
+            }, 1);
+        });
+    }, [currentUserPageName]);
 
-    const handleScroll = () => {
-        const chatLogContainer = chatLogRef.current;
-        if (chatLogContainer.scrollTop === 0) {            // User has reached the top of the container
-            setPagination(prevPage => prevPage + 1)
-        }
-    };
 
     return (
-        <div className='chat__log' ref={chatLogRef} onScroll={handleScroll}>
-            {chatLog.map((message, index) => (
-                <div key={message.user + message.time} className='chat__message'>
-                    <p>{message.message}</p>
-                    <p>{message.user}</p>
-                    <p className='digit'>{message.time}</p>
+        <div className='chat__log' ref={chatLogRef}>
+            {chatLog.map(message => (
+                <div key={message.user + message.time + message.content} className='chat__message'>
+                    <div className='message__upper'>
+                        <p className='message-user'>{message.user}</p>
+                        <p className='digit'>{message.time}</p>
+                    </div>
+                    <p className='message-content'>{message.content}</p>
+
                 </div>
             ))}
         </div>

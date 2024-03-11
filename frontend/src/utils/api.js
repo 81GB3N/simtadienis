@@ -1,5 +1,3 @@
-import { json } from "react-router-dom";
-
 const port = 4000;
 
 //depeding on what the current hostname is select baseurl
@@ -118,7 +116,7 @@ export async function handleDriveData(
     return data;
   } catch (err) {
     console.error(err, "Error in handleDriveData");
-    throw err;
+    // throw err;
   }
 }
 
