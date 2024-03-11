@@ -107,9 +107,9 @@ export async function handleDriveData(name, surname, imgNum, action, img = undef
   }
 }
 
-export async function getGlobalChat() {
+export async function getGlobalChat(page) {
   try {
-    const response = await fetch(`${baseUrl}/api/chat`);
+    const response = await fetchData({ page }, 'get-chat');
     const data = await response.json();
     return data;
   } catch (err) {
@@ -120,7 +120,7 @@ export async function getGlobalChat() {
 
 export async function sendGlobalChat(message) {
   try {
-    const response = await fetchData(message, 'chat');
+    const response = await fetchData(message, 'send-chat');
     const data = await response.json();
     return data;
   } catch (err) {
