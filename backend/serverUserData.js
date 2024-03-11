@@ -213,8 +213,14 @@ app.post('/api/delete-image', verifyToken, async (req, res, next) => {
 
 const chat_messages = [];
 
+const MESSAGES_PER_PAGE = 10;
+
 app.get('/api/chat', (req, res) => {
-  res.json(chat_messages);
+  const page = Number(req.query.page) || 1;
+  const startIndex = (page - 1) * MESSAGES_PER_PAGE;
+  const endIndex = startIndex + MESSAGES_PER_PAGE;
+  const messages = chat_messages.slice(startIndex, endIndex);
+  res.json(messages);
 })
 
 app.post('/api/chat', (req, res) => {

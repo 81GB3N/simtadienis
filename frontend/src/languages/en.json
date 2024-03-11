@@ -29,5 +29,6 @@
     "form.title.three": "King and",
     "form.title.four": "Queen",
     "form.ticket.text": "time will tell...",
-    "form.ticket.button": "Choose"
+    "form.ticket.button": "Choose",
+    "message": "Your Message"
 }

@@ -23,7 +23,8 @@
     --actual-selector-height: 100px;
     --midpoint-selector-height: calc(var(--actual-selector-height) - var(--selector-padding-top));
     --burger-bar-size: 2px;
-
+    /* so that page doesnt conflict with page__controls */
+    --page-margin-top: calc(var(--selector-padding-top) + (var(--actual-selector-height) / 2) - (var(--burger-bar-size) * 3) + 3rem);
     --x-padding: 1rem;
 }
 
@@ -106,7 +107,7 @@ body {
 .gallery,
 .chat-page {
     /* so that page doesnt conflict with page__controls */
-    margin-top: calc(var(--selector-padding-top) + (var(--actual-selector-height) / 2) - (var(--burger-bar-size) * 3) + 3rem);
+    margin-top: var(--page-margin-top);
 
 }
 

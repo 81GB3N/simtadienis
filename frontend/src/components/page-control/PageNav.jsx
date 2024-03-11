@@ -12,10 +12,10 @@ import { LiaHomeSolid, LiaListOlSolid, LiaImage, LiaComments, LiaArrowRightSolid
  */
 export default function PageNav() {
     const { currentUserPageName, changeUserPage } = usePage();
-    const { toggleMenu } = useMenu();
+    const { menuActive, closeMenu } = useMenu();
     const { userIdExists } = useUser();
 
-    const [navActive, setNavActive] = useState(false);
+    const [navActive, setNavActive] = useState(true);
 
     /**
      * Changes the current page and toggles the menu.
@@ -25,7 +25,7 @@ export default function PageNav() {
         if (page !== currentUserPageName) {
             changeUserPage(page);
         }
-        toggleMenu();
+        closeMenu();
     }
 
     let homeBtn = (
@@ -51,7 +51,7 @@ export default function PageNav() {
 
     return (
         <div className="nav__container">
-            <div className={`page__navigation ${navActive ? 'active' : ''}`}>
+            <div className={`page__navigation ${menuActive && navActive ? 'active' : ''}`}>
                 {homeBtn}
                 {leaderBoardBtn}
                 {galleryBtn}

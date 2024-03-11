@@ -15,23 +15,23 @@
     overflow-x: hidden;
 }
 
-#menu.from-home,
-#menu.from-chat {
+#menu.from-home {
     transform: translateX(100%);
 }
 
-#menu.active.from-home,
-#menu.active.from-chat {
+#menu.active.from-home{
     transform: translateX(-100%);
 }
 
 #menu.from-leaderboard,
-#menu.from-gallery {
+#menu.from-gallery,
+#menu.from-chat {
     transform: translateX(-200%);
 }
 
 #menu.active.from-leaderboard.active,
-#menu.active.from-gallery {
+#menu.active.from-gallery,
+#menu.active.from-chat  {
     transform: translateX(-100%);
 }
 
