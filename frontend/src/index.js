@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import LanguageProvider from './context/LanguageProvider';
 
-import App from './App';
+import FormPage from './FormPage';
 
 /**
  * The root element for rendering the React application.
@@ -14,7 +14,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <LanguageProvider>
       <BrowserRouter>
-        <App formMode={false}/>
+        <FormPage />
       </BrowserRouter>
     </LanguageProvider>
 );

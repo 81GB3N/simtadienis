@@ -1,14 +1,16 @@
-import LanguageSelector from "../components/header/LanguageSelector"
-import Form from "../components//Form"
+import LanguageSelector from "./components/header/LanguageSelector"
+import Form from "./components/Form"
 
 import { FormattedMessage } from "react-intl"
 
 import { useState, useEffect } from "react";
 
 // import moneyImg from "../assets/images/flying-money.png"
+import "./css/app.css"
+import "./components/header/header.css"
+import "./components/ticket/ticket.css"
 
 export default function FormPage() {
-
     const [formOpen, setFormOpen] = useState(false);
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     const [screenHeight, setScreenHeight] = useState(window.innerHeight);
