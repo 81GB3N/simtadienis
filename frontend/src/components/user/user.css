@@ -198,7 +198,7 @@
 
 .user-name{
     text-transform: capitalize;
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     font-weight: 600;
 }
 
@@ -260,12 +260,6 @@
     }   
 }
 
-@media screen and (max-height: 590px) {
-    #user {
-        margin-top: 8rem;
-        gap: 3rem;
-    }   
-}
 
 @media screen and (max-height: 624px) {
     .user__extra-btns{
@@ -273,6 +267,14 @@
     }
     
 }
+
+@media screen and (max-height: 590px) {
+    #user {
+        margin-top: 8rem;
+        gap: 3rem;
+    }   
+}
+
 
 @media screen and (max-height: 575px){
     #user {

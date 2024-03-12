@@ -132,7 +132,6 @@ async function retrieveFileId(data){
         console.log("retrieving if");
         //get the file name
         const fileName = getFileName(data);
-
         //list of images with that name
         const response = await drive.files.list({
             q: `'${folderId}' in parents and name='${fileName}' and trashed=false`, // Query for files with the specified name and not trashed
