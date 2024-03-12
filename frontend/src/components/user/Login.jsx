@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { userExists, validatePassword } from "../../utils/api.js";
 import { FormattedMessage} from "react-intl";
 import { useUser } from "../../context/UserProvider.jsx";
-import FormInput from "./FormInput.jsx";
+import FormInput from "../Input";
 
 /**
  * Represents the Login component.
@@ -79,9 +79,9 @@ export default function Login() {
                 <FormattedMessage id="login" />
             </h3>
             <form className="form login" method="get" onSubmit={handleSubmit}>
-                <FormInput ref={nameRef} id="name" onValueChange={(e) => setName(e.target.value)} inputValue={name} />
-                <FormInput id="surname" onValueChange={(e) => setSurname(e.target.value)} inputValue={surname} />
-                <FormInput id="password" onValueChange={(e) => setPassword(e.target.value)} inputValue={password} />
+                <FormInput ref={nameRef} id="name" onValueChange={(e) => setName(e.target.value)} inputValue={name} customClassNames='form-input'/>
+                <FormInput id="surname" onValueChange={(e) => setSurname(e.target.value)} inputValue={surname} customClassNames='form-input'/>
+                <FormInput id="password" onValueChange={(e) => setPassword(e.target.value)} inputValue={password} customClassNames='form-input'/>
                 <p ref={errRef} className={`errmsg ${errMsg ? "active" : ""}`}>{errMsg}</p>
                 <div className="form__buttons">
                     <button className={`form-submit enabled`} type="submit" id="login-submit">

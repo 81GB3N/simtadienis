@@ -2,17 +2,19 @@ import { useRef, useState, useEffect, useImperativeHandle, forwardRef } from "re
 import { createPortal } from "react-dom";
 import './modal.css'
 
+
 /**
- * Modal component.
+ * Modal component that displays a dialog box.
  *
  * @component
  * @param {Object} props - The component props.
- * @param {ReactNode} props.children - The content of the modal.
- * @param {string} props.customClassNames - Additional custom class names for the modal.
- * @param {React.Ref} ref - The ref object for the modal.
+ * @param {ReactNode} props.children - The content to be displayed inside the modal.
+ * @param {string} props.customClassNames - Additional CSS class names to be applied to the modal.
+ * @param {boolean} props.openOnMount - Determines whether the modal should be opened when mounted.
+ * @param {React.Ref} ref - The ref object used to expose the open and close methods of the modal.
  * @returns {JSX.Element} The rendered modal component.
  */
-const Modal = forwardRef(({ children, customClassNames, ...props }, ref) => {
+const Modal = forwardRef(({ children, customClassNames, openOnMount, ...props }, ref) => {
     const dialogRef = useRef();
     const [isOpen, setIsOpen] = useState(false);
 
@@ -31,9 +33,11 @@ const Modal = forwardRef(({ children, customClassNames, ...props }, ref) => {
         close: closeModal
     }));
 
-    useEffect(()=>{
-        openModal();
-    }, [])
+    useEffect(() => {
+        if (openOnMount) {
+            openModal();
+        }
+    }, [openOnMount]);
 
     return (
         createPortal(

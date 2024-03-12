@@ -14,7 +14,7 @@ import { LiaPlusSquare, LiaTrashSolid } from "react-icons/lia";
  */
 export default function EditProfile({ closeEdit, openWebcam, imgSrc, deleteImg }) {
     return (
-        <Modal>
+        <Modal openOnMount>
             <div className="webcam-container" onClick={closeEdit}>
                 <div className="webcam">
                     <img src={imgSrc} alt='Current User Profile'></img>

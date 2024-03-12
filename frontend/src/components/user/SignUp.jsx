@@ -5,7 +5,7 @@ import { useRef, useState, useEffect } from "react";
 
 import { useUser } from "../../context/UserProvider";
 
-import FormInput from "./FormInput";
+import FormInput from "../Input";
 
 import unkownUserImg from "../../assets/images/unknown-user.png";
 
@@ -92,7 +92,7 @@ export default function Signup() {
                     <FormInput
                         ref={nameRef}
                         id="name"
-                        customClassNames={`${validName || !name ? "" : "invalid"}`}
+                        customClassNames={`form-input ${validName || !name ? "" : "invalid"}`}
                         onValueChange={(e) => setName(e.target.value)}
                         inputValue={name} onFocus={() => setNameFocus(true)}
                         onBlur={() => setNameFocus(false)}
@@ -106,7 +106,7 @@ export default function Signup() {
                 <div className="input-wrapper">
                     <FormInput
                         id="surname"
-                        customClassNames={`${validSurname || !surname ? "" : "invalid"}`}
+                        customClassNames={`form-input ${validSurname || !surname ? "" : "invalid"}`}
                         onValueChange={(e) => setSurname(e.target.value)}
                         inputValue={surname}
                         onFocus={() => setSurnameFocus(true)}
@@ -121,7 +121,7 @@ export default function Signup() {
                 <div className="input-wrapper">
                     <FormInput
                         id="password"
-                        customClassNames={`${validPassword || !password ? "" : "invalid"}`}
+                        customClassNames={`form-input ${validPassword || !password ? "" : "invalid"}`}
                         onValueChange={(e) => setPassword(e.target.value)}
                         inputValue={password}
                         type="password"
@@ -137,7 +137,7 @@ export default function Signup() {
                 <div className="input-wrapper">
                     <FormInput 
                         id="rpassword"
-                        customClassNames={`${validMatch || !matchPassword ? "" : "invalid"}`}
+                        customClassNames={`form-input ${validMatch || !matchPassword ? "" : "invalid"}`}
                         onValueChange={(e) => setMatchPassword(e.target.value)}
                         inputValue={matchPassword}
                         type="password"

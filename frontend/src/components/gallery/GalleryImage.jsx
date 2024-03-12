@@ -116,7 +116,7 @@ export default function GalleryImage({ position, increaseCnt, decreaseCnt }) {
                 )
             }
             {loading &&
-                <Modal>
+                <Modal openOnMount>
                     <div className='gallery-loading'>Loading...</div>
                 </Modal>
             }

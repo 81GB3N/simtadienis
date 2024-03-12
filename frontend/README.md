@@ -4,7 +4,7 @@
 - [ ] JSDocs in all components
 
 # 0.1.2
-- [ ] Global Chat Page
+- [X] Global Chat Page
 - [ ] Leaderboard position update
 
 # 0.1.3

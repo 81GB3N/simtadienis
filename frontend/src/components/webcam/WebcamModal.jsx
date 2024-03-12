@@ -42,7 +42,7 @@ export default function WebcamModal({ changeImg, closeWebcam }) {
     }
 
     return (
-        <Modal>
+        <Modal openOnMount>
             <div className="webcam-container">
                 <div className="webcam">
                     <CustomWebcam ref={webcamRef} enabled={cameraActive} />
