@@ -21,9 +21,9 @@ async function fetchData(userData, page) {
 
   let userItem;
 
-  if("register-admin" && localStorage.getItem("sp")) userItem = localStorage.getItem("sp");
-  else if(("addmoney" || "check-password") && localStorage.getItem("admin")) userItem = localStorage.getItem("admin");
-  else if(localStorage.getItem("user")) userItem = localStorage.get("user"); 
+  if(page === "register-admin" && localStorage.getItem("sp")) userItem = localStorage.getItem("sp");
+  else if((page === "addmoney" || page === "check-password") && localStorage.getItem("admin")) userItem = localStorage.getItem("admin");
+  else if(localStorage.getItem("user")) userItem = localStorage.getItem("user"); 
 
   // Check if "user" item exists and contains a token
   if (userItem) {
