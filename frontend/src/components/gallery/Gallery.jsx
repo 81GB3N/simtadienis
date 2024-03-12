@@ -1,5 +1,8 @@
 import { usePage } from '../../context/PageProvider';
 import { useRef, useCallback } from 'react';
+
+import { FormattedMessage } from 'react-intl';
+
 import GalleryImage from './GalleryImage';
 import GalleryCount from './GalleryCount';
 import './gallery.css';
@@ -31,7 +34,9 @@ export default function Gallery() {
 
     return (
         <div className={`user-page gallery ${currentUserPageName === 'gallery' ? 'active' : ''}`}>
-            <h3 className='gallery-title'>Your submissions</h3>
+            <h3 className='gallery-title'>
+                <FormattedMessage id='your.submissions' />
+            </h3>
             <GalleryCount ref={galleryCntRef} totalCnt={GALLERY_LENGTH} />
             <li className='gallery__images'>
                 {Array(GALLERY_LENGTH).fill().map((_, i) => <GalleryImage position={i} increaseCnt={increaseCnt} decreaseCnt={decreaseCnt} key={i}/>)}

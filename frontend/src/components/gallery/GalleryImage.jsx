@@ -36,6 +36,7 @@ export default function GalleryImage({ position, increaseCnt, decreaseCnt }) {
     const fetchImage = useCallback(async () => {
         const image = await handleDriveData(userId.name, userId.surname, position, 'get')
         if (!image.response) return '';
+        console.log('image-', position, image);
         return image;
     }, [userId.name, userId.surname, position])
 

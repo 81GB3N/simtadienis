@@ -30,5 +30,7 @@
     "form.title.four": "Queen",
     "form.ticket.text": "time will tell...",
     "form.ticket.button": "Choose",
-    "message": "Your Message"
+    "message": "Your Message",
+    "your.submissions": "Your Submissions",
+    "submitted": "Already submitted: "
 }

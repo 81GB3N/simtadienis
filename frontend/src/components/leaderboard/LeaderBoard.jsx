@@ -31,7 +31,7 @@ export default function LeaderBoard({ desktopMode=false }) {
 
     const [displayLimit, setDisplayLimit] = useState(MIN_DISPLAY_CNT);
     // to many states, fix l8r
-    let maxDisplayLimit;
+    const [maxDisplayLimit, setMaxDisplayLimit] = useState(0);
     const { ref, inView } = useInView({ threshold: 0, fallbackInView: true });
     const [animate, setAnimate] = useState(false);
     const { currentUserPageName } = usePage();
@@ -42,8 +42,9 @@ export default function LeaderBoard({ desktopMode=false }) {
     const getLeaderBoardPositions = useCallback(() => {
         getAllUsers()
             .then(data => {
-                maxDisplayLimit = data.result.length;
+                setMaxDisplayLimit(data.result.length);
                 if (maxDisplayLimit < MIN_DISPLAY_CNT || desktopMode) {
+                    console.log('setting display limit to undefined')
                     setDisplayLimit(undefined);
                 }
                 const sortedUsers = data.result.sort((a, b) => b.money - a.money);

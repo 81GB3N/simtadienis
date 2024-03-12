@@ -208,24 +208,28 @@ app.post('/api/delete-image', verifyToken, async (req, res, next) => {
   } catch (err) { next(err) }
 })
 
-const chat_messages = [];
+const chat_messages = [
+  {
+    user: "Admin",
+    content: "Welcome to the chat",
+    time: new Date().toLocaleString()
+  }
+];
 
 const MESSAGES_PER_PAGE = 20;
 
+// todo: make pagination
+
 app.post('/api/get-chat', (req, res) => {
-  const page = Number(req.body.page) || 1;
-  console.log('page', req.body);
-  const startIndex = chat_messages.length() - ((page - 1) * MESSAGES_PER_PAGE);
-  const endIndex = startIndex + MESSAGES_PER_PAGE;
-  const messages = chat_messages.slice(startIndex, endIndex);
-  res.json(messages);
+  res.json({ payload: chat_messages });
 })
 
 app.post('/api/send-chat', (req, res) => {
   try {
     const message = req.body;
     chat_messages.push(message);
-    io.emit('chat');
+    console.log('emitting io message: ', message);
+    io.emit('chat', message);
     res.json({ response: "Message Sent" });
   } catch (err) { next(err) }
 });

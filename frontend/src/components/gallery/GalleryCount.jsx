@@ -1,5 +1,7 @@
 import { forwardRef, useImperativeHandle, useState } from "react"
 
+import { FormattedMessage } from "react-intl";
+
 /**
  * Renders a component that displays the count of submitted items in a gallery.
  *
@@ -28,7 +30,10 @@ const GalleryCount = forwardRef(function GalleryCount({ totalCnt }, ref) {
     }))
 
     return (
-        <p className='gallery-info'>Already submitted: <span className='digit'> {submittedCount} / {totalCnt}</span></p>
+        <p className='gallery-info'>
+            <FormattedMessage id='submitted' />
+            <span className='digit'> {submittedCount} / {totalCnt}</span>
+        </p>
     )
 })
 

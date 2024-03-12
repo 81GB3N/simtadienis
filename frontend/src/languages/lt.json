@@ -17,7 +17,7 @@
     "password": "Slaptažodis",
     "rpassword": "Pakartokite slaptažodį",
     "back": "Atgal",
-    "sumbit": "Pateikti",
+    "submit": "Pateikti",
     "leaderboard": "Pirmūnų stulpas",
     "leaderboard.more": "Daugiau...",
     "leaderboard.less": "Mažiau...",
@@ -30,5 +30,7 @@
     "form.title.four": "karalienę",
     "form.ticket.text": "laikas teka...",
     "form.ticket.button": "Rinkis",
-    "message": "Tavo Žinutė"
+    "message": "Tavo Žinutė",
+    "your.submissions": "Tavo pateikimai",
+    "submitted": "Jau pateikta: "
 }
