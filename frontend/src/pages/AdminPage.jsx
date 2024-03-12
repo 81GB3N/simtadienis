@@ -66,12 +66,10 @@ export default function AdminPage() {
             }
             else {
                 console.error(res);
-                setAccess(false);
-                localStorage.removeItem('admin');
-                navigate('/admin');
+                disableAccess();
             }
         });
-    }, [navigate, validateCache]);
+    }, [navigate, validateCache, disableAccess]);
 
     if (access === undefined) {
         return null;
