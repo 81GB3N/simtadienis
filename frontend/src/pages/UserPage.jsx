@@ -30,15 +30,14 @@ export default function UserPage() {
      * @returns {boolean} True if the current device is a mobile device, false otherwise.
      */
     const isMobile = () => {
-        const regex = /Mobi|Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i;
-        return regex.test(navigator.userAgent);
+        return window.innerWidth < 600;
     }
 
     return (
         <>
             {!isMobile() && <ErrorModal
                 status='Mobile Device Required!'
-                errorMessage='This website was designed for mobile devices. Please use a mobile device to proceed'
+                errorMessage='This website was designed for small-width mobile devices. Proceed at your own risk.'
                 dismissable={true}
             />}
 
