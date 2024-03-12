@@ -30,7 +30,7 @@ export default function UserPage() {
      * @returns {boolean} True if the current device is a mobile device, false otherwise.
      */
     const isMobile = () => {
-        const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+        const regex = /Mobi|Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i;
         return regex.test(navigator.userAgent);
     }
 
