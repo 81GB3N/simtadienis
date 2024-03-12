@@ -43,7 +43,7 @@ export default function LeaderBoard({ desktopMode=false }) {
         getAllUsers()
             .then(data => {
                 setMaxDisplayLimit(data.result.length);
-                if (maxDisplayLimit < MIN_DISPLAY_CNT || desktopMode) {
+                if (data.result.length < MIN_DISPLAY_CNT || desktopMode) {
                     console.log('setting display limit to undefined')
                     setDisplayLimit(undefined);
                 }
@@ -54,7 +54,8 @@ export default function LeaderBoard({ desktopMode=false }) {
                 console.error('error retrieving all users')
                 setError(err);
             })
-    }, [])
+            console.log(maxDisplayLimit)
+    }, [desktopMode, maxDisplayLimit])
 
     useEffect(() => {
         getLeaderBoardPositions();
