@@ -11,6 +11,10 @@ import { LiaPaperPlaneSolid } from "react-icons/lia";
 const MAX_MESSAGE_LENGTH = 100;
 const SHAKE_ANIMATION_DURATION = 500; // in ms, as defined in css 
 
+/**
+ * Renders a message input component.
+ * @returns {JSX.Element} The message input component.
+ */
 export default function MessageInput() {
     const { userId } = useUser();
 
@@ -20,6 +24,10 @@ export default function MessageInput() {
     const [inputMessage, setInputMessage] = useState('');
     const [shake, setShake] = useState(false);
 
+    /**
+     * Sends a message to the global chat.
+     * @param {Event} e - The submit event.
+     */
     const sendMessage = async (e) => {
         e.preventDefault();
         if (inputMessage.length > MAX_MESSAGE_LENGTH || inputMessage.length <= 0) {
@@ -63,4 +71,4 @@ export default function MessageInput() {
             </button>
         </form>
     )
-}   
+}

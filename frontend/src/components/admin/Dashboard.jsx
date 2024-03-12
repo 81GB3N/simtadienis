@@ -1,4 +1,3 @@
-// JSUT A TEST
 export default function Dashboard() {
     return (
         <div className="page" data-page="dashboard">

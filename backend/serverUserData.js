@@ -126,33 +126,25 @@ app.post("/api/register-admin", verifyToken, async (req) => {
 app.post("/api/addmoney", verifyToken, (req, res) => {
   //checks status of requesting user
   console.log("role in addmoney: ", req.payload.role);
-  if (req.payload.role == 'admin') {
+  if (req.payload.role === "admin") {
     const money = req.body;
     if (!money.money || isNaN(money.money)) {
       res.status(400).json({ error: "Invalid money format" })
     }
-
     updateUser(money)
     io.emit('getusers');
+    res.json({ response: "Money Successfully Updated" });
   }
   else {
     return res.status(401).json({ error: "Unauthorized request" });
   }
 });
 
-function isImageData(data) {
-  return /^data:image\/([a-zA-Z+]+);base64,/.test(data);
-}
-
 app.post('/api/update-picture', verifyToken, (req, res, next) => {
   try {
     //checks if the right person is accesing his data
     const picture = req.body;
     if (req.payload.name === picture.name && req.payload.surname === picture.surname) {
-      // disabled conditional check due to temp invalid regext test
-      // if (isImageData(picture)) {
-      //   updateUser(picture);
-      // }
       updateUser(picture);
       res.json({ response: "Image Successfully Updated" });
     }

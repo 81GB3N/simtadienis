@@ -14,13 +14,10 @@ export default function UsersTable({ users }) {
     const [lowerBound, setLowerBound] = useState(iterationStep * (iteration - 1));
 
     const handleHover = (index) => {
-        console.log(index);
         setFocus(index);
     }
 
     const handleEdit = (e) => {
-        console.log('edit');
-        console.log(e.target.parentElement);
         const name = e.target.parentElement.children[0].innerText;
         const surname = e.target.parentElement.children[1].innerText;
         const money = e.target.parentElement.children[2].innerText;
@@ -29,7 +26,6 @@ export default function UsersTable({ users }) {
     }
 
     const handleLeave = (e) => {
-        console.log('left');
         setFocus(null);
     }
 
@@ -41,17 +37,14 @@ export default function UsersTable({ users }) {
     const iterateLeft = () => {
         if (lowerBound - iterationStep >= 0) {
             setIteration((iteration) => iteration - 1);
-            console.log(iteration);
         }
     }
 
     const iterateRight = () => {
         if (upperBound + iterationStep <= users.length) {
             setIteration((iteration) => iteration + 1);
-            console.log(iteration);
         }
         else if (upperBound < users.length) {
-            console.log('last iteration');
             setLowerBound(lowerBound + iterationStep);
             setUpperBound(users.length);
         }

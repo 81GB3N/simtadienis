@@ -8,6 +8,10 @@ const socketUrl = isLocalhost ? 'http://localhost:4000' : 'https://lic100.lt';
 
 const socket = io.connect(socketUrl);
 
+/**
+ * Renders the chat log component.
+ * @returns {JSX.Element} The chat log component.
+ */
 export default function ChatLog() {
     const [chatLog, setChatLog] = useState([]);
     const { currentUserPageName } = usePage();
