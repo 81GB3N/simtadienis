@@ -131,9 +131,9 @@ app.post("/api/addmoney", verifyToken, (req, res) => {
     if (!money.money || isNaN(money.money)) {
       res.status(400).json({ error: "Invalid money format" })
     }
-
     updateUser(money)
     io.emit('getusers');
+    res.json({ response: "Money Successfully Updated" });
   }
   else {
     return res.status(401).json({ error: "Unauthorized request" });

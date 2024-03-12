@@ -44,7 +44,9 @@ async function fetchData(userData, page) {
  */
 export async function sendUserData(userData, page) {
   try {
+    console.log("sending user data:", userData, page);
     const response = await fetchData(userData, page);
+    console.log("response:", response);
     const data = await response.json();
     if (response.status === 401) throw new Error(data.error);
     return data;

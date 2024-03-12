@@ -45,6 +45,7 @@ export default function EditTable() {
                 setErrorMsg('');
             }, 3000)
         })
+        console.log('sent');
     }
 
     return (
