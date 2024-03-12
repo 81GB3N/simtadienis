@@ -1,7 +1,7 @@
 import '../css/admin.css'
 // React utilities
 import { Routes, Route, Navigate, NavLink, useNavigate } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 // Components
 import Dashboard from '../components/admin/Dashboard';
 import Users from '../components/admin/Users';
@@ -11,10 +11,11 @@ import { faUser, faGauge, faRightFromBracket } from '@fortawesome/free-solid-svg
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // Context
 import AdminProvider from '../context/AdminProvider';
-import {checkIfAdmin} from '../utils/api'
+import { checkIfAdmin } from '../utils/api'
 
 export default function AdminPage() {
     const navigate = useNavigate();
+
     const [access, setAccess] = useState(false);
     const dialogRef = useRef(null);
 
@@ -34,26 +35,43 @@ export default function AdminPage() {
     }
 
 
-    useEffect(() => {
-        async function status() {
-            try {
-                const adminItem = localStorage.getItem('admin');
-                if (!adminItem) {
-                    // Admin item not found in localStorage
-                    navigate('/admin');
-                } else {
-                    const admin = JSON.parse(adminItem);
-                    const isAdmin = await checkIfAdmin(admin.name, admin.surname);
-                    if (!isAdmin) navigate('/admin');
-                }
-            } catch (error) {
-                // Handle errors
-                console.error(error);
+    const validateCache = useCallback(async function() {
+        try {
+            const savedCache = localStorage.getItem('admin');
+            if (!savedCache) {
+                return { isAdmin: false, response: 'No admin cache' };
             }
+            const admin = JSON.parse(savedCache);
+            if (typeof admin !== 'object' || !admin.name || !admin.surname || !admin.token) {
+                return { isAdmin: false, response: 'Invalid admin cache' };
+            }
+            const isAdmin = await checkIfAdmin(admin.name, admin.surname);
+            if (!isAdmin) {
+                return { isAdmin: false, response: 'Not an admin' };
+            }
+            return true;
+        } catch (error) {
+            console.error(error);
         }
-
-        status();
     }, []);
+
+    useEffect(() => {
+        validateCache().then((res) => {
+            if (res === true) {
+                setAccess(true);
+            }
+            else {
+                console.error(res);
+                setAccess(false);
+                localStorage.removeItem('admin');
+                navigate('/admin');
+            }
+        });
+    }, [navigate, validateCache]);
+
+    if (!access) {
+        return <AdminLogin />
+    }
 
     return (
         <AdminProvider>

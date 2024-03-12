@@ -4,6 +4,12 @@ const port = 4000;
 const baseUrl =
   window.location.hostname === "localhost" ? `http://localhost:${port}` : "";
 
+/**
+ * Fetches data from the server using the provided user data and page.
+ * @param {Object} userData - The user data to be sent in the request body.
+ * @param {string} page - The page to fetch data from.
+ * @returns {Promise<Response>} - A promise that resolves to the response from the server.
+ */
 async function fetchData(userData, page) {
   const headers = {
     "Content-Type": "application/json",
@@ -29,7 +35,13 @@ async function fetchData(userData, page) {
   });
 }
 
-//send the user data to the specific page
+/**
+ * Sends user data to the server.
+ * @param {Object} userData - The user's name, surname and token to be sent to the server and validated.
+ * @param {string} page - The page where the data is being sent from.
+ * @returns {Promise<Object>} - A promise that resolves to the response data from the server.
+ * @throws {Error} - An error with the error message from the server will be thrown.
+ */
 export async function sendUserData(userData, page) {
   try {
     const response = await fetchData(userData, page);
@@ -42,7 +54,13 @@ export async function sendUserData(userData, page) {
   }
 }
 
-//get specific user data: name, surname, money
+/**
+ * Retrieves user data from the server.
+ *
+ * @param {Object} userData - The user's name, surname and token to be sent to the server and validated.
+ * @returns {Promise<Object>} - A promise that resolves to the user's profile image and money count retrieved from the server.
+ * @throws {Error} - If an error occurs while fetching the user data.
+ */
 export async function getUserData(userData) {
   try {
     const response = await fetchData(userData, "getuser");
@@ -54,10 +72,18 @@ export async function getUserData(userData) {
   }
 }
 
-//sending user data to check if the suplied password matches with the required
+/**
+ * Validates the password for a user.
+ *
+ * @param {string} name - The name of the user.
+ * @param {string} surname - The surname of the user.
+ * @param {string} password - The password to be validated.
+ * @param {string} [type="main"] - The type of password to be validated.
+ * @returns {Promise<any>} - A promise that resolves to a boolean value.
+ * @throws {Error} - If an error occurs during the validation process.
+ */
 export async function validatePassword(name, surname, password, type = "main") {
   try {
-    console.log("user data:", name, surname, password, type);
     const response = await fetchData(
       { name: name, surname: surname, password: password, type: type },
       "check-password"
@@ -70,7 +96,11 @@ export async function validatePassword(name, surname, password, type = "main") {
   }
 }
 
-//get all user information without password
+/**
+ * Retrieves all users from the API.
+ * @returns {Promise<Array>} A promise that resolves to an array of user objects which only include the user names, money counts and images.
+ * @throws {Error} If an error occurs while fetching the data.
+ */
 export async function getAllUsers() {
   try {
     const response = await fetch(`${baseUrl}/api/getallusers`);
@@ -83,6 +113,14 @@ export async function getAllUsers() {
   }
 }
 
+/**
+ * Checks if a user exists based on the provided name, surname, and type.
+ * @param {string} name - The name of the user.
+ * @param {string} surname - The surname of the user.
+ * @param {string} type - The type of the user.
+ * @returns {Promise<any>} - A promise that resolves to a boolean value.
+ * @throws {Error} - If there is an error while checking the user status.
+ */
 export async function userExists(name, surname, type) {
   try {
     console.log("user exists data:", name, surname, type);
@@ -97,7 +135,18 @@ export async function userExists(name, surname, type) {
     throw err;
   }
 }
-// action: set delete get
+
+/**
+ * Handles google drive data by making an API request.
+ *
+ * @param {string} name - The name of the person.
+ * @param {string} surname - The surname of the person.
+ * @param {number} imgNum - The image number.
+ * @param {string} action - The action to perform. Can be "get", "set", or "delete".
+ * @param {undefined|File} img - The image file (optional).
+ * @returns {Promise<Object>} - The response data from the API.
+ * @throws {Error} - If an error occurs during the API request.
+ */
 export async function handleDriveData(
   name,
   surname,
@@ -116,13 +165,21 @@ export async function handleDriveData(
     return data;
   } catch (err) {
     console.error(err, "Error in handleDriveData");
-    // throw err;
+    throw err;
   }
 }
 
+/**
+ * Checks if a name and surname corresponds to an admin account.
+ *
+ * @param {string} name - The name of the user.
+ * @param {string} surname - The surname of the user.
+ * @returns {Promise<any>} - A promise that resolves to the admin data.
+ * @throws {Error} - If there is an error in handling the admin data.
+ */
 export async function checkIfAdmin(name, surname) {
   try {
-    const response = await fetchData({name: name, surname: surname},'admin-token');
+    const response = await fetchData({ name: name, surname: surname }, 'admin-token');
     const data = await response.json();
     return data;
   } catch (err) {
@@ -132,9 +189,14 @@ export async function checkIfAdmin(name, surname) {
 }
 
 
-export async function getGlobalChat(page) {
+/**
+ * Retrieves the global chat data.
+ * @returns {Promise<Object>} The global chat data.
+ * @throws {Error} If an error occurs while fetching the data.
+ */
+export async function getGlobalChat() {
   try {
-    const response = await fetchData({ page }, 'get-chat');
+    const response = await fetchData({}, 'get-chat');
     const data = await response.json();
     return data;
   } catch (err) {
@@ -143,6 +205,13 @@ export async function getGlobalChat(page) {
   }
 }
 
+/**
+ * Sends a global chat message.
+ * 
+ * @param {string} message - The message to be sent.
+ * @returns {Promise} - A promise that resolves to the response data.
+ * @throws {Error} - If an error occurs while sending the chat message.
+ */
 export async function sendGlobalChat(message) {
   try {
     const response = await fetchData(message, 'send-chat');
