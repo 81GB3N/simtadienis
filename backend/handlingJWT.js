@@ -45,7 +45,6 @@ function verifyToken(req, res, next) {
         
         req.payload = decoded;
         console.log("PAYLOAD:", req.payload)
-        next(); // Proceed to the next middleware or route handler
     });
 }
 
