@@ -26,6 +26,12 @@ const GalleryCount = forwardRef(function GalleryCount({ totalCnt }, ref) {
          */
         decreaseCnt: () => {
             setSubmittedCount(prevCnt => prevCnt - 1);
+        },
+        /**
+         * Clears the count of submitted items.
+         */
+        clearCnt: () => {
+            setSubmittedCount(0);
         }
     }))
 

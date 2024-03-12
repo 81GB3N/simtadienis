@@ -32,6 +32,7 @@ export default function UserProfile() {
      */
     const logout = () => {
         localStorage.removeItem("user");
+        console.log('logging out');
         clearUserId();
         resetPage();
     }

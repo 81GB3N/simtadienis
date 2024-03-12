@@ -1,5 +1,6 @@
 import { usePage } from '../../context/PageProvider';
-import { useRef, useCallback } from 'react';
+import { useUser } from '../../context/UserProvider';
+import { useRef, useCallback, useEffect } from 'react';
 
 import { FormattedMessage } from 'react-intl';
 
@@ -16,7 +17,13 @@ const GALLERY_LENGTH = 5
  */
 export default function Gallery() {
     const { currentUserPageName } = usePage();
+    const { userId } = useUser();
     const galleryCntRef = useRef();
+
+
+    useEffect(() => {
+        galleryCntRef.current.clearCnt();
+    }, [userId])
     
     /**
      * Increases the count of the submitted images.
