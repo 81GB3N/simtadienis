@@ -17,7 +17,13 @@ async function fetchData(userData, page) {
 
   // Retrieve the "user" item from localStorage
   //CHANGE THIS
-  const userItem = localStorage.getItem("sp") || localStorage.getItem("admin") || localStorage.getItem("user");
+  // const userItem = localStorage.getItem("sp") || localStorage.getItem("admin") || localStorage.getItem("user");
+
+  let userItem;
+
+  if("register-admin" && localStorage.getItem("sp")) userItem = localStorage.getItem("sp");
+  else if(("addmoney" || "check-password") && localStorage.getItem("admin")) userItem = localStorage.getItem("admin");
+  else if(localStorage.getItem("user")) userItem = localStorage.get("user"); 
 
   // Check if "user" item exists and contains a token
   if (userItem) {
