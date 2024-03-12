@@ -1,13 +1,13 @@
 /* LEADERBOARD */
 .leaderboard {
-    /* display: flex; */
     display: none;
     flex-direction: column;
-    gap: 1.5rem;
-    /* padding: 0 min(3rem, 30%); */
-    /* padding-bottom: 3rem; */
+    gap: 1.5rem;    
+    width: 100%;
+    padding:0 20%;
     overflow-y: auto;
     scrollbar-width: none;
+
 }
 
 .leaderboard::-webkit-scrollbar {
@@ -16,10 +16,6 @@
 
 .leaderboard.active {
     display: flex;
-}
-
-.leaderboard.desktop{
-    padding: 0 10rem;
 }
 
 .entry {
