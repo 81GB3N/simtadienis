@@ -1,6 +1,6 @@
 import { userExists, validatePassword } from "../../utils/api.js";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Input from "../Input";
@@ -32,18 +32,6 @@ export default function AdminLogin() {
     }
 
     /**
-     * Displays an error message for a specified duration.
-     *
-     * @param {string} msg - The error message to display.
-     */
-    function displayError(msg) {
-        setErrMsg(msg);
-        setTimeout(() => {
-            setErrMsg("");
-        }, 3000);
-    }
-
-    /**
      * Handles the form submission event.
      *
      * @param {Event} e - The form submission event.
@@ -53,15 +41,15 @@ export default function AdminLogin() {
 
         if (!await userExists(name, surname, 'admin')) {
             console.log("Admin account doesn't exist");
-            displayError("Admin account doesn't exist");
+            setErrMsg("Admin account doesn't exist");
             return;
         }
 
         const response = await validatePassword(name, surname, password, 'admin')
-        
+
         if (!response.result) {
             console.log("Incorrect Admin Information", response);
-            displayError("Incorrect Admin Information");
+            setErrMsg("Incorrect Admin Information");
             return;
         }
 
@@ -72,10 +60,14 @@ export default function AdminLogin() {
         navigate('/admin/users');
     }
 
+    useEffect(() => {
+        setErrMsg("");
+    }, [name, surname, password])
+
     return (
         <section className="admin-login-container container">
             <h2 className="admin-login-title">Login</h2>
-            <p className={`${errMsg ? "errmsg" : "noerr"} take-space`}>{errMsg}</p>
+            <p className={`${errMsg ? "errmsg active" : "noerr"} take-space`}>{errMsg}</p>
             <form className="admin-login" method="get" onSubmit={handleSubmit}>
                 <div >
                     <label htmlFor="name">
