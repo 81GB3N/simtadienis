@@ -8,6 +8,7 @@
     /* padding-bottom: 3rem; */
     overflow-y: auto;
     scrollbar-width: none;
+    /* padding-left: 2rem; */
 }
 
 .leaderboard::-webkit-scrollbar {
@@ -75,6 +76,7 @@
 .entry-wrap {
     display: flex;
     margin-bottom: 0.75rem;
+    overflow: hidden;
 }
 
 .entry-ava {
@@ -125,7 +127,7 @@
 .entry-name,
 .entry-money {
     overflow: hidden;
-    white-space: nowrap;
+    /* white-space: nowrap; */
     text-overflow: ellipsis;
 }
 

@@ -2,6 +2,7 @@ import { getUserData, sendUserData } from "../../utils/api";
 import { useState, useEffect, useCallback } from "react";
 
 import { useUser } from "../../context/UserProvider";
+import { resetPage, usePage } from "../../context/PageProvider";
 
 import WebcamModal from "../webcam/WebcamModal";
 import EditProfile from "./EditProfile";
@@ -24,13 +25,16 @@ export default function UserProfile() {
     const [moneyEffectActive, setMoneyEffectActive] = useState(false);
 
     const { userId, clearUserId } = useUser();
+    const { resetPage } = usePage();
 
     /**
      * Logs out the user by removing the user data from local storage and clearing the user ID.
      */
     const logout = () => {
         localStorage.removeItem("user");
+        console.log('logging out');
         clearUserId();
+        resetPage();
     }
 
     /**
@@ -108,7 +112,7 @@ export default function UserProfile() {
         <>
             <div className="user__profile">
                 <div className="profile__img">
-                    <div className="profile-img-container">
+                    <div className="profile-img-container" onClick={openEdit}>
                         <img className="profile-img" src={userData?.image || unkownUserImg} alt="user">
                         </img>
                     </div>

@@ -26,10 +26,11 @@ const generateJWT = (user, role) => {
 // generateJWT({name: "super", surname: "admin"}, "super admin");
 
 function verifyToken(req, res, next) {
-
+    console.log('-------------------handlingJWT verifyToken-------------------');
+    console.log(req.headers.authorization);
     // Extract the JWT token from the Authorization header
     const token = req.headers.authorization.startsWith('Bearer') ? req.headers.authorization.split(' ')[1] : req.headers.authorization;
-    console.log("authorization bearer handlingJWT verifyToken: ", token);
+    // console.log("authorization bearer handlingJWT verifyToken: ", token);
 
     if (!token) {
         return res.status(401).json({ error: 'Unauthorized: No token provided' });

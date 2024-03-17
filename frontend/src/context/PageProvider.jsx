@@ -36,11 +36,16 @@ export default function PageProvider({ children }) {
         }
     }
 
+    const resetPage = () => {
+        setCurrentUserPageName('home');
+    }
+
     return (
         <PageContext.Provider
             value={{
                 currentUserPageName,
                 validUserPageNames,
+                resetPage,
                 changeUserPage,
             }}>
             {children}

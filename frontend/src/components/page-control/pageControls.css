@@ -155,6 +155,7 @@
 
 .extend-nav-btn{
     color: var(--primary-color-gray);
+    font-size: calc(var(--button-size) - 0.5rem);
     transition: transform 0.5s ease-in-out;
 }
 

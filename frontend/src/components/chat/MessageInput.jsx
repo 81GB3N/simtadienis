@@ -10,6 +10,7 @@ import { LiaPaperPlaneSolid } from "react-icons/lia";
 
 const MAX_MESSAGE_LENGTH = 100;
 const SHAKE_ANIMATION_DURATION = 500; // in ms, as defined in css 
+const BUTTON_TIMOUT_DURATION = 2000; // in ms
 
 /**
  * Renders a message input component.
@@ -23,6 +24,7 @@ export default function MessageInput() {
 
     const [inputMessage, setInputMessage] = useState('');
     const [shake, setShake] = useState(false);
+    const [buttonTimeOut, setButtonTimeOut] = useState(false);
 
     /**
      * Sends a message to the global chat.
@@ -49,11 +51,15 @@ export default function MessageInput() {
         sendGlobalChat(payload).then(data => {
             console.log('sent: ', data);
         });
-        setInputMessage('');   
+        setInputMessage(''); 
+        setButtonTimeOut(true);
+        setTimeout(()=>{
+            setButtonTimeOut(false);
+        }, BUTTON_TIMOUT_DURATION)  
     }
 
     return (
-        <form className='chat__form' onSubmit={sendMessage}>
+        <form className='chat__form' onSubmit={sendMessage} autoComplete='off'>
             <div className='chat-input-container'>
                 <input className='chat-input'
                     type="text"
@@ -66,7 +72,7 @@ export default function MessageInput() {
                     <p>{inputMessage.length}/{MAX_MESSAGE_LENGTH}</p>
                 </div>
             </div>
-            <button className='chat-submit-btn' type="submit">
+            <button className={`chat-submit-btn ${buttonTimeOut ? 'disabled' : ''}`} type="submit">
                 <LiaPaperPlaneSolid />
             </button>
         </form>

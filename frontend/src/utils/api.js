@@ -17,7 +17,13 @@ async function fetchData(userData, page) {
 
   // Retrieve the "user" item from localStorage
   //CHANGE THIS
-  const userItem = localStorage.getItem("sp") || localStorage.getItem("admin") || localStorage.getItem("user");
+  // const userItem = localStorage.getItem("sp") || localStorage.getItem("admin") || localStorage.getItem("user");
+
+  let userItem;
+
+  if(page === "register-admin" && localStorage.getItem("sp")) userItem = localStorage.getItem("sp");
+  else if((page === "addmoney" || page === "check-password") && localStorage.getItem("admin")) userItem = localStorage.getItem("admin");
+  else if(localStorage.getItem("user")) userItem = localStorage.getItem("user"); 
 
   // Check if "user" item exists and contains a token
   if (userItem) {
@@ -157,13 +163,12 @@ export async function handleDriveData(
   img = undefined
 ) {
   try {
-    console.log("handling", name, surname, img, imgNum, action);
+    console.log("handling", name, surname, imgNum, action);
     const response = await fetchData(
       { name: name, surname: surname, img: img, imgNum: imgNum },
       `${action}-image`
     );
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (err) {
     console.error(err, "Error in handleDriveData");

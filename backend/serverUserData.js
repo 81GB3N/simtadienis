@@ -175,12 +175,17 @@ app.post('/api/set-image', verifyToken, async (req, res, next) => {
 app.post('/api/get-image', verifyToken, async (req, res, next) => {
   try {
     const data = req.body;
+    console.log("---------------------CHROME CHECK--------------------------");
+    console.log(data, ' VS ', req.payload);
     if (data.name === req.payload.name && data.surname === req.payload.surname) {
+      // firefox goes here
+      console.log("-----------------CHECKPOINT PASSED----------------");
       //retrieves the file id for the image with the users name and surname
       const response = await retrieveFileId(data);
       res.json({ response });
     }
     else {
+      // chrome goes here
       console.log("wrong user get", req.payload.name, req.payload.surname, data);
     }
   } catch (err) { next(err) }
@@ -226,13 +231,13 @@ app.post('/api/send-chat', (req, res) => {
   } catch (err) { next(err) }
 });
 
-app.post('/api/admin-token', verifyToken, async(req, res, next)=>{
-  try{
+app.post('/api/admin-token', verifyToken, async (req, res, next) => {
+  try {
     const status = req.payload.role === "admin";
     console.log(status);
-    res.json({status});
+    res.json({ status });
   }
-  catch(err){next(err)};
+  catch (err) { next(err) };
 })
 
 //error handling function
