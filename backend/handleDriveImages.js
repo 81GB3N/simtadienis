@@ -14,7 +14,7 @@ const folderId = ['1vf2OJkrwuFni13KfOOR4o_ZdfehqLePF'];
 
 //get file name curently used
 function getFileName(data){
-    return data.name + data.surname + data.imgNum + '.jpg';
+    return data.name.toLowerCase() + data.surname.toLowerCase() + data.imgNum + '.jpg';
 }
 
 //function to upload to google drive using service account
