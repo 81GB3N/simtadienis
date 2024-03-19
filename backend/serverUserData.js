@@ -164,7 +164,7 @@ app.post("/api/update-picture", verifyToken, (req, res, next) => {
   try {
     //checks if the right person is accesing his data
     const picture = req.body;
-    if (req.payload.name === picture.name && req.payload.surname === picture.surname) {
+    if (req.payload.name.toLowercase() === picture.name.toLowercase() && req.payload.surname.toLowercase() === picture.surname.toLowercase()) {
       updateUser(picture);
       res.json({ response: "Image Successfully Updated" });
     } else {
@@ -178,7 +178,7 @@ app.post("/api/update-picture", verifyToken, (req, res, next) => {
 app.post("/api/set-image", verifyToken, async (req, res, next) => {
   try {
     const data = req.body;
-    if (data.name === req.payload.name && data.surname === req.payload.surname) {
+    if (data.name.toLowercase() === req.payload.name.toLowercase() && data.surname.toLowercase() === req.payload.surname.toLowercase()) {
       console.log("uploadin image", data);
       //uploads user selected image to the drive
       await uploadToDrive(data);
