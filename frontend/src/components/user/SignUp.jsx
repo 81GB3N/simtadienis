@@ -68,7 +68,7 @@ export default function Signup() {
             surname: userSurname,
             password: password,
             money: 0,
-            image: unkownUserImg,
+            image: null,
             galleryCnt: 0
         };
 
