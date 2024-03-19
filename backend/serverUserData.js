@@ -1,4 +1,4 @@
-const { writeDocument, findUser, updateUser, retrieveDocument } = require("./db");
+const { writeDocument, findUser, updateUser, retrieveDocument, handleRating } = require("./db");
 const { encrypt } = require("./encryptPassword");
 const { checkPassword } = require("./checkUserPassword");
 const { initializeSocket } = require("./socket");
@@ -99,6 +99,7 @@ app.post("/api/register", async (req, res, next) => {
     //generates a token for that user
     register.token = generateJWT(register, "user");
     console.log("generated user token: ", register.token);
+    register.money = 0;
     writeDocument(register);
 
     //emits a socket messege upon registering
@@ -283,6 +284,17 @@ app.post("/api/admin-token", verifyToken, async (req, res, next) => {
     console.log(status);
     res.json({ status });
   } catch (err) {
+    next(err);
+  }
+});
+
+app.post("/api/video-votes", async(rew, res, next)=>{
+  try{
+    const body = req.body;
+    const result = await handleRating(body.action, body);
+    res.json({result});
+  }
+  catch (err) {
     next(err);
   }
 });
