@@ -123,7 +123,7 @@ export default function UserProfile() {
 
                     </div>
                 </div>
-                <p className="user-name">{userData?.name}, {userData?.surname}</p>
+                <p className="user-name">{userData?.name} {userData?.surname}</p>
                 <div className="user__money">
                     <LiaMoneyBillSolid className={`user-money-icon ${moneyEffectActive ? 'active' : ''}`} onClick={() => setMoneyEffectActive(prev => !prev)} />
                     <p className="digit">{userData?.money}</p>

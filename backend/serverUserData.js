@@ -1,12 +1,12 @@
 const { writeDocument, findUser, updateUser, retrieveDocument } = require("./db");
-const { encrypt } = require("./encryptPassword")
+const { encrypt } = require("./encryptPassword");
 const { checkPassword } = require("./checkUserPassword");
-const { initializeSocket } = require('./socket');
+const { initializeSocket } = require("./socket");
 const { verifyToken, generateJWT, getJWT } = require("./handlingJWT.js");
 const { uploadToDrive, deleteFromDrive, retrieveFileId } = require("./handleDriveImages.js");
 
-const http = require('http');
-const dotenv = require('dotenv');
+const http = require("http");
+const dotenv = require("dotenv");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -16,7 +16,7 @@ const port = process.env.PORT;
 
 dotenv.config();
 //icrease the limit for the google drive images
-app.use(bodyParser.json({ limit: '25mb', extended: true }));
+app.use(bodyParser.json({ limit: "25mb", extended: true }));
 app.use(cors());
 const server = http.createServer(app);
 const io = initializeSocket(server);
@@ -26,18 +26,25 @@ app.get("/api/getallusers", async (req, res, next) => {
   try {
     const result = await retrieveDocument();
     res.json({ result });
-  } catch (err) { next(err) }
+  } catch (err) {
+    next(err);
+  }
 });
 
-app.get('/api/ssas', async (req, res, next) => {
-  try {
-    //gets super admin token
-    const token = await getJWT('ab87b68a7rebea68a7b6a', 'aer78ae7b867ab68ea876ab');
-    console.log(token);
-    res.json({ token });
-
-  } catch (err) { next(err) }
-});
+//UNSED RETRIEVE SUPER ADMIN TOKEN
+// app.get("/api/ssas", async (req, res, next) => {
+//   try {
+//     //gets super admin token
+//     const token = await getJWT(
+//       "ab87b68a7rebea68a7b6a",
+//       "aer78ae7b867ab68ea876ab"
+//     );
+//     console.log(token);
+//     res.json({ token });
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
 //gets user information specifies without password
 app.post("/api/getuser", async (req, res, next) => {
@@ -46,7 +53,9 @@ app.post("/api/getuser", async (req, res, next) => {
     //find the user with the requestred info
     const result = await findUser(user.name, user.surname);
     res.json({ result });
-  } catch (err) { next(err) }
+  } catch (err) {
+    next(err);
+  }
 });
 
 //recieving user data to check for the password
@@ -55,12 +64,18 @@ app.post("/api/check-password", async (req, res, next) => {
     const user = req.body;
     console.log(user);
     //comapre given pasword with the one in the database
-    const result = await checkPassword(user.name, user.surname, user.type, user.password);
-    console.log(result)
-    res.json({ result })
-  } catch (err) { next(err) }
+    const result = await checkPassword(
+      user.name,
+      user.surname,
+      user.type,
+      user.password
+    );
+    console.log(result);
+    res.json({ result });
+  } catch (err) {
+    next(err);
+  }
 });
-
 
 app.post("/api/check-status", async (req, res, next) => {
   try {
@@ -68,12 +83,14 @@ app.post("/api/check-status", async (req, res, next) => {
     const type = user.type;
     //check if user exists
     const result = await findUser(user.name, user.surname, type);
-    console.log(result)
+    console.log(result);
     result[0] ? res.json(true) : res.json(false);
-  } catch (err) { next(err) }
+  } catch (err) {
+    next(err);
+  }
 });
 
-//writes user data by registering 
+//writes user data by registering
 app.post("/api/register", async (req, res, next) => {
   try {
     const register = req.body;
@@ -88,24 +105,26 @@ app.post("/api/register", async (req, res, next) => {
     io.emit("getusers");
 
     res.json({ message: "Registration successful" });
-  } catch (err) { next(err) }
+  } catch (err) {
+    next(err);
+  }
 });
-
 
 //writes user history to history collection
-app.post("/api/write-history", (req) => {
-  const history = req.body;
-  //invoke in addmoney
-  writeDocument(history, "history");
-});
+//UNUSED
+// app.post("/api/write-history", (req) => {
+//   const history = req.body;
+//   //invoke in addmoney
+//   writeDocument(history, "history");
+// });
 
 //super admin function to register admins
 app.post("/api/register-admin", verifyToken, async (req) => {
   try {
     //checks token for right role
-    console.error("register admin role:", req.payload.role)
+    console.error("register admin role:", req.payload.role);
 
-    if (req.payload.role == 'super admin') {
+    if (req.payload.role == "super admin") {
       const admin = req.body;
 
       //encrypts the admin password
@@ -113,13 +132,14 @@ app.post("/api/register-admin", verifyToken, async (req) => {
       //generates the token for that user
       admin.token = generateJWT(admin, "admin");
 
-      console.log("generated admin token: ", admin.token)
+      console.log("generated admin token: ", admin.token);
       writeDocument(admin, "admin");
-    }
-    else {
+    } else {
       return res.status(401).json({ error: "Unauthorized request" });
     }
-  } catch (err) { next(err) }
+  } catch (err) {
+    next(err);
+  }
 });
 
 //uodates user money
@@ -129,124 +149,150 @@ app.post("/api/addmoney", verifyToken, (req, res) => {
   if (req.payload.role === "admin") {
     const money = req.body;
     if (!money.money || isNaN(money.money)) {
-      res.status(400).json({ error: "Invalid money format" })
+      res.status(400).json({ error: "Invalid money format" });
     }
-    updateUser(money)
-    io.emit('getusers');
+    updateUser(money);
+    io.emit("getusers");
     res.json({ response: "Money Successfully Updated" });
-  }
-  else {
+  } else {
     return res.status(401).json({ error: "Unauthorized request" });
   }
 });
 
-app.post('/api/update-picture', verifyToken, (req, res, next) => {
+app.post("/api/update-picture", verifyToken, (req, res, next) => {
   try {
     //checks if the right person is accesing his data
     const picture = req.body;
     if (req.payload.name === picture.name && req.payload.surname === picture.surname) {
       updateUser(picture);
       res.json({ response: "Image Successfully Updated" });
-    }
-    else {
+    } else {
       return res.status(401).json({ error: "Unauthorized request" });
     }
+  } catch (err) {
+    next(err);
   }
-  catch (err) { next(err) }
 });
 
-app.post('/api/set-image', verifyToken, async (req, res, next) => {
+app.post("/api/set-image", verifyToken, async (req, res, next) => {
   try {
     const data = req.body;
     if (data.name === req.payload.name && data.surname === req.payload.surname) {
       console.log("uploadin image", data);
       //uploads user selected image to the drive
       await uploadToDrive(data);
-      res.json({ response: "Image Successfully Uploaded" })
-    }
-    else {
+      res.json({ response: "Image Successfully Uploaded" });
+    } else {
       console.log("wrong user set");
     }
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
 
-app.post('/api/get-image', verifyToken, async (req, res, next) => {
+app.post("/api/get-image", verifyToken, async (req, res, next) => {
   try {
     const data = req.body;
     console.log("---------------------CHROME CHECK--------------------------");
-    console.log(data, ' VS ', req.payload);
+    console.log(data, " VS ", req.payload);
     if (data.name === req.payload.name && data.surname === req.payload.surname) {
       // firefox goes here
       console.log("-----------------CHECKPOINT PASSED----------------");
       //retrieves the file id for the image with the users name and surname
       const response = await retrieveFileId(data);
       res.json({ response });
-    }
-    else {
+    } else {
       // chrome goes here
-      console.log("wrong user get", req.payload.name, req.payload.surname, data);
+      console.log(
+        "wrong user get",
+        req.payload.name,
+        req.payload.surname,
+        data
+      );
     }
-  } catch (err) { next(err) }
-})
+  } catch (err) {
+    next(err);
+  }
+});
 
-app.post('/api/delete-image', verifyToken, async (req, res, next) => {
+app.post("/api/delete-image", verifyToken, async (req, res, next) => {
   try {
     const data = req.body;
     if (data.name === req.payload.name && data.surname === req.payload.surname) {
       //removes the user image picture from the dabtabase
       await deleteFromDrive(data);
-      res.json({ response: "Image Successfully Deleted" })
-    }
-    else {
+      res.json({ response: "Image Successfully Deleted" });
+    } else {
       console.log("wrong user delete");
     }
-  } catch (err) { next(err) }
-})
+  } catch (err) {
+    next(err);
+  }
+});
+
+
+//Gets the current server time in "yyyy/mm/dd, hh:mm:ss" format;
+function DateTime() {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const seconds = String(date.getSeconds()).padStart(2, "0");
+  const ampm = hours >= 12 ? "PM" : "AM";
+
+  const dateTime = `${year}/${month}/${day}, ${hours}:${minutes}:${seconds} ${ampm}`;
+
+  console.log(dateTime); 
+  return dateTime;
+}
 
 const chat_messages = [
   {
     user: "Admin",
     content: "Welcome to the chat",
-    time: new Date().toLocaleString()
-  }
+    time: DateTime(),
+  },
 ];
 
 const MESSAGES_PER_PAGE = 20;
 
 // todo: make pagination
 
-app.post('/api/get-chat', (req, res) => {
+app.post("/api/get-chat", (req, res) => {
   res.json({ payload: chat_messages });
-})
+});
 
-app.post('/api/send-chat', (req, res) => {
+app.post("/api/send-chat", (req, res) => {
   try {
     const message = req.body;
     chat_messages.push(message);
-    console.log('emitting io message: ', message);
-    io.emit('chat', message);
+    console.log("emitting io message: ", message);
+    io.emit("chat", message);
     res.json({ response: "Message Sent" });
-  } catch (err) { next(err) }
+  } catch (err) {
+    next(err);
+  }
 });
 
-app.post('/api/admin-token', verifyToken, async (req, res, next) => {
+app.post("/api/admin-token", verifyToken, async (req, res, next) => {
   try {
     const status = req.payload.role === "admin";
     console.log(status);
     res.json({ status });
+  } catch (err) {
+    next(err);
   }
-  catch (err) { next(err) };
-})
+});
 
 //error handling function
 app.use((err, req, res, next) => {
-  console.error(err.stack)
+  console.error(err.stack);
   // res.status(500).send('Something broke!')
   res.status(500).json({ error: err });
-})
+});
 
 server.listen(port, () => {
   console.log(`server is running on port http://localhost:${port}`);
-})
+});

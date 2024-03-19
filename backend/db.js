@@ -40,7 +40,7 @@ const writeDocument = async (registerData, page=main) => {
     const collection = database.collection(page);
     await collection.insertOne(registerData);
     // registerData.status = page;
-    await database.collection("tokens").insertOne({name: registerData.name, surname: registerData.surname, token: registerData.token});
+    // await database.collection("tokens").insertOne({name: registerData.name, surname: registerData.surname, token: registerData.token});
   } catch (error) {
     console.error(error);
   }
@@ -118,13 +118,15 @@ const updateUser = async (updateInfo) => {
 };
 
 
-const getUserToken = async (name, surname) =>{
-  const collection= database.collection("tokens");
-  const query = {name: toRegexInsensitive(name), surname: toRegexInsensitive(surname)};
-  const cursor = collection.find(query);
-  const document = await cursor.toArray();
-  return document[0].token;
-}
+
+//UNUSED
+// const getUserToken = async (name, surname) =>{
+//   const collection= database.collection("tokens");
+//   const query = {name: toRegexInsensitive(name), surname: toRegexInsensitive(surname)};
+//   const cursor = collection.find(query);
+//   const document = await cursor.toArray();
+//   return document[0].token;
+// }
 
 //find user and its info on the given data
 const findUser = async (name, surname, page=main, getPassword) => {
@@ -166,5 +168,5 @@ module.exports = {
   findUser,
   updateUser,
   retrieveDocument,
-  getUserToken
+  // getUserToken
 };

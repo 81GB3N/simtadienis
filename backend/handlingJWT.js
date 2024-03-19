@@ -10,8 +10,8 @@ const secretKey = process.env.JWT_SECRET_KEY;
 const generateJWT = (user, role) => {
 
     const payload = {
-        name: user.name,
-        surname: user.surname,
+        name: user.name.toLowerCase(),
+        surname: user.surname.toLowerCase(),
         role: role,
     };
         
@@ -50,10 +50,14 @@ function verifyToken(req, res, next) {
     });
 }
 
-async function getJWT(name, surname){
-    const token = await getUserToken(name, surname);
-    console.log("token from db: ", token);
-    return token;
-}
 
-module.exports = { generateJWT, verifyToken, getJWT }
+//UNUSED
+// async function getJWT(name, surname){
+//     const token = await getUserToken(name.toLowerCase(), surname.toLowerCase());
+//     console.log("token from db: ", token);
+//     return token;
+// }
+
+module.exports = { generateJWT, verifyToken, 
+//    getJWT
+ }
