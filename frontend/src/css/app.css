@@ -133,6 +133,12 @@ body {
     font-weight: 500;
 }
 
+.ad-banner{
+    object-fit: contain;
+    flex-shrink: 1;
+    max-height: 50px;
+}
+
 /* CSS FOR VISUAL TESTS (will be deleted in production) */
 .content {
     height: 350vh;

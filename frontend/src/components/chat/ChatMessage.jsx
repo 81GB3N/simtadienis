@@ -3,6 +3,8 @@ import { FormattedMessage } from "react-intl";
 import Modal from "../modal/Modal"
 import UserWindow from "../user/UserWindow";
 
+import adBanner from '../../assets/images/weborado-full.png';
+
 const AD_URL = 'https://weborado.lt';
 
 export default function ChatMessage({ message }) {
@@ -17,6 +19,15 @@ export default function ChatMessage({ message }) {
         setModalIsOpen(true);
     }
 
+    let messageContent = message?.content;
+    if (isAd) {
+        messageContent = (
+            <>
+                <FormattedMessage id='ad' />
+                <img className="ad-banner" src={adBanner} alt="domenai.lt banner"></img>
+            </>)
+    }
+
     return (
         <>
             <div key={message.user + message.time + message.content} className={`chat__message ${isAd ? 'ad' : ''}`} onClick={isAd ? () => window.open(AD_URL, '_blank', 'noopener,noreferrer') : openModal}>
@@ -25,9 +36,7 @@ export default function ChatMessage({ message }) {
                     <p className='digit'>{message.time}</p>
                 </div>
                 <p className='message-content'>
-                    {
-                        isAd ? <FormattedMessage id='ad' /> : message.content
-                    }
+                    {messageContent}
                 </p>
             </div>
             {
