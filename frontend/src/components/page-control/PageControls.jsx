@@ -12,7 +12,7 @@ import './pageControls.css';
  * @returns {JSX.Element} The rendered page controls component.
  */
 export default function PageControls() {
-    const { menuActive, toggleMenu } = useMenu();
+    const { menuActive, toggleMenu, closeMenu } = useMenu();
     const { closeLogin, closeSignup, loginActive, signupActive } = useUser();
     const { currentUserPageName, changeUserPage } = usePage();
 
@@ -22,8 +22,12 @@ export default function PageControls() {
         extraBtn = <BackArrow handleArrowClick={handleArrowClick} />;
     }
     else if (currentUserPageName !== 'home') {
+        const handleHomeClick = () => {
+            if(menuActive) closeMenu();
+            changeUserPage('home');
+        }
         extraBtn = (
-            <button className='go-home' onClick={() => changeUserPage('home')}>
+            <button className='go-home' onClick={handleHomeClick}>
                 <LiaHomeSolid />
             </button>
         )

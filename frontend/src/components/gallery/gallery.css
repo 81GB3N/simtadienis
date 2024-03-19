@@ -2,7 +2,7 @@
     width: 100vw;
     flex-direction: column;
     align-items: center;
-    color: aliceblue;
+    color: var(--primary-color-white);
 }
 .gallery.active{
     display: flex;

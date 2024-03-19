@@ -97,11 +97,8 @@
 .go-home {
     width: 35px;
     height: 35px;
-    color: aliceblue;
-    /* position: absolute;
-    top: 0; */
-    /* left: var(--x-padding); */
-    transition: opacity 0.1s ease-in-out;
+    color: var(--primary-color-white);
+    transition: color var(--animation-duration) ease-in-out;
 }
 
 .go-home svg {
@@ -110,8 +107,7 @@
 }
 
 .page__controls.active .go-home {
-    opacity: 0;
-    pointer-events: none;
+    color: var(--primary-color-black);
 }
 
 /* PAGE NAVIGATION */
