@@ -3,7 +3,7 @@ import { useAdmin } from "../../context/AdminProvider";
 import Autosuggest from "react-autosuggest";
 
 const getSuggestions = (value, users) => {
-    const inputValue = value.trim();
+    const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
 
     return inputLength === 0 ? [] : users.filter(user =>
@@ -11,7 +11,7 @@ const getSuggestions = (value, users) => {
     );
 }
 
-const getSuggestionValue = suggestion => suggestion.name + ' ' + suggestion.surname;
+const getSuggestionValue = suggestion => suggestion.name + ' ' + suggestion.surname
 
 const renderSuggestion = suggestion => {
     return (

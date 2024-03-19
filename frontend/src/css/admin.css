@@ -33,7 +33,7 @@ body {
     color: var(--admin-text-primary);
     height: max-content;
     align-items: stretch;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .drawer {
