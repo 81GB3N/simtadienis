@@ -9,6 +9,7 @@
     overflow-y: auto;
     scrollbar-width: none;
     /* padding-left: 2rem; */
+    max-width: 90%;
 }
 
 .leaderboard::-webkit-scrollbar {

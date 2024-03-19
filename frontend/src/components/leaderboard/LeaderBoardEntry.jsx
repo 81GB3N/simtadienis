@@ -1,6 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown, faMoneyBill1Wave } from "@fortawesome/free-solid-svg-icons";
 
+import Modal from "../modal/Modal";
+import UserWindow from "../user/UserWindow";
+
+import { useState } from "react";
 /**
  * Renders a leaderboard entry component.
  * @param {Object} props.user - The user object containing name, surname, and money.
@@ -9,6 +13,7 @@ import { faCrown, faMoneyBill1Wave } from "@fortawesome/free-solid-svg-icons";
  * @returns {JSX.Element} The rendered leaderboard entry component.
  */
 export default function LeaderBoardEntry({ user, position, mostMoney }) {
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const OFFSET = 10; // % of the bar width
 
     /**
@@ -38,7 +43,8 @@ export default function LeaderBoardEntry({ user, position, mostMoney }) {
     if(entryProps.customClass === 'first') barWidth -= OFFSET; 
     
     return (
-        <div className={`entry ${entryProps.customClass}`}>
+        <>
+        <div className={`entry ${entryProps.customClass}`} onClick={()=>setModalIsOpen(true)}>
             <div className="entry-wrap">
                 {entryProps.crown && (
                     <div className={`entry-ava`}>
@@ -57,5 +63,12 @@ export default function LeaderBoardEntry({ user, position, mostMoney }) {
                 <div className="bar" style={{ '--bar-width': `${barWidth}%` }}></div>
             </div>
         </div>
+        {
+            modalIsOpen && 
+            <Modal openOnMount>
+                <UserWindow user={`${user.name} ${user.surname}`} closeModal={()=>setModalIsOpen(false)}/>
+            </Modal>
+        }
+        </>
     )
 }

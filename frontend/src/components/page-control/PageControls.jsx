@@ -12,30 +12,34 @@ import './pageControls.css';
  * @returns {JSX.Element} The rendered page controls component.
  */
 export default function PageControls() {
-    const { menuActive, closeMenu, toggleMenu } = useMenu();
-    const {closeLogin, closeSignup, loginActive, signupActive } = useUser();
-    const { currentUserPageName, validUserPageNames, changeUserPage } = usePage();
+    const { menuActive, toggleMenu, closeMenu } = useMenu();
+    const { closeLogin, closeSignup, loginActive, signupActive } = useUser();
+    const { currentUserPageName, changeUserPage } = usePage();
 
-    let handleArrowClick;
-    if (!loginActive && !signupActive) {
-        handleArrowClick = () => closeMenu();
+    let extraBtn;
+    if (loginActive || signupActive) {
+        const handleArrowClick = loginActive ? () => closeLogin() : () => closeSignup();
+        extraBtn = <BackArrow handleArrowClick={handleArrowClick} />;
     }
-    else if (loginActive) {
-        handleArrowClick = () => closeLogin();
+    else if (currentUserPageName !== 'home') {
+        const handleHomeClick = () => {
+            if(menuActive) closeMenu();
+            changeUserPage('home');
+        }
+        extraBtn = (
+            <button className='go-home' onClick={handleHomeClick}>
+                <LiaHomeSolid />
+            </button>
+        )
     }
-    else if (signupActive) {
-        handleArrowClick = () => closeSignup();
+    else {
+        extraBtn = <div></div>;
     }
 
-    const nonHomeValidPages = validUserPageNames.filter(page => page !== 'home');
 
     return (
         <div className={`page__controls ${menuActive ? 'active' : ''} in-${currentUserPageName}`}>
-            <BackArrow handleArrowClick={handleArrowClick} />
-            {nonHomeValidPages.includes(currentUserPageName) &&
-                <button className='go-home' onClick={() => changeUserPage('home')}>
-                    <LiaHomeSolid />
-                </button>}
+            {extraBtn}
             <button id="hamburger" onClick={toggleMenu}>
                 <div id='bar'></div>
             </button>

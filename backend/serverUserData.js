@@ -52,7 +52,7 @@ app.post("/api/getuser", async (req, res, next) => {
     const user = req.body;
     //find the user with the requestred info
     const result = await findUser(user.name, user.surname);
-    res.json({ result });
+    result ? res.json({ response : result }) : res.json({ result: "User not found" });
   } catch (err) {
     next(err);
   }
@@ -231,32 +231,33 @@ app.post("/api/delete-image", verifyToken, async (req, res, next) => {
 });
 
 
-//Gets the current server time in "yyyy/mm/dd, hh:mm:ss" format;
-function DateTime() {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
-  const seconds = String(date.getSeconds()).padStart(2, "0");
-  const ampm = hours >= 12 ? "PM" : "AM";
-
-  const dateTime = `${year}/${month}/${day}, ${hours}:${minutes}:${seconds} ${ampm}`;
-
-  console.log(dateTime); 
-  return dateTime;
-}
-
 const chat_messages = [
   {
     user: "Admin",
     content: "Welcome to the chat",
-    time: DateTime(),
+    time: `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`,
   },
 ];
 
-const MESSAGES_PER_PAGE = 20;
+const MINUTE_DELAY = 2; // in mi
+const AD_INTERVAL = 1000 * 60 * MINUTE_DELAY; // in ms
+
+(() => {
+  setInterval(() => {
+    if (chat_messages[chat_messages.length - 1]?.ad) {
+      console.log("ad already exists");
+      return;
+    }
+    const adMessage = {
+      user: "Weborado",
+      content: '',
+      time: `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`,
+      ad: true
+    }
+    chat_messages.push(adMessage)
+    io.emit('chat', adMessage);
+  }, AD_INTERVAL);
+})();
 
 // todo: make pagination
 

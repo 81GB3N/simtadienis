@@ -165,6 +165,8 @@
 
 .profile__img{
     position: relative;
+    border: 2.5px solid black;
+    border-radius: 50%;
 }
 
 .profile-img-container{
@@ -176,15 +178,15 @@
 
 .profile-img{
     width: 100%;
-    height: 100%;
+    height: 125%;
     object-fit: cover;
     pointer-events: all;
 }
 
 .profile-img__controls{
     position: absolute;
-    bottom: 0;
-    right: -2.5rem;
+    bottom: -4rem;
+    right: -1.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -221,7 +223,7 @@
 }
 
 .user-logout-btn{
-    color: rgba(0, 0, 0, 0.6);
+    color: var(--primary-color-black);
     align-self: flex-end;
     margin-right: var(--x-padding);
 }
@@ -238,6 +240,31 @@
 
 #user .digit{
     font-size: 1.75rem;
+}
+
+/* USER WINDOW */
+.user__window{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 3rem;
+    backdrop-filter: blur(3px);
+}
+
+.window__profile{
+    height: 100%;
+    max-height: 300px;
+    width: 100%;
+    background-color: var(--primary-color-yellow);
+    border-radius: 0.5rem;
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0px 0px 30px rgb(242, 153, 29);
 }
 
 @media screen and (max-height: 900px) {

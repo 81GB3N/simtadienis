@@ -7,8 +7,6 @@ import { useUser } from "../../context/UserProvider";
 
 import FormInput from "../Input";
 
-import unkownUserImg from "../../assets/images/unknown-user.png";
-
 const USER_REGEX = /^[a-zA-Z0-9]{3,30}$/;
 const PASSWORD_REGEX = /^(?=.*[a-zA-Z])(?=.*\d).{5,}$/;
 
@@ -68,7 +66,7 @@ export default function Signup() {
             surname: userSurname,
             password: password,
             money: 0,
-            image: unkownUserImg,
+            image: null,
             galleryCnt: 0
         };
 

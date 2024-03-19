@@ -1,5 +1,5 @@
 import { useUser } from '../../context/UserProvider';
-import { useLanguage } from '../../context/LanguageProvider';
+import { useMenu } from '../../context/MenuProvider';
 import { useState } from 'react';
 
 import { useIntl } from 'react-intl';
@@ -17,9 +17,9 @@ const BUTTON_TIMOUT_DURATION = 2000; // in ms
  * @returns {JSX.Element} The message input component.
  */
 export default function MessageInput() {
-    const { userId } = useUser();
+    const { userId, userIdExists } = useUser();
+    const { openMenu } = useMenu();
 
-    const { locale } = useLanguage();
     const intl = useIntl();
 
     const [inputMessage, setInputMessage] = useState('');
@@ -42,11 +42,7 @@ export default function MessageInput() {
         const payload = {
             user: `${userId.name} ${userId.surname}`,
             content: inputMessage,
-            time: new Date().toLocaleString(locale, {
-                hour: 'numeric',
-                minute: 'numeric',
-                second: 'numeric',
-            })
+            time: `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`.padStart(2, '0')
         }
         sendGlobalChat(payload).then(data => {
             console.log('sent: ', data);
@@ -59,20 +55,21 @@ export default function MessageInput() {
     }
 
     return (
-        <form className='chat__form' onSubmit={sendMessage} autoComplete='off'>
+        <form className={`chat__form ${userIdExists ? '' : 'disabled'}`} onSubmit={sendMessage} onClick={userIdExists ? null : openMenu} autoComplete='off'>
             <div className='chat-input-container'>
                 <input className='chat-input'
                     type="text"
                     name="message"
                     onChange={(e) => setInputMessage(e.target.value)}
                     value={inputMessage}
-                    placeholder={intl.formatMessage({ id: 'message' })}>
+                    placeholder={userIdExists ? intl.formatMessage({ id: 'message' }) : intl.formatMessage({ id: 'login' })}
+                    disabled={!userIdExists}>
                 </input>
                 <div className={`input-counter ${inputMessage.length > MAX_MESSAGE_LENGTH || inputMessage.length <= 0 ? 'invalid' : ''} ${shake ? 'shake' : ''} digit`}>
                     <p>{inputMessage.length}/{MAX_MESSAGE_LENGTH}</p>
                 </div>
             </div>
-            <button className={`chat-submit-btn ${buttonTimeOut ? 'disabled' : ''}`} type="submit">
+            <button className={`chat-submit-btn ${buttonTimeOut || !userIdExists ? 'disabled' : ''}`} type="submit">
                 <LiaPaperPlaneSolid />
             </button>
         </form>

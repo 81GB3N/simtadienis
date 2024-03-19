@@ -1,20 +1,20 @@
 const { Server } = require('socket.io');
+const dotenv = require('dotenv');
+dotenv.config();
 
-function initializeSocket(server){
+function initializeSocket(server) {
 
-  const isLocalhost = window.location.hostname === 'localhost';
-  const origin = isLocalhost ? 'http://localhost:3000' : 'https://lic100.lt';  
+  const origin = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://lic100.lt';
+  const io = new Server(server, {
+    cors: {
+      origin: origin, // Replace with your React frontend URL
+      methods: ["GET", "POST"],
+    },
+  });
 
-const io = new Server(server, {
-  cors: {
-    origin: origin, // Replace with your React frontend URL
-    methods: ["GET", "POST"],
-  },
-});
-
-return io;
+  return io;
 }
 
 module.exports = {
-initializeSocket
+  initializeSocket
 }

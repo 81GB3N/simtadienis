@@ -25,7 +25,7 @@ const CustomWebcam = forwardRef(function CustomWebcam({ enabled }, ref) {
     return (
         <div className="video-container">
             <p className={`errmsg ${!enabled ? 'active' : null} webcam-err`}>Camera is not active</p>
-            <Webcam ref={webcamRef} audio={false} />
+            <Webcam ref={webcamRef} audio={false} mirrored={true}/>
         </div>
     )
 });

@@ -59,17 +59,25 @@ export default function AdminPage() {
         navigate('/admin');
     }, [navigate]);
 
+    /**
+     * Enables access for the admin user.
+     */
+    const enableAccess = useCallback(function () {
+        setAccess(true);
+        navigate('/admin/users');
+    }, [navigate]);
+
     useEffect(() => {
         validateCache().then((res) => {
             if (res === true) {
-                setAccess(true);
+                enableAccess();
             }
             else {
                 console.error(res);
                 disableAccess();
             }
         });
-    }, [navigate, validateCache, disableAccess]);
+    }, [navigate, validateCache, disableAccess, enableAccess]);
 
     if (access === undefined) {
         return null;

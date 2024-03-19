@@ -5,6 +5,7 @@
     --primary-color-yellow: #e8c060;
     --primary-color-green: #2e5445;
     --primary-color-black: #000000;
+    --primary-color-white: aliceblue;
     
     --primary-color-gray: rgb(113, 112, 112);
     --secondary-color-red: #d97f67;
@@ -130,6 +131,12 @@ body {
 .digit {
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-weight: 500;
+}
+
+.ad-banner{
+    object-fit: contain;
+    flex-shrink: 1;
+    max-height: 50px;
 }
 
 /* CSS FOR VISUAL TESTS (will be deleted in production) */
