@@ -156,6 +156,35 @@ const findUser = async (name, surname, page=main, getPassword) => {
   }
 };
 
+const handleRating = async (action, user) => {
+  try{
+    const collection = database.collection("video-ratings");
+    if(action === "get"){
+    const cursor = collection.find({});
+    const documents = await cursor.toArray();
+    return documents;
+    }
+    else if(action === "set"){
+      const info = await findUser(user.name, user.surname);
+      const vote = info.vote;
+
+      await collection.updateOne(
+        { video: vote  },
+        { $inc: {votes :  -1} }
+      );
+
+      await collection.updateOne(
+        { video: user.vote  },
+        { $inc: {votes :  1} }
+      );
+    }
+  }
+  catch(error){
+    console.error(error);
+  }
+}
+
+
 //close program after use
 process.on("SIGINT", async () => {
   await client.close();
@@ -168,5 +197,6 @@ module.exports = {
   findUser,
   updateUser,
   retrieveDocument,
+  handleRating,
   // getUserToken
 };
