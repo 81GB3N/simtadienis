@@ -168,5 +168,5 @@ module.exports = {
   findUser,
   updateUser,
   retrieveDocument,
-  getUserToken
+  // getUserToken
 };

@@ -58,4 +58,6 @@ function verifyToken(req, res, next) {
 //     return token;
 // }
 
-module.exports = { generateJWT, verifyToken, getJWT }
+module.exports = { generateJWT, verifyToken, 
+//    getJWT
+ }
