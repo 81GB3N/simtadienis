@@ -12,7 +12,6 @@ import { LiaEdit, LiaMoneyBillSolid } from "react-icons/lia";
 import { IoIosLogOut } from "react-icons/io";
 
 import './user.css';
-// import unkownUserImg from "../../assets/images/unknown-user.png";
 import unkownUserImg from "../../assets/images/unkown-user-new.png";
 
 /**

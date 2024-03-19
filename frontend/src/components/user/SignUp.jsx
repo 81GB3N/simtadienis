@@ -7,8 +7,6 @@ import { useUser } from "../../context/UserProvider";
 
 import FormInput from "../Input";
 
-import unkownUserImg from "../../assets/images/unknown-user.png";
-
 const USER_REGEX = /^[a-zA-Z0-9]{3,30}$/;
 const PASSWORD_REGEX = /^(?=.*[a-zA-Z])(?=.*\d).{5,}$/;
 
