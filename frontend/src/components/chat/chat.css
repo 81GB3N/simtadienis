@@ -40,6 +40,13 @@
     justify-content: space-between;
     gap: 2rem;
 }
+.chat__form.disabled{
+    pointer-events: all;
+}
+.chat__form.disabled .chat-input{
+    pointer-events: none;
+    opacity: 0.8;
+}
 
 .chat-input-container{
     display: flex;

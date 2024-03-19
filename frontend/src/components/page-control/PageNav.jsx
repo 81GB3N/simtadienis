@@ -27,12 +27,6 @@ export default function PageNav() {
         }
         closeMenu();
     }
-
-    let homeBtn = (
-        <button className="nav-btn home-button" onClick={() => changePage('home')}>
-            <LiaHomeSolid />
-        </button>
-    )
     let leaderBoardBtn = (
         <button className="nav-btn leaderboard-button" onClick={() => changePage('leaderboard')}>
             <LiaListOlSolid />
@@ -43,16 +37,15 @@ export default function PageNav() {
             <LiaImage />
         </button>
     ) : null;
-    let chatBtn = userIdExists ? (
+    let chatBtn = (
         <button className="nav-btn chat-button" onClick={() => changePage('chat')}>
             <LiaComments />
         </button>
-    ) : null;
+    )
 
     return (
         <div className="nav__container">
             <div className={`page__navigation ${menuActive && navActive ? 'active' : ''}`}>
-                {homeBtn}
                 {leaderBoardBtn}
                 {galleryBtn}
                 {chatBtn}

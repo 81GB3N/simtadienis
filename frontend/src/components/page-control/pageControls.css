@@ -98,9 +98,9 @@
     width: 35px;
     height: 35px;
     color: aliceblue;
-    position: absolute;
-    top: 0;
-    left: var(--x-padding);
+    /* position: absolute;
+    top: 0; */
+    /* left: var(--x-padding); */
     transition: opacity 0.1s ease-in-out;
 }
 
