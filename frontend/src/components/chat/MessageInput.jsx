@@ -1,6 +1,5 @@
 import { useUser } from '../../context/UserProvider';
 import { useMenu } from '../../context/MenuProvider';
-import { useLanguage } from '../../context/LanguageProvider';
 import { useState } from 'react';
 
 import { useIntl } from 'react-intl';
@@ -21,7 +20,6 @@ export default function MessageInput() {
     const { userId, userIdExists } = useUser();
     const { openMenu } = useMenu();
 
-    const { locale } = useLanguage();
     const intl = useIntl();
 
     const [inputMessage, setInputMessage] = useState('');
@@ -44,11 +42,7 @@ export default function MessageInput() {
         const payload = {
             user: `${userId.name} ${userId.surname}`,
             content: inputMessage,
-            time: new Date().toLocaleString(locale, {
-                hour: 'numeric',
-                minute: 'numeric',
-                second: 'numeric',
-            })
+            time: `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`.padStart(2, '0')
         }
         sendGlobalChat(payload).then(data => {
             console.log('sent: ', data);

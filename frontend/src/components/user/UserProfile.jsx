@@ -2,7 +2,7 @@ import { getUserData, sendUserData } from "../../utils/api";
 import { useState, useEffect, useCallback } from "react";
 
 import { useUser } from "../../context/UserProvider";
-import { resetPage, usePage } from "../../context/PageProvider";
+import { usePage } from "../../context/PageProvider";
 
 import WebcamModal from "../webcam/WebcamModal";
 import EditProfile from "./EditProfile";
@@ -46,7 +46,7 @@ export default function UserProfile() {
         try {
             const data = await getUserData({ name: userId.name, surname: userId.surname });
             console.log('data: ', data);
-            return data.result[0];
+            return data.response[0];
         }
         catch (err) {
             console.error("Error while fetching money: ", err);

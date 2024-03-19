@@ -119,6 +119,7 @@
 }
 
 .chat__message{
+    --ad-color-orange: #ff6f1c;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -126,6 +127,9 @@
     border-radius: 1rem;
     height: max-content;
     background-color: var(--primary-color-gray);
+}
+.chat__message.ad{
+    background-color: var(--ad-color-orange);
 }
 
 .message__upper{
