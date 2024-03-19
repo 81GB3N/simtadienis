@@ -123,7 +123,7 @@
     gap: var(--gap);
     margin-bottom: 0.5rem;
     color: var(--primary-color-yellow);
-    background-color: var(--primary-color-gray);
+    background-color: var(--primary-color-black);
     padding: 0.75rem 0;
     width: 100dvw;
     transform: translateX(-100dvw);
@@ -147,12 +147,20 @@
     font-size: var(--button-size);
     display: flex;
     align-items: center;
+    /* color: var(--primary-color-black); */
 }
 
 .extend-nav-btn{
-    color: var(--primary-color-gray);
+    position: relative;
+    color: var(--primary-color-yellow);
     font-size: calc(var(--button-size) - 0.5rem);
+    bottom: 3.5rem;
+    left: 1rem;
     transition: transform 0.5s ease-in-out;
+}
+
+.extended-nav-btn{
+    color: var(--primary-color-black);
 }
 
 .page__navigation.active~.extend-nav-btn {

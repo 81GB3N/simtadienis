@@ -50,7 +50,7 @@ export default function PageNav() {
                 {galleryBtn}
                 {chatBtn}
             </div>
-            <button className="nav-btn extend-nav-btn" onClick={() => setNavActive(prev => !prev)}>
+            <button className={`nav-btn extend-nav-btn ${navActive ? '' : 'extended-nav-btn'}`} onClick={() => setNavActive(prev => !prev)}>
                 <LiaArrowRightSolid />
             </button>
         </div>
