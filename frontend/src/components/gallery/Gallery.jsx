@@ -40,7 +40,7 @@ export default function Gallery() {
     }, [galleryCntRef])
 
     return (
-        <div className={`user-page gallery ${currentUserPageName === 'gallery' ? 'active' : ''}`}>
+        <div className={`user-page side-page gallery ${currentUserPageName === 'gallery' ? 'active' : ''}`}>
             <h3 className='gallery-title'>
                 <FormattedMessage id='your.submissions' />
             </h3>

@@ -104,12 +104,9 @@ body {
     height: 100dvh;
 }
 
-.leaderboard,
-.gallery,
-.chat-page {
+.side-page {
     /* so that page doesnt conflict with page__controls */
     margin-top: var(--page-margin-top);
-
 }
 
 .offscreen {

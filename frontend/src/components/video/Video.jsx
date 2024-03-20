@@ -4,7 +4,7 @@ export default function Video(){
     const { currentUserPageName } = usePage();
 
     return (
-        <div className={`user-page video-page ${currentUserPageName === 'video' ? 'active' : ''}`}>
+        <div className={`user-page side-page video-page ${currentUserPageName === 'video' ? 'active' : ''}`}>
             <h1>Video</h1>
         </div>
     )

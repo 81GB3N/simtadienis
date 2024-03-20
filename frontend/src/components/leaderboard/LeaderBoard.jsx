@@ -98,7 +98,7 @@ export default function LeaderBoard({ desktopMode=false }) {
     if (!sortedUsers) return <div>Loading...</div>
 
     return (
-        <div className={`user-page leaderboard ${animate ? 'in-view' : ''} ${desktopMode ? 'active desktop' : currentUserPageName === 'leaderboard' ? 'active' : ''}`} ref={ref}>
+        <div className={`user-page side-page leaderboard ${animate ? 'in-view' : ''} ${desktopMode ? 'active desktop' : currentUserPageName === 'leaderboard' ? 'active' : ''}`} ref={ref}>
             {(sortedUsers).slice(0, displayLimit).map((user, index) =>
                 <LeaderBoardEntry key={user.name + user.surname} position={index + 1} user={user} mostMoney={sortedUsers[0].money} />
             )}
