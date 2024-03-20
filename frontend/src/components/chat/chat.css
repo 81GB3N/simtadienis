@@ -137,8 +137,27 @@
 .message__upper{
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 1rem;
+}
 
+.message__user{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.message-img-container{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.message-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .message-user,

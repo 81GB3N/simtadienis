@@ -58,7 +58,7 @@ const LeaderBoardEntry = forwardRef(function ({ user, position, mostMoney }, ref
             {
                 modalIsOpen &&
                 <Modal openOnMount>
-                    <UserWindow user={`${user.name} ${user.surname}`} closeModal={() => setModalIsOpen(false)} />
+                    <UserWindow userData={user} closeModal={() => setModalIsOpen(false)} />
                 </Modal>
             }
         </>

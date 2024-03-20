@@ -5,7 +5,6 @@ import Autosuggest from "react-autosuggest";
 const getSuggestions = (value, users) => {
     const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
-    console.log("----INPUT VALUE----\n", inputValue);
     return inputLength === 0 ? [] : users.filter(user =>
         String(user.name + ' ' + user.surname).toLowerCase().slice(0, inputLength) === inputValue
     );
@@ -42,7 +41,6 @@ export default function UserLookup({ users }) {
         placeholder: 'Type a name',
         value,
         onChange: (event, { newValue }) => {
-            console.log(event);
             onChange(event, { newValue })
         }
     };

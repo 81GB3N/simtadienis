@@ -185,16 +185,16 @@ export default function LeaderBoard({ desktopMode = false }) {
                     <LeaderBoardEntry ref={entryRefs[index]} key={user.name + user.surname} position={index + 1} user={user} mostMoney={mostMoney} />
                 )
             }
-            <div className="leaderboard__controls" style={{ top: `${(desktopMode ? leaderBoardPos.length : displayLimit) * CONSTANTS.LEADERBOARD_ENTRY_HEIGHT}px` }}>
-                {/* {displayLimit &&
+            {/* <div className="leaderboard__controls" style={{ top: `${(desktopMode ? leaderBoardPos.length : displayLimit) * CONSTANTS.LEADERBOARD_ENTRY_HEIGHT}px` }}>
+                {displayLimit &&
                     <button onClick={toggleDisplayLimit}>
                         {displayLimit === maxDisplayLimit ?
                             <LiaMinusSquare /> :
                             <LiaPlusSquare />
                         }
                     </button>
-                } */}
-            </div>
+                }
+            </div> */}
         </div>
     )
 }

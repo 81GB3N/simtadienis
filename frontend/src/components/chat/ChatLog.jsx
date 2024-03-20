@@ -29,7 +29,6 @@ export default function ChatLog() {
             }, 1);
         });
         socket.on('chat', (message) => {
-            console.log('socket message: ', message);
             setChatLog(prev => [...prev, message]);
             setTimeout(() => {
                 chatLogRef.current.scrollTop = chatLogRef.current.scrollHeight;
