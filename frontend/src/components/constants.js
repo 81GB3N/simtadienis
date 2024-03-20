@@ -1,3 +1,5 @@
+const isLocalhost = window.location.hostname === 'localhost';
+
 const CONSTANTS = {
     GALLERY_CNT: 2,
     VIDEO_LIST: [
@@ -13,7 +15,8 @@ const CONSTANTS = {
             url: 'https://www.youtube.com/embed/vPY1s-wp1sc?si=0SbToIp1vPdmUKLc',
             name: 'Video 3'
         }
-    ]
+    ],
+    SOCKET_URL : isLocalhost ? 'http://localhost:4000' : 'https://lic100.lt'
 }
 
 export default CONSTANTS;

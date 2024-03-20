@@ -104,9 +104,8 @@ app.post("/api/register", async (req, res, next) => {
     register.money = 0;
     register.galleryCnt = 0;
     writeDocument(register);
-
     //emits a socket messege upon registering
-    io.emit("getusers");
+    io.emit("newUser", { name: register.name, surname: register.surname, money: 0 });
 
     res.json({ message: "Registration successful" });
   } catch (err) {
@@ -151,12 +150,13 @@ app.post("/api/addmoney", verifyToken, (req, res) => {
   //checks status of requesting user
   console.log("role in addmoney: ", req.payload.role);
   if (req.payload.role === "admin") {
-    const money = req.body;
-    if (!money.money || isNaN(money.money)) {
+    const body = req.body
+    const money = body.money;
+    if (!money || isNaN(money)) {
       res.status(400).json({ error: "Invalid money format" });
     }
-    updateUser(money);
-    io.emit("getusers");
+    updateUser(body);
+    io.emit("updatedUser", body);
     res.json({ response: "Money Successfully Updated" });
   } else {
     return res.status(401).json({ error: "Unauthorized request" });

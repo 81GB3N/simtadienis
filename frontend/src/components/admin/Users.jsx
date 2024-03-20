@@ -7,23 +7,31 @@ import { getAllUsers } from '../../utils/api'
 import { useState, useEffect } from "react";
 import { useAdmin } from "../../context/AdminProvider";
 
+import io from 'socket.io-client';
+import CONSTANTS from "../constants";
 
-//SOCKET CODE
-//--------------------------------------------------------
-// import io from 'socket.io-client';
-// const socket = io.connect('http://localhost:5000');
-//--------------------------------------------------------
+const socket = io.connect(CONSTANTS.SOCKET_URL);
 
 export default function Users() {
-    const [allUsers, setAllUsers] = useState(null);
+    console.log('----------RENDERING----------');
+    const [allUsers, setAllUsers] = useState([]);
     const { refresh } = useAdmin();
 
     useEffect(() => {
+        console.log('----------USERS USEEFFECT----------');
         getAllUsers().then(data => {
             setAllUsers(data.result);
             console.log(data.result);
         });
+        socket.on('newUser', (newUser) => {
+            console.log('new user: ', newUser);
+            setAllUsers(prev => [...prev, newUser]);
+        });
+        return () => {
+            socket.off('newUser');
+        }
     }, [refresh]);
+
 
     return (
         <div className="page">

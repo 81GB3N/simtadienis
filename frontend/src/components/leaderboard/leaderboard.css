@@ -2,7 +2,7 @@
 .leaderboard {
     /* display: flex; */
     display: none;
-    flex-direction: column;
+    /* flex-direction: column; */
     gap: 1.5rem;
     /* padding: 0 min(3rem, 30%); */
     /* padding-bottom: 3rem; */
@@ -17,7 +17,7 @@
 }
 
 .leaderboard.active {
-    display: flex;
+    display: grid;
 }
 
 .leaderboard.desktop{
@@ -50,7 +50,6 @@
 .entry.third {
     --transition-delay-multiplier: 2;
     --entry-color-primary: rgb(132, 117, 69);
-
 }
 
 .entry.fourth {
@@ -67,6 +66,10 @@
 
 .leaderboard.in-view .entry {
     transform: translateX(0);
+}
+
+.entry.out{
+    transform: translateX(100dvw);
 }
 
 .entry {

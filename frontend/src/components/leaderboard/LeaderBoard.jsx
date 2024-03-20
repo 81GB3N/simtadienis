@@ -12,10 +12,9 @@ import './leaderboard.css'
 
 import io from 'socket.io-client';
 
-const isLocalhost = window.location.hostname === 'localhost';
-const socketUrl = isLocalhost ? 'http://localhost:4000' : 'https://lic100.lt';
+import CONSTANTS from '../constants';
 
-const socket = io.connect(socketUrl);
+const socket = io.connect(CONSTANTS.SOCKET_URL);
 
 const MIN_DISPLAY_CNT = 5;
 
@@ -25,8 +24,8 @@ const MIN_DISPLAY_CNT = 5;
  * @returns {JSX.Element} The rendered LeaderBoard component.
  */
 
-export default function LeaderBoard({ desktopMode=false }) {
-    const [sortedUsers, setSortedUsers] = useState(null);
+export default function LeaderBoard({ desktopMode = false }) {
+    const [leaderBoardPos, setLeaderBoardPos] = useState(null);
     const [error, setError] = useState(null);
 
     const [displayLimit, setDisplayLimit] = useState(MIN_DISPLAY_CNT);
@@ -39,25 +38,30 @@ export default function LeaderBoard({ desktopMode=false }) {
     /**
      * Fetches the leaderboard positions of all users.
      */
-    const getLeaderBoardPositions = useCallback(() => {
-        getAllUsers()
-            .then(data => {
-                setMaxDisplayLimit(data.result.length);
-                if (maxDisplayLimit < MIN_DISPLAY_CNT || desktopMode) {
-                    console.log('setting display limit to undefined')
-                    setDisplayLimit(undefined);
-                }
-                const sortedUsers = data.result.sort((a, b) => b.money - a.money);
-                setSortedUsers(sortedUsers);
-            })
-            .catch(err => {
-                console.error('error retrieving all users')
-                setError(err);
-            })
-    }, [desktopMode, maxDisplayLimit])
+    const getLeaderBoardPositions = useCallback(async () => {
+        try {
+            const data = await getAllUsers();
+
+            setMaxDisplayLimit(data.result.length);
+            if (data.result.length < MIN_DISPLAY_CNT || desktopMode) {
+                console.log('setting display limit to undefined')
+                setDisplayLimit(undefined);
+            }
+
+            const sortedPositions = data.result.sort((a, b) => b.money - a.money);
+            return sortedPositions;
+
+        } catch (err) {
+            console.error('error retrieving all users')
+            setError(err);
+            return null;
+        }
+    }, [desktopMode])
 
     useEffect(() => {
-        getLeaderBoardPositions();
+        getLeaderBoardPositions().then((res) => {
+            setLeaderBoardPos(res);
+        })
     }, [getLeaderBoardPositions])
 
     useEffect(() => {
@@ -83,24 +87,35 @@ export default function LeaderBoard({ desktopMode=false }) {
     /**
      * Listens for the 'getusers' event and fetches the leaderboard positions of all users.
      */
-    socket.on('getusers', async () => {
-        const ANIMATION_DURATION = 2500; // in ms, as set in css
-        setAnimate(false);
-        setTimeout(async () => {
-            await getLeaderBoardPositions();
-        }, ANIMATION_DURATION);
-        setTimeout(() => {
-            setAnimate(true);
-        }, ANIMATION_DURATION);
+    // socket.on('getusers', async () => {
+    //     const ANIMATION_DURATION = 2500; // in ms, as set in css
+    //     setAnimate(false);
+    //     setTimeout(async () => {
+    //         await getLeaderBoardPositions();
+    //     }, ANIMATION_DURATION);
+    //     setTimeout(() => {
+    //         setAnimate(true);
+    //     }, ANIMATION_DURATION);
+    // })
+    
+    socket.on('newUser', async (payload) => {
+        console.log('new user added', payload);
+    })
+
+    socket.on('updateUser', async (payload) => {
+        console.log('user updated', payload);
     })
 
     if (error) return <div>{error}</div>
-    if (!sortedUsers) return <div>Loading...</div>
+    if (!leaderBoardPos) return <div></div>
 
     return (
-        <div className={`user-page side-page leaderboard ${animate ? 'in-view' : ''} ${desktopMode ? 'active desktop' : currentUserPageName === 'leaderboard' ? 'active' : ''}`} ref={ref}>
-            {(sortedUsers).slice(0, displayLimit).map((user, index) =>
-                <LeaderBoardEntry key={user.name + user.surname} position={index + 1} user={user} mostMoney={sortedUsers[0].money} />
+        <div
+            className={`user-page side-page leaderboard ${animate ? 'in-view' : ''} ${desktopMode ? 'active desktop' : currentUserPageName === 'leaderboard' ? 'active' : ''}`}
+            ref={ref}
+            style={{ 'grid-template-rows': `repeat(${leaderBoardPos.length}, min-content)` }}>
+            {(leaderBoardPos).slice(0, displayLimit).map((user, index) =>
+                <LeaderBoardEntry key={user.name + user.surname} position={index + 1} user={user} mostMoney={leaderBoardPos[0].money} />
             )}
             <div className="leaderboard__controls">
                 {displayLimit && !desktopMode &&
