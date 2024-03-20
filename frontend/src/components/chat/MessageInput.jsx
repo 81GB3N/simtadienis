@@ -2,6 +2,7 @@ import { useUser } from '../../context/UserProvider';
 import { useMenu } from '../../context/MenuProvider';
 import { useState } from 'react';
 
+import currentDate from '../date';
 import { useIntl } from 'react-intl';
 
 import { sendGlobalChat } from '../../utils/api';
@@ -10,7 +11,8 @@ import { LiaPaperPlaneSolid } from "react-icons/lia";
 
 const MAX_MESSAGE_LENGTH = 100;
 const SHAKE_ANIMATION_DURATION = 500; // in ms, as defined in css 
-const BUTTON_TIMOUT_DURATION = 2000; // in ms
+const BUTTON_TIMEOUT_DURATION = 500; // in ms
+
 
 /**
  * Renders a message input component.
@@ -39,10 +41,11 @@ export default function MessageInput() {
             }, SHAKE_ANIMATION_DURATION);
             return;
         }
+
         const payload = {
             user: `${userId.name} ${userId.surname}`,
             content: inputMessage,
-            time: `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`.padStart(2, '0')
+            time: currentDate()
         }
         sendGlobalChat(payload).then(data => {
             console.log('sent: ', data);
@@ -51,7 +54,7 @@ export default function MessageInput() {
         setButtonTimeOut(true);
         setTimeout(()=>{
             setButtonTimeOut(false);
-        }, BUTTON_TIMOUT_DURATION)  
+        }, BUTTON_TIMEOUT_DURATION)  
     }
 
     return (
@@ -63,7 +66,7 @@ export default function MessageInput() {
                     onChange={(e) => setInputMessage(e.target.value)}
                     value={inputMessage}
                     placeholder={userIdExists ? intl.formatMessage({ id: 'message' }) : intl.formatMessage({ id: 'login' })}
-                    disabled={!userIdExists}>
+                    disabled={!userIdExists || buttonTimeOut}>
                 </input>
                 <div className={`input-counter ${inputMessage.length > MAX_MESSAGE_LENGTH || inputMessage.length <= 0 ? 'invalid' : ''} ${shake ? 'shake' : ''} digit`}>
                     <p>{inputMessage.length}/{MAX_MESSAGE_LENGTH}</p>

@@ -5,6 +5,8 @@ import UserWindow from "../user/UserWindow";
 
 import adBanner from '../../assets/images/weborado-full.png';
 
+import currentDate from "../date";
+
 const AD_URL = 'https://weborado.lt';
 
 export default function ChatMessage({ message }) {
@@ -33,7 +35,7 @@ export default function ChatMessage({ message }) {
             <div key={message.user + message.time + message.content} className={`chat__message ${isAd ? 'ad' : ''}`} onClick={isAd ? () => window.open(AD_URL, '_blank', 'noopener,noreferrer') : openModal}>
                 <div className='message__upper'>
                     <p className='message-user'>{message.user}</p>
-                    <p className='digit'>{message.time}</p>
+                    <p className='digit'>{isAd ? currentDate() : message.time}</p>
                 </div>
                 <p className='message-content'>
                     {messageContent}

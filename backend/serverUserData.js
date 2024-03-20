@@ -241,7 +241,7 @@ const chat_messages = [
   {
     user: "Admin",
     content: "Welcome to the chat",
-    time: `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`,
+    time: `from the beginning...`,
   },
 ];
 
@@ -257,7 +257,7 @@ const AD_INTERVAL = 1000 * 60 * MINUTE_DELAY; // in ms
     const adMessage = {
       user: "Weborado",
       content: '',
-      time: `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`,
+      time: '',
       ad: true
     }
     chat_messages.push(adMessage)
