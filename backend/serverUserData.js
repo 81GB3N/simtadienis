@@ -102,6 +102,7 @@ app.post("/api/register", async (req, res, next) => {
     register.token = generateJWT(register, "user");
     console.log("generated user token: ", register.token);
     register.money = 0;
+    register.galleryCnt = 0;
     writeDocument(register);
 
     //emits a socket messege upon registering
@@ -183,6 +184,7 @@ app.post("/api/set-image", verifyToken, async (req, res, next) => {
     if (data.name.toLowerCase() === req.payload.name.toLowerCase() && data.surname.toLowerCase() === req.payload.surname.toLowerCase()) {
       console.log("uploadin image", data);
       //uploads user selected image to the drive
+      if(data.imgNum > 5) return res.status(401).json({ error: "invalid image number" }); 
       await uploadToDrive(data);
       res.json({ response: "Image Successfully Uploaded" });
     } else {
