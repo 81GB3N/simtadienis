@@ -164,7 +164,7 @@ app.post("/api/update-picture", verifyToken, (req, res, next) => {
   try {
     //checks if the right person is accesing his data
     const picture = req.body;
-    if (req.payload.name.toLowercase() === picture.name.toLowercase() && req.payload.surname.toLowercase() === picture.surname.toLowercase()) {
+    if (req.payload.name.toLowerCase() === picture.name.toLowerCase() && req.payload.surname.toLowerCase() === picture.surname.toLowerCase()) {
       updateUser(picture);
       res.json({ response: "Image Successfully Updated" });
     } else {
@@ -178,7 +178,7 @@ app.post("/api/update-picture", verifyToken, (req, res, next) => {
 app.post("/api/set-image", verifyToken, async (req, res, next) => {
   try {
     const data = req.body;
-    if (data.name.toLowercase() === req.payload.name.toLowercase() && data.surname.toLowercase() === req.payload.surname.toLowercase()) {
+    if (data.name.toLowerCase() === req.payload.name.toLowerCase() && data.surname.toLowerCase() === req.payload.surname.toLowerCase()) {
       console.log("uploadin image", data);
       //uploads user selected image to the drive
       await uploadToDrive(data);
@@ -196,7 +196,7 @@ app.post("/api/get-image", verifyToken, async (req, res, next) => {
     const data = req.body;
     console.log("---------------------CHROME CHECK--------------------------");
     console.log(data, " VS ", req.payload);
-    if (data.name.toLowercase() === req.payload.name.toLowercase() && data.surname.toLowercase() === req.payload.surname.toLowerCase()) {
+    if (data.name.toLowerCase() === req.payload.name.toLowerCase() && data.surname.toLowerCase() === req.payload.surname.toLowerCase()) {
       // firefox goes here
       console.log("-----------------CHECKPOINT PASSED----------------");
       //retrieves the file id for the image with the users name and surname
