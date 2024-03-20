@@ -16,17 +16,19 @@ import { useState, forwardRef, useImperativeHandle } from "react";
 const LeaderBoardEntry = forwardRef(function ({ user, position, mostMoney }, ref) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [currPosition, setCurrPosition] = useState(position);
+    const [moneyCnt, setMoneyCnt] = useState(user.money);
     let barWidth = (Number(user.money) / mostMoney) * 100;
 
     useImperativeHandle(ref, () => ({
-        moveToPosition: newPosition => setCurrPosition(newPosition)
+        moveToPosition: newPosition => setCurrPosition(newPosition),
+        mutateMoneyCnt: newMoneyCnt => setMoneyCnt(newMoneyCnt)
     }));
 
     return (
         <>
             <div className={`entry pos-${currPosition}`}
                 onClick={() => setModalIsOpen(true)}
-                style={{ '--transition-delay-multiplier': `${currPosition - 1}` }}>
+                style={{ '--transition-delay-multiplier': `${currPosition - 1}`, gridRow: currPosition }}>
                 <div className="entry-wrap">
                     {currPosition <= 3 && (
                         <div className={`entry-ava`}>
@@ -34,10 +36,10 @@ const LeaderBoardEntry = forwardRef(function ({ user, position, mostMoney }, ref
                         </div>)
                     }
                     <div className="entry__info">
-                        <p className="entry-name"><span className="entry-pos">{position}</span>{user.name + ' ' + user.surname}</p>
+                        <p className="entry-name"><span className="entry-pos">{currPosition}</span>{user.name + ' ' + user.surname}</p>
                         <div className="entry-money">
                             <FontAwesomeIcon icon={faMoneyBill1Wave} className="money-icon" />
-                            <span className="digit">{user.money}</span>
+                            <span className="digit">{moneyCnt}</span>
                         </div>
                     </div>
                 </div>

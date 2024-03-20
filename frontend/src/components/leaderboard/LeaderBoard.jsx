@@ -91,8 +91,16 @@ export default function LeaderBoard({ desktopMode = false }) {
                 leaderBoardPos.sort((a, b) => b.money - a.money);
             }
             const updatedUserIndex = leaderBoardPos.findIndex(user => user.name === updatedUser.name && user.surname === updatedUser.surname);
-            entryRefs[oldUserIndex].current.moveToPosition(updatedUserIndex);
-            entryRefs[updatedUserIndex].current.moveToPosition(oldUserIndex);
+            
+            const updatedUserRef = entryRefs[oldUserIndex].current;
+            updatedUserRef.mutateMoneyCnt(leaderBoardPos[updatedUserIndex].money);
+            
+            if(updatedUserIndex === oldUserIndex) return;
+
+            const replacedUserRef = entryRefs[updatedUserIndex].current;
+
+            updatedUserRef.moveToPosition(updatedUserIndex + 1);
+            replacedUserRef.moveToPosition(oldUserIndex + 1);
         })
 
         return () => {
