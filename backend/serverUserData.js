@@ -298,11 +298,14 @@ app.post("/api/admin-token", verifyToken, async (req, res, next) => {
   }
 });
 
-app.post("/api/video-votes", async (req, res, next) => {
+app.post("/api/video-votes", verifyToken, async (req, res, next) => {
   try {
     const body = req.body;
     console.log(body);
-    const result = await handleRating(body.action, body);
+    let result;
+    if((body.action === "get") || (body.action === "set" && body.name.toLowerCase() === req.payload.name.toLowerCase() && body.surname.toLowerCase() === req.payload.surname.toLowerCase())){
+     result = await handleRating(body.action, body);
+    }
     res.json({ response: result });
   }
   catch (err) {
