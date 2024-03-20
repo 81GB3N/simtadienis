@@ -2,6 +2,7 @@ import { useUser } from '../../context/UserProvider';
 import { useMenu } from '../../context/MenuProvider';
 import { useState } from 'react';
 
+import currentDate from '../date';
 import { useIntl } from 'react-intl';
 
 import { sendGlobalChat } from '../../utils/api';
@@ -11,6 +12,7 @@ import { LiaPaperPlaneSolid } from "react-icons/lia";
 const MAX_MESSAGE_LENGTH = 100;
 const SHAKE_ANIMATION_DURATION = 500; // in ms, as defined in css 
 const BUTTON_TIMEOUT_DURATION = 500; // in ms
+
 
 /**
  * Renders a message input component.
@@ -40,14 +42,10 @@ export default function MessageInput() {
             return;
         }
 
-        const stringPadding = (number) => {
-            return number.toString().padStart(2, '0');
-        }
-
         const payload = {
             user: `${userId.name} ${userId.surname}`,
             content: inputMessage,
-            time: `${stringPadding(new Date().getHours())}:${stringPadding(new Date().getMinutes())}:${stringPadding(new Date().getSeconds())}`
+            time: currentDate()
         }
         sendGlobalChat(payload).then(data => {
             console.log('sent: ', data);
