@@ -7,28 +7,6 @@ import UserWindow from "../user/UserWindow";
 import { useState } from "react";
 
 /**
- * Gets the custom class and crown status for the given position.
- * @param {number} position - The position of the user in the leaderboard.
- * @returns {Object} The custom class and crown status.
- */
-function getEntryProps(position) {
-    switch (position) {
-        case 1:
-            return { customClass: 'first', crown: true };
-        case 2:
-            return { customClass: 'second', crown: true };
-        case 3:
-            return { customClass: 'third', crown: true };
-        case 4:
-            return { customClass: 'fourth', crown: false };
-        case 5:
-            return { customClass: 'fifth', crown: false };
-        default:
-            return { customClass: `none ${position}`, crown: false };
-    }
-}
-
-/**
  * Renders a leaderboard entry component.
  * @param {Object} props.user - The user object containing name, surname, and money.
  * @param {number} props.position - The position of the user in the leaderboard.
@@ -37,19 +15,15 @@ function getEntryProps(position) {
  */
 export default function LeaderBoardEntry({ user, position, mostMoney }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const OFFSET = 10; // % of the bar width
 
-    const entryProps = getEntryProps(position);
     let barWidth = (Number(user.money) / mostMoney) * 100;
-    if (entryProps.customClass === 'first') barWidth -= OFFSET;
-
     return (
         <>
-            <div className={`entry ${entryProps.customClass}`} onClick={() => setModalIsOpen(true)}
-            // style={{ '--transition-delay-multiplier': `${position - 1}` }}
-            >
+            <div className={`entry pos-${position > 5 ? 'none' : position}`}
+                onClick={() => setModalIsOpen(true)}
+                style={{ '--transition-delay-multiplier': `${position - 1}` }}>
                 <div className="entry-wrap">
-                    {entryProps.crown && (
+                    {position <= 3 && (
                         <div className={`entry-ava`}>
                             <FontAwesomeIcon icon={faCrown} />
                         </div>)

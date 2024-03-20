@@ -109,6 +109,16 @@ body {
     margin-top: var(--page-margin-top);
 }
 
+.leaderboard-page{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.leaderboard-page .leaderboard{
+    margin-top: 3rem;
+}
+
 .offscreen {
     display: none;
 }

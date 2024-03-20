@@ -45,7 +45,6 @@ export default function LeaderBoard({ desktopMode = false }) {
 
             setMaxDisplayLimit(data.result.length);
             if (data.result.length <= MIN_DISPLAY_LIMIT || desktopMode) {
-                console.log('setting display limit to undefined')
                 setDisplayLimit(undefined);
             }
 
@@ -58,7 +57,7 @@ export default function LeaderBoard({ desktopMode = false }) {
             return null;
         }
     }, [desktopMode])
-    
+
     /**
      * Toggles the display limit of the leaderboard.
      */
@@ -80,18 +79,17 @@ export default function LeaderBoard({ desktopMode = false }) {
         // not sure how to handle newUser?
         socket.on('newUser', () => {
             fetchLeaderBoard();
-            if(displayLimit > MIN_DISPLAY_LIMIT) setDisplayLimit(prev => prev + 1);
+            if (displayLimit > MIN_DISPLAY_LIMIT) setDisplayLimit(prev => prev + 1);
         })
 
         socket.on('updateUser', (updatedUser) => {
-            
         })
 
         return () => {
-            // socket.off('newUser');
+            socket.off('newUser');
             socket.off('updateUser');
         }
-    }, [getLeaderBoardPositions, mostMoney])
+    }, [getLeaderBoardPositions, mostMoney, displayLimit])
 
     useEffect(() => {
         if (currentUserPageName !== 'leaderboard') {
@@ -110,10 +108,14 @@ export default function LeaderBoard({ desktopMode = false }) {
         <div
             className={`user-page side-page leaderboard ${animate ? 'in-view' : ''} ${desktopMode ? 'active desktop' : currentUserPageName === 'leaderboard' ? 'active' : ''}`}
             ref={ref}
-            style={{gridTemplateRows: `repeat(${displayLimit}, min-content)` }}>
-            {(leaderBoardPos).slice(0, displayLimit).map((user, index) =>
-                <LeaderBoardEntry key={user.name + user.surname} position={index + 1} user={user} mostMoney={mostMoney} />
-            )}
+            style={{ gridTemplateRows: `repeat(${displayLimit}, min-content)` }}>
+            {
+
+                leaderBoardPos.slice(0, desktopMode ? maxDisplayLimit : displayLimit).map((user, index) =>
+                    <LeaderBoardEntry key={user.name + user.surname} position={index + 1} user={user} mostMoney={mostMoney} />
+                ) 
+
+            }
             <div className="leaderboard__controls">
                 {displayLimit &&
                     <button onClick={toggleDisplayLimit}>

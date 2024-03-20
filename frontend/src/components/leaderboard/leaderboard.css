@@ -18,6 +18,7 @@
 
 .leaderboard.desktop{
     padding: 0 10rem;
+    max-width: 100vw;
 }
 
 .entry {
@@ -33,32 +34,32 @@
     transition-delay: var(--transition-delay);
 }
 
-.entry.first {
-    --transition-delay-multiplier: 0;
+.entry.pos-1 {
+    /* --transition-delay-multiplier: 0; */
     --entry-color-primary: rgb(255, 185, 0);
 }
 
-.entry.second {
-    --transition-delay-multiplier: 1;
+.entry.pos-2 {
+    /* --transition-delay-multiplier: 1; */
     --entry-color-primary: rgb(105, 121, 126);
 }
 
-.entry.third {
-    --transition-delay-multiplier: 2;
+.entry.pos-3 {
+    /* --transition-delay-multiplier: 2; */
     --entry-color-primary: rgb(132, 117, 69);
 }
 
-.entry.fourth {
+/* .entry.pos-4 {
     --transition-delay-multiplier: 3;
 }
 
-.entry.fifth {
+.entry.pos-5 {
     --transition-delay-multiplier: 4;
 }
 
 .entry.none {
     --transition-delay-multiplier: 5;
-}
+} */
 
 .leaderboard.in-view .entry {
     transform: translateX(0);
