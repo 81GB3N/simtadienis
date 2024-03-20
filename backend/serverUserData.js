@@ -297,7 +297,7 @@ app.post("/api/video-votes", async (rew, res, next) => {
   try {
     const body = req.body;
     const result = await handleRating(body.action, body);
-    res.json({ result });
+    res.json({ response: result });
   }
   catch (err) {
     next(err);

@@ -166,6 +166,7 @@ const handleRating = async (action, user) => {
     }
     else if(action === "set"){
       const info = await findUser(user.name, user.surname);
+      //change user vote
       const vote = info.vote;
 
       await collection.updateOne(
@@ -178,6 +179,7 @@ const handleRating = async (action, user) => {
         { $inc: {votes :  1} }
       );
     }
+    return {message: "success"};
   }
   catch(error){
     console.error(error);

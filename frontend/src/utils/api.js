@@ -232,7 +232,6 @@ export async function sendGlobalChat(message) {
 
 export async function handleVotes(vote){
   try{
-
     const response = await fetchData(vote, 'video-votes');
     const data = await response.json();
     return data;

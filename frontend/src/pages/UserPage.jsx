@@ -49,13 +49,13 @@ export default function UserPage() {
                     <PageControls />
                     <section className={`page-carousel in-${currentUserPageName}`}>
                         <HamburgerMenu />
-                        {validUserPageNames.map((pageName) => {
-                            const PageComponent = pageNameMap[pageName];
-                            if (!PageComponent) {
-                                return <ErrorModal key={pageName} errorMessage={`No component specified for ${pageName}`} />;
-                            }
-                            return <PageComponent key={pageName} />;
-                        })}
+                            {validUserPageNames.map((pageName) => {
+                                const PageComponent = pageNameMap[pageName];
+                                if (!PageComponent) {
+                                    return <ErrorModal key={pageName} errorMessage={`No component specified for ${pageName}`} />;
+                                }
+                                return <PageComponent key={pageName} />;
+                            })}
                     </section>
                 </MenuProvider>
             </UserProvider>

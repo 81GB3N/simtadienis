@@ -54,7 +54,7 @@ export default function LeaderBoard({ desktopMode=false }) {
                 console.error('error retrieving all users')
                 setError(err);
             })
-    }, [])
+    }, [desktopMode, maxDisplayLimit])
 
     useEffect(() => {
         getLeaderBoardPositions();
