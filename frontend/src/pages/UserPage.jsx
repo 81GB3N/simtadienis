@@ -4,6 +4,7 @@ import LeaderBoard from "../components/leaderboard/LeaderBoard"
 import PageControls from "../components/page-control/PageControls"
 import Gallery from "../components/gallery/Gallery"
 import GlobalChat from "../components/chat/GlobalChat"
+import Video from "../components/video/Video"
 
 import ErrorModal from '../components/modal/ErrorModal'
 
@@ -22,7 +23,8 @@ export default function UserPage() {
         'home': Home,
         'leaderboard': LeaderBoard,
         'gallery': Gallery,
-        'chat': GlobalChat
+        'chat': GlobalChat,
+        'video': Video
     }
 
     /**

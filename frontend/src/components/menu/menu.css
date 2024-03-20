@@ -25,13 +25,15 @@
 
 #menu.from-leaderboard,
 #menu.from-gallery,
-#menu.from-chat {
+#menu.from-chat,
+#menu.from-video {
     transform: translateX(-200%);
 }
 
 #menu.active.from-leaderboard.active,
 #menu.active.from-gallery,
-#menu.active.from-chat  {
+#menu.active.from-chat,
+#menu.active.from-video  {
     transform: translateX(-100%);
 }
 

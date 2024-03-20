@@ -4,7 +4,7 @@ import { useMenu } from "../../context/MenuProvider";
 import { usePage } from "../../context/PageProvider";
 import { useUser } from "../../context/UserProvider";
 
-import { LiaHomeSolid, LiaListOlSolid, LiaImage, LiaComments, LiaArrowRightSolid } from "react-icons/lia";
+import { LiaHomeSolid, LiaListOlSolid, LiaImage, LiaComments, LiaPhotoVideoSolid } from "react-icons/lia";
 
 /**
  * Renders the navigation bar for the page.
@@ -42,17 +42,24 @@ export default function PageNav() {
             <LiaComments />
         </button>
     )
+    let videoBtn = userIdExists ? (
+        <button className="nav-btn video-button" onClick={() => changePage('video')}>
+            <LiaPhotoVideoSolid />
+        </button>
+    ) : null;
+    
 
     return (
         <div className="nav__container">
-            <div className={`page__navigation ${menuActive && navActive ? 'active' : ''}`}>
+            <div className={`page__navigation ${menuActive ? 'active' : ''}`}>
                 {leaderBoardBtn}
                 {galleryBtn}
                 {chatBtn}
+                {videoBtn}
             </div>
-            <button className={`nav-btn extend-nav-btn ${navActive ? '' : 'extended-nav-btn'}`} onClick={() => setNavActive(prev => !prev)}>
+            {/* <button className={`nav-btn extend-nav-btn ${navActive ? '' : 'extended-nav-btn'}`} onClick={() => setNavActive(prev => !prev)}>
                 <LiaArrowRightSolid />
-            </button>
+            </button> */}
         </div>
     )
 }
