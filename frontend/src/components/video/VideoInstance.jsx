@@ -8,9 +8,9 @@ export default function VideoInstance({ position, screenSize }) {
             <iframe width={screenSize} height={screenSize}
                 src={CONSTANTS.VIDEO_LIST[position].url}
                 title={CONSTANTS.VIDEO_LIST[position].name}
-                frameborder="0"
+                frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen="allowfullscreen"
+                allowFullScreen="allowfullscreen"
                 mozallowfullscreen="mozallowfullscreen"
                 msallowfullscreen="msallowfullscreen"
                 oallowfullscreen="oallowfullscreen"

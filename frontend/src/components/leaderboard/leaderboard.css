@@ -1,15 +1,11 @@
 /* LEADERBOARD */
 .leaderboard {
-    /* display: flex; */
     display: none;
-    /* flex-direction: column; */
     gap: 1.5rem;
-    /* padding: 0 min(3rem, 30%); */
-    /* padding-bottom: 3rem; */
     overflow-y: auto;
     scrollbar-width: none;
-    /* padding-left: 2rem; */
-    max-width: 90%;
+    width: 90%;
+    max-width: 400px;
 }
 
 .leaderboard::-webkit-scrollbar {
