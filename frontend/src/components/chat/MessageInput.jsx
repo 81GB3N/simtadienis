@@ -39,10 +39,15 @@ export default function MessageInput() {
             }, SHAKE_ANIMATION_DURATION);
             return;
         }
+
+        const stringPadding = (number) => {
+            return number.toString().padStart(2, '0');
+        }
+
         const payload = {
             user: `${userId.name} ${userId.surname}`,
             content: inputMessage,
-            time: `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`.padStart(2, '0')
+            time: `${stringPadding(new Date().getHours())}:${stringPadding(new Date().getMinutes())}:${stringPadding(new Date().getSeconds())}`
         }
         sendGlobalChat(payload).then(data => {
             console.log('sent: ', data);
