@@ -9,6 +9,7 @@ import FormInput from "../Input";
 
 const USER_REGEX = /^[a-zA-Z0-9]{3,30}$/;
 const PASSWORD_REGEX = /^(?=.*[a-zA-Z])(?=.*\d).{5,}$/;
+const TIMEOUT_DURATION = 1000; // in ms
 
 export default function Signup() {
     const { closeSignup } = useUser();
@@ -34,6 +35,8 @@ export default function Signup() {
 
     const [errMsg, setErrMsg] = useState("");
 
+    const [signupTimeout, setSignupTimeout] = useState(false);
+
     useEffect(() => {
         nameRef.current.focus();
     }, [])
@@ -57,6 +60,11 @@ export default function Signup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        setSignupTimeout(true);
+        setTimeout(() => {
+            setSignupTimeout(false);
+        }, TIMEOUT_DURATION);
 
         const userName = name;
         const userSurname = surname;

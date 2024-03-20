@@ -4,6 +4,8 @@ import { FormattedMessage} from "react-intl";
 import { useUser } from "../../context/UserProvider.jsx";
 import FormInput from "../Input";
 
+const TIMEOUT_DURATION = 1000; // in ms
+
 /**
  * Represents the Login component.
  * @component
@@ -19,6 +21,8 @@ export default function Login() {
     const [surname, setSurname] = useState("");
     const [password, setPassword] = useState("");
     const [errMsg, setErrMsg] = useState("");
+
+    const [loginTimeout, setLoginTimeout] = useState(false);
 
     /**
      * Sets the user data in the local storage.
@@ -50,6 +54,11 @@ export default function Login() {
     async function handleSubmit(e) {
         e.preventDefault();
 
+        setLoginTimeout(true);
+        setTimeout(() => {
+            setLoginTimeout(false);
+        }, TIMEOUT_DURATION);
+        
         if (!await userExists(name, surname)) {
             try {
                 setErrMsg("User does not exist");
@@ -70,6 +79,8 @@ export default function Login() {
         await setUserLocalStorage(name, surname, loginValidation.result.token);
         console.log("User logged in");
         changeUserId(name, surname);
+
+
         closeLogin();
     }
 
@@ -84,7 +95,7 @@ export default function Login() {
                 <FormInput id="password" onValueChange={(e) => setPassword(e.target.value)} inputValue={password} customClassNames='form-input'/>
                 <p ref={errRef} className={`errmsg ${errMsg ? "active" : ""}`}>{errMsg}</p>
                 <div className="form__buttons">
-                    <button className={`form-submit enabled`} type="submit" id="login-submit">
+                    <button className={`form-submit enabled`} type="submit" id="login-submit" disabled={loginTimeout}>
                         <FormattedMessage id="submit" />
                     </button>
                 </div>
