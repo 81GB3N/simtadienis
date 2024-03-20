@@ -24,7 +24,10 @@ const LeaderBoardEntry = forwardRef(function ({ user, position, mostMoney }, ref
     let barWidth = (Number(user.money) / mostMoney) * 100;
 
     useImperativeHandle(ref, () => ({
-        moveToPosition: newPosition => setCurrPosition(newPosition),
+        moveToPosition: newPosition => {
+            console.log(`Moving ${user.name} ${user.surname} from ${currPosition} to ${newPosition}`);
+            setCurrPosition(newPosition);
+        },
         mutateMoneyCnt: newMoneyCnt => setMoneyCnt(newMoneyCnt)
     }));
 
