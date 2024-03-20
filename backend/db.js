@@ -1,6 +1,5 @@
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const dotenv = require("dotenv");
-
 dotenv.config();
 
 const uri = process.env.URI;
@@ -156,9 +155,22 @@ const findUser = async (name, surname, page=main, getPassword) => {
   }
 };
 
+async function makeCollection(){
+  const collection = database.collection("video-ratings");
+  const VIDEO_NUM = 5;
+  for(let i = 0; i < VIDEO_NUM; i++){
+    await collection.insertOne({video: i, vote: 0})
+  }
+}
+
+
+
 const handleRating = async (action, user) => {
   try{
+    // await makeCollection();
+    console.log('action:', action, "user", user);
     const collection = database.collection("video-ratings");
+    // if(await collection.find({}).toArray()) await makeCollection(collection);
     if(action === "get"){
     const cursor = collection.find({});
     const documents = await cursor.toArray();
@@ -166,24 +178,38 @@ const handleRating = async (action, user) => {
     }
     else if(action === "set"){
       const info = await findUser(user.name, user.surname);
-      //change user vote
-      const vote = info.vote;
+      console.log("info:", info);
+      const vote = info[0].vote;
+
+      console.log("user.vote:", user.vote, "info.vote:", vote);
 
       await collection.updateOne(
         { video: vote  },
-        { $inc: {votes :  -1} }
+        { $inc: {vote :  -1} }
       );
 
       await collection.updateOne(
         { video: user.vote  },
-        { $inc: {votes :  1} }
+        { $inc: {vote :  1} }
       );
+
+      const userCollection = database.collection("main");
+      await userCollection.updateOne(
+        {name: user.name, surname: user.surname},
+        {$set: {vote: user.vote}});
+
+        console.log("updaetd")
+
     }
     return {message: "success"};
   }
   catch(error){
     console.error(error);
   }
+}
+
+async function createVoteCollection(){
+
 }
 
 
