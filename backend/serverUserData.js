@@ -103,6 +103,7 @@ app.post("/api/register", async (req, res, next) => {
     console.log("generated user token: ", register.token);
     register.money = 0;
     register.galleryCnt = 0;
+    register.vote = -1;
     writeDocument(register);
 
     //emits a socket messege upon registering
@@ -297,9 +298,10 @@ app.post("/api/admin-token", verifyToken, async (req, res, next) => {
   }
 });
 
-app.post("/api/video-votes", async (rew, res, next) => {
+app.post("/api/video-votes", async (req, res, next) => {
   try {
     const body = req.body;
+    console.log(body);
     const result = await handleRating(body.action, body);
     res.json({ response: result });
   }
