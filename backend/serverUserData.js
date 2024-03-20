@@ -10,6 +10,7 @@ const dotenv = require("dotenv");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const mongoSanitize = require('express-mongo-sanitize');
 
 const app = express();
 const port = process.env.PORT;
@@ -18,6 +19,7 @@ dotenv.config();
 //icrease the limit for the google drive images
 app.use(bodyParser.json({ limit: "25mb", extended: true }));
 app.use(cors());
+app.use(mongoSanitize());
 const server = http.createServer(app);
 const io = initializeSocket(server);
 
@@ -100,6 +102,7 @@ app.post("/api/register", async (req, res, next) => {
     register.token = generateJWT(register, "user");
     console.log("generated user token: ", register.token);
     register.money = 0;
+    register.galleryCnt = 0;
     writeDocument(register);
 
     //emits a socket messege upon registering
@@ -120,7 +123,7 @@ app.post("/api/register", async (req, res, next) => {
 // });
 
 //super admin function to register admins
-app.post("/api/register-admin", verifyToken, async (req) => {
+app.post("/api/register-admin", verifyToken, async (req, res, next) => {
   try {
     //checks token for right role
     console.error("register admin role:", req.payload.role);
@@ -181,6 +184,7 @@ app.post("/api/set-image", verifyToken, async (req, res, next) => {
     if (data.name.toLowerCase() === req.payload.name.toLowerCase() && data.surname.toLowerCase() === req.payload.surname.toLowerCase()) {
       console.log("uploadin image", data);
       //uploads user selected image to the drive
+      if(data.imgNum > 5) return res.status(401).json({ error: "invalid image number" }); 
       await uploadToDrive(data);
       res.json({ response: "Image Successfully Uploaded" });
     } else {
