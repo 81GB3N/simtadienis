@@ -52,7 +52,7 @@ app.post("/api/getuser", async (req, res, next) => {
     const user = req.body;
     //find the user with the requestred info
     const result = await findUser(user.name, user.surname);
-    result ? res.json({ response : result }) : res.json({ result: "User not found" });
+    result ? res.json({ response: result }) : res.json({ result: "User not found" });
   } catch (err) {
     next(err);
   }
@@ -268,7 +268,12 @@ app.post("/api/get-chat", (req, res) => {
 
 app.post("/api/send-chat", (req, res, next) => {
   try {
-    const message = req.body;
+    const body = req.body;
+    const message = {
+      user: body.user,
+      content: body.content,
+      time: body.time
+    };
     chat_messages.push(message);
     console.log("emitting io message: ", message);
     io.emit("chat", message);
@@ -288,11 +293,11 @@ app.post("/api/admin-token", verifyToken, async (req, res, next) => {
   }
 });
 
-app.post("/api/video-votes", async(rew, res, next)=>{
-  try{
+app.post("/api/video-votes", async (rew, res, next) => {
+  try {
     const body = req.body;
     const result = await handleRating(body.action, body);
-    res.json({result});
+    res.json({ result });
   }
   catch (err) {
     next(err);
