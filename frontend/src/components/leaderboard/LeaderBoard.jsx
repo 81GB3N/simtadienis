@@ -49,13 +49,17 @@ export default function LeaderBoard({ desktopMode = false }) {
                 setDisplayLimit(undefined);
             }
 
-            const sortedPositions = data.result.sort((a, b) => b.money - a.money);
+            let sortedPositions = data.result.sort((a, b) => b.money - a.money);
+            sortedPositions = sortedPositions.map((user, index) => ({
+                ...user,
+                refId: index
+            }));
             return sortedPositions;
 
         } catch (err) {
             console.error('error retrieving all users')
             setError(err);
-            return null;
+            return [];
         }
     }, [desktopMode])
 
@@ -72,9 +76,9 @@ export default function LeaderBoard({ desktopMode = false }) {
 
     useEffect(() => {
         const fetchLeaderBoard = async () => {
-            const data = await getLeaderBoardPositions();
-            setLeaderBoardPos(data);
-            setMostMoney(data[0].money);
+            const sortedPositions = await getLeaderBoardPositions();
+            setLeaderBoardPos(sortedPositions);
+            setMostMoney(sortedPositions[0].money);
         }
         fetchLeaderBoard();
         // not sure how to handle newUser?
@@ -83,21 +87,23 @@ export default function LeaderBoard({ desktopMode = false }) {
             if (displayLimit > MIN_DISPLAY_LIMIT) setDisplayLimit(prev => prev + 1);
         })
 
-        socket.on('updateUser', (updatedUser) => {
-            console.log('updated user', updatedUser);
-            const oldUserIndex = leaderBoardPos.findIndex(user => user.name === updatedUser.name && user.surname === updatedUser.surname);
+        socket.on('updateUser', (socketUser) => {
+            console.log('updated user', socketUser);
+            console.log('leaderBoardPos', leaderBoardPos);
+            const oldUserIndex = leaderBoardPos.findIndex(user => user.name === socketUser.name && user.surname === socketUser.surname);
             if (oldUserIndex !== -1) {
-                leaderBoardPos[oldUserIndex].money += updatedUser.money;
+                leaderBoardPos[oldUserIndex].money += socketUser.money;
                 leaderBoardPos.sort((a, b) => b.money - a.money);
             }
-            const updatedUserIndex = leaderBoardPos.findIndex(user => user.name === updatedUser.name && user.surname === updatedUser.surname);
-            
-            const updatedUserRef = entryRefs[oldUserIndex].current;
+            const updatedUserIndex = leaderBoardPos.findIndex(user => user.name === socketUser.name && user.surname === socketUser.surname);
+            const updatedUser = leaderBoardPos[updatedUserIndex];
+            const updatedUserRef = entryRefs[updatedUser.refId].current;
             updatedUserRef.mutateMoneyCnt(leaderBoardPos[updatedUserIndex].money);
             
             if(updatedUserIndex === oldUserIndex) return;
 
-            const replacedUserRef = entryRefs[updatedUserIndex].current;
+            const replacedUser = leaderBoardPos[oldUserIndex];
+            const replacedUserRef = entryRefs[replacedUser.refId].current;
 
             updatedUserRef.moveToPosition(updatedUserIndex + 1);
             replacedUserRef.moveToPosition(oldUserIndex + 1);
