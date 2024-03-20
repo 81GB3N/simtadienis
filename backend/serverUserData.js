@@ -196,7 +196,7 @@ app.post("/api/get-image", verifyToken, async (req, res, next) => {
     const data = req.body;
     console.log("---------------------CHROME CHECK--------------------------");
     console.log(data, " VS ", req.payload);
-    if (data.name === req.payload.name && data.surname === req.payload.surname) {
+    if (data.name.toLowercase() === req.payload.name.toLowercase() && data.surname.toLowercase() === req.payload.surname.toLowerCase()) {
       // firefox goes here
       console.log("-----------------CHECKPOINT PASSED----------------");
       //retrieves the file id for the image with the users name and surname
@@ -219,7 +219,7 @@ app.post("/api/get-image", verifyToken, async (req, res, next) => {
 app.post("/api/delete-image", verifyToken, async (req, res, next) => {
   try {
     const data = req.body;
-    if (data.name === req.payload.name && data.surname === req.payload.surname) {
+    if (data.name.toLowerCase() === req.payload.name.toLowerCase() && data.surname.toLowerCase() === req.payload.surname.toLowerCase()) {
       //removes the user image picture from the dabtabase
       await deleteFromDrive(data);
       res.json({ response: "Image Successfully Deleted" });
@@ -266,7 +266,7 @@ app.post("/api/get-chat", (req, res) => {
   res.json({ payload: chat_messages });
 });
 
-app.post("/api/send-chat", (req, res) => {
+app.post("/api/send-chat", (req, res, next) => {
   try {
     const message = req.body;
     chat_messages.push(message);
