@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, createRef } from 'react'
 import { useInView } from 'react-intersection-observer';
 
 import { getAllUsers } from "../../utils/api"
@@ -25,7 +25,8 @@ const MIN_DISPLAY_LIMIT = 5;
  */
 
 export default function LeaderBoard({ desktopMode = false }) {
-    const [leaderBoardPos, setLeaderBoardPos] = useState(null);
+    const [leaderBoardPos, setLeaderBoardPos] = useState([]);
+    const [entryRefs, setEntryRefs] = useState([]);
     const [error, setError] = useState(null);
 
     const [displayLimit, setDisplayLimit] = useState(MIN_DISPLAY_LIMIT);
@@ -83,6 +84,15 @@ export default function LeaderBoard({ desktopMode = false }) {
         })
 
         socket.on('updateUser', (updatedUser) => {
+            console.log('updated user', updatedUser);
+            const oldUserIndex = leaderBoardPos.findIndex(user => user.name === updatedUser.name && user.surname === updatedUser.surname);
+            if (oldUserIndex !== -1) {
+                leaderBoardPos[oldUserIndex].money += updatedUser.money;
+                leaderBoardPos.sort((a, b) => b.money - a.money);
+            }
+            const updatedUserIndex = leaderBoardPos.findIndex(user => user.name === updatedUser.name && user.surname === updatedUser.surname);
+            entryRefs[oldUserIndex].current.moveToPosition(updatedUserIndex);
+            entryRefs[updatedUserIndex].current.moveToPosition(oldUserIndex);
         })
 
         return () => {
@@ -101,8 +111,15 @@ export default function LeaderBoard({ desktopMode = false }) {
     }, [currentUserPageName, inView])
 
 
+    useEffect(() => {
+        if (!leaderBoardPos.length) return;
+        setEntryRefs((entryRef) => Array(leaderBoardPos.length)
+            .fill()
+            .map((_, i) => entryRef[i] || createRef()));
+    }, [leaderBoardPos?.length])
+
     if (error) return <div>{error}</div>
-    if (!leaderBoardPos) return <div></div>
+    if (!leaderBoardPos.length) return <div></div>
 
     return (
         <div
@@ -112,8 +129,8 @@ export default function LeaderBoard({ desktopMode = false }) {
             {
 
                 leaderBoardPos.slice(0, desktopMode ? maxDisplayLimit : displayLimit).map((user, index) =>
-                    <LeaderBoardEntry key={user.name + user.surname} position={index + 1} user={user} mostMoney={mostMoney} />
-                ) 
+                    <LeaderBoardEntry ref={entryRefs[index]} key={user.name + user.surname} position={index + 1} user={user} mostMoney={mostMoney} />
+                )
 
             }
             <div className="leaderboard__controls">

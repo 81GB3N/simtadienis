@@ -157,7 +157,7 @@ app.post("/api/addmoney", verifyToken, (req, res) => {
       res.status(400).json({ error: "Invalid money format" });
     }
     updateUser(body);
-    io.emit("updatedUser", body);
+    io.emit("updateUser", body);
     res.json({ response: "Money Successfully Updated" });
   } else {
     return res.status(401).json({ error: "Unauthorized request" });

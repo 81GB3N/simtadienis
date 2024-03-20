@@ -4,7 +4,7 @@ import { faCrown, faMoneyBill1Wave } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../modal/Modal";
 import UserWindow from "../user/UserWindow";
 
-import { useState } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 
 /**
  * Renders a leaderboard entry component.
@@ -13,17 +13,22 @@ import { useState } from "react";
  * @param {number} props.mostMoney - The highest amount of money among all users.
  * @returns {JSX.Element} The rendered leaderboard entry component.
  */
-export default function LeaderBoardEntry({ user, position, mostMoney }) {
+const LeaderBoardEntry = forwardRef(function ({ user, position, mostMoney }, ref) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
-
+    const [currPosition, setCurrPosition] = useState(position);
     let barWidth = (Number(user.money) / mostMoney) * 100;
+
+    useImperativeHandle(ref, () => ({
+        moveToPosition: newPosition => setCurrPosition(newPosition)
+    }));
+
     return (
         <>
-            <div className={`entry pos-${position > 5 ? 'none' : position}`}
+            <div className={`entry pos-${currPosition}`}
                 onClick={() => setModalIsOpen(true)}
-                style={{ '--transition-delay-multiplier': `${position - 1}` }}>
+                style={{ '--transition-delay-multiplier': `${currPosition - 1}` }}>
                 <div className="entry-wrap">
-                    {position <= 3 && (
+                    {currPosition <= 3 && (
                         <div className={`entry-ava`}>
                             <FontAwesomeIcon icon={faCrown} />
                         </div>)
@@ -48,4 +53,6 @@ export default function LeaderBoardEntry({ user, position, mostMoney }) {
             }
         </>
     )
-}
+});
+
+export default LeaderBoardEntry;
