@@ -1,5 +1,5 @@
 // User Components
-import NewUserLookup from "./UserLookup";
+import UserLookup from "./UserLookup";
 import UsersTable from "./UsersTable";
 import EditTable from "./EditTable";
 
@@ -21,6 +21,7 @@ export default function Users() {
     useEffect(() => {
         getAllUsers().then(data => {
             setAllUsers(data.result);
+            console.log(data.result);
         });
     }, [refresh]);
 
@@ -30,7 +31,7 @@ export default function Users() {
                 <h2>Users</h2>
             </div>
             <div className='users'>
-                <NewUserLookup users={allUsers} />
+                <UserLookup users={allUsers} />
                 <EditTable />
                 <UsersTable users={allUsers} />
             </div>
