@@ -49,11 +49,21 @@ export default function LeaderBoard({ desktopMode = false }) {
                 setDisplayLimit(undefined);
             }
 
+            setEntryRefs((entryRef) => {
+                const entryRefs = Array(data.result.length)
+                    .fill()
+                    .map((_, i) => entryRef[i] || createRef());
+                console.log('----------FINISHED CREATING REFS----------')
+                return entryRefs;
+            });
+
             let sortedPositions = data.result.sort((a, b) => b.money - a.money);
             sortedPositions = sortedPositions.map((user, index) => ({
                 ...user,
                 refId: index
             }));
+
+            console.log(sortedPositions)
             return sortedPositions;
 
         } catch (err) {
@@ -74,6 +84,41 @@ export default function LeaderBoard({ desktopMode = false }) {
         }
     }
 
+    const changeUserPositions = (socketUser) => {
+        console.log('----------CHANGING USER POSITIONS----------')
+
+        const oldLeaderBoardPos = [...leaderBoardPos];
+
+        const oldUserIndex = leaderBoardPos.findIndex(user => user.name === socketUser.name && user.surname === socketUser.surname);
+        if (oldUserIndex !== -1) {
+            leaderBoardPos[oldUserIndex].money += socketUser.money;
+            leaderBoardPos.sort((a, b) => b.money - a.money);
+        }
+        const updatedUserIndex = leaderBoardPos.findIndex(user => user.name === socketUser.name && user.surname === socketUser.surname);
+        const updatedUser = leaderBoardPos[updatedUserIndex];
+        console.log('UPDATES USER: ', updatedUser)
+        const updatedUserRef = entryRefs[updatedUser.refId].current;
+        updatedUserRef.mutateMoneyCnt(leaderBoardPos[updatedUserIndex].money);
+
+        if (updatedUserIndex === oldUserIndex) return;
+
+        updatedUserRef.moveToPosition(updatedUserIndex + 1);
+        const stepDirection = updatedUserIndex > oldUserIndex ? -1 : 1;
+
+        let user = oldLeaderBoardPos[updatedUserIndex];
+        for (let i = updatedUserIndex; i !== oldUserIndex; i += stepDirection) {
+            const userRef = entryRefs[user.refId].current;
+            userRef.moveToPosition(i + 1);
+            user = leaderBoardPos[i + stepDirection];
+        }
+        const userRef = entryRefs[user.refId].current;
+        userRef.moveToPosition(oldUserIndex + 1);
+
+        if (updatedUserIndex === 0) {
+            setMostMoney(updatedUser.money);
+        }
+    }
+
     useEffect(() => {
         const fetchLeaderBoard = async () => {
             const sortedPositions = await getLeaderBoardPositions();
@@ -88,41 +133,21 @@ export default function LeaderBoard({ desktopMode = false }) {
         })
 
         socket.on('updateUser', (socketUser) => {
-            console.log('updated user', socketUser);
-            console.log('leaderBoardPos', leaderBoardPos);
-            const oldLeaderBoardPos = [...leaderBoardPos];
-
-            const oldUserIndex = leaderBoardPos.findIndex(user => user.name === socketUser.name && user.surname === socketUser.surname);
-            if (oldUserIndex !== -1) {
-                leaderBoardPos[oldUserIndex].money += socketUser.money;
-                leaderBoardPos.sort((a, b) => b.money - a.money);
+            console.log('----------SOCKET RECEIVED----------')
+            console.log(socketUser);
+            console.log(entryRefs)
+            if (entryRefs.length > 0) {
+                changeUserPositions(socketUser);
+            } else {
+                const checkEntryRefs = setInterval(() => {
+                    console.log('checking', entryRefs)
+                    if (entryRefs.length > 0) {
+                        changeUserPositions(socketUser);
+                        clearInterval(checkEntryRefs);
+                    }
+                }, 100)
             }
-            const updatedUserIndex = leaderBoardPos.findIndex(user => user.name === socketUser.name && user.surname === socketUser.surname);
-            const updatedUser = leaderBoardPos[updatedUserIndex];
-            const updatedUserRef = entryRefs[updatedUser.refId].current;
-            updatedUserRef.mutateMoneyCnt(leaderBoardPos[updatedUserIndex].money);
 
-            if (updatedUserIndex === oldUserIndex) return;
-
-            // const replacedUser = oldLeaderBoardPos[updatedUserIndex];
-            // const replacedUserRef = entryRefs[replacedUser.refId].current;
-            // replacedUserRef.moveToPosition(oldUserIndex + 1);
-
-            updatedUserRef.moveToPosition(updatedUserIndex + 1);
-            const stepDirection = updatedUserIndex > oldUserIndex ? -1 : 1;
-
-            let user = oldLeaderBoardPos[updatedUserIndex];
-            for (let i = updatedUserIndex; i !== oldUserIndex; i += stepDirection) {
-                const userRef = entryRefs[user.refId].current;
-                userRef.moveToPosition(i + 1);
-                user = leaderBoardPos[i + stepDirection];
-            }
-            const userRef = entryRefs[user.refId].current;
-            userRef.moveToPosition(oldUserIndex + 1);
-
-            if (updatedUserIndex === 0) {
-                setMostMoney(updatedUser.money);
-            }
         })
 
         return () => {
@@ -143,10 +168,9 @@ export default function LeaderBoard({ desktopMode = false }) {
 
     useEffect(() => {
         if (!leaderBoardPos.length) return;
-        setEntryRefs((entryRef) => Array(leaderBoardPos.length)
-            .fill()
-            .map((_, i) => entryRef[i] || createRef()));
-    }, [leaderBoardPos?.length])
+        
+
+    }, [leaderBoardPos.length])
 
     if (error) return <div>{error}</div>
     if (!leaderBoardPos.length) return <div></div>
@@ -156,19 +180,20 @@ export default function LeaderBoard({ desktopMode = false }) {
             className={`user-page side-page leaderboard ${animate ? 'in-view' : ''} ${desktopMode ? 'active desktop' : currentUserPageName === 'leaderboard' ? 'active' : ''}`}
             ref={ref}>
             {
-                leaderBoardPos.slice(0, desktopMode ? maxDisplayLimit : displayLimit).map((user, index) =>
+                // slice(0, desktopMode ? maxDisplayLimit : displayLimit)
+                leaderBoardPos.map((user, index) =>
                     <LeaderBoardEntry ref={entryRefs[index]} key={user.name + user.surname} position={index + 1} user={user} mostMoney={mostMoney} />
                 )
             }
             <div className="leaderboard__controls" style={{ top: `${(desktopMode ? leaderBoardPos.length : displayLimit) * CONSTANTS.LEADERBOARD_ENTRY_HEIGHT}px` }}>
-                {displayLimit &&
+                {/* {displayLimit &&
                     <button onClick={toggleDisplayLimit}>
                         {displayLimit === maxDisplayLimit ?
                             <LiaMinusSquare /> :
                             <LiaPlusSquare />
                         }
                     </button>
-                }
+                } */}
             </div>
         </div>
     )

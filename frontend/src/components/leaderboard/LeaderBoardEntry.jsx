@@ -19,9 +19,9 @@ const LeaderBoardEntry = forwardRef(function ({ user, position, mostMoney }, ref
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [currPosition, setCurrPosition] = useState(position);
     const [delayMultiplier, setDelayMultiplier] = useState(position - 1);
-
     const [moneyCnt, setMoneyCnt] = useState(user.money);
-    let barWidth = (Number(user.money) / mostMoney) * 100;
+
+    let barWidth = (Number(moneyCnt) / mostMoney) * 100;
 
     useImperativeHandle(ref, () => ({
         moveToPosition: newPosition => {
