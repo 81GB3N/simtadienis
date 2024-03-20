@@ -13,22 +13,26 @@ import CONSTANTS from "../constants";
 const socket = io.connect(CONSTANTS.SOCKET_URL);
 
 export default function Users() {
-    console.log('----------RENDERING----------');
     const [allUsers, setAllUsers] = useState([]);
     const { refresh } = useAdmin();
 
     useEffect(() => {
-        console.log('----------USERS USEEFFECT----------');
         getAllUsers().then(data => {
             setAllUsers(data.result);
-            console.log(data.result);
         });
         socket.on('newUser', (newUser) => {
-            console.log('new user: ', newUser);
             setAllUsers(prev => [...prev, newUser]);
+        });
+        socket.on('updatedUser', (updatedUser) => {
+            setAllUsers(prev => {
+                const index = prev.findIndex(user => user.name === updatedUser.name && user.surname === updatedUser.surname);
+                prev[index].money += updatedUser.money;
+                return prev;
+            });
         });
         return () => {
             socket.off('newUser');
+            socket.off('updatedUser');
         }
     }, [refresh]);
 
