@@ -107,6 +107,10 @@ export default function LeaderBoard({ desktopMode = false }) {
 
             updatedUserRef.moveToPosition(updatedUserIndex + 1);
             replacedUserRef.moveToPosition(oldUserIndex + 1);
+
+            if(updatedUserIndex === 0) {
+                setMostMoney(updatedUser.money);
+            }
         })
 
         return () => {
@@ -138,16 +142,13 @@ export default function LeaderBoard({ desktopMode = false }) {
     return (
         <div
             className={`user-page side-page leaderboard ${animate ? 'in-view' : ''} ${desktopMode ? 'active desktop' : currentUserPageName === 'leaderboard' ? 'active' : ''}`}
-            ref={ref}
-            style={{ gridTemplateRows: `repeat(${displayLimit}, min-content)` }}>
+            ref={ref}>
             {
-
                 leaderBoardPos.slice(0, desktopMode ? maxDisplayLimit : displayLimit).map((user, index) =>
                     <LeaderBoardEntry ref={entryRefs[index]} key={user.name + user.surname} position={index + 1} user={user} mostMoney={mostMoney} />
                 )
-
             }
-            <div className="leaderboard__controls">
+            <div className="leaderboard__controls" style={{top: `${(desktopMode ? leaderBoardPos.length : displayLimit) * CONSTANTS.LEADERBOARD_ENTRY_HEIGHT}px`}}>
                 {displayLimit &&
                     <button onClick={toggleDisplayLimit}>
                         {displayLimit === maxDisplayLimit ?

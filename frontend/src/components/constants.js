@@ -16,7 +16,8 @@ const CONSTANTS = {
             name: 'Video 3'
         }
     ],
-    SOCKET_URL : isLocalhost ? 'http://localhost:4000' : 'https://lic100.lt'
+    SOCKET_URL : isLocalhost ? 'http://localhost:4000' : 'https://lic100.lt',
+    LEADERBOARD_ENTRY_HEIGHT: 120 // in pixels
 }
 
 export default CONSTANTS;

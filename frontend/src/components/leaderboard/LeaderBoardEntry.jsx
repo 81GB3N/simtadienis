@@ -4,6 +4,8 @@ import { faCrown, faMoneyBill1Wave } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../modal/Modal";
 import UserWindow from "../user/UserWindow";
 
+import CONSTANTS from "../constants";
+
 import { useState, forwardRef, useImperativeHandle } from "react";
 
 /**
@@ -16,6 +18,8 @@ import { useState, forwardRef, useImperativeHandle } from "react";
 const LeaderBoardEntry = forwardRef(function ({ user, position, mostMoney }, ref) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [currPosition, setCurrPosition] = useState(position);
+    const [delayMultiplier, setDelayMultiplier] = useState(position - 1);
+
     const [moneyCnt, setMoneyCnt] = useState(user.money);
     let barWidth = (Number(user.money) / mostMoney) * 100;
 
@@ -26,9 +30,10 @@ const LeaderBoardEntry = forwardRef(function ({ user, position, mostMoney }, ref
 
     return (
         <>
-            <div className={`entry pos-${currPosition}`}
+            <div className={`entry ${delayMultiplier !== null ? 'offset' : ''} pos-${currPosition}`}
                 onClick={() => setModalIsOpen(true)}
-                style={{ '--transition-delay-multiplier': `${currPosition - 1}`, gridRow: currPosition }}>
+                style={{ '--transition-delay-multiplier': `${delayMultiplier}`, transform: `translateY(${(currPosition - 1) * CONSTANTS.LEADERBOARD_ENTRY_HEIGHT}px)`}}
+                onTransitionEnd={()=>setDelayMultiplier(null)}>
                 <div className="entry-wrap">
                     {currPosition <= 3 && (
                         <div className={`entry-ava`}>
