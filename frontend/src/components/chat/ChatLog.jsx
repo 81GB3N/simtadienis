@@ -3,11 +3,9 @@ import { usePage } from '../../context/PageProvider';
 import { getGlobalChat } from '../../utils/api';
 import io from 'socket.io-client';
 import ChatMessage from './ChatMessage';
+import CONSTANTS from '../constants';
 
-const isLocalhost = window.location.hostname === 'localhost';
-const socketUrl = isLocalhost ? 'http://localhost:4000' : 'https://lic100.lt';
-
-const socket = io.connect(socketUrl);
+const socket = io.connect(CONSTANTS.SOCKET_URL);
 
 /**
  * Renders the chat log component.
