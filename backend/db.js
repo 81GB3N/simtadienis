@@ -163,6 +163,28 @@ const findUser = async (name, surname, page=main, getPassword) => {
 //   }
 // }
 
+async function checkAndAddVideo(collection, userVotes) {
+  for (const vote of userVotes) {
+    const existingDocument = await collection.findOne({ video: vote });
+    if (existingDocument === null) {
+      await collection.insertOne({ video: vote, votes: 0 });
+    }
+  }
+}
+
+async function updateVotes(collection, currentVotes, userVotes) {
+  for (let i = 0; i < currentVotes.length; i++) {
+    await collection.updateOne(
+      { video: currentVotes[i] },
+      { $inc: { votes: -1 } }
+    );
+
+    await collection.updateOne(
+      { video: userVotes[i] },
+      { $inc: { votes: 1 } }
+    );
+  }
+}
 
 
 const handleRating = async (action, user) => {
@@ -173,35 +195,33 @@ const handleRating = async (action, user) => {
     // if(await collection.find({}).toArray()) await makeCollection(collection);
     if(action === "get"){
     const cursor = collection.find({});
-    const documents = await cursor.toArray();
-    return documents;
+    const document = await cursor.toArray();
+    return document;
     }
     else if(action === "set"){
       const info = await findUser(user.name, user.surname);
       console.log("info:", info);
-      const vote = info[0].vote;
+      const currentVotes = info[0].votes;
 
-      console.log("user.vote:", user.vote, "info.vote:", vote);
+      console.log("user.vote:", user.votes, "currentVotes:", currentVotes);
 
-      console.log("document: ", await collection.findOne({ video: user.vote  }))
+      await checkAndAddVideo(collection, user.votes);
+      await updateVotes(collection, currentVotes, user.votes);
 
-      if(await collection.findOne({ video: user.vote  }) === null) 
-        await collection.insertOne({video: user.vote , vote: 0})
+      // await collection.updateOne(
+      //   { video: currentVotes[0]  },
+      //   { $inc: {votes :  -1} }
+      // );
 
-      await collection.updateOne(
-        { video: vote  },
-        { $inc: {vote :  -1} }
-      );
-
-      await collection.updateOne(
-        { video: user.vote  },
-        { $inc: {vote :  1} }
-      );
+      // await collection.updateOne(
+      //   { video: user.votes[0]  },
+      //   { $inc: {votes :  1} }
+      // );
 
       const userCollection = database.collection("main");
       await userCollection.updateOne(
         {name: user.name, surname: user.surname},
-        {$set: {vote: user.vote}});
+        {$set: {votes: user.votes}});
 
         console.log("updaetd")
 
@@ -211,10 +231,6 @@ const handleRating = async (action, user) => {
   catch(error){
     console.error(error);
   }
-}
-
-async function createVoteCollection(){
-
 }
 
 

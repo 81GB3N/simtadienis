@@ -92,6 +92,15 @@ app.post("/api/check-status", async (req, res, next) => {
   }
 });
 
+function setBeginningVotes(){
+  const NUM_VOTES = 2;
+  const votes = {};
+  for(let i = 0; i < NUM_VOTES; i++){
+    votes[i] = -1;
+  }
+  return votes;
+}
+
 //writes user data by registering
 app.post("/api/register", async (req, res, next) => {
   try {
@@ -103,7 +112,7 @@ app.post("/api/register", async (req, res, next) => {
     console.log("generated user token: ", register.token);
     register.money = 0;
     register.galleryCnt = 0;
-    register.vote = -1;
+    register.votes = setBeginningVotes();
     writeDocument(register);
     //emits a socket messege upon registering
     io.emit("newUser", { name: register.name, surname: register.surname, money: 0 });
