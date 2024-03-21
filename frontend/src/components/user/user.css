@@ -258,6 +258,7 @@
 .window__profile{
     height: 100%;
     max-height: 300px;
+    max-width: 400px;
     width: 100%;
     background-color: var(--primary-color-yellow);
     border-radius: 0.5rem;
@@ -267,6 +268,7 @@
     align-items: center;
     gap: 1rem;
     box-shadow: 0px 0px 30px rgb(242, 153, 29);
+
 }
 
 @media screen and (max-height: 900px) {
