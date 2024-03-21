@@ -36,5 +36,6 @@
     "login.account": "Login into your account!",
     "ad": "Get your discount!",
     "admin": "Admin",
-    "admin.message": "Welcome to the chat!"
+    "admin.message": "Welcome to the chat!",
+    "password.forget": "Do not forget your password!"
 }

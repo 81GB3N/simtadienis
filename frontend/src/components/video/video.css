@@ -45,10 +45,27 @@
     justify-content: center;
 }
 
-.like-btn{
+.like-btn {
     color: red;
     display: flex;
     align-items: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.like-btn.voted {
+    animation: like-animation 0.3s ease-in-out;
+}
+
+@keyframes like-animation {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 .video-btn{
