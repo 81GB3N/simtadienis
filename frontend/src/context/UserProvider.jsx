@@ -105,12 +105,9 @@ export default function UserProvider({ children }) {
         let newVoteId;
         await setVoteId(prev =>{
             newVoteId = [...prev];
-            console.log('OLD VOTE ID', newVoteId);
             newVoteId[containerId] = id;
-            console.log('NEW VOTE ID', newVoteId);
             return newVoteId;
         });
-        console.log('NEW VOTE ID 2', newVoteId);
         return newVoteId
     }, []);
 

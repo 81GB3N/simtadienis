@@ -10,8 +10,6 @@ export default function VideoLike({ id, videoVotes, voteManipulation, currClass 
 
     const handleVoteSubmit = async () => {
         try {
-            console.log('CURRENT VOTE', currVote)
-            console.log('NEW VOTE', id)
             if(currVote===id) return;
             if (currVote!==null && currVote !== undefined && currVote !== id) {
                 voteManipulation.deductVote(currVote);
@@ -21,14 +19,8 @@ export default function VideoLike({ id, videoVotes, voteManipulation, currClass 
             const newVoteId = await changeVoteId(currClass, id)
             const response = await handleVotes({ name: userId.name, surname: userId.surname, votes: newVoteId, action: "set" });
 
-            console.log('---------NEW VOTE ID', newVoteId);
-            console.log('---------CHANGE: ', currClass, id);
-            console.log('---------RESPONSE: ', response);
         } catch (err) {
-            console.error(err);
         }
-        console.log('CURRENT VOTE', id)
-        console.log('--------------')
     };
 
     return (

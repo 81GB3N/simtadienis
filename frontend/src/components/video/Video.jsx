@@ -1,5 +1,4 @@
 import { usePage } from "../../context/PageProvider"
-import { useUser } from "../../context/UserProvider"
 import { useState, useEffect, useCallback } from "react"
 import { handleVotes } from "../../utils/api"
 import VideoInstance from "./VideoInstance"
@@ -15,6 +14,8 @@ const fillVotes = () => {
 }
 
 export default function Video() {
+    console.log('------------------------RENDERING------------------------')
+
     const { currentUserPageName } = usePage();
     const [currClass, setCurrClass] = useState(0);
     const [screenSize, setScreenSize] = useState(window.innerWidth);
@@ -23,7 +24,6 @@ export default function Video() {
     const getTotalVotes = useCallback(async () => {
         try {
             const data = await handleVotes({ action: "get" });
-            console.log('--------------DATA-----------\n', data.response);
             return data.response;
         } catch (err) {
             console.error('ERROR', err);
@@ -33,21 +33,18 @@ export default function Video() {
     useEffect(() => {
         const handleResize = () => {
             setScreenSize(window.innerWidth > 500 ? 500 : window.innerWidth);
-            console.log(window.innerWidth);
         };
         handleResize();
         window.addEventListener('resize', handleResize);
 
         getTotalVotes().then((res) => {
             const newVotes = fillVotes();
+            if (!res) return;
             res.forEach(item => {
                 // item.id might not work
-                console.log("PREVIOUS newVotes", newVotes[item.class][item.id])
                 newVotes[item.class][item.id] = item.votes;
-                console.log('ITEM', item);
-                console.log("PREVIOUS newVotes ", newVotes[item.class][item.id])
             })
-            console.log('NEW', newVotes);
+            console.log('--------SETTING VOTES--------');
             setTotalVotes(newVotes);
         });
 
@@ -57,7 +54,6 @@ export default function Video() {
     }, [getTotalVotes]);
 
     const deductVote = (id) => {
-        console.log('DEDUCTING VOTE', id);
         setTotalVotes((prev) => {
             const newVotes = [...prev];
             newVotes[currClass][id] -= 1;
@@ -93,18 +89,14 @@ export default function Video() {
 
     return (
         <div className={`user-page side-page video-page ${currentUserPageName === 'video' ? 'active' : ''}`}>
-            <div className="video__container">
-                {CONSTANTS.CLASS_LIST[currClass].map((video, i) => {
-                    return (
-                        <div className="video__container">
-                            {CONSTANTS.CLASS_LIST[currClass].map((video, i) => {
-                                console.log('TOTAL VOTES ', totalVotes, totalVotes[currClass][i]);
-                                return <VideoInstance key={i} currClass={currClass} video={video} videoVotes={totalVotes[currClass][i]} voteManipulation={voteManipulation} position={i} screenSize={screenSize} />;
-                            })}
-                        </div>
-                    );
-                })}
-            </div>
+            {
+                <div className="video__container">
+                    {CONSTANTS.CLASS_LIST[currClass].map((video, i) => {
+                        return <VideoInstance key={i} currClass={currClass} video={video} videoVotes={totalVotes[currClass][i]} voteManipulation={voteManipulation} position={i} screenSize={screenSize} />;
+                    })}
+                </div>
+            }
+
             <button className={`video-btn ${currClass >= CONSTANTS.CLASS_LIST.length - 1 ? 'right' : 'left'}`} onClick={changeClass}>
                 {
                     <LiaArrowAltCircleRightSolid />

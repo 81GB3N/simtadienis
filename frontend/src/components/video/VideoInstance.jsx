@@ -1,11 +1,6 @@
 import VideoLike from "./VideoLike"
 
 export default function VideoInstance({ video, videoVotes, voteManipulation, position, screenSize, currClass}) {
-    
-    console.log('VIDEO INSTANCE', currClass, position);
-    console.log(video)
-    console.log(videoVotes);
-
     return (
         <div className="video">
             <iframe width={screenSize} height={screenSize}
