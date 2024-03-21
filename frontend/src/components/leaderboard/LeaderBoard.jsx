@@ -185,6 +185,7 @@ export default function LeaderBoard({ desktopMode = false }) {
                         inView={inView} />
                 )
             }
+            <div className='leaderboard-padding' style={{ top: `${(leaderBoardPos.length  -1) * CONSTANTS.LEADERBOARD_ENTRY_HEIGHT}px`}}></div>
             {/* <div className="leaderboard__controls" style={{ top: `${(desktopMode ? leaderBoardPos.length : displayLimit) * CONSTANTS.LEADERBOARD_ENTRY_HEIGHT}px` }}>
                 {displayLimit &&
                     <button onClick={toggleDisplayLimit}>

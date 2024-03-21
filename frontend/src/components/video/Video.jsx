@@ -23,6 +23,7 @@ export default function Video() {
     const getTotalVotes = useCallback(async () => {
         try {
             const data = await handleVotes({ action: "get" });
+            console.log('--------------DATA-----------\n', data.response);
             return data.response;
         } catch (err) {
             console.error('ERROR', err);
