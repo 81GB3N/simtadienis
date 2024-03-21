@@ -307,9 +307,14 @@ app.post("/api/video-votes", verifyToken, async (req, res, next) => {
     const body = req.body;
     console.log(body);
     let result = null;
+    console.log('-----------------BODY-----------------');
+    console.log(body);
     if((body.action === "get") || (body.action === "set" && body.name.toLowerCase() === req.payload.name.toLowerCase() && body.surname.toLowerCase() === req.payload.surname.toLowerCase())){
-     result = await handleRating(body.action, body);
+      console.log("--------------------------ACTION--------------------------");
+      result = await handleRating(body.action, body);
     }
+    console.log("-----------------RESULT-----------------");
+    console.log(result);
     res.json({ response: result });
   }
   catch (err) {

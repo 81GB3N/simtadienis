@@ -2,7 +2,7 @@ import { useUser } from '../../context/UserProvider';
 import { useMenu } from '../../context/MenuProvider';
 import { useState } from 'react';
 
-import currentDate from '../date';
+import currentDate from '../../date';
 import { useIntl } from 'react-intl';
 
 import { sendGlobalChat } from '../../utils/api';

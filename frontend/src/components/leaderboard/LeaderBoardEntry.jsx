@@ -4,7 +4,7 @@ import { faCrown, faMoneyBill1Wave } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../modal/Modal";
 import UserWindow from "../user/UserWindow";
 
-import CONSTANTS from "../constants";
+import CONSTANTS from "../../constants";
 
 import { useState, forwardRef, useImperativeHandle } from "react";
 

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useMemo, useCallback } from "react";
-import CONSTANTS from "../components/constants";
+import CONSTANTS from "../constants";
 
 const UserContext = createContext();
 /**
@@ -99,14 +99,18 @@ export default function UserProvider({ children }) {
         setUserId({ name: '', surname: '' });
     }, []);
 
-    const [voteId, setVoteId] = useState(Array(CONSTANTS.VIDEO_LIST.length).fill());
+    const [voteId, setVoteId] = useState(Array(CONSTANTS.CLASS_LIST.length).fill());
 
-    const changeVoteId = useCallback((containerId, id) => {
+    const changeVoteId = useCallback(async (containerId, id) => {
+        let newVoteId;
         setVoteId(prev =>{
-            const newVoteId = {...prev};
+            newVoteId = [...prev];
+            console.log('OLD VOTE ID', newVoteId);
             newVoteId[containerId] = id;
+            console.log('NEW VOTE ID', newVoteId);
             return newVoteId;
         });
+        return newVoteId
     }, []);
 
     return (

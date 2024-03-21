@@ -8,7 +8,7 @@ import GalleryImage from './GalleryImage';
 import GalleryCount from './GalleryCount';
 import './gallery.css';
 
-import CONSTANTS from '../constants';
+import CONSTANTS from '../../constants';
 
 /**
  * Renders the Gallery component.

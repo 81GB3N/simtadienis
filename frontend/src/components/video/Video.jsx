@@ -2,17 +2,20 @@ import { usePage } from "../../context/PageProvider"
 import { useUser } from "../../context/UserProvider"
 import { useState, useEffect, useCallback } from "react"
 import { handleVotes } from "../../utils/api"
-import VideoInstance from "./old-VideoInstance"
+import VideoInstance from "./VideoInstance"
+
+import { LiaArrowAltCircleRightSolid } from "react-icons/lia";
 import './video.css'
-import CONSTANTS from "../constants"
+import CONSTANTS from "../../constants"
 
 const fillVotes = () => {
-    return Array.from({ length: CONSTANTS.CLASS_LIST.length }, () => Array(CONSTANTS.CLASS_LIST[0].length).fill());
+    return Array.from({ length: CONSTANTS.CLASS_LIST.length }, (_, index) =>
+        Array(CONSTANTS.CLASS_LIST[index].length).fill(0)
+    );
 }
 
 export default function Video() {
     const { currentUserPageName } = usePage();
-    const { userId } = useUser();
     const [currClass, setCurrClass] = useState(0);
     const [screenSize, setScreenSize] = useState(window.innerWidth);
     const [totalVotes, setTotalVotes] = useState(fillVotes());
@@ -22,7 +25,7 @@ export default function Video() {
             const data = await handleVotes({ action: "get" });
             return data.response;
         } catch (err) {
-            console.error(err);
+            console.error('ERROR', err);
         }
     }, []);
 
@@ -39,14 +42,19 @@ export default function Video() {
             res.forEach(item => {
                 // item.id might not work
                 newVotes[item.class][item.id] = item.vote ?? 0;
+                console.log('ITEM', item);
             })
+            console.log('NEW', newVotes);
             setTotalVotes(newVotes);
         });
+
+        getTotalVotes()
 
         return () => window.removeEventListener('resize', handleResize);
     }, [getTotalVotes]);
 
     const deductVote = (id) => {
+        console.log('DEDUCTING VOTE', id);
         setTotalVotes((prev) => {
             const newVotes = [...prev];
             newVotes[currClass][id] -= 1;
@@ -65,7 +73,7 @@ export default function Video() {
     const changeClass = () => {
         setCurrClass(prev => {
             const newClass = prev + 1;
-            if(newClass >= CONSTANTS.CLASS_LIST.length) return 0;
+            if (newClass >= CONSTANTS.CLASS_LIST.length) return 0;
             return newClass;
         });
     }
@@ -75,15 +83,22 @@ export default function Video() {
         addVote
     }
 
+    useEffect(() => {
+        const v = document.querySelector('.video-page')
+        v.scrollTop = 0;
+    }, [currClass]);
+
     return (
         <div className={`user-page side-page video-page ${currentUserPageName === 'video' ? 'active' : ''}`}>
             <div className="video__container">
                 {CONSTANTS.CLASS_LIST[currClass].map((video, i) => {
-                    return <VideoInstance key={i} video={video} videoVotes={totalVotes[currClass][i]} voteManipulation={voteManipulation} position={i} screenSize={screenSize} />
+                    return <VideoInstance key={i} currClass={currClass} video={video} videoVotes={totalVotes[currClass][i]} voteManipulation={voteManipulation} position={i} screenSize={screenSize} />
                 })}
             </div>
-            <button style={{color: 'white'}} onClick={changeClass}>
-                go to next
+            <button className={`video-btn ${currClass >= CONSTANTS.CLASS_LIST.length - 1 ? 'right' : 'left'}`} onClick={changeClass}>
+                {
+                    <LiaArrowAltCircleRightSolid />
+                }
             </button>
         </div>
     )

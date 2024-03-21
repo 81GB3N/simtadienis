@@ -3,7 +3,7 @@ import { usePage } from '../../context/PageProvider';
 import { getGlobalChat } from '../../utils/api';
 import io from 'socket.io-client';
 import ChatMessage from './ChatMessage';
-import CONSTANTS from '../constants';
+import CONSTANTS from '../../constants';
 
 const socket = io.connect(CONSTANTS.SOCKET_URL);
 

@@ -12,7 +12,7 @@ import './leaderboard.css'
 
 import io from 'socket.io-client';
 
-import CONSTANTS from '../constants';
+import CONSTANTS from '../../constants';
 
 const socket = io.connect(CONSTANTS.SOCKET_URL);
 

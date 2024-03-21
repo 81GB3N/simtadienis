@@ -13,6 +13,7 @@ import { IoIosLogOut } from "react-icons/io";
 
 import './user.css';
 import unkownUserImg from "../../assets/images/unkown-user-new.png";
+import CONSTANTS from "../../constants";
 
 /**
  * @component
@@ -55,7 +56,10 @@ export default function UserProfile() {
     useEffect(() => {
         fetchData().then(data => {
             setUserData(data);
-            changeVoteId(data.vote===-1 ? null : data.vote);
+            console.log('------------USER DATA: ', data);
+            CONSTANTS.CLASS_LIST.forEach((_, index) => {
+                changeVoteId(index, data.votes[index]);
+            });
         });
     }, [fetchData, changeVoteId])
 

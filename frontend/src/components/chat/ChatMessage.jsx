@@ -8,7 +8,7 @@ import UserWindow from "../user/UserWindow";
 import adBanner from '../../assets/images/weborado-full.png';
 import unkownUserImg from "../../assets/images/unkown-user-new.png";
 
-import currentDate from "../date";
+import currentDate from "../../date";
 
 const AD_URL = 'https://weborado.lt';
 

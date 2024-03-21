@@ -196,10 +196,13 @@ const handleRating = async (action, user) => {
     if(action === "get"){
     const cursor = collection.find({});
     const document = await cursor.toArray();
-    return document ? document : {};
+    console.log('---------------DOCUMENT---------------')
+    console.log(document.length);
+    return document;
     }
     else if(action === "set"){
       const info = await findUser(user.name, user.surname);
+      console.log("-----------------INFO-----------------");
       console.log("info:", info);
       const currentVotes = info[0].votes;
 
