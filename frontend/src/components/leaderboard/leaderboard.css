@@ -17,7 +17,8 @@
 }
 
 .leaderboard.desktop{
-    padding: 0 10rem;
+    padding-right: 10rem;
+    padding-left: 10rem;
     max-width: 100vw;
 }
 
@@ -156,4 +157,10 @@
 .entry.in-view .bar {
     /* bar-width defined in react */
     max-width: var(--bar-width, 30%);
+}
+
+.leaderboard-padding{
+    position: absolute;
+    width: 1px;
+    padding-bottom: var(--total-selector-height);
 }
