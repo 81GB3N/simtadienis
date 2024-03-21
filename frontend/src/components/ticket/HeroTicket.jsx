@@ -32,7 +32,8 @@ export default function HeroTicket() {
     const calculateTimeLeft = () => {
         const now = new Date();
         // march - 2, 22nd - 22
-        const endDate = new Date(now.getFullYear(), 2, 22);
+        const endDate = new Date(now.getFullYear(), 2, 22, 18, 0, 0, 0);
+        if(new Date() > endDate) return '00h, 00m';
         const timeDifference = endDate.getTime() - now.getTime();
         const hours = Math.floor(timeDifference / (1000 * 60 * 60));
         const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
