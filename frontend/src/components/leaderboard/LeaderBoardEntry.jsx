@@ -15,11 +15,12 @@ import { useState, forwardRef, useImperativeHandle } from "react";
  * @param {number} props.mostMoney - The highest amount of money among all users.
  * @returns {JSX.Element} The rendered leaderboard entry component.
  */
-const LeaderBoardEntry = forwardRef(function ({ user, position, mostMoney }, ref) {
+const LeaderBoardEntry = forwardRef(function ({ user, position, mostMoney, inView }, ref) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [currPosition, setCurrPosition] = useState(position);
     const [delayMultiplier, setDelayMultiplier] = useState(position - 1);
     const [moneyCnt, setMoneyCnt] = useState(user.money);
+    const yOffset = `${(currPosition - 1) * CONSTANTS.LEADERBOARD_ENTRY_HEIGHT}px`
 
     let barWidth = (Number(moneyCnt) / mostMoney) * 100;
 
@@ -33,10 +34,14 @@ const LeaderBoardEntry = forwardRef(function ({ user, position, mostMoney }, ref
 
     return (
         <>
-            <div className={`entry ${delayMultiplier !== null ? 'offset' : ''} pos-${currPosition}`}
+            <div className={`entry pos-${currPosition} ${inView ? 'in-view' : ''} ${delayMultiplier === null ? 'arrived' : ''}`}
                 onClick={() => setModalIsOpen(true)}
-                style={{ '--transition-delay-multiplier': `${delayMultiplier}`, transform: `translateY(${(currPosition - 1) * CONSTANTS.LEADERBOARD_ENTRY_HEIGHT}px)`}}
-                onTransitionEnd={()=>setDelayMultiplier(null)}>
+                style={{
+                    '--transition-delay-multiplier': `${delayMultiplier}`,
+                    transform: `${delayMultiplier !== null ? (inView ? `translate(0, ${yOffset})` : 'translateX(-100dvw)') : `translateY(${yOffset})`}`
+                }}
+                onTransitionEnd={() => { setDelayMultiplier(null); }}
+            >
                 <div className="entry-wrap">
                     {currPosition <= 3 && (
                         <div className={`entry-ava`}>
@@ -52,7 +57,7 @@ const LeaderBoardEntry = forwardRef(function ({ user, position, mostMoney }, ref
                     </div>
                 </div>
                 <div className="entry-bar">
-                    <div className="bar" style={{ '--bar-width': `${barWidth}%` }}></div>
+                    <div className="bar" style={{ '--bar-width': `${delayMultiplier !== null ? 0 : barWidth}%` }}></div>
                 </div>
             </div>
             {

@@ -31,9 +31,9 @@ export default function LeaderBoard({ desktopMode = false }) {
 
     const [displayLimit, setDisplayLimit] = useState(MIN_DISPLAY_LIMIT);
     // to many states, fix l8r
-    const [maxDisplayLimit, setMaxDisplayLimit] = useState(0);
+    // const [maxDisplayLimit, setMaxDisplayLimit] = useState(0);
     const { ref, inView } = useInView({ threshold: 0, fallbackInView: true });
-    const [animate, setAnimate] = useState(false);
+    // const [animate, setAnimate] = useState(false);
     const { currentUserPageName } = usePage();
     const [mostMoney, setMostMoney] = useState(0);
 
@@ -44,10 +44,10 @@ export default function LeaderBoard({ desktopMode = false }) {
         try {
             const data = await getAllUsers();
 
-            setMaxDisplayLimit(data.result.length);
-            if (data.result.length <= MIN_DISPLAY_LIMIT || desktopMode) {
-                setDisplayLimit(undefined);
-            }
+            // setMaxDisplayLimit(data.result.length);
+            // if (data.result.length <= MIN_DISPLAY_LIMIT || desktopMode) {
+            //     setDisplayLimit(undefined);
+            // }
 
             setEntryRefs((entryRef) => {
                 const entryRefs = Array(data.result.length)
@@ -73,13 +73,13 @@ export default function LeaderBoard({ desktopMode = false }) {
     /**
      * Toggles the display limit of the leaderboard.
      */
-    const toggleDisplayLimit = () => {
-        if (displayLimit !== maxDisplayLimit) {
-            setDisplayLimit(maxDisplayLimit);
-        } else {
-            setDisplayLimit(MIN_DISPLAY_LIMIT);
-        }
-    }
+    // const toggleDisplayLimit = () => {
+    //     if (displayLimit !== maxDisplayLimit) {
+    //         setDisplayLimit(maxDisplayLimit);
+    //     } else {
+    //         setDisplayLimit(MIN_DISPLAY_LIMIT);
+    //     }
+    // }
 
     const changeUserPositions = (socketUser) => {
         console.log('----------CHANGING USER POSITIONS----------')
@@ -153,33 +153,36 @@ export default function LeaderBoard({ desktopMode = false }) {
         }
     }, [getLeaderBoardPositions, mostMoney, displayLimit])
 
-    useEffect(() => {
-        if (currentUserPageName !== 'leaderboard') {
-            setDisplayLimit(5);
-        }
-        if (inView) {
-            setAnimate(true);
-        }
-    }, [currentUserPageName, inView])
+    // useEffect(() => {
+    //     if (currentUserPageName !== 'leaderboard') {
+    //         setDisplayLimit(5);
+    //     }
+    // }, [currentUserPageName, inView])
 
 
-    useEffect(() => {
-        if (!leaderBoardPos.length) return;
-        
+    // useEffect(() => {
+    //     if (!leaderBoardPos.length) return;
 
-    }, [leaderBoardPos.length])
+
+    // }, [leaderBoardPos.length])
 
     if (error) return <div>{error}</div>
     if (!leaderBoardPos.length) return <div></div>
 
     return (
         <div
-            className={`user-page side-page leaderboard ${animate ? 'in-view' : ''} ${desktopMode ? 'active desktop' : currentUserPageName === 'leaderboard' ? 'active' : ''}`}
+            className={`user-page side-page leaderboard ${desktopMode ? 'active desktop' : currentUserPageName === 'leaderboard' ? 'active' : ''}`}
             ref={ref}>
             {
                 // slice(0, desktopMode ? maxDisplayLimit : displayLimit)
                 leaderBoardPos.map((user, index) =>
-                    <LeaderBoardEntry ref={entryRefs[index]} key={user.name + user.surname} position={index + 1} user={user} mostMoney={mostMoney} />
+                    <LeaderBoardEntry
+                        ref={entryRefs[index]}
+                        key={user.name + user.surname}
+                        position={index + 1}
+                        user={user}
+                        mostMoney={mostMoney}
+                        inView={inView} />
                 )
             }
             {/* <div className="leaderboard__controls" style={{ top: `${(desktopMode ? leaderBoardPos.length : displayLimit) * CONSTANTS.LEADERBOARD_ENTRY_HEIGHT}px` }}>

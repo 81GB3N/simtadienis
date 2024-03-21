@@ -62,7 +62,7 @@ export default function ChatMessage({ message }) {
 
     return (
         <>
-            <div key={message.user + message.time + message.content}
+            <div key={message.user + (isAd ? currentDate() : message.time) + message.content}
                 className={`chat__message ${isAd ? 'ad' : ''}`}
                 onClick={isAd ? () => window.open(AD_URL, '_blank', 'noopener,noreferrer') : openModal}
                 ref={ref}>

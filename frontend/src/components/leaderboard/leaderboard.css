@@ -153,7 +153,7 @@
     transition-delay: calc(var(--transition-delay) + var(--transition-length) + 25ms);
 }
 
-.leaderboard.in-view .bar {
+.entry.in-view .bar {
     /* bar-width defined in react */
     max-width: var(--bar-width, 30%);
 }
