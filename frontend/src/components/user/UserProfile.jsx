@@ -24,7 +24,7 @@ export default function UserProfile() {
     const [userData, setUserData] = useState({});
     const [moneyEffectActive, setMoneyEffectActive] = useState(false);
 
-    const { userId, clearUserId } = useUser();
+    const { userId, clearUserId, changeVoteId } = useUser();
     const { resetPage } = usePage();
 
     /**
@@ -53,8 +53,11 @@ export default function UserProfile() {
     }, [userId.name, userId.surname]);
 
     useEffect(() => {
-        fetchData().then(data => setUserData(data));
-    }, [fetchData])
+        fetchData().then(data => {
+            setUserData(data);
+            changeVoteId(data.vote===-1 ? null : data.vote);
+        });
+    }, [fetchData, changeVoteId])
 
     /**
      * Opens the edit profile modal.

@@ -34,11 +34,8 @@ export default function GalleryImage({ position, increaseCnt, decreaseCnt }) {
      * @returns {Promise<string>} A promise that resolves to the image URL.
      */
     const fetchImage = useCallback(async () => {
-        console.log('fetchImage invoked')
         const image = await handleDriveData(userId.name, userId.surname, position, 'get')
-        console.log('fetched image', image)
         if (!image.response){
-            console.log('no image found');
             return '';
         } 
         console.log('image-', position, image);

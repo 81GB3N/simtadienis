@@ -163,7 +163,6 @@ export async function handleDriveData(
   img = undefined
 ) {
   try {
-    console.log("handling", name, surname, imgNum, action);
     const response = await fetchData(
       { name: name, surname: surname, img: img, imgNum: imgNum },
       `${action}-image`

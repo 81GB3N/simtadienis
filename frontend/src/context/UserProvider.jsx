@@ -80,7 +80,6 @@ export default function UserProvider({ children }) {
     * @type {boolean}
     */
     const userIdExists = useMemo(() => {
-        console.log('reevaluating userIdExists: ', userId.name, userId.surname);
         return userId.name && userId.surname
     }, [userId.name, userId.surname]);
     /**
@@ -91,7 +90,6 @@ export default function UserProvider({ children }) {
      * @param {boolean} remove - Indicates whether to remove the user ID.
      */
     const changeUserId = useCallback((name, surname) => {
-        console.log('changeUserId', name, surname);
         setUserId(prevId => ({ name: name ? name : prevId.name, surname: surname ? surname : prevId.surname }));
     }, []);
 
@@ -100,12 +98,19 @@ export default function UserProvider({ children }) {
         setUserId({ name: '', surname: '' });
     }, []);
 
+    const [voteId, setVoteId] = useState(null);
+
+    const changeVoteId = useCallback((id) => {
+        setVoteId(id);
+    }, []);
+
     return (
         <UserContext.Provider
             value={{
                 loginActive, openLogin, closeLogin, toggleLoginActive,
                 signupActive, openSignup, closeSignup, toggleSignupActive,
-                userId, userIdExists, changeUserId, clearUserId
+                userId, userIdExists, changeUserId, clearUserId,
+                voteId, changeVoteId
             }}>
             {children}
         </UserContext.Provider>

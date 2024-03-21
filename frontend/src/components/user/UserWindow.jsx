@@ -1,5 +1,5 @@
-import { getUserData } from "../../utils/api";
-import { useEffect, useState, useCallback } from "react";
+// import { getUserData } from "../../utils/api";
+import { useState } from "react";
 
 import unkownUserImg from "../../assets/images/unkown-user-new.png";
 import { LiaMoneyBillSolid } from "react-icons/lia";

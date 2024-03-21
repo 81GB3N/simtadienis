@@ -53,7 +53,6 @@ export default function LeaderBoard({ desktopMode = false }) {
                 const entryRefs = Array(data.result.length)
                     .fill()
                     .map((_, i) => entryRef[i] || createRef());
-                console.log('----------FINISHED CREATING REFS----------')
                 return entryRefs;
             });
 
@@ -63,9 +62,7 @@ export default function LeaderBoard({ desktopMode = false }) {
                 refId: index
             }));
 
-            console.log(sortedPositions)
             return sortedPositions;
-
         } catch (err) {
             console.error('error retrieving all users')
             setError(err);

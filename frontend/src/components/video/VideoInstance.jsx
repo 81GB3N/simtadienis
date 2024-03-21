@@ -1,10 +1,10 @@
 import CONSTANTS from "../constants"
 import VideoLike from "./VideoLike"
 
-export default function VideoInstance({ position, screenSize }) {
+export default function VideoInstance({ position, screenSize, videoVotes, votesInstances }) {
     return (
         <div className="video">
-            <h3 className="video-title">{CONSTANTS.VIDEO_LIST[position].name}</h3>
+            <h3 className={`video-title video-${position}`}>{CONSTANTS.VIDEO_LIST[position].name}</h3>
             <iframe width={screenSize} height={screenSize}
                 src={CONSTANTS.VIDEO_LIST[position].url}
                 title={CONSTANTS.VIDEO_LIST[position].name}
@@ -16,7 +16,7 @@ export default function VideoInstance({ position, screenSize }) {
                 oallowfullscreen="oallowfullscreen"
                 webkitallowfullscreen="webkitallowfullscreen">
             </iframe>
-            <VideoLike id={position}/>
+            <VideoLike id={position} videoVotes={videoVotes} votesInstances={votesInstances} />
         </div>
     )
 }
