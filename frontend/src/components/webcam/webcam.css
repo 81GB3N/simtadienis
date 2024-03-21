@@ -14,7 +14,7 @@
 .webcam{
     display: flex;
     flex-direction: column;
-    gap: 2rem
+    gap: 2rem;
 }
 
 .video-container{
@@ -22,6 +22,8 @@
     overflow: hidden;
     width: 70vw;
     height: 70vw;
+    max-width: 300px;
+    max-height: 300px;
     bottom: 1rem;
 }
 
@@ -35,6 +37,8 @@
 .webcam img{
     width: 70vw;
     height: 70vw;
+    max-width: 300px;
+    max-height: 300px;
     object-fit: cover;
     border-radius: 50%;
 }
