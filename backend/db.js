@@ -165,9 +165,9 @@ const findUser = async (name, surname, page=main, getPassword) => {
 
 async function checkAndAddVideo(collection, userVotes) {
   for (const vote of userVotes) {
-    const existingDocument = await collection.findOne({ video: vote });
+    const existingDocument = await collection.findOne({ class: userVotes.indexOf(vote), id: vote });
     if (existingDocument === null) {
-      await collection.insertOne({ video: vote, votes: 0 });
+      await collection.insertOne({ class: userVotes.indexOf(vote), id: vote, vote: 0 });
     }
   }
 }
@@ -175,12 +175,12 @@ async function checkAndAddVideo(collection, userVotes) {
 async function updateVotes(collection, currentVotes, userVotes) {
   for (let i = 0; i < currentVotes.length; i++) {
     await collection.updateOne(
-      { video: currentVotes[i] },
+      { class: i, id: currentVotes[i] },
       { $inc: { votes: -1 } }
     );
 
     await collection.updateOne(
-      { video: userVotes[i] },
+      { class: i, id: userVotes[i] },
       { $inc: { votes: 1 } }
     );
   }

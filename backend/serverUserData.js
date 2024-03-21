@@ -94,7 +94,7 @@ app.post("/api/check-status", async (req, res, next) => {
 
 function setBeginningVotes(){
   const NUM_VOTES = 2;
-  const votes = Array(NUM_VOTES).fill(-1);
+  const votes = Array(NUM_VOTES).fill();
   return votes;
 }
 
