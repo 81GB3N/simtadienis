@@ -2,7 +2,7 @@ const { writeDocument, findUser, updateUser, retrieveDocument, handleRating } = 
 const { encrypt } = require("./encryptPassword");
 const { checkPassword } = require("./checkUserPassword");
 const { initializeSocket } = require("./socket");
-const { verifyToken, generateJWT, getJWT } = require("./handlingJWT.js");
+const { verifyToken, generateJWT } = require("./handlingJWT.js");
 const { uploadToDrive, deleteFromDrive, retrieveFileId } = require("./handleDriveImages.js");
 
 const http = require("http");
@@ -32,21 +32,6 @@ app.get("/api/getallusers", async (req, res, next) => {
     next(err);
   }
 });
-
-//UNSED RETRIEVE SUPER ADMIN TOKEN
-// app.get("/api/ssas", async (req, res, next) => {
-//   try {
-//     //gets super admin token
-//     const token = await getJWT(
-//       "ab87b68a7rebea68a7b6a",
-//       "aer78ae7b867ab68ea876ab"
-//     );
-//     console.log(token);
-//     res.json({ token });
-//   } catch (err) {
-//     next(err);
-//   }
-// });
 
 //gets user information specifies without password
 app.post("/api/getuser", async (req, res, next) => {
@@ -119,14 +104,6 @@ app.post("/api/register", async (req, res, next) => {
     next(err);
   }
 });
-
-//writes user history to history collection
-//UNUSED
-// app.post("/api/write-history", (req) => {
-//   const history = req.body;
-//   //invoke in addmoney
-//   writeDocument(history, "history");
-// });
 
 //super admin function to register admins
 app.post("/api/register-admin", verifyToken, async (req, res, next) => {
@@ -325,7 +302,6 @@ app.post("/api/video-votes", verifyToken, async (req, res, next) => {
 //error handling function
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  // res.status(500).send('Something broke!')
   res.status(500).json({ error: err });
 });
 

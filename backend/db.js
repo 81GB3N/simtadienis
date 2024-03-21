@@ -117,27 +117,14 @@ const updateUser = async (updateInfo) => {
 };
 
 
-
-//UNUSED
-// const getUserToken = async (name, surname) =>{
-//   const collection= database.collection("tokens");
-//   const query = {name: toRegexInsensitive(name), surname: toRegexInsensitive(surname)};
-//   const cursor = collection.find(query);
-//   const document = await cursor.toArray();
-//   return document[0].token;
-// }
-
 //find user and its info on the given data
 const findUser = async (name, surname, page=main, getPassword) => {
   try {
     // added getPassword variable to know when to call for password extraction and when for everything other
-// console.log(name, surname, page, password)
     const collection = database.collection(page);
     const query = { name: toRegexInsensitive(name), surname: toRegexInsensitive(surname) };
     let cursor;
     if (!getPassword) {
-      // const projection = {name: 1, surname: 1, money: 1, _id: 0, admin: 1, imgSrc: 1, galleryCnt: 1};
-
       //gets everything accept the password and _id
       const projection = { _id: 0, password: 0, token: 0 };
       cursor = collection.find(query).project(projection);
@@ -154,23 +141,6 @@ const findUser = async (name, surname, page=main, getPassword) => {
     console.error(error);
   }
 };
-
-// async function makeCollection(){
-//   const collection = database.collection("video-ratings");
-//   const VIDEO_NUM = 5;
-//   for(let i = 0; i < VIDEO_NUM; i++){
-//     await collection.insertOne({video: i, vote: 0})
-//   }
-// }
-
-// async function checkAndAddVideo(collection, userVotes) {
-//   for (const vote of userVotes) {
-//     const existingDocument = await collection.findOne({ class: userVotes.indexOf(vote), id: vote });
-//     if (existingDocument === null && vote !== null) {
-//       await collection.insertOne({ class: userVotes.indexOf(vote), id: vote, votes: 0 });
-//     }
-//   }
-// }
 
 async function updateVotes(collection, currentVotes, userVotes) {
   for (let i = 0; i < currentVotes.length; i++) {
@@ -195,7 +165,6 @@ const handleRating = async (action, user) => {
     console.log(user)
     console.log('action:', action, "user", user);
     const collection = database.collection("video-ratings");
-    // if(await collection.find({}).toArray()) await makeCollection(collection);
     if(action === "get"){
     const cursor = collection.find({});
     const document = await cursor.toArray();
@@ -211,26 +180,9 @@ const handleRating = async (action, user) => {
 
       console.log("user.votes:", user.votes, "currentVotes:", currentVotes);
 
-      // await checkAndAddVideo(collection, user.votes);
       await updateVotes(collection, currentVotes, user.votes);
-      // console.log(typeof currentVotes, user.votes, Object.keys(currentVotes), currentVotes.length)
 
       const userVotes = user.votes;
-
-      // for (let i = 0; i < Object.keys(currentVotes).length; i++) {
-      //   console.log("index to remvoe: ", i, "remove vote from:", currentVotes[i])
-      //   console.log("index to add: ", i, "add vote to:", userVotes[i])
-      // }
-      //   // await collection.updateOne(
-      //   //   { class: i, id: currentVotes[i] },
-      //   //   { $inc: { votes: -1 } }
-      //   // );
-    
-      //   // await collection.updateOne(
-      //   //   { class: i, id: userVotes[i] },
-      //   //   { $inc: { votes: 1 } }
-      //   // );
-      // }
 
       const userCollection = database.collection("main");
       await userCollection.updateOne(
@@ -261,5 +213,4 @@ module.exports = {
   updateUser,
   retrieveDocument,
   handleRating,
-  // getUserToken
 };
