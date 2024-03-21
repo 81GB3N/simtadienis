@@ -302,7 +302,7 @@ app.post("/api/video-votes", verifyToken, async (req, res, next) => {
   try {
     const body = req.body;
     console.log(body);
-    let result;
+    let result = null;
     if((body.action === "get") || (body.action === "set" && body.name.toLowerCase() === req.payload.name.toLowerCase() && body.surname.toLowerCase() === req.payload.surname.toLowerCase())){
      result = await handleRating(body.action, body);
     }
