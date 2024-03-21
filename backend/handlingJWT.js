@@ -2,10 +2,7 @@ const jwt = require('jsonwebtoken');
 const dotenv = require("dotenv");
 dotenv.config();
 
-const { getUserToken } = require('./db');
-
 const secretKey = process.env.JWT_SECRET_KEY;
-// console.log(secretKey)
 
 const generateJWT = (user, role) => {
 
@@ -34,7 +31,6 @@ function verifyToken(req, res, next) {
     }
 
     const token = req.headers.authorization.startsWith('Bearer') ? req.headers.authorization.split(' ')[1] : req.headers.authorization;
-    // console.log("authorization bearer handlingJWT verifyToken: ", token);
 
     if (!token) {
         return res.status(401).json({ error: 'Unauthorized: No token provided' });
@@ -54,14 +50,7 @@ function verifyToken(req, res, next) {
     });
 }
 
-
-//UNUSED
-// async function getJWT(name, surname){
-//     const token = await getUserToken(name.toLowerCase(), surname.toLowerCase());
-//     console.log("token from db: ", token);
-//     return token;
-// }
-
-module.exports = { generateJWT, verifyToken, 
-//    getJWT
+module.exports = { 
+    generateJWT, 
+    verifyToken, 
  }

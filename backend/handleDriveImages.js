@@ -87,45 +87,6 @@ async function deleteFromDrive(data){
     }
 }
 
-// CURRENTLY NOT USED
-// in the current version images are fetched with imageId
-// async function retrieveFromDrive(data){
-//     try {
-
-//         //get file id
-//         const fileId = await retrieveFileId(data);
-//         if(!fileId){
-//             return null;
-//         } 
-//         //retrieving response from drive
-//         const response = await drive.files.get({
-//             fileId: fileId,
-//             alt: 'media'
-//         }, { responseType: 'stream' });
-
-//         const chunks = [];
-
-//         //returning data
-//         let buffer =  await new Promise((resolve, reject) => {
-//             response.data
-//                 .on('data', chunk => chunks.push(chunk))
-//                 .on('end', () => resolve(Buffer.concat(chunks)))
-//                 .on('error', error => reject(error));
-//         });
-//         // buffer = Buffer.from(buffer);
-//         const base64 = 'data:image/jpeg;base64,'+Buffer.from(buffer).toString('base64')
-
-//         //decompressing image
-//         // LZString.decompress(base64);
-
-        
-//         return base64;
-//     } catch (err) {
-//         console.error('Error downloading file:', err);
-//         throw err;
-//     }
-// }
-
 //function to retrieve file by picture name
 async function retrieveFileId(data){
     try {
