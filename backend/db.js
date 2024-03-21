@@ -174,10 +174,12 @@ const findUser = async (name, surname, page=main, getPassword) => {
 
 async function updateVotes(collection, currentVotes, userVotes) {
   for (let i = 0; i < currentVotes.length; i++) {
+    if(currentVotes[i] !== null){
     await collection.updateOne(
       { class: i, id: currentVotes[i] },
       { $inc: { votes: -1 } }
     );
+    }
 
     await collection.updateOne(
       { class: i, id: userVotes[i] },
@@ -210,15 +212,15 @@ const handleRating = async (action, user) => {
       console.log("user.votes:", user.votes, "currentVotes:", currentVotes);
 
       // await checkAndAddVideo(collection, user.votes);
-      // await updateVotes(collection, currentVotes, user.votes);
-      // console.log(typeof currentVotes, user.votes, Object.keys(currentVotes))
+      await updateVotes(collection, currentVotes, user.votes);
+      // console.log(typeof currentVotes, user.votes, Object.keys(currentVotes), currentVotes.length)
 
-      // const userVotes = user.votes;
+      const userVotes = user.votes;
 
       // for (let i = 0; i < Object.keys(currentVotes).length; i++) {
       //   console.log("index to remvoe: ", i, "remove vote from:", currentVotes[i])
       //   console.log("index to add: ", i, "add vote to:", userVotes[i])
-
+      // }
       //   // await collection.updateOne(
       //   //   { class: i, id: currentVotes[i] },
       //   //   { $inc: { votes: -1 } }
