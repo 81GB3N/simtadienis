@@ -22,6 +22,15 @@
     border-bottom: 1px solid white;
 }
 
+.video__bottom{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    margin-bottom: 1rem;
+}
+
 .video-title{
     font-size: 2rem;
     font-weight: 500;
@@ -30,13 +39,14 @@
 
 .video__likes{
     font-size: 1.5rem;
-    display: flex;
     gap: 1rem;
+    display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1rem;
 }
 
 .like-btn{
     color: red;
+    display: flex;
+    align-items: center;
 }
