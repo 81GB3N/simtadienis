@@ -15,6 +15,7 @@ export default function VideoLike({ id, videoVotes, voteManipulation, currClass 
                 voteManipulation.deductVote(currVote);
             }
             setVoted(true);
+            setTimeout(() => setVoted(false), 300);
             voteManipulation.addVote(id);
             const newVoteId = await changeVoteId(currClass, id)
             const response = await handleVotes({ name: userId.name, surname: userId.surname, votes: newVoteId, action: "set" });
