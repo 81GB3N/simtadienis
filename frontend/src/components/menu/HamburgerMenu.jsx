@@ -42,7 +42,7 @@ export default function HamburgerMenu() {
     return (
         <div id="menu" className={`${menuActive ? 'active' : ''} from-${currentUserPageName}`}>
             <div className='menu-img-container img-one'>
-                <img src={hundredDollarsImg} alt="hundred dollars" className='menu-img'></img>
+                {/* <img src={hundredDollarsImg} alt="hundred dollars" className='menu-img'></img> */}
             </div>
             <div id='user' className={userIdExists ? 'user-exists' : 'no-user'}>
                 {
@@ -54,7 +54,7 @@ export default function HamburgerMenu() {
                 }
             </div>
             <div className='menu-img-container img-two'>
-                <img src={hundredDollarsImg} alt="hundred dollars" className='menu-img'></img>
+                {/* <img src={hundredDollarsImg} alt="hundred dollars" className='menu-img'></img> */}
             </div>
         </div>
     )

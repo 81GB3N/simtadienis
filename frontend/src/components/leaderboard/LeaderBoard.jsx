@@ -68,7 +68,7 @@ export default function LeaderBoard({ desktopMode = false }) {
             setError(err);
             return [];
         }
-    }, [desktopMode])
+    }, [])
 
     /**
      * Toggles the display limit of the leaderboard.
