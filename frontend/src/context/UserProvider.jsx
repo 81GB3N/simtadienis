@@ -103,13 +103,14 @@ export default function UserProvider({ children }) {
 
     const changeVoteId = useCallback(async (containerId, id) => {
         let newVoteId;
-        setVoteId(prev =>{
+        await setVoteId(prev =>{
             newVoteId = [...prev];
             console.log('OLD VOTE ID', newVoteId);
             newVoteId[containerId] = id;
             console.log('NEW VOTE ID', newVoteId);
             return newVoteId;
         });
+        console.log('NEW VOTE ID 2', newVoteId);
         return newVoteId
     }, []);
 

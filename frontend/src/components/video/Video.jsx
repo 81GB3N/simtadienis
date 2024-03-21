@@ -42,8 +42,10 @@ export default function Video() {
             const newVotes = fillVotes();
             res.forEach(item => {
                 // item.id might not work
-                newVotes[item.class][item.id] = item.vote ?? 0;
+                console.log("PREVIOUS newVotes", newVotes[item.class][item.id])
+                newVotes[item.class][item.id] = item.votes;
                 console.log('ITEM', item);
+                console.log("PREVIOUS newVotes ", newVotes[item.class][item.id])
             })
             console.log('NEW', newVotes);
             setTotalVotes(newVotes);
@@ -93,7 +95,14 @@ export default function Video() {
         <div className={`user-page side-page video-page ${currentUserPageName === 'video' ? 'active' : ''}`}>
             <div className="video__container">
                 {CONSTANTS.CLASS_LIST[currClass].map((video, i) => {
-                    return <VideoInstance key={i} currClass={currClass} video={video} videoVotes={totalVotes[currClass][i]} voteManipulation={voteManipulation} position={i} screenSize={screenSize} />
+                    return (
+                        <div className="video__container">
+                            {CONSTANTS.CLASS_LIST[currClass].map((video, i) => {
+                                console.log('TOTAL VOTES ', totalVotes, totalVotes[currClass][i]);
+                                return <VideoInstance key={i} currClass={currClass} video={video} videoVotes={totalVotes[currClass][i]} voteManipulation={voteManipulation} position={i} screenSize={screenSize} />;
+                            })}
+                        </div>
+                    );
                 })}
             </div>
             <button className={`video-btn ${currClass >= CONSTANTS.CLASS_LIST.length - 1 ? 'right' : 'left'}`} onClick={changeClass}>
