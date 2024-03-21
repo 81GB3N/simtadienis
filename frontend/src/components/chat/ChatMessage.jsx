@@ -10,7 +10,7 @@ import unkownUserImg from "../../assets/images/unkown-user-new.png";
 
 import currentDate from "../../date";
 
-const AD_URL = 'https://weborado.lt';
+const AD_URL = 'https://paskyra.weborado.lt';
 
 export default function ChatMessage({ message }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);

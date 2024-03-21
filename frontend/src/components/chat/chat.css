@@ -130,8 +130,13 @@
     width: 100%;
     max-width: 500px;
 }
+
 .chat__message.ad{
     background-color: var(--ad-color-orange);
+}
+
+.chat__message:hover{
+    cursor: pointer;
 }
 
 .message__upper{
