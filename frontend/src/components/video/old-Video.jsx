@@ -4,27 +4,25 @@ import { useState, useEffect, useCallback } from "react"
 import { handleVotes } from "../../utils/api"
 import VideoInstance from "./old-VideoInstance"
 import './video.css'
-import CONSTANTS from "../constants"
 
-const fillVotes = () => {
-    return Array.from({ length: CONSTANTS.CLASS_LIST.length }, () => Array(CONSTANTS.CLASS_LIST[0].length).fill());
-}
+import CONSTANTS from "../constants"
 
 export default function Video() {
     const { currentUserPageName } = usePage();
     const { userId } = useUser();
-    const [currClass, setCurrClass] = useState(0);
+
     const [screenSize, setScreenSize] = useState(window.innerWidth);
-    const [totalVotes, setTotalVotes] = useState(fillVotes());
+    console.log(CONSTANTS.VIDEO_LIST);
+    const [totalVotes, setTotalVotes] = useState(Array(CONSTANTS.VIDEO_LIST.length).fill(0));
 
     const getTotalVotes = useCallback(async () => {
         try {
-            const data = await handleVotes({ action: "get" });
+            const data = await handleVotes({ name: userId.name, surname: userId.surname, action: "get" });
             return data.response;
         } catch (err) {
             console.error(err);
         }
-    }, []);
+    }, [userId.name, userId.surname]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -35,12 +33,13 @@ export default function Video() {
         window.addEventListener('resize', handleResize);
 
         getTotalVotes().then((res) => {
-            const newVotes = fillVotes();
-            res.forEach(item => {
-                // item.id might not work
-                newVotes[item.class][item.id] = item.vote ?? 0;
-            })
-            setTotalVotes(newVotes);
+            for (const item in res) {
+                setTotalVotes((prev) => {
+                    const newVotes = [...prev];
+                    newVotes[res[item].video] = res[item].vote || 0;
+                    return newVotes;
+                });
+            }
         });
 
         return () => window.removeEventListener('resize', handleResize);
@@ -49,28 +48,20 @@ export default function Video() {
     const deductVote = (id) => {
         setTotalVotes((prev) => {
             const newVotes = [...prev];
-            newVotes[currClass][id] -= 1;
+            newVotes[id] -= 1;
             return newVotes;
         });
-    }
+    };
 
     const addVote = (id) => {
         setTotalVotes((prev) => {
             const newVotes = [...prev];
-            newVotes[currClass][id] += 1;
+            newVotes[id] += 1;
             return newVotes;
         });
     }
 
-    const changeClass = () => {
-        setCurrClass(prev => {
-            const newClass = prev + 1;
-            if(newClass >= CONSTANTS.CLASS_LIST.length) return 0;
-            return newClass;
-        });
-    }
-
-    const voteManipulation = {
+    const votesInstances = {
         deductVote,
         addVote
     }
@@ -78,13 +69,13 @@ export default function Video() {
     return (
         <div className={`user-page side-page video-page ${currentUserPageName === 'video' ? 'active' : ''}`}>
             <div className="video__container">
-                {CONSTANTS.CLASS_LIST[currClass].map((video, i) => {
-                    return <VideoInstance key={i} video={video} videoVotes={totalVotes[currClass][i]} voteManipulation={voteManipulation} position={i} screenSize={screenSize} />
-                })}
+                {Array(CONSTANTS.VIDEO_LIST.length).fill().map((_, i) =>
+                    {
+                    console.log('videoVotes', totalVotes);
+                    return  <VideoInstance key={i} videoVotes={totalVotes[i]} votesInstances={votesInstances} position={i} screenSize={screenSize} />
+                    }
+                )}
             </div>
-            <button style={{color: 'white'}} onClick={changeClass}>
-                go to next
-            </button>
         </div>
     )
 }

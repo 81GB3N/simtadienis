@@ -2,7 +2,7 @@ import { useUser } from '../../context/UserProvider';
 import { handleVotes } from '../../utils/api';
 import { LiaHeart, LiaHeartSolid } from "react-icons/lia";
 
-export default function VideoLike({ id, videoVotes, voteManipulation }) {
+export default function VideoLike({ id, videoVotes, votesInstances }) {
     const { userId, changeVoteId, voteId } = useUser();
 
     const handleVoteSubmit = async () => {
@@ -11,9 +11,9 @@ export default function VideoLike({ id, videoVotes, voteManipulation }) {
             console.log('NEW VOTE', id)
             if (voteId !== null && voteId !== id) {
                 console.log('DEDUCTING VOTE')
-                voteManipulation.deductVote(voteId);
+                votesInstances.deductVote(voteId);
             }
-            voteManipulation.addVote(id);
+            votesInstances.addVote(id);
             changeVoteId(id);
             const response = await handleVotes({ name: userId.name, surname: userId.surname, vote: id, action: "set" });
             console.log('RESPONSE: ', response);

@@ -229,9 +229,15 @@ export async function sendGlobalChat(message) {
   }
 }
 
-export async function handleVotes(vote){
+
+/**
+ * Handles votes by sending a request to the server and returning the response data.
+ * @param {Array} votes - An array with vote values as elements.
+ * @returns {Promise} - A promise that resolves to the response data.
+ */
+export async function handleVotes(votes){
   try{
-    const response = await fetchData(vote, 'video-votes');
+    const response = await fetchData(votes, 'video-votes');
     const data = await response.json();
     return data;
   }
