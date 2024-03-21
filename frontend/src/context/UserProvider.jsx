@@ -110,6 +110,7 @@ export default function UserProvider({ children }) {
             console.log('NEW VOTE ID', newVoteId);
             return newVoteId;
         });
+        console.log('NEW VOTE ID 2', newVoteId);
         return newVoteId
     }, []);
 
