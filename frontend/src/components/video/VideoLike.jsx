@@ -15,8 +15,8 @@ export default function VideoLike({ id, videoVotes, voteManipulation, currClass 
             if(currVote===id) return;
             if (currVote!==null && currVote !== undefined && currVote !== id) {
                 voteManipulation.deductVote(currVote);
-                setVoted(true); // Set voted state to true after successful vote submission
             }
+            setVoted(true);
             voteManipulation.addVote(id);
             const newVoteId = await changeVoteId(currClass, id)
             const response = await handleVotes({ name: userId.name, surname: userId.surname, votes: newVoteId, action: "set" });
