@@ -50,11 +50,14 @@ export default function ChatMessage({ message }) {
     if (isAd) {
         messageContent = (
             <>
-                <FormattedMessage id='ad' />
+                <p>
+                    <FormattedMessage id='ad' />
+                    <span className="digit">lic100</span>
+                </p>
                 <img className="ad-banner" src={adBanner} alt="domenai.lt banner"></img>
             </>)
     }
-    else if(isAdmin){
+    else if (isAdmin) {
         messageContent = (
             <FormattedMessage id='admin.message' />
         )
@@ -71,7 +74,7 @@ export default function ChatMessage({ message }) {
                         <p className='message-user'>
                             {isAdmin ? <FormattedMessage id='admin' /> : message.user}
                         </p>
-                        {!isAd && !isAdmin && 
+                        {!isAd && !isAdmin &&
                             <div className="message-img-container">
                                 <img className="message-img" src={userProfileData?.image || unkownUserImg} alt="user">
                                 </img>

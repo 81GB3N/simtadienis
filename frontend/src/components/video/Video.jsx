@@ -96,7 +96,6 @@ export default function Video() {
                     })}
                 </div>
             }
-
             <button className={`video-btn ${currClass >= CONSTANTS.CLASS_LIST.length - 1 ? 'right' : 'left'}`} onClick={changeClass}>
                 {
                     <LiaArrowAltCircleRightSolid />

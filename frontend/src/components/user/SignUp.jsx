@@ -104,9 +104,7 @@ export default function Signup() {
                         onBlur={() => setNameFocus(false)}
                     />
                     <p className={`instructions ${nameFocus && name && !validName ? "show" : ""}`}>
-                        3 to 30 characters.
-                        Must begin with a letter.
-                        Letters, numbers, underscores, hyphens allowed.
+                        <FormattedMessage id="signup.error.text" />
                     </p>
                 </div>
                 <div className="input-wrapper">
@@ -119,9 +117,7 @@ export default function Signup() {
                         onBlur={() => setSurnameFocus(false)}
                     />
                     <p className={`instructions ${surnameFocus && surname && !validSurname ? "show" : ""}`}>
-                        3 to 30 characters.
-                        Must begin with a letter.
-                        Letters, numbers, underscores, hyphens allowed.
+                        <FormattedMessage id="signup.error.text" />
                     </p>
                 </div>
                 <div className="input-wrapper">
@@ -135,13 +131,11 @@ export default function Signup() {
                         onBlur={() => setPasswordFocus(false)}
                     />
                     <p className={`instructions ${passwordFocus && password && !validPassword ? "show" : ""}`}>
-                        At least 5 characters.
-                        Must include letter and number
-                        Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
+                        <FormattedMessage id="signup.error.password" />
                     </p>
                 </div>
                 <div className="input-wrapper">
-                    <FormInput 
+                    <FormInput
                         id="rpassword"
                         customClassNames={`form-input ${validMatch || !matchPassword ? "" : "invalid"}`}
                         onValueChange={(e) => setMatchPassword(e.target.value)}
@@ -151,7 +145,7 @@ export default function Signup() {
                         onBlur={() => setMatchFocus(false)}
                     />
                     <p className={`instructions ${matchFocus && matchPassword && !validMatch ? "show" : ""}`}>
-                        Must match the first password input field.
+                        <FormattedMessage id="signup.error.rpassword" />
                     </p>
                 </div>
                 <p className="password-forget"></p>
