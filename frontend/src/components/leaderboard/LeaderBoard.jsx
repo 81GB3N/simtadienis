@@ -130,7 +130,6 @@ export default function LeaderBoard({ desktopMode = false }) {
         })
 
         socket.on('updateUser', (socketUser) => {
-            console.log('----------SOCKET RECEIVED----------')
             console.log(socketUser);
             console.log(entryRefs)
             if (entryRefs.length > 0) {
