@@ -196,7 +196,7 @@ const handleRating = async (action, user) => {
     if(action === "get"){
     const cursor = collection.find({});
     const document = await cursor.toArray();
-    return document;
+    return document ? document : {};
     }
     else if(action === "set"){
       const info = await findUser(user.name, user.surname);
