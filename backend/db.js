@@ -163,14 +163,14 @@ const findUser = async (name, surname, page=main, getPassword) => {
 //   }
 // }
 
-async function checkAndAddVideo(collection, userVotes) {
-  for (const vote of userVotes) {
-    const existingDocument = await collection.findOne({ class: userVotes.indexOf(vote), id: vote });
-    if (existingDocument === null) {
-      await collection.insertOne({ class: userVotes.indexOf(vote), id: vote, vote: 0 });
-    }
-  }
-}
+// async function checkAndAddVideo(collection, userVotes) {
+//   for (const vote of userVotes) {
+//     const existingDocument = await collection.findOne({ class: userVotes.indexOf(vote), id: vote });
+//     if (existingDocument === null && vote !== null) {
+//       await collection.insertOne({ class: userVotes.indexOf(vote), id: vote, votes: 0 });
+//     }
+//   }
+// }
 
 async function updateVotes(collection, currentVotes, userVotes) {
   for (let i = 0; i < currentVotes.length; i++) {
@@ -190,6 +190,7 @@ async function updateVotes(collection, currentVotes, userVotes) {
 const handleRating = async (action, user) => {
   try{
     // await makeCollection();
+    console.log(user)
     console.log('action:', action, "user", user);
     const collection = database.collection("video-ratings");
     // if(await collection.find({}).toArray()) await makeCollection(collection);
@@ -206,20 +207,28 @@ const handleRating = async (action, user) => {
       console.log("info:", info);
       const currentVotes = info[0].votes;
 
-      console.log("user.vote:", user.votes, "currentVotes:", currentVotes);
+      console.log("user.votes:", user.votes, "currentVotes:", currentVotes);
 
-      await checkAndAddVideo(collection, user.votes);
-      await updateVotes(collection, currentVotes, user.votes);
+      // await checkAndAddVideo(collection, user.votes);
+      // await updateVotes(collection, currentVotes, user.votes);
+      // console.log(typeof currentVotes, user.votes, Object.keys(currentVotes))
 
-      // await collection.updateOne(
-      //   { video: currentVotes[0]  },
-      //   { $inc: {votes :  -1} }
-      // );
+      // const userVotes = user.votes;
 
-      // await collection.updateOne(
-      //   { video: user.votes[0]  },
-      //   { $inc: {votes :  1} }
-      // );
+      // for (let i = 0; i < Object.keys(currentVotes).length; i++) {
+      //   console.log("index to remvoe: ", i, "remove vote from:", currentVotes[i])
+      //   console.log("index to add: ", i, "add vote to:", userVotes[i])
+
+      //   // await collection.updateOne(
+      //   //   { class: i, id: currentVotes[i] },
+      //   //   { $inc: { votes: -1 } }
+      //   // );
+    
+      //   // await collection.updateOne(
+      //   //   { class: i, id: userVotes[i] },
+      //   //   { $inc: { votes: 1 } }
+      //   // );
+      // }
 
       const userCollection = database.collection("main");
       await userCollection.updateOne(
