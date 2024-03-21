@@ -18,6 +18,7 @@ export default function ChatMessage({ message }) {
     const { ref, inView } = useInView({ threshold: 0, fallbackInView: true });
 
     const isAd = message?.ad;
+    const isAdmin = message?.admin;
 
     const fetchUserData = useCallback(async () => {
         try {
@@ -53,6 +54,11 @@ export default function ChatMessage({ message }) {
                 <img className="ad-banner" src={adBanner} alt="domenai.lt banner"></img>
             </>)
     }
+    else if(isAdmin){
+        messageContent = (
+            <FormattedMessage id='admin.message' />
+        )
+    }
 
     return (
         <>
@@ -63,9 +69,9 @@ export default function ChatMessage({ message }) {
                 <div className='message__upper'>
                     <div className="message__user">
                         <p className='message-user'>
-                            {message.user}
+                            {isAdmin ? <FormattedMessage id='admin' /> : message.user}
                         </p>
-                        {!isAd &&
+                        {!isAd && !isAdmin && 
                             <div className="message-img-container">
                                 <img className="message-img" src={userProfileData?.image || unkownUserImg} alt="user">
                                 </img>

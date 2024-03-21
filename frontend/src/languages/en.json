@@ -34,5 +34,7 @@
     "your.submissions": "Your Submissions",
     "submitted": "Already submitted: ",
     "login.account": "Login into your account!",
-    "ad": "Get your discount!"
+    "ad": "Get your discount!",
+    "admin": "Admin",
+    "admin.message": "Welcome to the chat!"
 }

@@ -239,9 +239,7 @@ app.post("/api/delete-image", verifyToken, async (req, res, next) => {
 
 const chat_messages = [
   {
-    user: "Admin",
-    content: "Welcome to the chat",
-    time: `from the beginning...`,
+    admin: true
   },
 ];
 
