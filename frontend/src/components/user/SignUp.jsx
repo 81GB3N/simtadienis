@@ -154,6 +154,8 @@ export default function Signup() {
                         Must match the first password input field.
                     </p>
                 </div>
+                <p className="password-forget"></p>
+
                 <p ref={errRef} className={`errmsg ${errMsg ? "active" : ""}`}>{errMsg}</p>
                 <div className="form__buttons">
                     <button

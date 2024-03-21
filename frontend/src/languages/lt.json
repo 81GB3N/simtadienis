@@ -36,5 +36,6 @@
     "login.account": "Prisijunk prie savo paskyros!",
     "ad": "Čiupk nuolaidą!",
     "admin": "Administratorius",
-    "admin.message": "Sveiki atvykę į pinigėnus!"
+    "admin.message": "Sveiki atvykę į pinigėnus!",
+    "password.forget": "Nepamiršk slaptažodžio!"
 }
