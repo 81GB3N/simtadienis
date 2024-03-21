@@ -155,13 +155,13 @@ const findUser = async (name, surname, page=main, getPassword) => {
   }
 };
 
-async function makeCollection(){
-  const collection = database.collection("video-ratings");
-  const VIDEO_NUM = 5;
-  for(let i = 0; i < VIDEO_NUM; i++){
-    await collection.insertOne({video: i, vote: 0})
-  }
-}
+// async function makeCollection(){
+//   const collection = database.collection("video-ratings");
+//   const VIDEO_NUM = 5;
+//   for(let i = 0; i < VIDEO_NUM; i++){
+//     await collection.insertOne({video: i, vote: 0})
+//   }
+// }
 
 
 
@@ -182,6 +182,11 @@ const handleRating = async (action, user) => {
       const vote = info[0].vote;
 
       console.log("user.vote:", user.vote, "info.vote:", vote);
+
+      console.log("document: ", await collection.findOne({ video: user.vote  }))
+
+      if(await collection.findOne({ video: user.vote  }) === null) 
+        await collection.insertOne({video: user.vote , vote: 0})
 
       await collection.updateOne(
         { video: vote  },
