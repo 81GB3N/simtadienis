@@ -12,6 +12,7 @@ export default function Video() {
     const { userId } = useUser();
 
     const [screenSize, setScreenSize] = useState(window.innerWidth);
+    console.log(CONSTANTS.VIDEO_LIST);
     const [totalVotes, setTotalVotes] = useState(Array(CONSTANTS.VIDEO_LIST.length).fill(0));
 
     const getTotalVotes = useCallback(async () => {
@@ -35,7 +36,7 @@ export default function Video() {
             for (const item in res) {
                 setTotalVotes((prev) => {
                     const newVotes = [...prev];
-                    newVotes[res[item].video] = res[item].vote;
+                    newVotes[res[item].video] = res[item].vote || 0;
                     return newVotes;
                 });
             }
@@ -69,7 +70,11 @@ export default function Video() {
         <div className={`user-page side-page video-page ${currentUserPageName === 'video' ? 'active' : ''}`}>
             <div className="video__container">
                 {Array(CONSTANTS.VIDEO_LIST.length).fill().map((_, i) =>
-                    <VideoInstance key={i} videoVotes={totalVotes[i]} votesInstances={votesInstances} position={i} screenSize={screenSize} />
+                    {
+                    console.log('videoVotes', totalVotes);
+                    return  <VideoInstance key={i} videoVotes={totalVotes[i]} votesInstances={votesInstances} position={i} screenSize={screenSize} />
+
+                    }
                 )}
             </div>
         </div>
