@@ -15,7 +15,6 @@ const generateJWT = (user, role) => {
     // Generate JWT token
     const token = jwt.sign(payload, secretKey); 
     
-    console.log("generated token:", token);
     return token;
 }
 
@@ -23,8 +22,6 @@ const generateJWT = (user, role) => {
 // generateJWT({name: "super", surname: "admin"}, "super admin");
 
 function verifyToken(req, res, next) {
-    console.log('-------------------handlingJWT verifyToken-------------------');
-    console.log(req.headers.authorization);
     // Extract the JWT token from the Authorization header
     if(!req.headers?.authorization?.startsWith('Bearer')){
         return res.status(401).json({ error: 'Unauthorized: No token provided' });
@@ -38,14 +35,13 @@ function verifyToken(req, res, next) {
 
     // Verify the token
     jwt.verify(token, secretKey, (err, decoded) => {
-        console.log("token:", token, "secretKey: ", secretKey)
         if (err) {
-            console.log(err);
+            console.err(err);
             return res.status(401).json({ error: 'Unauthorized: Invalid token' });
         }
         
         req.payload = decoded;
-        console.log("PAYLOAD:", req.payload)
+        console.log("PAYLOAD RETRIEVED:", req.payload);
         next(); // Proceed to the next middleware or route handler
     });
 }

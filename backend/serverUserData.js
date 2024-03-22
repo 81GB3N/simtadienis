@@ -49,7 +49,6 @@ app.post("/api/getuser", async (req, res, next) => {
 app.post("/api/check-password", async (req, res, next) => {
   try {
     const user = req.body;
-    console.log(user);
     //comapre given pasword with the one in the database
     const result = await checkPassword(
       user.name,
@@ -57,7 +56,6 @@ app.post("/api/check-password", async (req, res, next) => {
       user.type,
       user.password
     );
-    console.log(result);
     res.json({ result });
   } catch (err) {
     next(err);
@@ -70,7 +68,6 @@ app.post("/api/check-status", async (req, res, next) => {
     const type = user.type;
     //check if user exists
     const result = await findUser(user.name, user.surname, type);
-    console.log(result);
     result[0] ? res.json(true) : res.json(false);
   } catch (err) {
     next(err);
@@ -91,7 +88,6 @@ app.post("/api/register", async (req, res, next) => {
     register.password = await encrypt(register.password);
     //generates a token for that user
     register.token = generateJWT(register, "user");
-    console.log("generated user token: ", register.token);
     register.money = 0;
     register.galleryCnt = 0;
     register.votes = setBeginningVotes();
@@ -119,7 +115,6 @@ app.post("/api/register-admin", verifyToken, async (req, res, next) => {
       //generates the token for that user
       admin.token = generateJWT(admin, "admin");
 
-      console.log("generated admin token: ", admin.token);
       writeDocument(admin, "admin");
     } else {
       return res.status(401).json({ error: "Unauthorized request" });
@@ -132,7 +127,6 @@ app.post("/api/register-admin", verifyToken, async (req, res, next) => {
 //uodates user money
 app.post("/api/addmoney", verifyToken, (req, res) => {
   //checks status of requesting user
-  console.log("role in addmoney: ", req.payload.role);
   if (req.payload.role === "admin") {
     const body = req.body
     const money = body.money;
@@ -166,7 +160,6 @@ app.post("/api/set-image", verifyToken, async (req, res, next) => {
   try {
     const data = req.body;
     if (data.name.toLowerCase() === req.payload.name.toLowerCase() && data.surname.toLowerCase() === req.payload.surname.toLowerCase()) {
-      console.log("uploadin image", data);
       //uploads user selected image to the drive
       if(data.imgNum > 5) return res.status(401).json({ error: "invalid image number" }); 
       await uploadToDrive(data);
@@ -182,11 +175,7 @@ app.post("/api/set-image", verifyToken, async (req, res, next) => {
 app.post("/api/get-image", verifyToken, async (req, res, next) => {
   try {
     const data = req.body;
-    console.log("---------------------CHROME CHECK--------------------------");
-    console.log(data, " VS ", req.payload);
     if (data.name.toLowerCase() === req.payload.name.toLowerCase() && data.surname.toLowerCase() === req.payload.surname.toLowerCase()) {
-      // firefox goes here
-      console.log("-----------------CHECKPOINT PASSED----------------");
       //retrieves the file id for the image with the users name and surname
       const response = await retrieveFileId(data);
       res.json({ response });
@@ -232,7 +221,6 @@ const AD_INTERVAL = 1000 * 60 * MINUTE_DELAY; // in ms
 (() => {
   setInterval(() => {
     if (chat_messages[chat_messages.length - 1]?.ad) {
-      console.log("ad already exists");
       return;
     }
     const adMessage = {
@@ -261,7 +249,6 @@ app.post("/api/send-chat", (req, res, next) => {
       time: body.time
     };
     chat_messages.push(message);
-    console.log("emitting io message: ", message);
     io.emit("chat", message);
     res.json({ response: "Message Sent" });
   } catch (err) {
@@ -272,7 +259,6 @@ app.post("/api/send-chat", (req, res, next) => {
 app.post("/api/admin-token", verifyToken, async (req, res, next) => {
   try {
     const status = req.payload.role === "admin";
-    console.log(status);
     res.json({ status });
   } catch (err) {
     next(err);
@@ -282,16 +268,10 @@ app.post("/api/admin-token", verifyToken, async (req, res, next) => {
 app.post("/api/video-votes", verifyToken, async (req, res, next) => {
   try {
     const body = req.body;
-    console.log(body);
     let result = null;
-    console.log('-----------------BODY-----------------');
-    console.log(body);
     if((body.action === "get") || (body.action === "set" && body.name.toLowerCase() === req.payload.name.toLowerCase() && body.surname.toLowerCase() === req.payload.surname.toLowerCase())){
-      console.log("--------------------------ACTION--------------------------");
       result = await handleRating(body.action, body);
     }
-    console.log("-----------------RESULT-----------------");
-    console.log(result);
     res.json({ response: result });
   }
   catch (err) {
