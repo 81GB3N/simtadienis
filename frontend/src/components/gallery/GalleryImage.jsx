@@ -38,7 +38,6 @@ export default function GalleryImage({ position, increaseCnt, decreaseCnt }) {
         if (!image.response){
             return '';
         } 
-        console.log('image-', position, image);
         return image;
     }, [userId.name, userId.surname, position])
 

@@ -26,7 +26,6 @@ const LeaderBoardEntry = forwardRef(function ({ user, position, mostMoney, inVie
 
     useImperativeHandle(ref, () => ({
         moveToPosition: newPosition => {
-            console.log(`Moving ${user.name} ${user.surname} from ${currPosition} to ${newPosition}`);
             setCurrPosition(newPosition);
         },
         mutateMoneyCnt: newMoneyCnt => setMoneyCnt(newMoneyCnt)

@@ -77,10 +77,7 @@ export default function Login() {
         }
         
         await setUserLocalStorage(name, surname, loginValidation.result.token);
-        console.log("User logged in");
         changeUserId(name, surname);
-
-
         closeLogin();
     }
 

@@ -27,7 +27,6 @@ export default function WebcamModal({ changeImg, closeWebcam }) {
     }
 
     if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
-        console.log("Let's get this party started")
         navigator.mediaDevices.getUserMedia({ video: true })
             .then(() => {
                 setCameraActive(true);

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import LanguageSelector from './LanguageSelector';
