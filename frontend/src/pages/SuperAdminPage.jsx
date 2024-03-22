@@ -1,27 +1,6 @@
-import { useEffect } from "react";
 import { sendUserData } from "../utils/api";
 
-// how does this really work?
 export default function SuperAdminPage() {
-
-    //UNUSED
-    // useEffect(() => {
-    //     const port = 4000;
-    //     const baseUrl = window.location.hostname === 'localhost' ? `http://localhost:${port}` : '';
-    //     async function fetchData() {
-    //         const response = await fetch(`${baseUrl}/api/ssas`, {
-    //             //set super admin storage
-    //             method: "GET",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //         });
-    //         const data = await response.json();
-    //         console.log("setting token: ", data)
-    //         localStorage.setItem("sp", JSON.stringify(data));
-    //     }
-    //     fetchData();
-    // }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault();

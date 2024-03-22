@@ -7,7 +7,6 @@ import LeaderBoardEntry from './LeaderBoardEntry'
 
 import { usePage } from '../../context/PageProvider';
 
-import { LiaPlusSquare, LiaMinusSquare } from 'react-icons/lia';
 import './leaderboard.css'
 
 import io from 'socket.io-client';
@@ -82,8 +81,6 @@ export default function LeaderBoard({ desktopMode = false }) {
     // }
 
     const changeUserPositions = (socketUser) => {
-        console.log('----------CHANGING USER POSITIONS----------')
-
         const oldLeaderBoardPos = [...leaderBoardPos];
 
         const oldUserIndex = leaderBoardPos.findIndex(user => user.name === socketUser.name && user.surname === socketUser.surname);
@@ -93,7 +90,6 @@ export default function LeaderBoard({ desktopMode = false }) {
         }
         const updatedUserIndex = leaderBoardPos.findIndex(user => user.name === socketUser.name && user.surname === socketUser.surname);
         const updatedUser = leaderBoardPos[updatedUserIndex];
-        console.log('UPDATES USER: ', updatedUser)
         const updatedUserRef = entryRefs[updatedUser.refId].current;
         updatedUserRef.mutateMoneyCnt(leaderBoardPos[updatedUserIndex].money);
 
@@ -130,13 +126,10 @@ export default function LeaderBoard({ desktopMode = false }) {
         })
 
         socket.on('updateUser', (socketUser) => {
-            console.log(socketUser);
-            console.log(entryRefs)
             if (entryRefs.length > 0) {
                 changeUserPositions(socketUser);
             } else {
                 const checkEntryRefs = setInterval(() => {
-                    console.log('checking', entryRefs)
                     if (entryRefs.length > 0) {
                         changeUserPositions(socketUser);
                         clearInterval(checkEntryRefs);

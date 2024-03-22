@@ -20,14 +20,12 @@ export default function EditTable() {
 
     function handleMoneySubmit(e) {
         e.preventDefault();
-        console.log("submitting")
         const amount = Number(e.target.amount.value);
         const userData = {
             name: selectedUser.name,
             surname: selectedUser.surname,
             money: amount,
         }
-        console.log('sending..');
         sendUserData(userData, "addmoney").then((res) => {
             setUserMoney(current => current + amount);
             setSubmitStatus('success');
@@ -45,7 +43,6 @@ export default function EditTable() {
                 setErrorMsg('');
             }, 3000)
         })
-        console.log('sent');
     }
 
     return (

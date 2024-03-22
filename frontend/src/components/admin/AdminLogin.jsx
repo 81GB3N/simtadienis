@@ -40,7 +40,7 @@ export default function AdminLogin() {
         e.preventDefault();
 
         if (!await userExists(name, surname, 'admin')) {
-            console.log("Admin account doesn't exist");
+            console.warn("Admin account doesn't exist");
             setErrMsg("Admin account doesn't exist");
             return;
         }
@@ -48,14 +48,13 @@ export default function AdminLogin() {
         const response = await validatePassword(name, surname, password, 'admin')
 
         if (!response.result) {
-            console.log("Incorrect Admin Information", response);
+            console.warn("Incorrect Admin Information", response);
             setErrMsg("Incorrect Admin Information");
             return;
         }
 
-        console.log('logging in as', name, surname);
+        console.info('logging in as', name, surname);
         setErrMsg("");
-        console.log(response.result.token);
         setAdminCache(name, surname, response.result.token);
         navigate('/admin/users');
     }

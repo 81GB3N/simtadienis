@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 
 import UserProfile from '../user/UserProfile';
 import NoUser from '../user/NoUser';
@@ -7,7 +7,6 @@ import { usePage } from '../../context/PageProvider';
 import { useMenu } from '../../context/MenuProvider';
 import { useUser } from '../../context/UserProvider';
 
-import hundredDollarsImg from '../../assets/images/heap-hundred-dollar-.webp';
 import './menu.css'
 
 /**

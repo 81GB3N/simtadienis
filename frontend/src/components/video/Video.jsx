@@ -14,8 +14,6 @@ const fillVotes = () => {
 }
 
 export default function Video() {
-    console.log('------------------------RENDERING------------------------')
-
     const { currentUserPageName } = usePage();
     const [currClass, setCurrClass] = useState(0);
     const [screenSize, setScreenSize] = useState(window.innerWidth);
@@ -44,7 +42,6 @@ export default function Video() {
                 // item.id might not work
                 newVotes[item.class][item.id] = item.votes;
             })
-            console.log('--------SETTING VOTES--------');
             setTotalVotes(newVotes);
         });
 

@@ -47,9 +47,7 @@ export default function MessageInput() {
             content: inputMessage,
             time: currentDate()
         }
-        sendGlobalChat(payload).then(data => {
-            console.log('sent: ', data);
-        });
+        await sendGlobalChat(payload)
         setInputMessage(''); 
         setButtonTimeOut(true);
         setTimeout(()=>{
