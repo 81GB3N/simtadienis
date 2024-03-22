@@ -35,12 +35,9 @@ async function uploadToDrive(data){
         body: fs.createReadStream(fileName),
         // Decode base64 data
     };
-
-    console.log("file removed")
     
     //making sure that a duplicate doesnt exist so we delete from disk before
     await deleteFromDrive(data);
-    console.log("after deleting file");
     
     //selecting correct name and folder
     const fileMetaData = {
@@ -90,7 +87,6 @@ async function deleteFromDrive(data){
 //function to retrieve file by picture name
 async function retrieveFileId(data){
     try {
-        console.log("retrieving if");
         //get the file name
         const fileName = getFileName(data);
         //list of images with that name
@@ -104,7 +100,6 @@ async function retrieveFileId(data){
         //return the first image
         if (files.length > 0) {
             console.log(`File '${fileName}' found with ID: ${files[0].id}`);
-            console.log('RETRIEVED FILES: ', files)
             return files[0].id;
         } else {
             console.log(`File '${fileName}' not found in Google Drive.`);

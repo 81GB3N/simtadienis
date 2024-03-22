@@ -135,7 +135,6 @@ const findUser = async (name, surname, page=main, getPassword) => {
       return document[0];
     }
     const documents = await cursor.toArray();
-    // console.log(documents);
     return documents;
   } catch (error) {
     console.error(error);
@@ -161,25 +160,15 @@ async function updateVotes(collection, currentVotes, userVotes) {
 
 const handleRating = async (action, user) => {
   try{
-    // await makeCollection();
-    console.log(user)
-    console.log('action:', action, "user", user);
     const collection = database.collection("video-ratings");
     if(action === "get"){
     const cursor = collection.find({});
     const document = await cursor.toArray();
-    console.log('---------------DOCUMENT---------------')
-    console.log(document.length);
     return document;
     }
     else if(action === "set"){
       const info = await findUser(user.name, user.surname);
-      console.log("-----------------INFO-----------------");
-      console.log("info:", info);
       const currentVotes = info[0].votes;
-
-      console.log("user.votes:", user.votes, "currentVotes:", currentVotes);
-
       await updateVotes(collection, currentVotes, user.votes);
 
       const userVotes = user.votes;
@@ -188,9 +177,6 @@ const handleRating = async (action, user) => {
       await userCollection.updateOne(
         {name: user.name, surname: user.surname},
         {$set: {votes: user.votes}});
-
-        console.log("updaetd")
-
     }
     return {message: "success"};
   }
