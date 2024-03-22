@@ -12,6 +12,7 @@ import './leaderboard.css'
 import io from 'socket.io-client';
 
 import CONSTANTS from '../../constants';
+import LoadingWheel from '../LoadingWheel';
 
 const socket = io.connect(CONSTANTS.SOCKET_URL);
 
@@ -35,6 +36,7 @@ export default function LeaderBoard({ desktopMode = false }) {
     // const [animate, setAnimate] = useState(false);
     const { currentUserPageName } = usePage();
     const [mostMoney, setMostMoney] = useState(0);
+    const [loading, setLoading] = useState(true);
 
     /**
      * Fetches the leaderboard positions of all users.
@@ -60,6 +62,8 @@ export default function LeaderBoard({ desktopMode = false }) {
                 ...user,
                 refId: index
             }));
+
+            setLoading(false);
 
             return sortedPositions;
         } catch (err) {
@@ -162,23 +166,24 @@ export default function LeaderBoard({ desktopMode = false }) {
     if (!leaderBoardPos.length) return <div></div>
 
     return (
-        <div
-            className={`user-page side-page leaderboard ${desktopMode ? 'active desktop' : currentUserPageName === 'leaderboard' ? 'active' : ''}`}
-            ref={ref}>
-            {
-                // slice(0, desktopMode ? maxDisplayLimit : displayLimit)
-                leaderBoardPos.map((user, index) =>
-                    <LeaderBoardEntry
-                        ref={entryRefs[index]}
-                        key={user.name + user.surname}
-                        position={index + 1}
-                        user={user}
-                        mostMoney={mostMoney}
-                        inView={inView} />
-                )
-            }
-            <div className='leaderboard-padding' style={{ top: `${(leaderBoardPos.length  -1) * CONSTANTS.LEADERBOARD_ENTRY_HEIGHT}px`}}></div>
-            {/* <div className="leaderboard__controls" style={{ top: `${(desktopMode ? leaderBoardPos.length : displayLimit) * CONSTANTS.LEADERBOARD_ENTRY_HEIGHT}px` }}>
+        <>
+            <div
+                className={`user-page side-page leaderboard ${desktopMode ? 'active desktop' : currentUserPageName === 'leaderboard' ? 'active' : ''}`}
+                ref={ref}>
+                {
+                    // slice(0, desktopMode ? maxDisplayLimit : displayLimit)
+                    leaderBoardPos.map((user, index) =>
+                        <LeaderBoardEntry
+                            ref={entryRefs[index]}
+                            key={user.name + user.surname}
+                            position={index + 1}
+                            user={user}
+                            mostMoney={mostMoney}
+                            inView={inView} />
+                    )
+                }
+                <div className='leaderboard-padding' style={{ top: `${(leaderBoardPos.length - 1) * CONSTANTS.LEADERBOARD_ENTRY_HEIGHT}px` }}></div>
+                {/* <div className="leaderboard__controls" style={{ top: `${(desktopMode ? leaderBoardPos.length : displayLimit) * CONSTANTS.LEADERBOARD_ENTRY_HEIGHT}px` }}>
                 {displayLimit &&
                     <button onClick={toggleDisplayLimit}>
                         {displayLimit === maxDisplayLimit ?
@@ -188,6 +193,10 @@ export default function LeaderBoard({ desktopMode = false }) {
                     </button>
                 }
             </div> */}
-        </div>
+            </div>
+            {
+                loading && <LoadingWheel />
+            }
+        </>
     )
 }

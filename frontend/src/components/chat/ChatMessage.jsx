@@ -9,6 +9,7 @@ import adBanner from '../../assets/images/weborado-full.png';
 import unkownUserImg from "../../assets/images/unkown-user-new.png";
 
 import currentDate from "../../date";
+import LoadingWheel from "../LoadingWheel";
 
 const AD_URL = 'https://paskyra.weborado.lt';
 
@@ -16,6 +17,7 @@ export default function ChatMessage({ message }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [userProfileData, setUserProfileData] = useState({});
     const { ref, inView } = useInView({ threshold: 0, fallbackInView: true });
+    const [loading, setLoading] = useState(true);
 
     const isAd = message?.ad;
     const isAdmin = message?.admin;
@@ -34,7 +36,7 @@ export default function ChatMessage({ message }) {
 
     useEffect(() => {
         if (inView) {
-            fetchUserData().then(response => setUserProfileData(response));
+            fetchUserData().then(response => {setUserProfileData(response); setLoading(false)});
         }
     }, [fetchUserData, inView]);
 
@@ -72,6 +74,7 @@ export default function ChatMessage({ message }) {
                 <div className='message__upper'>
                     <div className="message__user">
                         {!isAd && !isAdmin &&
+                            loading ? <LoadingWheel /> :
                             <div className="mini-profile-container">
                                 <img className="mini-profile" src={userProfileData?.image || unkownUserImg} alt="user">
                                 </img>

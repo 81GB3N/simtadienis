@@ -68,7 +68,7 @@ function findKey(updateInfo) {
 const retrieveDocument = async (page=main) => {
   try {
     const collection = database.collection(page);
-    const projection = { name: 1, surname: 1, money: 1, image: 1, _id: 0};
+    const projection = { name: 1, surname: 1, money: 1, _id: 0};
     //find collection collums
     const cursor = collection.find({}).project(projection);
     const documents = await cursor.toArray();

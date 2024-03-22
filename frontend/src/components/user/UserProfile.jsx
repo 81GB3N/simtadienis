@@ -14,6 +14,7 @@ import { IoIosLogOut } from "react-icons/io";
 import './user.css';
 import unkownUserImg from "../../assets/images/unkown-user-new.png";
 import CONSTANTS from "../../constants";
+import LoadingWheel from "../LoadingWheel";
 
 /**
  * @component
@@ -26,6 +27,7 @@ export default function UserProfile() {
     const [moneyEffectActive, setMoneyEffectActive] = useState(false);
 
     const { userId, clearUserId, changeVoteId } = useUser();
+    const [loading, setLoading] = useState(true);
     const { resetPage } = usePage();
 
     /**
@@ -44,6 +46,7 @@ export default function UserProfile() {
     const fetchData = useCallback(async () => {
         try {
             const data = await getUserData({ name: userId.name, surname: userId.surname });
+            setLoading(false);
             return data.response[0];
         }
         catch (err) {
@@ -139,6 +142,9 @@ export default function UserProfile() {
                     <IoIosLogOut />
                 </button>
             </div>
+            {
+                loading && <LoadingWheel />
+            }
         </>
     )
 }
