@@ -168,5 +168,5 @@
 .leaderboard-padding{
     position: absolute;
     width: 1px;
-    padding-bottom: var(--total-selector-height);
+    padding-bottom: 46dvh;
 }
