@@ -5,7 +5,7 @@ import Modal from "../modal/Modal";
 import UserWindow from "../user/UserWindow";
 
 import CONSTANTS from "../../constants";
-
+import unkownUserImg from "../../assets/images/unkown-user-new.png";
 import { useState, forwardRef, useImperativeHandle } from "react";
 
 /**
@@ -48,7 +48,16 @@ const LeaderBoardEntry = forwardRef(function ({ user, position, mostMoney, inVie
                         </div>)
                     }
                     <div className="entry__info">
-                        <p className="entry-name"><span className="entry-pos">{currPosition}</span>{user.name + ' ' + user.surname}</p>
+                        <div className="entry-info__upper">
+                            {
+                                user?.image &&
+                                <div className="mini-profile-container">
+                                    <img className="mini-profile" src={user?.image} alt="user">
+                                    </img>
+                                </div>
+                            }
+                            <p className="entry-name"><span className="entry-pos">{currPosition}</span>{user.name + ' ' + user.surname}</p>
+                        </div>
                         <div className="entry-money">
                             <FontAwesomeIcon icon={faMoneyBill1Wave} className="money-icon" />
                             <span className="digit">{moneyCnt}</span>

@@ -71,15 +71,15 @@ export default function ChatMessage({ message }) {
                 ref={ref}>
                 <div className='message__upper'>
                     <div className="message__user">
-                        <p className='message-user'>
-                            {isAdmin ? <FormattedMessage id='admin' /> : message.user}
-                        </p>
                         {!isAd && !isAdmin &&
-                            <div className="message-img-container">
-                                <img className="message-img" src={userProfileData?.image || unkownUserImg} alt="user">
+                            <div className="mini-profile-container">
+                                <img className="mini-profile" src={userProfileData?.image || unkownUserImg} alt="user">
                                 </img>
                             </div>
                         }
+                        <p className='message-user'>
+                            {isAdmin ? <FormattedMessage id='admin' /> : message.user}
+                        </p>
                     </div>
                     <p className='digit'>{isAd ? currentDate() : message.time}</p>
                 </div>

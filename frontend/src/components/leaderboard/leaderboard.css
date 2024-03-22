@@ -97,6 +97,12 @@
 
 }
 
+.entry-info__upper{
+    display: flex;
+    align-items: start;
+    gap: 0.5rem;
+}
+
 .entry-pos,
 .money-icon {
     margin-right: 0.5rem;
