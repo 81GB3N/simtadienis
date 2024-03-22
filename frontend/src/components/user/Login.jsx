@@ -57,7 +57,6 @@ export default function Login() {
         e.preventDefault();
 
         setLoginTimeout(true);
-        setSubmitSent(true);
         setTimeout(() => {
             setLoginTimeout(false);
         }, TIMEOUT_DURATION);
@@ -78,12 +77,13 @@ export default function Login() {
             setErrMsg("Incorrect password");
             return;
         }
-
+        
+        setSubmitSent(true);
         await setUserLocalStorage(name, surname, loginValidation.result.token);
         changeUserId(name, surname);
         closeLogin();
     }
-
+    
     return (
         <>
             <section className="form-wrapper">

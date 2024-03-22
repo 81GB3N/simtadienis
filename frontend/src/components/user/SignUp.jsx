@@ -63,7 +63,6 @@ export default function Signup() {
         e.preventDefault();
 
         setSignupTimeout(true);
-        setSubmitSent(true);
         setTimeout(() => {
             setSignupTimeout(false);
         }, TIMEOUT_DURATION);
@@ -79,13 +78,14 @@ export default function Signup() {
             image: null,
             galleryCnt: 0
         };
-
+        
         // #TODO, check additionally if submit button was enabled via console
         if (await userExists(userName, userSurname)) {
             setErrMsg("User already exists.");
             return;
         }
-
+        
+        setSubmitSent(true);
         await sendUserData(userData, "register")
         closeSignup();
     }
