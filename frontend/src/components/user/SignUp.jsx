@@ -6,10 +6,11 @@ import { useRef, useState, useEffect } from "react";
 import { useUser } from "../../context/UserProvider";
 
 import FormInput from "../Input";
+import LoadingWheel from "../LoadingWheel";
 
 const USER_REGEX = /^[a-zA-Z0-9]{3,30}$/;
 const PASSWORD_REGEX = /^(?=.*[a-zA-Z])(?=.*\d).{5,}$/;
-const TIMEOUT_DURATION = 1000; // in ms
+const TIMEOUT_DURATION = 5000; // in ms
 
 export default function Signup() {
     const { closeSignup } = useUser();
@@ -34,8 +35,8 @@ export default function Signup() {
     const [matchFocus, setMatchFocus] = useState(false);
 
     const [errMsg, setErrMsg] = useState("");
-
     const [signupTimeout, setSignupTimeout] = useState(false);
+    const [submitSent, setSubmitSent] = useState(false);
 
     useEffect(() => {
         nameRef.current.focus();
@@ -62,6 +63,7 @@ export default function Signup() {
         e.preventDefault();
 
         setSignupTimeout(true);
+        setSubmitSent(true);
         setTimeout(() => {
             setSignupTimeout(false);
         }, TIMEOUT_DURATION);
@@ -89,80 +91,85 @@ export default function Signup() {
     }
 
     return (
-        <section className="form-wrapper">
-            <h3 className="form-title signup-title">
-                <FormattedMessage id="signup" />
-            </h3>
-            <form className="form signup" method="post" onSubmit={handleSubmit}>
-                <div className="input-wrapper">
-                    <FormInput
-                        ref={nameRef}
-                        id="name"
-                        customClassNames={`form-input ${validName || !name ? "" : "invalid"}`}
-                        onValueChange={(e) => setName(e.target.value)}
-                        inputValue={name} onFocus={() => setNameFocus(true)}
-                        onBlur={() => setNameFocus(false)}
-                    />
-                    <p className={`instructions ${nameFocus && name && !validName ? "show" : ""}`}>
-                        <FormattedMessage id="signup.error.text" />
+        <>
+            <section className="form-wrapper">
+                <h3 className="form-title signup-title">
+                    <FormattedMessage id="signup" />
+                </h3>
+                <form className="form signup" method="post" onSubmit={handleSubmit}>
+                    <div className="input-wrapper">
+                        <FormInput
+                            ref={nameRef}
+                            id="name"
+                            customClassNames={`form-input ${validName || !name ? "" : "invalid"}`}
+                            onValueChange={(e) => setName(e.target.value)}
+                            inputValue={name} onFocus={() => setNameFocus(true)}
+                            onBlur={() => setNameFocus(false)}
+                        />
+                        <p className={`instructions ${nameFocus && name && !validName ? "show" : ""}`}>
+                            <FormattedMessage id="signup.error.text" />
+                        </p>
+                    </div>
+                    <div className="input-wrapper">
+                        <FormInput
+                            id="surname"
+                            customClassNames={`form-input ${validSurname || !surname ? "" : "invalid"}`}
+                            onValueChange={(e) => setSurname(e.target.value)}
+                            inputValue={surname}
+                            onFocus={() => setSurnameFocus(true)}
+                            onBlur={() => setSurnameFocus(false)}
+                        />
+                        <p className={`instructions ${surnameFocus && surname && !validSurname ? "show" : ""}`}>
+                            <FormattedMessage id="signup.error.text" />
+                        </p>
+                    </div>
+                    <div className="input-wrapper">
+                        <FormInput
+                            id="password"
+                            customClassNames={`form-input ${validPassword || !password ? "" : "invalid"}`}
+                            onValueChange={(e) => setPassword(e.target.value)}
+                            inputValue={password}
+                            type="password"
+                            onFocus={() => setPasswordFocus(true)}
+                            onBlur={() => setPasswordFocus(false)}
+                        />
+                        <p className={`instructions ${passwordFocus && password && !validPassword ? "show" : ""}`}>
+                            <FormattedMessage id="signup.error.password" />
+                        </p>
+                    </div>
+                    <div className="input-wrapper">
+                        <FormInput
+                            id="rpassword"
+                            customClassNames={`form-input ${validMatch || !matchPassword ? "" : "invalid"}`}
+                            onValueChange={(e) => setMatchPassword(e.target.value)}
+                            inputValue={matchPassword}
+                            type="password"
+                            onFocus={() => setMatchFocus(true)}
+                            onBlur={() => setMatchFocus(false)}
+                        />
+                        <p className={`instructions ${matchFocus && matchPassword && !validMatch ? "show" : ""}`}>
+                            <FormattedMessage id="signup.error.rpassword" />
+                        </p>
+                    </div>
+                    <p className="password-forget">
+                        <FormattedMessage id="forget.password" />
                     </p>
-                </div>
-                <div className="input-wrapper">
-                    <FormInput
-                        id="surname"
-                        customClassNames={`form-input ${validSurname || !surname ? "" : "invalid"}`}
-                        onValueChange={(e) => setSurname(e.target.value)}
-                        inputValue={surname}
-                        onFocus={() => setSurnameFocus(true)}
-                        onBlur={() => setSurnameFocus(false)}
-                    />
-                    <p className={`instructions ${surnameFocus && surname && !validSurname ? "show" : ""}`}>
-                        <FormattedMessage id="signup.error.text" />
-                    </p>
-                </div>
-                <div className="input-wrapper">
-                    <FormInput
-                        id="password"
-                        customClassNames={`form-input ${validPassword || !password ? "" : "invalid"}`}
-                        onValueChange={(e) => setPassword(e.target.value)}
-                        inputValue={password}
-                        type="password"
-                        onFocus={() => setPasswordFocus(true)}
-                        onBlur={() => setPasswordFocus(false)}
-                    />
-                    <p className={`instructions ${passwordFocus && password && !validPassword ? "show" : ""}`}>
-                        <FormattedMessage id="signup.error.password" />
-                    </p>
-                </div>
-                <div className="input-wrapper">
-                    <FormInput
-                        id="rpassword"
-                        customClassNames={`form-input ${validMatch || !matchPassword ? "" : "invalid"}`}
-                        onValueChange={(e) => setMatchPassword(e.target.value)}
-                        inputValue={matchPassword}
-                        type="password"
-                        onFocus={() => setMatchFocus(true)}
-                        onBlur={() => setMatchFocus(false)}
-                    />
-                    <p className={`instructions ${matchFocus && matchPassword && !validMatch ? "show" : ""}`}>
-                        <FormattedMessage id="signup.error.rpassword" />
-                    </p>
-                </div>
-                <p className="password-forget">
-                    <FormattedMessage id="forget.password" />
-                </p>
 
-                <p ref={errRef} className={`errmsg ${errMsg ? "active" : ""}`}>{errMsg}</p>
-                <div className="form__buttons">
-                    <button
-                        className={`form-submit ${!validName || !validPassword || !validMatch ? '' : 'enabled'}`}
-                        type="submit"
-                        id="register-submit"
-                        disabled={!validName || !validPassword || !validMatch}>
-                        <FormattedMessage id="submit" />
-                    </button>
-                </div>
-            </form>
-        </section>
+                    <p ref={errRef} className={`errmsg ${errMsg ? "active" : ""}`}>{errMsg}</p>
+                    <div className="form__buttons">
+                        <button
+                            className={`form-submit ${!validName || !validPassword || !validMatch ? '' : 'enabled'}`}
+                            type="submit"
+                            id="register-submit"
+                            disabled={(!validName || !validPassword || !validMatch) || signupTimeout}>
+                            <FormattedMessage id="submit" />
+                        </button>
+                    </div>
+                </form>
+            </section>
+            {
+                submitSent && <LoadingWheel />
+            }
+        </>
     )
 }
