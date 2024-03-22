@@ -27,7 +27,7 @@ function verifyToken(req, res, next) {
     console.log(req.headers.authorization);
     // Extract the JWT token from the Authorization header
     if(!req.headers?.authorization?.startsWith('Bearer')){
-        return res.status(401).json({ error: 'Unauthorized: No token provided', result:'no' });
+        return res.status(401).json({ error: 'Unauthorized: No token provided' });
     }
 
     const token = req.headers.authorization.startsWith('Bearer') ? req.headers.authorization.split(' ')[1] : req.headers.authorization;
