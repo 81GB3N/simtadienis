@@ -40,5 +40,6 @@
     "password.forget": "Nepamiršk slaptažodžio!",
     "signup.error.text": "Nuo 3 iki 30 simbolių. Priimamos raidės, skaičiai, pabraukimai ir brūkšneliai.",
     "signup.error.password":"Ne mažiau kaip 5 ženklai. Turi būti bent viena raidė ir skaičius.",
-    "signup.error.rpassword": "Slaptažodžiai nesutampa."
+    "signup.error.rpassword": "Slaptažodžiai nesutampa.",
+    "forget.password": "NEpamiršk slaptažodžio!"
 }

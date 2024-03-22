@@ -40,5 +40,6 @@
     "password.forget": "Do not forget your password!",
     "signup.error.text": "3 to 30 characters. Letters, numbers, underscores, hyphens allowed.",
     "signup.error.password": "At least 5 characters. Must include letter and number.",
-    "signup.error.rpassword": "Passwords do not match."
+    "signup.error.rpassword": "Passwords do not match.",
+    "forget.password": "Do NOT forget your password!"
 }

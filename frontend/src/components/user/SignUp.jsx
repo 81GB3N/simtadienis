@@ -148,7 +148,9 @@ export default function Signup() {
                         <FormattedMessage id="signup.error.rpassword" />
                     </p>
                 </div>
-                <p className="password-forget"></p>
+                <p className="password-forget">
+                    <FormattedMessage id="forget.password" />
+                </p>
 
                 <p ref={errRef} className={`errmsg ${errMsg ? "active" : ""}`}>{errMsg}</p>
                 <div className="form__buttons">
