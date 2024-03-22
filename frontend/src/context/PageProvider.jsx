@@ -24,7 +24,7 @@ export const usePage = () => {
 export default function PageProvider({ children }) {
     const [currentUserPageName, setCurrentUserPageName] = useState('home');
     // refers to the components in App.jsx
-    const validUserPageNames = ['home', 'leaderboard', 'gallery', 'chat'];
+    const validUserPageNames = ['home', 'leaderboard', 'gallery', 'chat', 'video'];
 
     /**
      * Changes the user subpage.

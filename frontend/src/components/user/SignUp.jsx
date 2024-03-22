@@ -6,9 +6,11 @@ import { useRef, useState, useEffect } from "react";
 import { useUser } from "../../context/UserProvider";
 
 import FormInput from "../Input";
+import LoadingWheel from "../LoadingWheel";
 
 const USER_REGEX = /^[a-zA-Z0-9]{3,30}$/;
 const PASSWORD_REGEX = /^(?=.*[a-zA-Z])(?=.*\d).{5,}$/;
+const TIMEOUT_DURATION = 5000; // in ms
 
 export default function Signup() {
     const { closeSignup } = useUser();
@@ -33,6 +35,8 @@ export default function Signup() {
     const [matchFocus, setMatchFocus] = useState(false);
 
     const [errMsg, setErrMsg] = useState("");
+    const [signupTimeout, setSignupTimeout] = useState(false);
+    const [submitSent, setSubmitSent] = useState(false);
 
     useEffect(() => {
         nameRef.current.focus();
@@ -58,6 +62,11 @@ export default function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        setSignupTimeout(true);
+        setTimeout(() => {
+            setSignupTimeout(false);
+        }, TIMEOUT_DURATION);
+
         const userName = name;
         const userSurname = surname;
 
@@ -69,94 +78,98 @@ export default function Signup() {
             image: null,
             galleryCnt: 0
         };
-
+        
         // #TODO, check additionally if submit button was enabled via console
         if (await userExists(userName, userSurname)) {
             setErrMsg("User already exists.");
             return;
         }
-
+        
+        setSubmitSent(true);
         await sendUserData(userData, "register")
         closeSignup();
     }
 
     return (
-        <section className="form-wrapper">
-            <h3 className="form-title signup-title">
-                <FormattedMessage id="signup" />
-            </h3>
-            <form className="form signup" method="post" onSubmit={handleSubmit}>
-                <div className="input-wrapper">
-                    <FormInput
-                        ref={nameRef}
-                        id="name"
-                        customClassNames={`form-input ${validName || !name ? "" : "invalid"}`}
-                        onValueChange={(e) => setName(e.target.value)}
-                        inputValue={name} onFocus={() => setNameFocus(true)}
-                        onBlur={() => setNameFocus(false)}
-                    />
-                    <p className={`instructions ${nameFocus && name && !validName ? "show" : ""}`}>
-                        3 to 30 characters.
-                        Must begin with a letter.
-                        Letters, numbers, underscores, hyphens allowed.
+        <>
+            <section className="form-wrapper">
+                <h3 className="form-title signup-title">
+                    <FormattedMessage id="signup" />
+                </h3>
+                <form className="form signup" method="post" onSubmit={handleSubmit}>
+                    <div className="input-wrapper">
+                        <FormInput
+                            ref={nameRef}
+                            id="name"
+                            customClassNames={`form-input ${validName || !name ? "" : "invalid"}`}
+                            onValueChange={(e) => setName(e.target.value)}
+                            inputValue={name} onFocus={() => setNameFocus(true)}
+                            onBlur={() => setNameFocus(false)}
+                        />
+                        <p className={`instructions ${nameFocus && name && !validName ? "show" : ""}`}>
+                            <FormattedMessage id="signup.error.text" />
+                        </p>
+                    </div>
+                    <div className="input-wrapper">
+                        <FormInput
+                            id="surname"
+                            customClassNames={`form-input ${validSurname || !surname ? "" : "invalid"}`}
+                            onValueChange={(e) => setSurname(e.target.value)}
+                            inputValue={surname}
+                            onFocus={() => setSurnameFocus(true)}
+                            onBlur={() => setSurnameFocus(false)}
+                        />
+                        <p className={`instructions ${surnameFocus && surname && !validSurname ? "show" : ""}`}>
+                            <FormattedMessage id="signup.error.text" />
+                        </p>
+                    </div>
+                    <div className="input-wrapper">
+                        <FormInput
+                            id="password"
+                            customClassNames={`form-input ${validPassword || !password ? "" : "invalid"}`}
+                            onValueChange={(e) => setPassword(e.target.value)}
+                            inputValue={password}
+                            type="password"
+                            onFocus={() => setPasswordFocus(true)}
+                            onBlur={() => setPasswordFocus(false)}
+                        />
+                        <p className={`instructions ${passwordFocus && password && !validPassword ? "show" : ""}`}>
+                            <FormattedMessage id="signup.error.password" />
+                        </p>
+                    </div>
+                    <div className="input-wrapper">
+                        <FormInput
+                            id="rpassword"
+                            customClassNames={`form-input ${validMatch || !matchPassword ? "" : "invalid"}`}
+                            onValueChange={(e) => setMatchPassword(e.target.value)}
+                            inputValue={matchPassword}
+                            type="password"
+                            onFocus={() => setMatchFocus(true)}
+                            onBlur={() => setMatchFocus(false)}
+                        />
+                        <p className={`instructions ${matchFocus && matchPassword && !validMatch ? "show" : ""}`}>
+                            <FormattedMessage id="signup.error.rpassword" />
+                        </p>
+                    </div>
+                    <p className="password-forget">
+                        <FormattedMessage id="forget.password" />
                     </p>
-                </div>
-                <div className="input-wrapper">
-                    <FormInput
-                        id="surname"
-                        customClassNames={`form-input ${validSurname || !surname ? "" : "invalid"}`}
-                        onValueChange={(e) => setSurname(e.target.value)}
-                        inputValue={surname}
-                        onFocus={() => setSurnameFocus(true)}
-                        onBlur={() => setSurnameFocus(false)}
-                    />
-                    <p className={`instructions ${surnameFocus && surname && !validSurname ? "show" : ""}`}>
-                        3 to 30 characters.
-                        Must begin with a letter.
-                        Letters, numbers, underscores, hyphens allowed.
-                    </p>
-                </div>
-                <div className="input-wrapper">
-                    <FormInput
-                        id="password"
-                        customClassNames={`form-input ${validPassword || !password ? "" : "invalid"}`}
-                        onValueChange={(e) => setPassword(e.target.value)}
-                        inputValue={password}
-                        type="password"
-                        onFocus={() => setPasswordFocus(true)}
-                        onBlur={() => setPasswordFocus(false)}
-                    />
-                    <p className={`instructions ${passwordFocus && password && !validPassword ? "show" : ""}`}>
-                        At least 5 characters.
-                        Must include letter and number
-                        Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
-                    </p>
-                </div>
-                <div className="input-wrapper">
-                    <FormInput 
-                        id="rpassword"
-                        customClassNames={`form-input ${validMatch || !matchPassword ? "" : "invalid"}`}
-                        onValueChange={(e) => setMatchPassword(e.target.value)}
-                        inputValue={matchPassword}
-                        type="password"
-                        onFocus={() => setMatchFocus(true)}
-                        onBlur={() => setMatchFocus(false)}
-                    />
-                    <p className={`instructions ${matchFocus && matchPassword && !validMatch ? "show" : ""}`}>
-                        Must match the first password input field.
-                    </p>
-                </div>
-                <p ref={errRef} className={`errmsg ${errMsg ? "active" : ""}`}>{errMsg}</p>
-                <div className="form__buttons">
-                    <button
-                        className={`form-submit ${!validName || !validPassword || !validMatch ? '' : 'enabled'}`}
-                        type="submit"
-                        id="register-submit"
-                        disabled={!validName || !validPassword || !validMatch}>
-                        <FormattedMessage id="submit" />
-                    </button>
-                </div>
-            </form>
-        </section>
+
+                    <p ref={errRef} className={`errmsg ${errMsg ? "active" : ""}`}>{errMsg}</p>
+                    <div className="form__buttons">
+                        <button
+                            className={`form-submit ${!validName || !validPassword || !validMatch ? '' : 'enabled'}`}
+                            type="submit"
+                            id="register-submit"
+                            disabled={(!validName || !validPassword || !validMatch) || signupTimeout}>
+                            <FormattedMessage id="submit" />
+                        </button>
+                    </div>
+                </form>
+            </section>
+            {
+                submitSent && <LoadingWheel />
+            }
+        </>
     )
 }

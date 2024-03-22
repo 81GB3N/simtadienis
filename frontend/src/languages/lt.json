@@ -34,5 +34,12 @@
     "your.submissions": "Tavo pateikimai",
     "submitted": "Jau pateikta: ",
     "login.account": "Prisijunk prie savo paskyros!",
-    "ad": "Čiupk nuolaidą!"
+    "ad": "Talpink savo svetainę už VIENĄ eurą naudojant kodą ",
+    "admin": "Administratorius",
+    "admin.message": "Sveiki atvykę į pinigėnus!",
+    "password.forget": "Nepamiršk slaptažodžio!",
+    "signup.error.text": "Nuo 3 iki 30 simbolių. Priimamos raidės, skaičiai, pabraukimai ir brūkšneliai.",
+    "signup.error.password":"Ne mažiau kaip 5 ženklai. Turi būti bent viena raidė ir skaičius.",
+    "signup.error.rpassword": "Slaptažodžiai nesutampa.",
+    "forget.password": "NEpamiršk slaptažodžio!"
 }

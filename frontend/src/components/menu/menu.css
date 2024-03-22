@@ -25,13 +25,15 @@
 
 #menu.from-leaderboard,
 #menu.from-gallery,
-#menu.from-chat {
+#menu.from-chat,
+#menu.from-video {
     transform: translateX(-200%);
 }
 
 #menu.active.from-leaderboard.active,
 #menu.active.from-gallery,
-#menu.active.from-chat  {
+#menu.active.from-chat,
+#menu.active.from-video  {
     transform: translateX(-100%);
 }
 
@@ -41,6 +43,10 @@
     transform: translateY(100%);
     transition: transform 0.2s ease-in-out;
     transition-delay: var(--translation-duration);
+    background-image: url('../../assets/images/heap-hundred-dollar-.webp');
+    background-size: contain;
+    background-position: center;
+    background-repeat: repeat-x;
 }
 
 .menu-img {

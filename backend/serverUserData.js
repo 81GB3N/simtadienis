@@ -1,8 +1,8 @@
-const { writeDocument, findUser, updateUser, retrieveDocument } = require("./db");
+const { writeDocument, findUser, updateUser, retrieveDocument, handleRating } = require("./db");
 const { encrypt } = require("./encryptPassword");
 const { checkPassword } = require("./checkUserPassword");
 const { initializeSocket } = require("./socket");
-const { verifyToken, generateJWT, getJWT } = require("./handlingJWT.js");
+const { verifyToken, generateJWT } = require("./handlingJWT.js");
 const { uploadToDrive, deleteFromDrive, retrieveFileId } = require("./handleDriveImages.js");
 
 const http = require("http");
@@ -10,6 +10,7 @@ const dotenv = require("dotenv");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const mongoSanitize = require('express-mongo-sanitize');
 
 const app = express();
 const port = process.env.PORT;
@@ -18,6 +19,7 @@ dotenv.config();
 //icrease the limit for the google drive images
 app.use(bodyParser.json({ limit: "25mb", extended: true }));
 app.use(cors());
+app.use(mongoSanitize());
 const server = http.createServer(app);
 const io = initializeSocket(server);
 
@@ -31,28 +33,13 @@ app.get("/api/getallusers", async (req, res, next) => {
   }
 });
 
-//UNSED RETRIEVE SUPER ADMIN TOKEN
-// app.get("/api/ssas", async (req, res, next) => {
-//   try {
-//     //gets super admin token
-//     const token = await getJWT(
-//       "ab87b68a7rebea68a7b6a",
-//       "aer78ae7b867ab68ea876ab"
-//     );
-//     console.log(token);
-//     res.json({ token });
-//   } catch (err) {
-//     next(err);
-//   }
-// });
-
 //gets user information specifies without password
 app.post("/api/getuser", async (req, res, next) => {
   try {
     const user = req.body;
     //find the user with the requestred info
     const result = await findUser(user.name, user.surname);
-    result ? res.json({ response : result }) : res.json({ result: "User not found" });
+    result ? res.json({ response: result }) : res.json({ result: "User not found" });
   } catch (err) {
     next(err);
   }
@@ -62,7 +49,6 @@ app.post("/api/getuser", async (req, res, next) => {
 app.post("/api/check-password", async (req, res, next) => {
   try {
     const user = req.body;
-    console.log(user);
     //comapre given pasword with the one in the database
     const result = await checkPassword(
       user.name,
@@ -70,7 +56,6 @@ app.post("/api/check-password", async (req, res, next) => {
       user.type,
       user.password
     );
-    console.log(result);
     res.json({ result });
   } catch (err) {
     next(err);
@@ -83,12 +68,17 @@ app.post("/api/check-status", async (req, res, next) => {
     const type = user.type;
     //check if user exists
     const result = await findUser(user.name, user.surname, type);
-    console.log(result);
     result[0] ? res.json(true) : res.json(false);
   } catch (err) {
     next(err);
   }
 });
+
+function setBeginningVotes(){
+  const NUM_VOTES = 2;
+  const votes = Array(NUM_VOTES).fill();
+  return votes;
+}
 
 //writes user data by registering
 app.post("/api/register", async (req, res, next) => {
@@ -98,11 +88,12 @@ app.post("/api/register", async (req, res, next) => {
     register.password = await encrypt(register.password);
     //generates a token for that user
     register.token = generateJWT(register, "user");
-    console.log("generated user token: ", register.token);
+    register.money = 0;
+    register.galleryCnt = 0;
+    register.votes = setBeginningVotes();
     writeDocument(register);
-
     //emits a socket messege upon registering
-    io.emit("getusers");
+    io.emit("newUser", { name: register.name, surname: register.surname, money: 0 });
 
     res.json({ message: "Registration successful" });
   } catch (err) {
@@ -110,16 +101,8 @@ app.post("/api/register", async (req, res, next) => {
   }
 });
 
-//writes user history to history collection
-//UNUSED
-// app.post("/api/write-history", (req) => {
-//   const history = req.body;
-//   //invoke in addmoney
-//   writeDocument(history, "history");
-// });
-
 //super admin function to register admins
-app.post("/api/register-admin", verifyToken, async (req) => {
+app.post("/api/register-admin", verifyToken, async (req, res, next) => {
   try {
     //checks token for right role
     console.error("register admin role:", req.payload.role);
@@ -132,7 +115,6 @@ app.post("/api/register-admin", verifyToken, async (req) => {
       //generates the token for that user
       admin.token = generateJWT(admin, "admin");
 
-      console.log("generated admin token: ", admin.token);
       writeDocument(admin, "admin");
     } else {
       return res.status(401).json({ error: "Unauthorized request" });
@@ -145,14 +127,14 @@ app.post("/api/register-admin", verifyToken, async (req) => {
 //uodates user money
 app.post("/api/addmoney", verifyToken, (req, res) => {
   //checks status of requesting user
-  console.log("role in addmoney: ", req.payload.role);
   if (req.payload.role === "admin") {
-    const money = req.body;
-    if (!money.money || isNaN(money.money)) {
+    const body = req.body
+    const money = body.money;
+    if (!money || isNaN(money)) {
       res.status(400).json({ error: "Invalid money format" });
     }
-    updateUser(money);
-    io.emit("getusers");
+    updateUser(body);
+    io.emit("updateUser", body);
     res.json({ response: "Money Successfully Updated" });
   } else {
     return res.status(401).json({ error: "Unauthorized request" });
@@ -163,7 +145,7 @@ app.post("/api/update-picture", verifyToken, (req, res, next) => {
   try {
     //checks if the right person is accesing his data
     const picture = req.body;
-    if (req.payload.name === picture.name && req.payload.surname === picture.surname) {
+    if (req.payload.name.toLowerCase() === picture.name.toLowerCase() && req.payload.surname.toLowerCase() === picture.surname.toLowerCase()) {
       updateUser(picture);
       res.json({ response: "Image Successfully Updated" });
     } else {
@@ -177,9 +159,9 @@ app.post("/api/update-picture", verifyToken, (req, res, next) => {
 app.post("/api/set-image", verifyToken, async (req, res, next) => {
   try {
     const data = req.body;
-    if (data.name === req.payload.name && data.surname === req.payload.surname) {
-      console.log("uploadin image", data);
+    if (data.name.toLowerCase() === req.payload.name.toLowerCase() && data.surname.toLowerCase() === req.payload.surname.toLowerCase()) {
       //uploads user selected image to the drive
+      if(data.imgNum > 5) return res.status(401).json({ error: "invalid image number" }); 
       await uploadToDrive(data);
       res.json({ response: "Image Successfully Uploaded" });
     } else {
@@ -193,11 +175,7 @@ app.post("/api/set-image", verifyToken, async (req, res, next) => {
 app.post("/api/get-image", verifyToken, async (req, res, next) => {
   try {
     const data = req.body;
-    console.log("---------------------CHROME CHECK--------------------------");
-    console.log(data, " VS ", req.payload);
-    if (data.name === req.payload.name && data.surname === req.payload.surname) {
-      // firefox goes here
-      console.log("-----------------CHECKPOINT PASSED----------------");
+    if (data.name.toLowerCase() === req.payload.name.toLowerCase() && data.surname.toLowerCase() === req.payload.surname.toLowerCase()) {
       //retrieves the file id for the image with the users name and surname
       const response = await retrieveFileId(data);
       res.json({ response });
@@ -218,7 +196,7 @@ app.post("/api/get-image", verifyToken, async (req, res, next) => {
 app.post("/api/delete-image", verifyToken, async (req, res, next) => {
   try {
     const data = req.body;
-    if (data.name === req.payload.name && data.surname === req.payload.surname) {
+    if (data.name.toLowerCase() === req.payload.name.toLowerCase() && data.surname.toLowerCase() === req.payload.surname.toLowerCase()) {
       //removes the user image picture from the dabtabase
       await deleteFromDrive(data);
       res.json({ response: "Image Successfully Deleted" });
@@ -233,9 +211,7 @@ app.post("/api/delete-image", verifyToken, async (req, res, next) => {
 
 const chat_messages = [
   {
-    user: "Admin",
-    content: "Welcome to the chat",
-    time: `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`,
+    admin: true
   },
 ];
 
@@ -245,13 +221,12 @@ const AD_INTERVAL = 1000 * 60 * MINUTE_DELAY; // in ms
 (() => {
   setInterval(() => {
     if (chat_messages[chat_messages.length - 1]?.ad) {
-      console.log("ad already exists");
       return;
     }
     const adMessage = {
       user: "Weborado",
       content: '',
-      time: `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`,
+      time: '',
       ad: true
     }
     chat_messages.push(adMessage)
@@ -265,11 +240,15 @@ app.post("/api/get-chat", (req, res) => {
   res.json({ payload: chat_messages });
 });
 
-app.post("/api/send-chat", (req, res) => {
+app.post("/api/send-chat", (req, res, next) => {
   try {
-    const message = req.body;
+    const body = req.body;
+    const message = {
+      user: body.user,
+      content: body.content,
+      time: body.time
+    };
     chat_messages.push(message);
-    console.log("emitting io message: ", message);
     io.emit("chat", message);
     res.json({ response: "Message Sent" });
   } catch (err) {
@@ -280,9 +259,22 @@ app.post("/api/send-chat", (req, res) => {
 app.post("/api/admin-token", verifyToken, async (req, res, next) => {
   try {
     const status = req.payload.role === "admin";
-    console.log(status);
     res.json({ status });
   } catch (err) {
+    next(err);
+  }
+});
+
+app.post("/api/video-votes", verifyToken, async (req, res, next) => {
+  try {
+    const body = req.body;
+    let result = null;
+    if((body.action === "get") || (body.action === "set" && body.name.toLowerCase() === req.payload.name.toLowerCase() && body.surname.toLowerCase() === req.payload.surname.toLowerCase())){
+      result = await handleRating(body.action, body);
+    }
+    res.json({ response: result });
+  }
+  catch (err) {
     next(err);
   }
 });
@@ -290,7 +282,6 @@ app.post("/api/admin-token", verifyToken, async (req, res, next) => {
 //error handling function
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  // res.status(500).send('Something broke!')
   res.status(500).json({ error: err });
 });
 

@@ -8,7 +8,7 @@ import GalleryImage from './GalleryImage';
 import GalleryCount from './GalleryCount';
 import './gallery.css';
 
-const GALLERY_LENGTH = 5
+import CONSTANTS from '../../constants';
 
 /**
  * Renders the Gallery component.
@@ -40,13 +40,13 @@ export default function Gallery() {
     }, [galleryCntRef])
 
     return (
-        <div className={`user-page gallery ${currentUserPageName === 'gallery' ? 'active' : ''}`}>
+        <div className={`user-page side-page gallery ${currentUserPageName === 'gallery' ? 'active' : ''}`}>
             <h3 className='gallery-title'>
                 <FormattedMessage id='your.submissions' />
             </h3>
-            <GalleryCount ref={galleryCntRef} totalCnt={GALLERY_LENGTH} />
+            <GalleryCount ref={galleryCntRef} totalCnt={CONSTANTS.GALLERY_CNT} />
             <li className='gallery__images'>
-                {Array(GALLERY_LENGTH).fill().map((_, i) => <GalleryImage position={i} increaseCnt={increaseCnt} decreaseCnt={decreaseCnt} key={i}/>)}
+                {Array(CONSTANTS.GALLERY_CNT).fill().map((_, i) => <GalleryImage position={i} increaseCnt={increaseCnt} decreaseCnt={decreaseCnt} key={i}/>)}
             </li>
         </div>
     )

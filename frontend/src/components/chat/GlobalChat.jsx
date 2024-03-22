@@ -8,7 +8,7 @@ export default function GlobalChat() {
     const { currentUserPageName } = usePage();
 
     return (
-        <div className={`user-page chat-page ${currentUserPageName === 'chat' ? 'active' : ''}`}>
+        <div className={`user-page side-page chat-page ${currentUserPageName === 'chat' ? 'active' : ''}`}>
             <ChatLog />
             <MessageInput />
         </div>

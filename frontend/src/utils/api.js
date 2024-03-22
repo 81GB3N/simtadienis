@@ -21,9 +21,9 @@ async function fetchData(userData, page) {
 
   let userItem;
 
-  if(page === "register-admin" && localStorage.getItem("sp")) userItem = localStorage.getItem("sp");
-  else if((page === "addmoney" || page === "check-password") && localStorage.getItem("admin")) userItem = localStorage.getItem("admin");
-  else if(localStorage.getItem("user")) userItem = localStorage.getItem("user"); 
+  if (page === "register-admin" && localStorage.getItem("sp")) userItem = localStorage.getItem("sp");
+  else if ((page === "addmoney" || page === "check-password") && localStorage.getItem("admin")) userItem = localStorage.getItem("admin");
+  else if (localStorage.getItem("user")) userItem = localStorage.getItem("user");
 
   // Check if "user" item exists and contains a token
   if (userItem) {
@@ -50,15 +50,12 @@ async function fetchData(userData, page) {
  */
 export async function sendUserData(userData, page) {
   try {
-    console.log("sending user data:", userData, page);
     const response = await fetchData(userData, page);
-    console.log("response:", response);
     const data = await response.json();
     if (response.status === 401) throw new Error(data.error);
     return data;
   } catch (err) {
     console.error("Error in sendUserData:", err);
-    throw err;
   }
 }
 
@@ -76,7 +73,6 @@ export async function getUserData(userData) {
     return data;
   } catch (err) {
     console.error("Error in getUserData");
-    throw err;
   }
 }
 
@@ -100,7 +96,6 @@ export async function validatePassword(name, surname, password, type = "main") {
     return data;
   } catch (err) {
     console.error("Error in validatePassword");
-    throw err;
   }
 }
 
@@ -117,7 +112,6 @@ export async function getAllUsers() {
     return data;
   } catch (err) {
     console.error("Error in getAllUsers");
-    throw err;
   }
 }
 
@@ -131,7 +125,6 @@ export async function getAllUsers() {
  */
 export async function userExists(name, surname, type) {
   try {
-    console.log("user exists data:", name, surname, type);
     const response = await fetchData(
       { name: name, surname: surname, type: type },
       "check-status"
@@ -140,7 +133,6 @@ export async function userExists(name, surname, type) {
     return data;
   } catch (err) {
     console.error(err, "Error in userExists");
-    throw err;
   }
 }
 
@@ -163,7 +155,6 @@ export async function handleDriveData(
   img = undefined
 ) {
   try {
-    console.log("handling", name, surname, imgNum, action);
     const response = await fetchData(
       { name: name, surname: surname, img: img, imgNum: imgNum },
       `${action}-image`
@@ -172,7 +163,6 @@ export async function handleDriveData(
     return data;
   } catch (err) {
     console.error(err, "Error in handleDriveData");
-    throw err;
   }
 }
 
@@ -191,7 +181,6 @@ export async function checkIfAdmin(name, surname) {
     return data;
   } catch (err) {
     console.error(err, "Error in handleDriveData");
-    throw err;
   }
 }
 
@@ -207,8 +196,7 @@ export async function getGlobalChat() {
     const data = await response.json();
     return data;
   } catch (err) {
-    console.log("Error in getGlobalChat");
-    throw err;
+    console.error("Error in getGlobalChat", err);
   }
 }
 
@@ -225,7 +213,23 @@ export async function sendGlobalChat(message) {
     const data = await response.json();
     return data;
   } catch (err) {
-    console.log("Error in sendGlobalChat");
-    throw err;
+    console.error("Error in sendGlobalChat", err);
+  }
+}
+
+
+/**
+ * Handles votes by sending a request to the server and returning the response data.
+ * @param {Array} votes - An array with vote values as elements.
+ * @returns {Promise} - A promise that resolves to the response data.
+ */
+export async function handleVotes(votes) {
+  try {
+    const response = await fetchData(votes, 'video-votes');
+    const data = await response.json();
+    return data;
+  }
+  catch (err) {
+    console.error("Error in handleVotes", err);
   }
 }

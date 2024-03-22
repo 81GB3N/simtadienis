@@ -4,6 +4,7 @@ import LeaderBoard from "../components/leaderboard/LeaderBoard"
 import PageControls from "../components/page-control/PageControls"
 import Gallery from "../components/gallery/Gallery"
 import GlobalChat from "../components/chat/GlobalChat"
+import Video from "../components/video/Video"
 
 import ErrorModal from '../components/modal/ErrorModal'
 
@@ -22,7 +23,8 @@ export default function UserPage() {
         'home': Home,
         'leaderboard': LeaderBoard,
         'gallery': Gallery,
-        'chat': GlobalChat
+        'chat': GlobalChat,
+        'video': Video
     }
 
     /**
@@ -47,13 +49,13 @@ export default function UserPage() {
                     <PageControls />
                     <section className={`page-carousel in-${currentUserPageName}`}>
                         <HamburgerMenu />
-                        {validUserPageNames.map((pageName) => {
-                            const PageComponent = pageNameMap[pageName];
-                            if (!PageComponent) {
-                                return <ErrorModal key={pageName} errorMessage={`No component specified for ${pageName}`} />;
-                            }
-                            return <PageComponent key={pageName} />;
-                        })}
+                            {validUserPageNames.map((pageName) => {
+                                const PageComponent = pageNameMap[pageName];
+                                if (!PageComponent) {
+                                    return <ErrorModal key={pageName} errorMessage={`No component specified for ${pageName}`} />;
+                                }
+                                return <PageComponent key={pageName} />;
+                            })}
                     </section>
                 </MenuProvider>
             </UserProvider>

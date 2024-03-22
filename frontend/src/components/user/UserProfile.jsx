@@ -13,6 +13,8 @@ import { IoIosLogOut } from "react-icons/io";
 
 import './user.css';
 import unkownUserImg from "../../assets/images/unkown-user-new.png";
+import CONSTANTS from "../../constants";
+import LoadingWheel from "../LoadingWheel";
 
 /**
  * @component
@@ -24,7 +26,8 @@ export default function UserProfile() {
     const [userData, setUserData] = useState({});
     const [moneyEffectActive, setMoneyEffectActive] = useState(false);
 
-    const { userId, clearUserId } = useUser();
+    const { userId, clearUserId, changeVoteId } = useUser();
+    const [loading, setLoading] = useState(true);
     const { resetPage } = usePage();
 
     /**
@@ -32,7 +35,6 @@ export default function UserProfile() {
      */
     const logout = () => {
         localStorage.removeItem("user");
-        console.log('logging out');
         clearUserId();
         resetPage();
     }
@@ -44,7 +46,7 @@ export default function UserProfile() {
     const fetchData = useCallback(async () => {
         try {
             const data = await getUserData({ name: userId.name, surname: userId.surname });
-            console.log('data: ', data);
+            setLoading(false);
             return data.response[0];
         }
         catch (err) {
@@ -53,8 +55,13 @@ export default function UserProfile() {
     }, [userId.name, userId.surname]);
 
     useEffect(() => {
-        fetchData().then(data => setUserData(data));
-    }, [fetchData])
+        fetchData().then(data => {
+            setUserData(data);
+            CONSTANTS.CLASS_LIST.forEach((_, index) => {
+                changeVoteId(index, data.votes[index]);
+            });
+        });
+    }, [fetchData, changeVoteId, userId.name, userId.surname])
 
     /**
      * Opens the edit profile modal.
@@ -79,7 +86,6 @@ export default function UserProfile() {
             stream.getVideoTracks().forEach(track => track.stop())
         });
         setWebcamOpen(false);
-        console.log('webcam closed');
     };
 
     /**
@@ -89,10 +95,9 @@ export default function UserProfile() {
     const changeImg = (imgSrc) => {
         sendUserData({ image: imgSrc, name: userData.name, surname: userData.surname }, 'update-picture')
             .then(res => {
-                console.log('change image res: ', res);
                 setUserData(prev => ({ ...prev, image: imgSrc }));
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     }
 
     /**
@@ -101,7 +106,6 @@ export default function UserProfile() {
     const deleteImg = () => {
         sendUserData({ image: '', name: userData.name, surname: userData.surname }, 'update-picture')
             .then(res => {
-                console.log(res);
                 fetchData().then(data => setUserData(data));
             })
             .catch(err => console.error(err));
@@ -138,6 +142,9 @@ export default function UserProfile() {
                     <IoIosLogOut />
                 </button>
             </div>
+            {
+                loading && <LoadingWheel />
+            }
         </>
     )
 }

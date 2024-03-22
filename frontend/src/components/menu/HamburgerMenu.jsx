@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 
 import UserProfile from '../user/UserProfile';
 import NoUser from '../user/NoUser';
@@ -7,7 +7,6 @@ import { usePage } from '../../context/PageProvider';
 import { useMenu } from '../../context/MenuProvider';
 import { useUser } from '../../context/UserProvider';
 
-import hundredDollarsImg from '../../assets/images/heap-hundred-dollar-.webp';
 import './menu.css'
 
 /**
@@ -42,7 +41,7 @@ export default function HamburgerMenu() {
     return (
         <div id="menu" className={`${menuActive ? 'active' : ''} from-${currentUserPageName}`}>
             <div className='menu-img-container img-one'>
-                <img src={hundredDollarsImg} alt="hundred dollars" className='menu-img'></img>
+                {/* <img src={hundredDollarsImg} alt="hundred dollars" className='menu-img'></img> */}
             </div>
             <div id='user' className={userIdExists ? 'user-exists' : 'no-user'}>
                 {
@@ -54,7 +53,7 @@ export default function HamburgerMenu() {
                 }
             </div>
             <div className='menu-img-container img-two'>
-                <img src={hundredDollarsImg} alt="hundred dollars" className='menu-img'></img>
+                {/* <img src={hundredDollarsImg} alt="hundred dollars" className='menu-img'></img> */}
             </div>
         </div>
     )

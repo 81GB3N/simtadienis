@@ -77,6 +77,7 @@ export default function AdminPage() {
                 disableAccess();
             }
         });
+        document.body.style.overflow = 'auto';
     }, [navigate, validateCache, disableAccess, enableAccess]);
 
     if (access === undefined) {

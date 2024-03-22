@@ -1,6 +1,5 @@
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const dotenv = require("dotenv");
-
 dotenv.config();
 
 const uri = process.env.URI;
@@ -69,7 +68,7 @@ function findKey(updateInfo) {
 const retrieveDocument = async (page=main) => {
   try {
     const collection = database.collection(page);
-    const projection = { name: 1, surname: 1, money: 1, image: 1, _id: 0};
+    const projection = { name: 1, surname: 1, money: 1, _id: 0};
     //find collection collums
     const cursor = collection.find({}).project(projection);
     const documents = await cursor.toArray();
@@ -118,27 +117,14 @@ const updateUser = async (updateInfo) => {
 };
 
 
-
-//UNUSED
-// const getUserToken = async (name, surname) =>{
-//   const collection= database.collection("tokens");
-//   const query = {name: toRegexInsensitive(name), surname: toRegexInsensitive(surname)};
-//   const cursor = collection.find(query);
-//   const document = await cursor.toArray();
-//   return document[0].token;
-// }
-
 //find user and its info on the given data
 const findUser = async (name, surname, page=main, getPassword) => {
   try {
     // added getPassword variable to know when to call for password extraction and when for everything other
-// console.log(name, surname, page, password)
     const collection = database.collection(page);
     const query = { name: toRegexInsensitive(name), surname: toRegexInsensitive(surname) };
     let cursor;
     if (!getPassword) {
-      // const projection = {name: 1, surname: 1, money: 1, _id: 0, admin: 1, imgSrc: 1, galleryCnt: 1};
-
       //gets everything accept the password and _id
       const projection = { _id: 0, password: 0, token: 0 };
       cursor = collection.find(query).project(projection);
@@ -149,12 +135,56 @@ const findUser = async (name, surname, page=main, getPassword) => {
       return document[0];
     }
     const documents = await cursor.toArray();
-    // console.log(documents);
     return documents;
   } catch (error) {
     console.error(error);
   }
 };
+
+async function updateVotes(collection, currentVotes, userVotes) {
+  for (let i = 0; i < currentVotes.length; i++) {
+    if(currentVotes[i] !== null){
+    await collection.updateOne(
+      { class: i, id: currentVotes[i] },
+      { $inc: { votes: -1 } }
+    );
+    }
+
+    await collection.updateOne(
+      { class: i, id: userVotes[i] },
+      { $inc: { votes: 1 } }
+    );
+  }
+}
+
+
+const handleRating = async (action, user) => {
+  try{
+    const collection = database.collection("video-ratings");
+    if(action === "get"){
+    const cursor = collection.find({});
+    const document = await cursor.toArray();
+    return document;
+    }
+    else if(action === "set"){
+      const info = await findUser(user.name, user.surname);
+      const currentVotes = info[0].votes;
+      await updateVotes(collection, currentVotes, user.votes);
+
+      const userVotes = user.votes;
+
+      const userCollection = database.collection("main");
+      await userCollection.updateOne(
+        {name: user.name, surname: user.surname},
+        {$set: {votes: user.votes}});
+    }
+    return {message: "success"};
+  }
+  catch(error){
+    console.error(error);
+  }
+}
+
 
 //close program after use
 process.on("SIGINT", async () => {
@@ -168,5 +198,5 @@ module.exports = {
   findUser,
   updateUser,
   retrieveDocument,
-  // getUserToken
+  handleRating,
 };
