@@ -58,7 +58,7 @@ export default function UserProfile() {
                 changeVoteId(index, data.votes[index]);
             });
         });
-    }, [fetchData, changeVoteId])
+    }, [fetchData, changeVoteId, userId.name, userId.surname])
 
     /**
      * Opens the edit profile modal.
